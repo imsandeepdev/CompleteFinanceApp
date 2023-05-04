@@ -4,6 +4,7 @@ const images = {
   greenLockIcon: require('./images/green_lock.png'),
   dropdownIcon: require('./images/chevron_down.png'),
   cancelIcon: require('./images/cancel.png'),
+  menuIcon: require('./images/menuIcon.png'),
 };
 
 export {images}

@@ -21,7 +21,7 @@ const handleRoleSelect = (item) => {
 
 const handleContinueValidation = () => {
     selectedRole != ''
-      ? Toast.show('Valid', Toast.SHORT)
+      ? props.navigation.replace('HomeScreen')
       : Toast.show('Please select your role type', Toast.SHORT);
 
 }

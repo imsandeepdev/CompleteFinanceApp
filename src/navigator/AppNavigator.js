@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 import RoleSelectionScreen from '../screens/RoleSelectionScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 
 const Stack = createStackNavigator();
@@ -24,6 +25,11 @@ const AppNavigator = props => {
           <Stack.Screen
             name="RoleSelectionScreen"
             component={RoleSelectionScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

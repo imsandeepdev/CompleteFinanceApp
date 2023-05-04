@@ -4,6 +4,7 @@ import StoryScreen from "./StoryScreen";
 import FullViewStoryScreen from "./FullViewStoryScreen";
 import CustomCardPress from "./CustomCardPress";
 import ListViewModal from "./ListViewModal";
+import Header from "./Header";
 
 export {
     CustomTextInput,
@@ -11,5 +12,6 @@ export {
     StoryScreen,
     FullViewStoryScreen,
     CustomCardPress,
-    ListViewModal
+    ListViewModal,
+    Header
 }
