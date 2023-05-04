@@ -5,6 +5,8 @@ const images = {
   dropdownIcon: require('./images/chevron_down.png'),
   cancelIcon: require('./images/cancel.png'),
   menuIcon: require('./images/menuIcon.png'),
+  mailIcon: require('./images/mail_Icon.png'),
+  phoneIcon: require('./images/phoneIcon.png'),
 };
 
 export {images}
