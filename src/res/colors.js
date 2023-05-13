@@ -8,7 +8,7 @@ const colors = {
   placeHolderColor: '#707070',
   placeholderTextColor: '#C2C2C2',
   modelBackground: '#41414166',
-  iconColor:'#707070',
+  iconColor: '#707070',
 
   appColor: '#a2ce39',
   secAppColor: '#1f2021',

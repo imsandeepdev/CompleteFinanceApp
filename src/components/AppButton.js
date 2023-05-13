@@ -28,7 +28,7 @@ const AppButton = props => {
         <Text
           style={{
             
-            fontSize: R.fontSize.Size18,
+            fontSize: props.titleFontSize ? props.titleFontSize : R.fontSize.Size18,
             color: props.textColor ?? R.colors.secAppColor,
             fontWeight: '700',
           }}>

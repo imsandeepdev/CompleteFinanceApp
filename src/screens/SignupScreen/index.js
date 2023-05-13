@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Image, Dimensions, SafeAreaView, ScrollView} from 'react-native';
-import {AppButton, CustomTextInput, StoryScreen} from '../../components';
+import {AppButton, CustomTextInput, OtpModal, StoryScreen} from '../../components';
 import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 
@@ -10,15 +10,56 @@ const SignupScreen = props => {
   const [userEmail, setUserEmail] = useState('');
   const [userMobNo, setUserMobNo] = useState('');
   const [password, setPassword] = useState('');
+  const [otpModal, setOtpModal] = useState(false)
+  const [otpArray, setOtpArray] = useState([]);
+  const firstTextInputRef = useRef(null);
+  const secondTextInputRef = useRef(null);
+  const thirdTextInputRef = useRef(null);
+  const fourthTextInputRef = useRef(null);
+
+    const onOtpChange = index => {
+      return value => {
+        if (isNaN(Number(value))) {
+          return;
+        }
+        const otpArrayCopy = otpArray.concat();
+        otpArrayCopy[index] = value;
+        setOtpArray(otpArrayCopy);
+
+        if (value !== '') {
+            index === 0 && secondTextInputRef.current.focus(),
+            index === 1 && thirdTextInputRef.current.focus(),
+            index === 2 && fourthTextInputRef.current.focus();
+        }
+      };
+    };
+
+    const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
+      console.log(keyValue);
+      console.log('Index', index);
+
+      if (keyValue == 'Backspace') {
+          index === 3 && thirdTextInputRef.current.focus(),
+          index === 2 && secondTextInputRef.current.focus(),
+          index === 1 && firstTextInputRef.current.focus();
+      } else {
+          index === 0 && secondTextInputRef.current.focus(),
+          index === 1 && thirdTextInputRef.current.focus(),
+          index === 2 && fourthTextInputRef.current.focus();
+      }
+    };
+
+    const handleVerify = () => {
+      setOtpModal(false)
+    }
 
   return (
     <StoryScreen>
       <SafeAreaView style={{flex: 1}}>
         <ScrollView
-        contentContainerStyle={{
-            flexGrow:1
-        }}
-        >
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}>
           <View style={{flex: 1}}>
             <View
               style={{
@@ -87,9 +128,9 @@ const SignupScreen = props => {
                 marginVertical: R.fontSize.Size10,
               }}>
               <AppButton
-                onPress={() => props.navigation.navigate('LoginScreen')}
+                onPress={() => setOtpModal(true)}
                 marginHorizontal={R.fontSize.Size30}
-                title={'Register'}
+                title={'Proceed'}
               />
               <View
                 style={{
@@ -120,6 +161,22 @@ const SignupScreen = props => {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      <OtpModal
+        visible={otpModal}
+        onRequestClose={() => setOtpModal(false)}
+        closeModal={() => setOtpModal(false)}
+        mapTextInput={[
+          firstTextInputRef,
+          secondTextInputRef,
+          thirdTextInputRef,
+          fourthTextInputRef,
+        ]}
+        value={otpArray}
+        onChangeText={onOtpChange}
+        onKeyPress={handleKeyPress}
+        onPress={() => handleVerify()}
+      />
     </StoryScreen>
   );
 };
