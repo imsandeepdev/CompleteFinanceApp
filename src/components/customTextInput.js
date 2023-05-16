@@ -64,9 +64,8 @@ const CustomTextInput = props => {
 
         <View
           style={{
-            paddingHorizontal: R.fontSize.Size10,
+            paddingLeft: R.fontSize.Size10,
             flexDirection: 'row',
-            alignItems: 'center',
             flex: 1,
           }}>
           <View style={{flex: 1}}>
@@ -88,13 +87,26 @@ const CustomTextInput = props => {
               secureTextEntry={props.secureTextEntry}
             />
           </View>
-          <View>
-            <Image
-              source={props.rightIcon}
-              style={{height: R.fontSize.Size14, width: R.fontSize.Size14}}
-              resizeMode={'contain'}
-            />
-          </View>
+          {
+          props.rightIcon &&
+            <Pressable
+            onPress={props.rightOnPress}
+            style={({pressed})=>[
+              {
+                opacity: pressed ?0.5:1,
+                paddingHorizontal:R.fontSize.Size6,
+                alignItems:'center',
+                justifyContent:'center',
+              }
+            ]}
+            >
+              <Image
+                source={props.rightIcon}
+                style={{height: R.fontSize.Size20, width: R.fontSize.Size20}}
+                resizeMode={'contain'}
+              />
+            </Pressable>
+          }
         </View>
       </View>
     </View>

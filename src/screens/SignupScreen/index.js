@@ -3,6 +3,7 @@ import {useState, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Image, Dimensions, SafeAreaView, ScrollView} from 'react-native';
 import {AppButton, CustomTextInput, OtpModal, StoryScreen} from '../../components';
 import R from '../../res/R';
+import CommonFunctions from '../../utils/CommonFunctions';
 const screenHeight = Dimensions.get('screen').height;
 
 const SignupScreen = props => {
@@ -16,6 +17,8 @@ const SignupScreen = props => {
   const secondTextInputRef = useRef(null);
   const thirdTextInputRef = useRef(null);
   const fourthTextInputRef = useRef(null);
+  const [showPassword, setShowPassword] = useState(false);
+
 
     const onOtpChange = index => {
       return value => {
@@ -51,6 +54,24 @@ const SignupScreen = props => {
 
     const handleVerify = () => {
       setOtpModal(false)
+    }
+
+    const handleVerification = () => {
+      return CommonFunctions.isBlank(userName.trim(), 'Please enter user name')&&
+      CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id')&&
+      CommonFunctions.isEmailValid(userEmail, 'Please enter valid email id')&&
+      CommonFunctions.isBlank(userMobNo.trim(), 'Please enter mobile number')&&
+      CommonFunctions.isBlank(password.trim(), 'Please enter password')
+    }
+
+    const handleProceedVerify = () => {
+      if(handleVerification()){
+        handleOtpProcess()
+      }
+    }
+
+    const handleOtpProcess = () => {
+      setOtpModal(true)
     }
 
   return (
@@ -119,8 +140,13 @@ const SignupScreen = props => {
                 value={password}
                 onChangeText={text => setPassword(text)}
                 marginBottom={R.fontSize.Size10}
-                secureTextEntry={true}
+                secureTextEntry={showPassword ? false : true}
                 leftIcon={R.images.greenLockIcon}
+                rightIcon={
+                  showPassword ? R.images.eyeIcon : R.images.closeEyeIcon
+                }
+                rightOnPress={() => setShowPassword(!showPassword)}
+                maxLength={25}
               />
             </View>
             <View
@@ -128,7 +154,7 @@ const SignupScreen = props => {
                 marginVertical: R.fontSize.Size10,
               }}>
               <AppButton
-                onPress={() => setOtpModal(true)}
+                onPress={() => handleProceedVerify()}
                 marginHorizontal={R.fontSize.Size30}
                 title={'Proceed'}
               />

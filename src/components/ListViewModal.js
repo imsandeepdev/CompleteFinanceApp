@@ -55,7 +55,7 @@ const ListViewModal = props => {
                     return (
                       <Pressable
                         key={index}
-                        onPress={()=>props.onPress(item)}
+                        onPress={() => props.onPress(item)}
                         style={({pressed}) => [
                           {
                             height: R.fontSize.Size45,
@@ -64,7 +64,7 @@ const ListViewModal = props => {
                             justifyContent: 'center',
                             marginHorizontal: R.fontSize.Size10,
                             borderColor: R.colors.lightWhite,
-                            opacity: pressed ? 0.5 : 1
+                            opacity: pressed ? 0.5 : 1,
                           },
                         ]}>
                         <Text
@@ -73,7 +73,7 @@ const ListViewModal = props => {
                             color: R.colors.secAppColor,
                             fontWeight: '500',
                           }}>
-                          {item}
+                          {item.RoleName}
                         </Text>
                       </Pressable>
                     );
@@ -96,7 +96,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalView: {
-    height: screenHeight / 2,
+    height: screenHeight / 3,
     backgroundColor: R.colors.white,
     borderTopLeftRadius: R.fontSize.Size8,
     borderTopRightRadius: R.fontSize.Size8,

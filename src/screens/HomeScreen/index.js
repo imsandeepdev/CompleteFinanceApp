@@ -171,7 +171,7 @@ const HomeScreen = props => {
     <StoryScreen>
       <SafeAreaView style={{flex: 1}}>
         <Header
-          onPress={() => props.navigation.navigate('LoginScreen')}
+          onPress={() => props.navigation.toggleDrawer()}
           leftSource={R.images.menuIcon}
           title={'Complete Finance Solution'}
         />
@@ -216,24 +216,22 @@ const HomeScreen = props => {
                         resizeMode={'cover'}
                       />
                       <View
-                      style={{
-                        position:'absolute',
-                        bottom:5,
-                        right:0,
-                      }}
-                      >
-                        <View
                         style={{
-                          backgroundColor:R.colors.lightWhite,
-                          padding:R.fontSize.Size4,
-                          paddingHorizontal:R.fontSize.Size8,
-                          opacity:0.8,
-                          borderRadius:R.fontSize.Size4
-                        }}
-                        >
+                          position: 'absolute',
+                          bottom: 5,
+                          right: 0,
+                        }}>
+                        <View
+                          style={{
+                            backgroundColor: R.colors.lightWhite,
+                            padding: R.fontSize.Size4,
+                            paddingHorizontal: R.fontSize.Size8,
+                            opacity: 0.8,
+                            borderRadius: R.fontSize.Size4,
+                          }}>
                           <Text>{item.title}</Text>
-                        </View>  
-                      </View>  
+                        </View>
+                      </View>
                     </View>
                   );
                 }}

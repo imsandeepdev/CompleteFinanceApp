@@ -6,10 +6,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 import RoleSelectionScreen from '../screens/RoleSelectionScreen';
 import HomeScreen from '../screens/HomeScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import SignupScreen from '../screens/SignupScreen';
+import R from '../res/R';
+import Menu from '../screens/Menu';
 
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator()
 
 const AppNavigator = props => {
 
@@ -34,6 +38,11 @@ const AppNavigator = props => {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="HomeMenu"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
             options={{headerShown: false}}
@@ -41,6 +50,25 @@ const AppNavigator = props => {
         </Stack.Navigator>
       </NavigationContainer>
     );
+}
+
+function Home({route}) {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          width: R.fontSize.Size320,
+        },
+      }}
+      drawerContent={props => <Menu {...props} />}
+      initialRouteName="HomeScreen">
+      <Drawer.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+    </Drawer.Navigator>
+  );
 }
 
 export default AppNavigator

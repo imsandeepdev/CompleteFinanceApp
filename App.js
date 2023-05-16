@@ -11,13 +11,21 @@ import {
 } from 'react-native';
 import LoginScreen from './src/screens/LoginScreen';
 import AppNavigator from './src/navigator/AppNavigator';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'reduxjs-toolkit-persist/integration/react';
+
+import {store, persistor} from './src/store';
 
 
 const App = () => {
 
 
   return (
-    <AppNavigator/>
+    <Provider store={store}>
+      {/* <PersistGate persistor={persistor}> */}
+      <AppNavigator />
+      {/* </PersistGate> */}
+    </Provider>
   );
 };
 

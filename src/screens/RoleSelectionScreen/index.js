@@ -5,23 +5,43 @@ import {AppButton, CustomCardPress, CustomTextInput, ListViewModal, StoryScreen}
 import R from '../../res/R';
 import AppContent from '../../utils/AppContent';
 const screenHeight = Dimensions.get('screen').height;
-import Toast from 'react-native-simple-toast'
+import Toast from 'react-native-simple-toast';
+import {useDispatch, connect} from 'react-redux';
+import { GetRoleRequest } from '../../actions/role.action';
 
 const RoleSelectionScreen = (props) => {
 
+const dispatch = useDispatch();
 const [roleModal, setRoleModal] = useState(false)
+const [roleList, setRoleList] = useState([]);
 const [selectedRole, setSelectedRole] = useState('');
+const [userId, setUserId] = useState('');
+
+
+useEffect(()=>{
+ console.log('User Id==>', props.route.params?.user_id);
+ setUserId(props.route.params?.user_id);
+ handleRoleList(props.route.params?.user_id);
+},[props.navigation])
+
+const handleRoleList = (user_id) => {
+
+    dispatch(GetRoleRequest(user_id, response => {
+      console.log("Role List Response==>", response)
+      setRoleList(response.entity);
+    }))
+}
 
 
 const handleRoleSelect = (item) => {
     console.log("select Role==>",item)
-    setSelectedRole(item)
+    setSelectedRole(item.RoleName);
     setRoleModal(false)
 }
 
 const handleContinueValidation = () => {
     selectedRole != ''
-      ? props.navigation.replace('HomeScreen')
+      ? props.navigation.replace('HomeMenu')
       : Toast.show('Please select your role type', Toast.SHORT);
 
 }
@@ -102,7 +122,7 @@ const handleContinueValidation = () => {
         visible={roleModal}
         cancelOnPress={() => setRoleModal(false)}
         onPress={item => handleRoleSelect(item)}
-        dataList={AppContent.roleList}
+        dataList={roleList}
       />
     </StoryScreen>
   );
