@@ -29,10 +29,15 @@ const SignupScreen = props => {
 
   const handleDeviceInfo = async() => {
     let deviceId = await DeviceInfo.getDeviceId();
-    DeviceInfo.getDeviceToken().then(deviceToken => {
-      console.log("DeviceToken==>",deviceToken)
-    });
+    let deviceManufacturer = await DeviceInfo.getManufacturer();
+    let deviceModal = await DeviceInfo.getModel();
+    let deviceUniqueId = await DeviceInfo.getUniqueId();
+
     console.log("DeviceId==>", deviceId)
+    console.log('DeviceId==>', deviceManufacturer);
+    console.log('DeviceId==>', deviceModal);
+    console.log('DeviceId==>', deviceUniqueId);
+
   }
 
     const onOtpChange = index => {

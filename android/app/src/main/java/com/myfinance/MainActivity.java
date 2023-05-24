@@ -12,7 +12,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Myfinance";
+    return "CompleteFinanceSolution";
   }
   @Override
   protected void onCreate(Bundle savedInstanceState) {

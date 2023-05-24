@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* MyfinanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MyfinanceTests.m */; };
+		00E356F31AD99517003FC87E /* CompleteFinanceSolutionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CompleteFinanceSolutionTests.m */; };
 		0387AC76B8A5496FAAF9240D /* Mulish-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E58B7ED7F179473DB3102FBC /* Mulish-BlackItalic.ttf */; };
 		063206D8FD7242448937A7E2 /* Mulish-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57C13A1A9FAC4108A3F18E08 /* Mulish-LightItalic.ttf */; };
 		064177122A1E5BDB0079A0E7 /* Mulish-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 064177022A1E5BDB0079A0E7 /* Mulish-ExtraBoldItalic.ttf */; };
@@ -19,13 +19,13 @@
 		0641771C2A1E5BDB0079A0E7 /* Mulish-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0641770C2A1E5BDB0079A0E7 /* Mulish-ExtraLight.ttf */; };
 		0641771E2A1E5BDB0079A0E7 /* Mulish-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0641770E2A1E5BDB0079A0E7 /* Mulish-MediumItalic.ttf */; };
 		0641771F2A1E5BDB0079A0E7 /* Mulish-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0641770F2A1E5BDB0079A0E7 /* Mulish-SemiBold.ttf */; };
-		0C80B921A6F3F58F76C31292 /* libPods-Myfinance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Myfinance.a */; };
+		0C80B921A6F3F58F76C31292 /* libPods-CompleteFinanceSolution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-CompleteFinanceSolution.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2F0D3067C5D94ADAA851B3E4 /* Mulish-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E865B66167284595B6F24145 /* Mulish-Italic.ttf */; };
 		54607C0D6CAE4F169ED4EB1B /* Mulish-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCEEA66438924F568138DEAD /* Mulish-BoldItalic.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-Myfinance-MyfinanceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Myfinance-MyfinanceTests.a */; };
+		7699B88040F8A987B510C191 /* libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		92F9F8A31CE84301AAA94BB3 /* Mulish-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B39F24061F304A8796BB6D92 /* Mulish-ExtraBold.ttf */; };
 		A94D3E4C94B244ED87A57CBB /* Mulish-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68F2EB261CA64644A99F82E6 /* Mulish-Medium.ttf */; };
@@ -38,14 +38,14 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Myfinance;
+			remoteInfo = CompleteFinanceSolution;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* MyfinanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyfinanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* CompleteFinanceSolutionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CompleteFinanceSolutionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* MyfinanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyfinanceTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* CompleteFinanceSolutionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompleteFinanceSolutionTests.m; sourceTree = "<group>"; };
 		064177012A1E5BDB0079A0E7 /* Mulish-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-LightItalic.ttf"; sourceTree = "<group>"; };
 		064177022A1E5BDB0079A0E7 /* Mulish-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		064177032A1E5BDB0079A0E7 /* Mulish-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-Italic.ttf"; sourceTree = "<group>"; };
@@ -62,23 +62,23 @@
 		0641770E2A1E5BDB0079A0E7 /* Mulish-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-MediumItalic.ttf"; sourceTree = "<group>"; };
 		0641770F2A1E5BDB0079A0E7 /* Mulish-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-SemiBold.ttf"; sourceTree = "<group>"; };
 		064177102A1E5BDB0079A0E7 /* Mulish-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-BoldItalic.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Myfinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Myfinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Myfinance/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Myfinance/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Myfinance/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Myfinance/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Myfinance/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Myfinance-MyfinanceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Myfinance-MyfinanceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* CompleteFinanceSolution.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CompleteFinanceSolution.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CompleteFinanceSolution/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = CompleteFinanceSolution/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CompleteFinanceSolution/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CompleteFinanceSolution/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CompleteFinanceSolution/main.m; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BED0276657C48998B6F5C1E /* Mulish-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-Regular.ttf"; path = "../src/res/fonts/Mulish-Regular.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-Myfinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Myfinance.debug.xcconfig"; path = "Target Support Files/Pods-Myfinance/Pods-Myfinance.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-Myfinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Myfinance.release.xcconfig"; path = "Target Support Files/Pods-Myfinance/Pods-Myfinance.release.xcconfig"; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-CompleteFinanceSolution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompleteFinanceSolution.debug.xcconfig"; path = "Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-CompleteFinanceSolution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompleteFinanceSolution.release.xcconfig"; path = "Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution.release.xcconfig"; sourceTree = "<group>"; };
 		57C13A1A9FAC4108A3F18E08 /* Mulish-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-LightItalic.ttf"; path = "../src/res/fonts/Mulish-LightItalic.ttf"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-Myfinance-MyfinanceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Myfinance-MyfinanceTests.debug.xcconfig"; path = "Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-Myfinance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Myfinance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7EB9410499542E8C5724F5 /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.debug.xcconfig"; path = "Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-CompleteFinanceSolution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CompleteFinanceSolution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F158DC0CE894D7BAA8E3F6D /* Mulish-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-Black.ttf"; path = "../src/res/fonts/Mulish-Black.ttf"; sourceTree = "<group>"; };
 		68F2EB261CA64644A99F82E6 /* Mulish-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-Medium.ttf"; path = "../src/res/fonts/Mulish-Medium.ttf"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Myfinance/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-Myfinance-MyfinanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Myfinance-MyfinanceTests.release.xcconfig"; path = "Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests.release.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CompleteFinanceSolution/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.release.xcconfig"; path = "Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.release.xcconfig"; sourceTree = "<group>"; };
 		8FBD492DF0F942F19B2AD2F8 /* Mulish-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-MediumItalic.ttf"; path = "../src/res/fonts/Mulish-MediumItalic.ttf"; sourceTree = "<group>"; };
 		A5EB87BF4C034488A15CDD1B /* Mulish-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-ExtraBoldItalic.ttf"; path = "../src/res/fonts/Mulish-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		A710CB35C1AF41728E32A09F /* Mulish-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mulish-SemiBoldItalic.ttf"; path = "../src/res/fonts/Mulish-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-Myfinance-MyfinanceTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,20 +107,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-Myfinance.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-CompleteFinanceSolution.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* MyfinanceTests */ = {
+		00E356EF1AD99517003FC87E /* CompleteFinanceSolutionTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* MyfinanceTests.m */,
+				00E356F21AD99517003FC87E /* CompleteFinanceSolutionTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = MyfinanceTests;
+			path = CompleteFinanceSolutionTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -155,7 +155,7 @@
 			path = ../src/res/fonts;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Myfinance */ = {
+		13B07FAE1A68108700A75B9A /* CompleteFinanceSolution */ = {
 			isa = PBXGroup;
 			children = (
 				064177002A1E5BDB0079A0E7 /* fonts */,
@@ -166,15 +166,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Myfinance;
+			name = CompleteFinanceSolution;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-Myfinance.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-Myfinance-MyfinanceTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-CompleteFinanceSolution.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-CompleteFinanceSolution-CompleteFinanceSolutionTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,9 +212,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* Myfinance */,
+				13B07FAE1A68108700A75B9A /* CompleteFinanceSolution */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* MyfinanceTests */,
+				00E356EF1AD99517003FC87E /* CompleteFinanceSolutionTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -228,8 +228,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Myfinance.app */,
-				00E356EE1AD99517003FC87E /* MyfinanceTests.xctest */,
+				13B07F961A680F5B00A75B9A /* CompleteFinanceSolution.app */,
+				00E356EE1AD99517003FC87E /* CompleteFinanceSolutionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -237,10 +237,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-Myfinance.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-Myfinance.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-Myfinance-MyfinanceTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-Myfinance-MyfinanceTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-CompleteFinanceSolution.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-CompleteFinanceSolution.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -248,9 +248,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* MyfinanceTests */ = {
+		00E356ED1AD99517003FC87E /* CompleteFinanceSolutionTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MyfinanceTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CompleteFinanceSolutionTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -264,14 +264,13 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = MyfinanceTests;
-			productName = MyfinanceTests;
-			productReference = 00E356EE1AD99517003FC87E /* MyfinanceTests.xctest */;
+			name = CompleteFinanceSolutionTests;
+			productReference = 00E356EE1AD99517003FC87E /* CompleteFinanceSolutionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Myfinance */ = {
+		13B07F861A680F5B00A75B9A /* CompleteFinanceSolution */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Myfinance" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CompleteFinanceSolution" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -286,9 +285,9 @@
 			);
 			dependencies = (
 			);
-			name = Myfinance;
-			productName = Myfinance;
-			productReference = 13B07F961A680F5B00A75B9A /* Myfinance.app */;
+			name = CompleteFinanceSolution;
+			productName = CompleteFinanceSolution;
+			productReference = 13B07F961A680F5B00A75B9A /* CompleteFinanceSolution.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -308,7 +307,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Myfinance" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CompleteFinanceSolution" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -321,8 +320,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Myfinance */,
-				00E356ED1AD99517003FC87E /* MyfinanceTests */,
+				13B07F861A680F5B00A75B9A /* CompleteFinanceSolution */,
+				00E356ED1AD99517003FC87E /* CompleteFinanceSolutionTests */,
 			);
 		};
 /* End PBXProject section */
@@ -383,15 +382,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -409,7 +408,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Myfinance-MyfinanceTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -431,7 +430,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Myfinance-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CompleteFinanceSolution-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -444,15 +443,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -461,15 +460,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Myfinance/Pods-Myfinance-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution/Pods-CompleteFinanceSolution-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -478,15 +477,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Myfinance-MyfinanceTests/Pods-Myfinance-MyfinanceTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests/Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -515,7 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* MyfinanceTests.m in Sources */,
+				00E356F31AD99517003FC87E /* CompleteFinanceSolutionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +532,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Myfinance */;
+			target = 13B07F861A680F5B00A75B9A /* CompleteFinanceSolution */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -541,14 +540,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-Myfinance-MyfinanceTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = MyfinanceTests/Info.plist;
+				INFOPLIST_FILE = CompleteFinanceSolutionTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -562,17 +561,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Myfinance.app/Myfinance";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CompleteFinanceSolution.app/CompleteFinanceSolution";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-Myfinance-MyfinanceTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-CompleteFinanceSolution-CompleteFinanceSolutionTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = MyfinanceTests/Info.plist;
+				INFOPLIST_FILE = CompleteFinanceSolutionTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -586,19 +585,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Myfinance.app/Myfinance";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CompleteFinanceSolution.app/CompleteFinanceSolution";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Myfinance.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-CompleteFinanceSolution.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Myfinance/Info.plist;
+				INFOPLIST_FILE = CompleteFinanceSolution/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CompleteFinanceSolution;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,7 +609,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.completefinancesolution;
-				PRODUCT_NAME = Myfinance;
+				PRODUCT_NAME = CompleteFinanceSolution;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -618,12 +618,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Myfinance.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-CompleteFinanceSolution.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = Myfinance/Info.plist;
+				INFOPLIST_FILE = CompleteFinanceSolution/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CompleteFinanceSolution;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -634,7 +635,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.completefinancesolution;
-				PRODUCT_NAME = Myfinance;
+				PRODUCT_NAME = CompleteFinanceSolution;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -778,7 +779,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MyfinanceTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CompleteFinanceSolutionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -787,7 +788,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Myfinance" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CompleteFinanceSolution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -796,7 +797,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Myfinance" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CompleteFinanceSolution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Myfinance.app"
-               BlueprintName = "Myfinance"
-               ReferencedContainer = "container:Myfinance.xcodeproj">
+               BuildableName = "CompleteFinanceSolution.app"
+               BlueprintName = "CompleteFinanceSolution"
+               ReferencedContainer = "container:CompleteFinanceSolution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "MyfinanceTests.xctest"
-               BlueprintName = "MyfinanceTests"
-               ReferencedContainer = "container:Myfinance.xcodeproj">
+               BuildableName = "CompleteFinanceSolutionTests.xctest"
+               BlueprintName = "CompleteFinanceSolutionTests"
+               ReferencedContainer = "container:CompleteFinanceSolution.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Myfinance.app"
-            BlueprintName = "Myfinance"
-            ReferencedContainer = "container:Myfinance.xcodeproj">
+            BuildableName = "CompleteFinanceSolution.app"
+            BlueprintName = "CompleteFinanceSolution"
+            ReferencedContainer = "container:CompleteFinanceSolution.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Myfinance.app"
-            BlueprintName = "Myfinance"
-            ReferencedContainer = "container:Myfinance.xcodeproj">
+            BuildableName = "CompleteFinanceSolution.app"
+            BlueprintName = "CompleteFinanceSolution"
+            ReferencedContainer = "container:CompleteFinanceSolution.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
