@@ -92,20 +92,16 @@ const SignupScreen = props => {
                 source={R.images.appLogo}
                 resizeMode={'contain'}
                 style={{
-                  height: R.fontSize.Size200,
-                  width: R.fontSize.Size200,
+                  height: R.fontSize.Size160,
+                  width: R.fontSize.Size160,
                 }}
               />
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: R.fontSize.Size30,
-                }}>
+              <View>
                 <Text
                   style={{
+                    fontFamily:R.fonts.extraBold,
                     fontSize: R.fontSize.Size16,
                     color: R.colors.secAppColor,
-                    fontWeight: '700',
                   }}>
                   {'Welcome To Complete Finance Solution'}
                 </Text>

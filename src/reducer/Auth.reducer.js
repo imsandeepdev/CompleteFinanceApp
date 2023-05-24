@@ -7,6 +7,7 @@ import {
 const initial_state = {
   loading: false,
   signInit: {},
+  saveUser: {},
   error: '',
 };
 
@@ -21,6 +22,7 @@ const reducer = (state = initial_state, {type, payload}) => {
       return {
         loading: false,
         signInit: payload,
+        saveUser: payload.entity[0],
       };
     case sign_in_error:
       return {

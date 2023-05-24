@@ -186,9 +186,12 @@ const HomeScreen = props => {
                 borderRadius: R.fontSize.Size5,
                 backgroundColor: R.colors.lightWhite,
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
               }}>
               <FlatList
+                style={{
+                  flex:1,
+                }}
                 numColumns={2}
                 data={HeaderList}
                 keyExtractor={(item, index) => index}
@@ -199,7 +202,7 @@ const HomeScreen = props => {
                       style={{
                         width: screenWidth / 2.4,
                         height: screenWidth / 3,
-                        marginHorizontal: R.fontSize.Size10,
+                        marginHorizontal: R.fontSize.Size12,
                         backgroundColor: R.colors.lightWhite,
                         borderRadius: R.fontSize.Size8,
                         overflow: 'hidden',

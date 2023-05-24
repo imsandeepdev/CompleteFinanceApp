@@ -228,6 +228,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('CFS.keystore')
+            storePassword 'CFS#333'
+            keyAlias 'CFS#333'
+            keyPassword 'CFS#333'
+        }
     }
     buildTypes {
         debug {

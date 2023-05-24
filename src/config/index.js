@@ -3,5 +3,5 @@ export const Config = {
 
   LoginAPI: '/Account/Login',
   roleAPI: '/Account/GetRoleList?UserId=',
-  ProfileAPI: '/Account/UserProfile?UserId=1',
+  ProfileAPI: '/Account/UserProfile?UserId=',
 };

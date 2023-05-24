@@ -16,6 +16,8 @@ import { AddCartSuccess } from '../../actions/addcart.action';
 import { SignInRequest } from '../../actions/Auth.action';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const LoginScreen = (props) => {
@@ -61,6 +63,7 @@ const LoginScreen = (props) => {
             props.navigation.navigate('RoleSelectionScreen', {
               user_id: response.entity[0].LoginId,
             });
+            AsyncStorage.setItem('userid', response.entity[0].LoginId);
           }
           else
           {
@@ -87,20 +90,17 @@ const LoginScreen = (props) => {
                 source={R.images.appLogo}
                 resizeMode={'contain'}
                 style={{
-                  height: R.fontSize.Size280,
-                  width: R.fontSize.Size280,
+                  height: R.fontSize.Size200,
+                  width: R.fontSize.Size200,
                 }}
               />
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: R.fontSize.Size50,
-                }}>
+              <View>
                 <Text
                   style={{
+                    fontFamily:R.fonts.extraBold,
                     fontSize: R.fontSize.Size18,
                     color: R.colors.secAppColor,
-                    fontWeight: '700',
+                    // fontWeight: '700',
                     //   textTransform: 'uppercase',
                   }}>
                   {'Complete Finance Solution'}

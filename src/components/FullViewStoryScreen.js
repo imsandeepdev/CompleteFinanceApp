@@ -34,7 +34,7 @@ const FullViewStoryScreen = props => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: R.colors.white,
+    backgroundColor: R.colors.secAppColor,
   },
   root: {
     flex: 1,

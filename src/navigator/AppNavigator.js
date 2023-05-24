@@ -10,6 +10,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import SignupScreen from '../screens/SignupScreen';
 import R from '../res/R';
 import Menu from '../screens/Menu';
+import SplashScreen from '../screens/SplashScreen';
 
 
 const Stack = createStackNavigator();
@@ -20,8 +21,13 @@ const AppNavigator = props => {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={LoginScreen}
+          initialRouteName={SplashScreen}
           screenOptions={{gestureEnabled: false}}>
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="LoginScreen"
             component={LoginScreen}
