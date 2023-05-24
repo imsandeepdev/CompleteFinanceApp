@@ -29,7 +29,7 @@ const CustomDrawerButton = props => {
           source={props.image}
           resizeMode={'cover'}
           style={{
-            height: R.fontSize.Size22,
+            height: R.fontSize.Size20,
             width: R.fontSize.Size20,
           }}
         />
@@ -42,7 +42,6 @@ const CustomDrawerButton = props => {
 };
 
 const Menu = props => {
-  
 
     const dispatch = useDispatch()
     const [userDetail, setUserDetail] = useState({})
@@ -60,7 +59,6 @@ const Menu = props => {
     }
 
     const handleProfile = (userid) => {
-
       dispatch(UserProfileRequest(userid, response =>{
         console.log("user Profile res==>",response)
         setUserDetail(response.entity[0]);
@@ -111,22 +109,22 @@ const Menu = props => {
           }}>
           <CustomDrawerButton
             title={'Dashboard'}
-            image={R.images.userIcon}
+            image={R.images.dashboardIcon}
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
           <CustomDrawerButton
             title={'Profile'}
-            image={R.images.userIcon}
+            image={R.images.aboutIcon}
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
           <CustomDrawerButton
             title={'About us'}
-            image={R.images.userIcon}
+            image={R.images.aboutIcon}
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
           <CustomDrawerButton
             title={'Setting'}
-            image={R.images.userIcon}
+            image={R.images.settingIcon}
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
         </ScrollView>
@@ -136,17 +134,6 @@ const Menu = props => {
             borderTopWidth: 1,
             borderColor: R.colors.lightWhite,
           }}>
-          {/* <AppButton
-            onPress={() => onLogout()}
-            title={'Sign Out'}
-            backgroundColor={R.colors.black}
-            borderWidth={R.fontSize.Size2}
-            borderColor={R.colors.appColor}
-            textColor={R.colors.appColor}
-            marginTop={R.fontSize.Size8}
-            buttonHeight={R.fontSize.Size40}
-            marginHorizontal={R.fontSize.Size40}
-          /> */}
           <CustomDrawerButton onPress={() => onLogout()} title="Sign Out" />
         </View>
       </View>

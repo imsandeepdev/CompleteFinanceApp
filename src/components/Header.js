@@ -10,8 +10,8 @@ const Header = props => {
         height: R.fontSize.Size50,
         alignItems: 'center',
         paddingHorizontal: R.fontSize.Size2,
-        borderBottomWidth: 1,
-        borderColor: R.colors.placeholderTextColor,
+        borderBottomWidth: 2,
+        borderColor: R.colors.appColor,
       }}>
       <Pressable
         onPress={props.onPress}

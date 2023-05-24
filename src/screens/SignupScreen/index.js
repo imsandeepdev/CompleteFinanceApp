@@ -5,6 +5,7 @@ import {AppButton, CustomTextInput, OtpModal, StoryScreen} from '../../component
 import R from '../../res/R';
 import CommonFunctions from '../../utils/CommonFunctions';
 const screenHeight = Dimensions.get('screen').height;
+import DeviceInfo from 'react-native-device-info';
 
 const SignupScreen = props => {
   const [userName, setUserName] = useState('');
@@ -18,7 +19,21 @@ const SignupScreen = props => {
   const thirdTextInputRef = useRef(null);
   const fourthTextInputRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [deviceId, setDeviceId] = useState('')
 
+
+  useEffect(()=>{
+
+    handleDeviceInfo()
+  },[props.navigation])
+
+  const handleDeviceInfo = async() => {
+    let deviceId = await DeviceInfo.getDeviceId();
+    DeviceInfo.getDeviceToken().then(deviceToken => {
+      console.log("DeviceToken==>",deviceToken)
+    });
+    console.log("DeviceId==>", deviceId)
+  }
 
     const onOtpChange = index => {
       return value => {
@@ -99,7 +114,7 @@ const SignupScreen = props => {
               <View>
                 <Text
                   style={{
-                    fontFamily:R.fonts.extraBold,
+                    fontFamily: R.fonts.extraBold,
                     fontSize: R.fontSize.Size16,
                     color: R.colors.secAppColor,
                   }}>
@@ -194,6 +209,7 @@ const SignupScreen = props => {
           thirdTextInputRef,
           fourthTextInputRef,
         ]}
+        otpTitle={`We will send OTP for verification \non ${userMobNo}`}
         value={otpArray}
         onChangeText={onOtpChange}
         onKeyPress={handleKeyPress}

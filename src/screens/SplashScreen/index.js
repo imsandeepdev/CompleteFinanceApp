@@ -8,11 +8,11 @@ import { FullViewStoryScreen } from '../../components';
 
 const SplashScreen = props => {
   useEffect(() => {
-    // hideNavigationBar();
-    // setTimeout(() => {
-    //     props.navigation.replace('LoginScreen')
-    // }, 4000);
-    // StatusBar.setBarStyle('dark-content', true);
+    hideNavigationBar();
+    setTimeout(() => {
+        props.navigation.replace('LoginScreen')
+    }, 4000);
+    StatusBar.setBarStyle('dark-content', true);
   }, []);
 
   return (

@@ -14,6 +14,7 @@ const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
 
 import Toast from 'react-native-simple-toast';
+import style from './style';
 
 const HeaderList = [
   {
@@ -33,6 +34,16 @@ const HeaderList = [
   },
   {
     id: '4',
+    title: 'Family Plan',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
+  },
+  {
+    id: '5',
+    title: 'Home Loan',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
+  },
+  {
+    id: '6',
     title: 'Family Plan',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
   },
@@ -86,18 +97,9 @@ const ListTwo = [
 
 const CustomCard = (props) => {
   return (
-    <View style={{marginTop: R.fontSize.Size14}}>
-      <View
-        style={{
-          marginVertical: R.fontSize.Size10,
-          marginHorizontal: R.fontSize.Size20,
-        }}>
-        <Text
-          style={{
-            fontSize: R.fontSize.Size16,
-            fontWeight: '500',
-            color: R.colors.secAppColor,
-          }}>
+    <View style={style.customCardMainView}>
+      <View style={style.customCardView}>
+        <Text style={style.customCardHead}>
           {props.heading}
         </Text>
       </View>
@@ -112,28 +114,7 @@ const CustomCard = (props) => {
               <View
                 key={index}
                 style={{paddingLeft: index == 0 ? R.fontSize.Size14 : 0}}>
-                <View
-                  style={{
-                    marginHorizontal: R.fontSize.Size6,
-                    borderWidth: 1,
-                    padding: R.fontSize.Size5,
-                    width: R.fontSize.Size120,
-                    height: R.fontSize.Size90,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: R.fontSize.Size4,
-                    borderColor: R.colors.placeHolderColor,
-                    backgroundColor: R.colors.white,
-                    shadowColor: R.colors.lightBlack,
-                    shadowOffset: {
-                      width: 0,
-                      height: 3,
-                    },
-                    shadowOpacity: 0.27,
-                    shadowRadius: 4.65,
-
-                    elevation: 6,
-                  }}>
+                <View style={style.customCardFlatView}>
                   <Image
                     source={{uri: item.url}}
                     resizeMode={'contain'}
@@ -142,15 +123,9 @@ const CustomCard = (props) => {
                       width: R.fontSize.Size40,
                     }}
                   />
-                  <Text
-                    style={{
-                      fontSize: R.fontSize.Size14,
-                      fontWeight: '500',
-                      color: R.colors.secAppColor,
-                      textAlign: 'center',
-                      marginTop: R.fontSize.Size5,
-                    }}
-                    numberOfLines={1}>{`${item.title}`}</Text>
+                  <Text style={style.customCardTitleText}
+                    numberOfLines={1}>{`${item.title}`}
+                  </Text>
                 </View>
               </View>
             );
@@ -169,69 +144,41 @@ const HomeScreen = props => {
 
   return (
     <StoryScreen>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={style.mainView}>
         <Header
           onPress={() => props.navigation.toggleDrawer()}
           leftSource={R.images.menuIcon}
           title={'Complete Finance Solution'}
         />
 
-        <View style={{flex: 1}}>
+        <View style={style.mainView}>
           <View>
+            <View style={style.topHeaderView}>
+              <Text style={style.topHeaderText}>
+                {'Shyam Yadav | Business'}
+              </Text>
+              <Text style={style.topHeaderText}>{'10th May 23'}</Text>
+            </View>
             <View
-              style={{
-                height: !showMore ? R.fontSize.Size160 : null,
-                marginHorizontal: R.fontSize.Size10,
-                marginTop: R.fontSize.Size10,
-                borderRadius: R.fontSize.Size5,
-                backgroundColor: R.colors.lightWhite,
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}>
+              style={[
+                style.flatUpperView,
+                {height: !showMore ? 0 : null}
+              ]}>
               <FlatList
-                style={{
-                  flex:1,
-                }}
+                style={style.mainView}
                 numColumns={2}
                 data={HeaderList}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
-                    <View
-                      key={index}
-                      style={{
-                        width: screenWidth / 2.4,
-                        height: screenWidth / 3,
-                        marginHorizontal: R.fontSize.Size12,
-                        backgroundColor: R.colors.lightWhite,
-                        borderRadius: R.fontSize.Size8,
-                        overflow: 'hidden',
-                        borderWidth: 1,
-                        marginVertical: R.fontSize.Size6,
-                        marginTop: R.fontSize.Size8,
-                      }}>
+                    <View key={index} style={style.flatMainView}>
                       <Image
                         source={{uri: item.url}}
-                        style={{
-                          height: '100%',
-                          width: '100%',
-                        }}
+                        style={{height: '100%',width: '100%'}}
                         resizeMode={'cover'}
                       />
-                      <View
-                        style={{
-                          position: 'absolute',
-                          bottom: 5,
-                          right: 0,
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: R.colors.lightWhite,
-                            padding: R.fontSize.Size4,
-                            paddingHorizontal: R.fontSize.Size8,
-                            opacity: 0.8,
-                            borderRadius: R.fontSize.Size4,
-                          }}>
+                      <View style={style.flatTitleMainView}>
+                        <View style={style.flatTitleView}>
                           <Text>{item.title}</Text>
                         </View>
                       </View>
@@ -240,32 +187,19 @@ const HomeScreen = props => {
                 }}
               />
             </View>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+            <View style={style.dropDownMainView}>
               <Pressable
                 onPress={() => {
                   setShowMore(!showMore);
                 }}
                 style={({pressed}) => [
-                  {
-                    padding: R.fontSize.Size10,
-                    paddingHorizontal: R.fontSize.Size50,
-                    borderBottomWidth: 1,
-                    borderColor: R.colors.placeholderTextColor,
-                    opacity: pressed ? 0.5 : 1,
-                  },
+                  style.dropDownPress,
+                  {opacity: pressed ? 0.5 : 1},
                 ]}>
                 <Image
                   source={R.images.dropdownIcon}
                   resizeMode={'contain'}
-                  style={{
-                    height: R.fontSize.Size10,
-                    width: R.fontSize.Size10,
-                    transform: [{rotate: showMore ? '180deg' : '0deg'}],
-                  }}
+                  style={[style.dropDownIcon,{transform: [{rotate: showMore ? '180deg' : '0deg'}]}]}
                 />
               </Pressable>
             </View>

@@ -60,20 +60,16 @@ const handleContinueValidation = () => {
             source={R.images.appLogo}
             resizeMode={'contain'}
             style={{
-              height: R.fontSize.Size200,
-              width: R.fontSize.Size200,
+              height: R.fontSize.Size160,
+              width: R.fontSize.Size160,
             }}
           />
-          <View
-            style={{
-              position: 'absolute',
-              bottom: R.fontSize.Size10,
-            }}>
+          <View>
             <Text
               style={{
+                fontFamily:R.fonts.extraBold,
                 fontSize: R.fontSize.Size16,
                 color: R.colors.secAppColor,
-                fontWeight: '700',
                 textAlign: 'center',
               }}>
               {`Welcome to \nComplete Finance Solution`}
@@ -82,6 +78,7 @@ const handleContinueValidation = () => {
         </View>
         <Text
           style={{
+            fontFamily:R.fonts.regular,
             fontSize: R.fontSize.Size16,
             color: R.colors.placeHolderColor,
             fontWeight: '500',

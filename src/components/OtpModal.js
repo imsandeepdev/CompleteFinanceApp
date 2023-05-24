@@ -83,7 +83,7 @@ const OtpModal = (props) => {
                 marginVertical: R.fontSize.Size10,
               }}>
               <Text style={styles.otpTitle}>
-                {`We will send OTP for verification \non +91-8707545794`}
+                {props.otpTitle}
               </Text>
               <Text style={[styles.otpTitle, {marginTop: R.fontSize.Size5}]}>
                 {`Enter OTP code below`}

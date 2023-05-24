@@ -9,6 +9,9 @@ const images = {
   phoneIcon: require('./images/phoneIcon.png'),
   eyeIcon: require('./images/eye_icon.png'),
   closeEyeIcon: require('./images/eye_close.png'),
+  dashboardIcon: require('./images/dashboard.png'),
+  aboutIcon: require('./images/about.png'),
+  settingIcon: require('./images/setting.png'),
 };
 
 export {images}
