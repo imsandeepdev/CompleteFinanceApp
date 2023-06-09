@@ -37,6 +37,8 @@ const CustomCardPress = props => {
             marginBottom: props.marginBottom ?? R.fontSize.Size20,
           },
         ]}>
+        {
+        props.leftIcon &&
         <View>
           <Image
             source={props.leftIcon}
@@ -47,7 +49,12 @@ const CustomCardPress = props => {
             resizeMode={'contain'}
           />
         </View>
-        <View style={{flex: 1, justifyContent: 'center',marginHorizontal:R.fontSize.Size8}}>
+        }
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+          }}>
           <Text
             style={{
               fontSize: props.fontSize ?? R.fontSize.Size15,

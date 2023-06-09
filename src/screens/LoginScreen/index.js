@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect,} from 'react';
 import {
     View,
     Text,
@@ -17,7 +17,6 @@ import { SignInRequest } from '../../actions/Auth.action';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 
 const LoginScreen = (props) => {
@@ -52,16 +51,16 @@ const LoginScreen = (props) => {
     }
 
     const onHandleLogin = () => {
-      let data={
-        user_name: userName,
-        user_pass: password
-      }
+      let data = {
+        Logincode: userName,
+        password: password,
+      };
       dispatch(
         SignInRequest(data,response => {
           console.log('SignIn response==>', response);
           if (response.message == 'Success') {
             props.navigation.navigate('RoleSelectionScreen', {
-              user_id: response.entity[0].LoginId,
+              user_id: response.entity.entity[0].LoginId,
             });
             AsyncStorage.setItem('userid', response.entity[0].LoginId);
           }
@@ -74,102 +73,102 @@ const LoginScreen = (props) => {
     };
 
     return (
-      <StoryScreen>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                height: screenHeight / 3,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={R.images.appLogo}
-                resizeMode={'contain'}
-                style={{
-                  height: R.fontSize.Size200,
-                  width: R.fontSize.Size200,
-                }}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontFamily:R.fonts.extraBold,
-                    fontSize: R.fontSize.Size18,
-                    color: R.colors.secAppColor,
-                    // fontWeight: '700',
-                    //   textTransform: 'uppercase',
-                  }}>
-                  {'Complete Finance Solution'}
-                </Text>
-              </View>
-            </View>
-
-            <View style={{flex: 1, paddingHorizontal: R.fontSize.Size24}}>
-              <CustomTextInput
-                placeholder={'Username'}
-                value={userName}
-                onChangeText={text => setUserName(text)}
-                marginBottom={R.fontSize.Size10}
-                leftIcon={R.images.userIcon}
-                maxLength={20}
-              />
-              <CustomTextInput
-                placeholder={'Password'}
-                value={password}
-                onChangeText={text => setPassword(text)}
-                marginBottom={R.fontSize.Size10}
-                secureTextEntry={showPassword ? false : true}
-                leftIcon={R.images.greenLockIcon}
-                rightIcon={
-                  showPassword ? R.images.eyeIcon : R.images.closeEyeIcon
-                }
-                rightOnPress={() => setShowPassword(!showPassword)}
-                maxLength={25}
-              />
-            </View>
-            <View
-              style={{
-                marginVertical: R.fontSize.Size10,
-              }}>
-              <AppButton
-                // onPress={() => props.navigation.navigate('RoleSelectionScreen')}
-                onPress={() => onCheckValid()}
-                marginHorizontal={R.fontSize.Size30}
-                title={'Login'}
-              />
+        <StoryScreen>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}>
+            <View style={{flex: 1}}>
               <View
                 style={{
-                  marginTop: R.fontSize.Size10,
-                  flexDirection: 'row',
+                  height: screenHeight / 3,
+                  alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text
+                <Image
+                  source={R.images.appLogo}
+                  resizeMode={'contain'}
                   style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.placeHolderColor,
-                  }}>
-                  {`Don't have an account? `}
-                </Text>
-                <Text
-                  onPress={() => {
-                    props.navigation.replace('SignupScreen');
+                    height: R.fontSize.Size200,
+                    width: R.fontSize.Size200,
                   }}
+                />
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: R.fonts.extraBold,
+                      fontSize: R.fontSize.Size18,
+                      color: R.colors.secAppColor,
+                      // fontWeight: '700',
+                      //   textTransform: 'uppercase',
+                    }}>
+                    {'Complete Finance Solution'}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{flex: 1, paddingHorizontal: R.fontSize.Size24}}>
+                <CustomTextInput
+                  placeholder={'Username'}
+                  value={userName}
+                  onChangeText={text => setUserName(text)}
+                  marginBottom={R.fontSize.Size10}
+                  leftIcon={R.images.userIcon}
+                  maxLength={20}
+                />
+                <CustomTextInput
+                  placeholder={'Password'}
+                  value={password}
+                  onChangeText={text => setPassword(text)}
+                  marginBottom={R.fontSize.Size10}
+                  secureTextEntry={showPassword ? false : true}
+                  leftIcon={R.images.greenLockIcon}
+                  rightIcon={
+                    showPassword ? R.images.eyeIcon : R.images.closeEyeIcon
+                  }
+                  rightOnPress={() => setShowPassword(!showPassword)}
+                  maxLength={25}
+                />
+              </View>
+              <View
+                style={{
+                  marginVertical: R.fontSize.Size10,
+                }}>
+                <AppButton
+                  // onPress={() => props.navigation.navigate('RoleSelectionScreen')}
+                  onPress={() => onCheckValid()}
+                  marginHorizontal={R.fontSize.Size30}
+                  title={'Login'}
+                />
+                <View
                   style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.appColor,
-                    fontWeight: '700',
+                    marginTop: R.fontSize.Size10,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
                   }}>
-                  {'Register Now'}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: R.fontSize.Size14,
+                      color: R.colors.placeHolderColor,
+                    }}>
+                    {`Don't have an account? `}
+                  </Text>
+                  <Text
+                    onPress={() => {
+                      props.navigation.replace('SignupScreen');
+                    }}
+                    style={{
+                      fontSize: R.fontSize.Size14,
+                      color: R.colors.appColor,
+                      fontWeight: '700',
+                    }}>
+                    {'Register Now'}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        </ScrollView>
-      </StoryScreen>
+          </ScrollView>
+        </StoryScreen>
     );
 }
 

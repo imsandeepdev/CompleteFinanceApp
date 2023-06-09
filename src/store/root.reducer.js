@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {combineReducers} from 'redux';
-import addCartRoot from '../reducer/addcart.reducer';
 import {persistReducer} from 'reduxjs-toolkit-persist';
 import authRoot from '../reducer/Auth.reducer';
+import registerRoot from '../reducer/registration.reducer';
+import profileRoot from '../reducer/profile.reducer';
+import roleRoot from '../reducer/role.reducer';
 
 const authPersistConfig = {
   storage: AsyncStorage,
@@ -11,6 +13,7 @@ const authPersistConfig = {
 
 export default combineReducers({
   auth: persistReducer(authPersistConfig, authRoot),
-
-  addCartRoot,
+  registerRoot,
+  profileRoot,
+  roleRoot
 });

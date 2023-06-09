@@ -10,7 +10,7 @@ const SplashScreen = props => {
   useEffect(() => {
     hideNavigationBar();
     setTimeout(() => {
-        props.navigation.replace('LoginScreen')
+        props.navigation.replace('LoginScreen');
     }, 4000);
     StatusBar.setBarStyle('dark-content', true);
   }, []);

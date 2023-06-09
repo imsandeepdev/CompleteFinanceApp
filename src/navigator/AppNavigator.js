@@ -11,6 +11,10 @@ import SignupScreen from '../screens/SignupScreen';
 import R from '../res/R';
 import Menu from '../screens/Menu';
 import SplashScreen from '../screens/SplashScreen';
+import ApplicantForm from '../screens/ApplicantForm';
+import CenterForm from '../screens/CenterForm';
+import GroupForm from '../screens/GroupForm';
+import GrtForm from '../screens/GrtForm';
 
 
 const Stack = createStackNavigator();
@@ -51,6 +55,26 @@ const AppNavigator = props => {
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ApplicantForm"
+            component={ApplicantForm}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="CenterForm"
+            component={CenterForm}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="GroupForm"
+            component={GroupForm}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="GrtForm"
+            component={GrtForm}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

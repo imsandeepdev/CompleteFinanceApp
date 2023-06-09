@@ -18,6 +18,7 @@ const style = StyleSheet.create({
     fontSize: R.fontSize.Size14,
     fontWeight: '700',
     color: R.colors.secAppColor,
+    textAlign:'center'
   },
   flatUpperView: {
     marginHorizontal: R.fontSize.Size10,
@@ -53,10 +54,13 @@ const style = StyleSheet.create({
   dropDownMainView: {
     alignItems: 'center',
     justifyContent: 'center',
+    top:15,
+    left:0,
+    right:0
   },
   dropDownPress: {
     padding: R.fontSize.Size10,
-    paddingHorizontal: R.fontSize.Size100,
+    paddingHorizontal: R.fontSize.Size80,
     borderBottomWidth: 2,
     borderColor: R.colors.placeholderTextColor,
   },

@@ -12,6 +12,9 @@ const images = {
   dashboardIcon: require('./images/dashboard.png'),
   aboutIcon: require('./images/about.png'),
   settingIcon: require('./images/setting.png'),
+  backIcon: require('./images/back_icon.png'),
+  galleryIcon: require('./images/galleryIcon.png'),
+  documentIcon: require('./images/document.png'),
 };
 
 export {images}

@@ -6,6 +6,10 @@ import CustomCardPress from "./CustomCardPress";
 import ListViewModal from "./ListViewModal";
 import Header from "./Header";
 import OtpModal from "./OtpModal";
+import CustomPhotoCard from "./CustomPhotoCard";
+import GalleryModal from "./GalleryModal";
+import AppTextInput from "./AppTextInput";
+import AppCardPress from "./AppCardPress";
 
 export {
     CustomTextInput,
@@ -15,5 +19,9 @@ export {
     CustomCardPress,
     ListViewModal,
     Header,
-    OtpModal
+    OtpModal,
+    CustomPhotoCard,
+    GalleryModal,
+    AppTextInput,
+    AppCardPress
 }

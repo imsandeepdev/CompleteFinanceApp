@@ -22,7 +22,7 @@ const Header = props => {
             alignItems: 'center',
             justifyContent: 'center',
             opacity: pressed ? 0.5 : 1,
-            marginHorizontal:R.fontSize.Size10
+            marginHorizontal:R.fontSize.Size10,
           },
         ]}>
         <Image
@@ -34,7 +34,6 @@ const Header = props => {
       <View
         style={{
           flex: 1,
-          marginHorizontal: R.fontSize.Size5,
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: props.title_justifyContent,

@@ -2,7 +2,7 @@ import {Config} from '../config';
 import {
     sign_in,
     sign_in_success,
-    sign_in_error
+    sign_in_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -29,9 +29,10 @@ export const SignInRequest = (data,success, failed) => {
   return dispatch => {
     dispatch(SignIn());
     api
-      .multipartRequest({
+      .multipostRequest({
         needAuth: false,
-        url: `${Config.LoginAPI}?Logincode=${data.user_name}&password=${data.user_pass}`,
+        data:data,
+        url: `${Config.LoginAPI}`,
       })
       .then(response => {
         dispatch(SignInSuccess(response));

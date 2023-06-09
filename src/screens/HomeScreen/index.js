@@ -1,6 +1,16 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions,SafeAreaView,FlatList, Pressable} from 'react-native';
+import {
+  View, 
+  Text, 
+  StyleSheet,
+   Image,
+    Dimensions,
+    SafeAreaView,
+    FlatList, 
+    Pressable,
+    Animated
+  } from 'react-native';
 import {
   AppButton,
   CustomCardPress,
@@ -140,7 +150,35 @@ const CustomCard = (props) => {
 const HomeScreen = props => {
 
   const [showMore, setShowMore] = useState(false)
+  const [fadeValue] = useState(new Animated.Value(0))
  
+const _start = () => {
+  if(!showMore)
+  {
+
+     setShowMore(!showMore);
+  
+  Animated.timing(fadeValue, {
+    toValue: 3,
+    duration: 3000,
+    useNativeDriver:true
+  }).start();
+
+}
+else
+{
+   Animated.timing(fadeValue, {
+     toValue: 0,
+     duration: 3000,
+     useNativeDriver: true,
+   }).start();
+   setTimeout(() => {
+     setShowMore(!showMore);
+   }, 3000);
+}
+
+
+};
 
   return (
     <StoryScreen>
@@ -154,15 +192,45 @@ const HomeScreen = props => {
         <View style={style.mainView}>
           <View>
             <View style={style.topHeaderView}>
-              <Text style={style.topHeaderText}>
-                {'Shyam Yadav | Business'}
-              </Text>
-              <Text style={style.topHeaderText}>{'10th May 23'}</Text>
+              <View>
+                <Text style={style.topHeaderText}>{'Shyam Yadav'}</Text>
+                <Text
+                  style={[
+                    style.topHeaderText,
+                    {fontSize: R.fontSize.Size12, color: R.colors.lightBlack},
+                  ]}>
+                  {'Master'}
+                </Text>
+              </View>
+              <View>
+                <View>
+                  <Text style={style.topHeaderText}>{'Lucknow Branch'}</Text>
+                  <Text
+                    style={[
+                      style.topHeaderText,
+                      {fontSize: R.fontSize.Size12, color: R.colors.lightBlack},
+                    ]}>
+                    {'23rd June 2023'}
+                  </Text>
+                </View>
+              </View>
             </View>
-            <View
+
+            <Animated.View
               style={[
                 style.flatUpperView,
-                {height: !showMore ? 0 : null}
+                {
+                  opacity: fadeValue,
+                  height: !showMore ? 0 : null,
+                  transform: [
+                    {
+                      translateY: fadeValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [-10, -5], // 0 : 150, 0.5 : 75, 1 : 0
+                      }),
+                    },
+                  ],
+                },
               ]}>
               <FlatList
                 style={style.mainView}
@@ -174,7 +242,7 @@ const HomeScreen = props => {
                     <View key={index} style={style.flatMainView}>
                       <Image
                         source={{uri: item.url}}
-                        style={{height: '100%',width: '100%'}}
+                        style={{height: '100%', width: '100%'}}
                         resizeMode={'cover'}
                       />
                       <View style={style.flatTitleMainView}>
@@ -186,11 +254,19 @@ const HomeScreen = props => {
                   );
                 }}
               />
-            </View>
-            <View style={style.dropDownMainView}>
+            </Animated.View>
+            <View
+              style={[
+                style.dropDownMainView,
+                {
+                  position: !showMore ? 'absolute' : 'relative',
+                },
+              ]}>
               <Pressable
                 onPress={() => {
-                  setShowMore(!showMore);
+                  _start(),
+                  
+                    console.log('Fade value==>', fadeValue._value);
                 }}
                 style={({pressed}) => [
                   style.dropDownPress,
@@ -199,7 +275,10 @@ const HomeScreen = props => {
                 <Image
                   source={R.images.dropdownIcon}
                   resizeMode={'contain'}
-                  style={[style.dropDownIcon,{transform: [{rotate: showMore ? '180deg' : '0deg'}]}]}
+                  style={[
+                    style.dropDownIcon,
+                    {transform: [{rotate: showMore ? '180deg' : '0deg'}]},
+                  ]}
                 />
               </Pressable>
             </View>

@@ -115,7 +115,7 @@ const OtpModal = (props) => {
               <AppButton
                 onPress={props.onPress}
                 marginHorizontal={R.fontSize.Size100}
-                title={'Verify'}
+                title={'Register'}
                 buttonHeight={R.fontSize.Size45}
                 titleFontSize={R.fontSize.Size16}
               />

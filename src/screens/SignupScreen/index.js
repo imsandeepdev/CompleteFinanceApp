@@ -6,10 +6,16 @@ import R from '../../res/R';
 import CommonFunctions from '../../utils/CommonFunctions';
 const screenHeight = Dimensions.get('screen').height;
 import DeviceInfo from 'react-native-device-info';
+import Toast from 'react-native-simple-toast';
+import {useDispatch} from 'react-redux';
+import { UserRegistrationRequest } from '../../actions/registration.action';
+import moment from 'moment';
 
 const SignupScreen = props => {
+  const dispatch = useDispatch()
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [empId, setEmpId] = useState();
   const [userMobNo, setUserMobNo] = useState('');
   const [password, setPassword] = useState('');
   const [otpModal, setOtpModal] = useState(false)
@@ -20,7 +26,9 @@ const SignupScreen = props => {
   const fourthTextInputRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
   const [deviceId, setDeviceId] = useState('')
-
+  const [buttonText,setButtonText] = useState('Proceed')
+  const [otpIndex, setOtpIndex] = useState(0)
+  const todayDate = moment(new Date());
 
   useEffect(()=>{
 
@@ -37,7 +45,8 @@ const SignupScreen = props => {
     console.log('DeviceId==>', deviceManufacturer);
     console.log('DeviceId==>', deviceModal);
     console.log('DeviceId==>', deviceUniqueId);
-
+    let tempDeviceId = `${deviceManufacturer}-${deviceModal}-${deviceUniqueId}`
+    setDeviceId(tempDeviceId)
   }
 
     const onOtpChange = index => {
@@ -60,7 +69,7 @@ const SignupScreen = props => {
     const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
       console.log(keyValue);
       console.log('Index', index);
-
+      setOtpIndex(index)
       if (keyValue == 'Backspace') {
           index === 3 && thirdTextInputRef.current.focus(),
           index === 2 && secondTextInputRef.current.focus(),
@@ -73,15 +82,69 @@ const SignupScreen = props => {
     };
 
     const handleVerify = () => {
-      setOtpModal(false)
+      console.log("L==>",otpArray)
+      if(otpIndex==3)
+      {
+       handleRegisterAPI()
+      }
+      else
+      {
+        Toast.show('Please enter verification code', Toast.SHORT);
+      }
+    }
+
+    const handleRegisterAPI = () => {
+      let data = {
+        mode: 'insert',
+        empId: '1',
+        logincode: '1',
+        password: 'Shyam@123',
+        deviceNo: deviceId,
+        mobileNo: userMobNo,
+        approvalLogin: 1,
+        is_Active: true,
+        createdby: 1,
+        createdDate: moment().format(),
+        approvedBy: 1,
+        approveddate: moment().format(),
+      };
+
+      console.log('REGISTER FORM DATA==>', data);
+      dispatch(
+        UserRegistrationRequest(data, response => {
+          console.log('Register Response==>', response);
+          if (response.statusCode == 200) {
+            let tempMsg = response.entity.entity[0].Msg;
+            if (response.entity.entity[0].status == 'Success') {
+              setOtpModal(false);
+              props.navigation.replace('LoginScreen');
+              Toast.show(tempMsg, Toast.SHORT);
+              setOtpIndex(0)
+            } else {
+              setOtpModal(false);
+              Toast.show(tempMsg, Toast.SHORT);
+              setOtpIndex(0);
+
+            }
+          }
+        }),
+      );
     }
 
     const handleVerification = () => {
-      return CommonFunctions.isBlank(userName.trim(), 'Please enter user name')&&
-      CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id')&&
-      CommonFunctions.isEmailValid(userEmail, 'Please enter valid email id')&&
-      CommonFunctions.isBlank(userMobNo.trim(), 'Please enter mobile number')&&
-      CommonFunctions.isBlank(password.trim(), 'Please enter password')
+      return (
+        CommonFunctions.isBlank(empId.trim(), 'Please enter employee id') &&
+        CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id') &&
+        CommonFunctions.isEmailValid(
+          userEmail,
+          'Please enter valid email id',
+        ) &&
+        CommonFunctions.isBlank(
+          userMobNo.trim(),
+          'Please enter mobile number',
+        ) &&
+        CommonFunctions.isBlank(password.trim(), 'Please enter password')
+      );
     }
 
     const handleProceedVerify = () => {
@@ -91,7 +154,7 @@ const SignupScreen = props => {
     }
 
     const handleOtpProcess = () => {
-      setOtpModal(true)
+      setOtpModal(true)          
     }
 
   return (
@@ -129,12 +192,20 @@ const SignupScreen = props => {
             </View>
 
             <View style={{flex: 1, paddingHorizontal: R.fontSize.Size24}}>
-              <CustomTextInput
+              {/* <CustomTextInput
                 placeholder={'Create user name'}
                 value={userName}
                 onChangeText={text => setUserName(text)}
                 marginBottom={R.fontSize.Size10}
                 leftIcon={R.images.userIcon}
+              /> */}
+              <CustomTextInput
+                placeholder={'Enter employee id'}
+                value={empId}
+                onChangeText={text => setEmpId(text)}
+                marginBottom={R.fontSize.Size10}
+                leftIcon={R.images.userIcon}
+                keyboardType={'number-pad'}
               />
               <CustomTextInput
                 placeholder={'Enter email id'}

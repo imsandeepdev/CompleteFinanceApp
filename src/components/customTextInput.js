@@ -35,15 +35,19 @@ const CustomTextInput = props => {
           shadowRadius: 2.84,
           elevation: 5,
           marginBottom: props.marginBottom ?? 0,
+          borderBottomWidth:props.borderWidth,
+          borderColor: props.borderColor
         }}>
+        {props.leftIcon
+        &&
         <View
           style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              height: '100%',
-              marginHorizontal:R.fontSize.Size4
-            }}>
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '100%',
+            marginHorizontal: R.fontSize.Size4,
+          }}>
           <Image
             source={props.leftIcon}
             style={{
@@ -54,13 +58,14 @@ const CustomTextInput = props => {
           />
           <View
             style={{
-            marginLeft:R.fontSize.Size4,
+              marginLeft: R.fontSize.Size4,
               width: 1,
               height: R.fontSize.Size25,
               backgroundColor: R.colors.appColor,
             }}
           />
         </View>
+        }
 
         <View
           style={{
@@ -75,7 +80,7 @@ const CustomTextInput = props => {
                 fontSize: R.fontSize.Size15,
                 letterSpacing: 1,
                 fontWeight: '700',
-                color: R.colors.placeHolderColor,
+                color: R.colors.textPriColor,
               }}
               placeholder={props.placeholder}
               placeholderTextColor={R.colors.placeholderTextColor}
@@ -87,26 +92,24 @@ const CustomTextInput = props => {
               secureTextEntry={props.secureTextEntry}
             />
           </View>
-          {
-          props.rightIcon &&
+          {props.rightIcon && (
             <Pressable
-            onPress={props.rightOnPress}
-            style={({pressed})=>[
-              {
-                opacity: pressed ?0.5:1,
-                paddingHorizontal:R.fontSize.Size6,
-                alignItems:'center',
-                justifyContent:'center',
-              }
-            ]}
-            >
+              onPress={props.rightOnPress}
+              style={({pressed}) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                  paddingHorizontal: R.fontSize.Size6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}>
               <Image
                 source={props.rightIcon}
                 style={{height: R.fontSize.Size20, width: R.fontSize.Size20}}
                 resizeMode={'contain'}
               />
             </Pressable>
-          }
+          )}
         </View>
       </View>
     </View>

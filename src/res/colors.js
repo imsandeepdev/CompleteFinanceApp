@@ -12,6 +12,10 @@ const colors = {
 
   appColor: '#a2ce39',
   secAppColor: '#1f2021',
+
+  textPriColor: '#1f2021',
+  textSecColor: '#a2ce39',
+  darkGreenColor: '#018235',
 };
 
 export {colors};

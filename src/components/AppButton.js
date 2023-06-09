@@ -12,7 +12,8 @@ const AppButton = props => {
         paddingHorizontal: props.paddingHorizontal,
         borderWidth: props.borderWidth,
         borderColor: props.borderColor,
-        marginTop: props.marginTop
+        marginTop: props.marginTop,
+        marginVertical: props.marginVertical
       }}>
       <Pressable
         disabled={props.disabled}

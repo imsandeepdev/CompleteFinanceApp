@@ -49,7 +49,7 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
     console.log('Request params ==> ', formData, ' ==> ', requestUrl);
 
     axios
-      .post(requestUrl,  {headers})
+      .post(requestUrl, {headers})
       .then(response => {
         console.log('AXIOS RESPONSE ON API', response);
         if (response.status == '200') {
@@ -70,8 +70,41 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
       });
   });
 
+  const multipostRequest = ({url, needAuth, data, hideLoader = false}) =>
+    new Promise((resolve, reject) => {
+      const headerWithoutAuth = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      const headers = headerWithoutAuth;
+      const requestUrl = Config.API_URL + url;
+      console.log('Request params ==> ', data, ' ==> ', requestUrl);
+
+      axios
+        .post(requestUrl, data,{headers})
+        .then(response => {
+          console.log('AXIOS RESPONSE ON API', response);
+          if (response.status == '200') {
+            resolve(response.data);
+          } else if (response.status == 401) {
+            NavigationService.reset('LoginScreen');
+            reject(response.data);
+          } else {
+            Toast.show(response.data.message, Toast.SHORT);
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          reject(error);
+          console.log('errorr==>', error);
+          if (error == 'Network Error')
+            Toast.show('Check Internet Connection', Toast.SHORT);
+        });
+    });
+
 
 export default {
   multipartRequest,
   multiGetRequest,
+  multipostRequest
 };
