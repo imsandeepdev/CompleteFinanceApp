@@ -196,6 +196,21 @@ const AppContent = {
       RoleName: 'Saving',
     },
   ],
+
+  LoanProposalHeader:[
+    {
+      id: '1',
+      title: 'Income Details',
+    },
+    {
+      id: '2',
+      title: 'Monthly Expenses',
+    },
+    {
+      id: '3',
+      title: 'Loan Proposal',
+    }
+  ]
 };
 
 export default AppContent

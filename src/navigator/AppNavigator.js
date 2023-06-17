@@ -15,6 +15,7 @@ import ApplicantForm from '../screens/ApplicantForm';
 import CenterForm from '../screens/CenterForm';
 import GroupForm from '../screens/GroupForm';
 import GrtForm from '../screens/GrtForm';
+import LoanProposal from '../screens/LoanProposal';
 
 
 const Stack = createStackNavigator();
@@ -75,6 +76,11 @@ const AppNavigator = props => {
           <Stack.Screen
             name="GrtForm"
             component={GrtForm}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="LoanProposal"
+            component={LoanProposal}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

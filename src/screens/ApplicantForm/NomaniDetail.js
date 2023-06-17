@@ -52,36 +52,46 @@ const NomaniDetail = (props) => {
             onPress={props.onPress_nomaniRelation}
             headTitle={'Nomani Relation'}
             title={
-              props.title_nomaniRelation != ''
+              props.title_nomaniRelation != null
                 ? props.title_nomaniRelation
                 : 'Nomani Relation'
             }
             TextColor={
-              props.title_nomaniRelation != ''
+              props.title_nomaniRelation != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_nomaniRelation != ''
+              props.title_nomaniRelation != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
             rightIcon={R.images.dropdownIcon}
           />
-          <AppTextInput
-            placeholder={'Nomani KYP Name'}
-            headTitle={'Nomani KYP Name'}
+          <AppCardPress
+            onPress={props.onPress_nomaniKycType}
+            headTitle={'Nomani KYC Type'}
+            title={
+              props.title_nomaniKycType != null
+                ? props.title_nomaniKycType
+                : 'Nomani KYC Type'
+            }
+            TextColor={
+              props.title_nomaniKycType != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
             headTitleColor={
-              props.value_nomaniKYPName != ''
+              props.title_nomaniKycType != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
-            value={props.value_nomaniKYPName}
-            onChangeText={props.onChange_nomaniKYPName}
+            rightIcon={R.images.dropdownIcon}
           />
+
           <AppTextInput
-            placeholder={'Nomani KYP Mob No'}
-            headTitle={'Nomani KYP Mob No'}
+            placeholder={'Nomani KYC No'}
+            headTitle={'Nomani KYC No'}
             headTitleColor={
               props.value_nomaniKYPMobNo != ''
                 ? R.colors.darkGreenColor
@@ -92,11 +102,11 @@ const NomaniDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_nomaniKYPDocument}
-            headTitle={'Nomani KYP Document'}
+            headTitle={'Nomani KYC Document'}
             title={
               props.title_nomaniKYPDocument != ''
                 ? props.title_nomaniKYPDocument
-                : 'Nomani KYP Document'
+                : 'Nomani KYC Document'
             }
             TextColor={
               props.title_nomaniKYPDocument != ''
@@ -112,21 +122,31 @@ const NomaniDetail = (props) => {
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
             Iconwidth={R.fontSize.Size22}
+            selectedDoc={props.selectedDoc}
           />
-          <AppTextInput
-            placeholder={'Nomani KYP Name2'}
-            headTitle={'Nomani KYP Name2'}
+          <AppCardPress
+            onPress={props.onPress_nomaniKycType2}
+            headTitle={'Nomani KYC Type 2'}
+            title={
+              props.title_nomaniKycType2 != null
+                ? props.title_nomaniKycType2
+                : 'Nomani KYC Type 2'
+            }
+            TextColor={
+              props.title_nomaniKycType2 != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
             headTitleColor={
-              props.value_nomaniKYPName2 != ''
+              props.title_nomaniKycType2 != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
-            value={props.value_nomaniKYPName2}
-            onChangeText={props.onChange_nomaniKYPName2}
+            rightIcon={R.images.dropdownIcon}
           />
           <AppTextInput
-            placeholder={'Nomani KYP Mob No2'}
-            headTitle={'Nomani KYP Mob No2'}
+            placeholder={'Nomani KYC No2'}
+            headTitle={'Nomani KYC No2'}
             headTitleColor={
               props.value_nomaniKYPMobNo2 != ''
                 ? R.colors.darkGreenColor
@@ -182,7 +202,7 @@ const NomaniDetail = (props) => {
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Pressable
-                onPress={() => setSameNomaniDetail(!sameNomaniDetail)}
+                onPress={props.sameNomaniOnPress}
                 style={{
                   height: R.fontSize.Size25,
                   width: R.fontSize.Size25,
@@ -196,9 +216,7 @@ const NomaniDetail = (props) => {
                   style={{
                     height: '100%',
                     width: '100%',
-                    backgroundColor: sameNomaniDetail
-                      ? R.colors.appColor
-                      : R.colors.white,
+                    backgroundColor: props.sameNomaniBackgroundColor,
                   }}
                 />
               </Pressable>
@@ -254,36 +272,46 @@ const NomaniDetail = (props) => {
               onPress={props.onPress_coApplicantRelation}
               headTitle={'CoApplicant Relation'}
               title={
-                props.title_coApplicantRelation != ''
+                props.title_coApplicantRelation != null
                   ? props.title_coApplicantRelation
                   : 'CoApplicant Relation'
               }
               TextColor={
-                props.title_coApplicantRelation != ''
+                props.title_coApplicantRelation != null
                   ? R.colors.secAppColor
                   : R.colors.placeholderTextColor
               }
               headTitleColor={
-                props.title_coApplicantRelation != ''
+                props.title_coApplicantRelation != null
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
               rightIcon={R.images.dropdownIcon}
             />
-            <AppTextInput
-              placeholder={'CoApplicant KYP Name'}
-              headTitle={'CoApplicant KYP Name'}
+            <AppCardPress
+              onPress={props.onPress_coApplicantKycType}
+              headTitle={'CoApplicant KYC Type'}
+              title={
+                props.title_coApplicantKycType != null
+                  ? props.title_coApplicantKycType
+                  : 'CoApplicant KYC Type'
+              }
+              TextColor={
+                props.title_coApplicantKycType != null
+                  ? R.colors.secAppColor
+                  : R.colors.placeholderTextColor
+              }
               headTitleColor={
-                props.value_coApplicantKYPName != ''
+                props.title_coApplicantKycType != null
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
-              value={props.value_coApplicantKYPName}
-              onChangeText={props.onChange_coApplicantKYPName}
+              rightIcon={R.images.dropdownIcon}
             />
+
             <AppTextInput
-              placeholder={'CoApplicant KYP Mob No'}
-              headTitle={'CoApplicant KYP Mob No'}
+              placeholder={'CoApplicant KYC No'}
+              headTitle={'CoApplicant KYC No'}
               headTitleColor={
                 props.value_coApplicantKYPMobNo != ''
                   ? R.colors.darkGreenColor
@@ -294,11 +322,11 @@ const NomaniDetail = (props) => {
             />
             <AppCardPress
               onPress={props.onPress_coApplicantKYPDocument}
-              headTitle={'CoApplicant KYP Document'}
+              headTitle={'CoApplicant KYC Document'}
               title={
                 props.title_coApplicantKYPDocument != ''
                   ? props.title_coApplicantKYPDocument
-                  : 'CoApplicant KYP Document'
+                  : 'CoApplicant KYC Document'
               }
               TextColor={
                 props.title_coApplicantKYPDocument != ''
@@ -315,35 +343,34 @@ const NomaniDetail = (props) => {
               Iconheight={R.fontSize.Size22}
               Iconwidth={R.fontSize.Size22}
             />
-            <AppTextInput
-              placeholder={'CoApplicant KYP Name2'}
-              headTitle={'CoApplicant KYP Name2'}
+
+            <AppCardPress
+              onPress={props.onPress_coApplicantKycType2}
+              headTitle={'CoApplicant KYC Type2'}
+              title={
+                props.title_coApplicantKycType2 != null
+                  ? props.title_coApplicantKycType2
+                  : 'CoApplicant KYC Type2'
+              }
+              TextColor={
+                props.title_coApplicantKycType2 != null
+                  ? R.colors.secAppColor
+                  : R.colors.placeholderTextColor
+              }
               headTitleColor={
-                props.value_coApplicantKYPName2 != ''
+                props.title_coApplicantKycType2 != null
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
-              value={props.value_coApplicantKYPName2}
-              onChangeText={props.onChange_coApplicantKYPName2}
-            />
-            <AppTextInput
-              placeholder={'CoApplicant KYP Mob No2'}
-              headTitle={'CoApplicant KYP Mob No2'}
-              headTitleColor={
-                props.value_coApplicantKYPMobNo2 != ''
-                  ? R.colors.darkGreenColor
-                  : R.colors.textPriColor
-              }
-              value={props.value_coApplicantKYPMobNo2}
-              onChangeText={props.onChange_coApplicantKYPMobNo2}
+              rightIcon={R.images.dropdownIcon}
             />
             <AppCardPress
               onPress={props.onPress_coApplicantKYPDocument2}
-              headTitle={'CoApplicant KYP Document2'}
+              headTitle={'CoApplicant KYC Document2'}
               title={
                 props.title_coApplicantKYPDocument2 != ''
                   ? props.title_coApplicantKYPDocument2
-                  : 'CoApplicant KYP Document2'
+                  : 'CoApplicant KYC Document2'
               }
               TextColor={
                 props.title_coApplicantKYPDocument2 != ''

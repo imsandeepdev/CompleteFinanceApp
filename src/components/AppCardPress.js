@@ -29,7 +29,7 @@ const AppCardPress = props => {
             alignItems: 'center',
             borderWidth: 1.3,
             borderColor: R.colors.darkGreenColor,
-            borderStyle: props.borderStyle
+            borderStyle: props.borderStyle,
           },
         ]}>
         {props.leftIcon && (
@@ -89,6 +89,7 @@ const AppCardPress = props => {
           {props.headTitle}
         </Text>
       </View>
+      {props.selectedDoc}
     </View>
   );
 };

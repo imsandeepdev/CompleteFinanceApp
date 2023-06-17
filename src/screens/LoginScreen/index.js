@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = (props) => {
 
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +52,7 @@ const LoginScreen = (props) => {
     }
 
     const onHandleLogin = () => {
+      setLoading(true)
       let data = {
         Logincode: userName,
         password: password,
@@ -58,22 +60,27 @@ const LoginScreen = (props) => {
       dispatch(
         SignInRequest(data,response => {
           console.log('SignIn response==>', response);
-          if (response.message == 'Success') {
+          if (response.entity.entity[0].Result == 1) {
+            setLoading(false);
+
             props.navigation.navigate('RoleSelectionScreen', {
               user_id: response.entity.entity[0].LoginId,
             });
-            AsyncStorage.setItem('userid', response.entity[0].LoginId);
-          }
-          else
-          {
-            Toast.show('Please enter valid username and password', Toast.SHORT)
+            AsyncStorage.setItem('userid', response.entity.entity[0].LoginId);
+          } else {
+            setLoading(false);
+
+            Toast.show('Please enter valid username and password', Toast.SHORT);
           }
         }),
       );
     };
 
+   
     return (
-        <StoryScreen>
+        <StoryScreen
+        loading={loading}
+        >
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,

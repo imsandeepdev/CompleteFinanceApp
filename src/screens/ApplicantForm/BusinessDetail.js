@@ -92,17 +92,17 @@ const BusinessDetail = (props) => {
             onPress={props.onPress_houseStatus}
             headTitle={'house Status'}
             title={
-              props.title_houseStatus != ''
+              props.title_houseStatus != null
                 ? props.title_houseStatus
                 : 'house Status'
             }
             TextColor={
-              props.title_houseStatus != ''
+              props.title_houseStatus != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_houseStatus != ''
+              props.title_houseStatus != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -112,17 +112,17 @@ const BusinessDetail = (props) => {
             onPress={props.onPress_natureBusiness}
             headTitle={'Nature of business'}
             title={
-              props.title_natureBusiness != ''
+              props.title_natureBusiness != null
                 ? props.title_natureBusiness
                 : 'Nature of business'
             }
             TextColor={
-              props.title_natureBusiness != ''
+              props.title_natureBusiness != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_natureBusiness != ''
+              props.title_natureBusiness != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }

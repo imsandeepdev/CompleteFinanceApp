@@ -58,15 +58,10 @@ const Menu = props => {
     const screenFocus = async() => {
       let user_id = await AsyncStorage.getItem('userid')
       handleProfile(user_id)
-      handleMenuListAPI()
+   
     }
 
-    const handleMenuListAPI = () => {
-      dispatch(GetMenuListRequest(response=>{
-        console.log("Menu List Res==>",response)
-        setMenuList(response.entity.entity);
-      }))
-    }
+
 
     const handleProfile = (userid) => {
       dispatch(UserProfileRequest(userid, response =>{
@@ -117,16 +112,6 @@ const Menu = props => {
           contentContainerStyle={{
             flexGrow: 1,
           }}>
-          {menuList.map((item, index) => {
-            return (
-              <CustomDrawerButton
-                key={index}
-                title={item.Title}
-                image={R.images.dashboardIcon}
-                onPress={() => props.navigation.navigate('ApplicantForm')}
-              />
-            );
-          })}
           <CustomDrawerButton
             title={'Dashboard'}
             image={R.images.dashboardIcon}
@@ -135,27 +120,17 @@ const Menu = props => {
           <CustomDrawerButton
             title={'Profile'}
             image={R.images.aboutIcon}
-            onPress={() => props.navigation.navigate('HomeScreen')}
+            onPress={() => props.navigation.navigate('LoanProposal')}
           />
           <CustomDrawerButton
-            title={'Applicant'}
+            title={'About us'}
             image={R.images.aboutIcon}
-            onPress={() => props.navigation.navigate('ApplicantForm')}
+            onPress={() => console.log('onpress')}
           />
           <CustomDrawerButton
-            title={'Center Form'}
+            title={'Setting'}
             image={R.images.settingIcon}
-            onPress={() => props.navigation.navigate('CenterForm')}
-          />
-          <CustomDrawerButton
-            title={'Group Form'}
-            image={R.images.settingIcon}
-            onPress={() => props.navigation.navigate('GroupForm')}
-          />
-          <CustomDrawerButton
-            title={'Grt Form'}
-            image={R.images.settingIcon}
-            onPress={() => props.navigation.navigate('GrtForm')}
+            onPress={() => console.log('onpress')}
           />
         </ScrollView>
         <View

@@ -6,4 +6,8 @@ export const Config = {
   roleAPI: '/Account/GetRoleList?UserId=',
   ProfileAPI: '/Account/UserProfile?UserId=',
   GetMenuListAPI: '/User/GetMenuList',
+  dropDownAPI: '/User/GetCustomerMasterDropdown?mode=',
+  saveCustomerAPI: '/User/SaveCustomer',
+
+
 };

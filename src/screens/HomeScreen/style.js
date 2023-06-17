@@ -83,6 +83,7 @@ const style = StyleSheet.create({
   customCardFlatView: {
     marginHorizontal: R.fontSize.Size6,
     borderWidth: 1,
+    
     padding: R.fontSize.Size5,
     width: R.fontSize.Size120,
     height: R.fontSize.Size90,
@@ -102,10 +103,11 @@ const style = StyleSheet.create({
   },
   customCardTitleText: {
     fontFamily:R.fonts.medium,
-    fontSize: R.fontSize.Size14,
+    fontSize: R.fontSize.Size12,
     color: R.colors.secAppColor,
     textAlign: 'center',
-    marginTop: R.fontSize.Size5,
+    marginTop: R.fontSize.Size6,
+    fontWeight:'600'
   },
 });
 

@@ -26,19 +26,19 @@ import moment from 'moment';
 
 let tempList1 = [
   {
-    id: 0,
+    id: 1,
     title: 'Support1',
   },
   {
-    id: 1,
+    id: 2,
     title: 'Support2',
   },
   {
-    id: 2,
+    id: 3,
     title: 'Support3',
   },
   {
-    id: 3,
+    id: 4,
     title: 'Support4',
   },
 ];
@@ -76,6 +76,7 @@ const GroupForm = props => {
     console.log('ONCLICK==>', item);
     setOnDeSelectValue(item);
     setOnDeSelect(onDeSelect == item.id ? 0 : item.id);
+    
   };
 
   const onHandlePush = () => {
@@ -83,6 +84,8 @@ const GroupForm = props => {
     setOnSelectTemp1(tempList);
     console.log('temp selected==>', tempList);
     setOnSelectedArray([...onSelectedArray, onSelectValue]);
+    setOnSelect('');
+    setOnDeSelect('')
   };
 
   const onHandlePop = () => {
@@ -90,6 +93,8 @@ const GroupForm = props => {
       setOnSelectedArray(tempList);
       console.log('temp selected==>', tempList);
       setOnSelectTemp1([...onSelectTemp1, onDeSelectValue]);
+       setOnSelect('');
+       setOnDeSelect('');
   };
 
   return (
@@ -242,12 +247,16 @@ const GroupForm = props => {
                       padding: R.fontSize.Size4,
                     }}>
                     <Pressable
+                      disabled={onSelect != '' ? false : true}
                       onPress={() => onHandlePush()}
                       style={{
                         borderWidth: 1,
                         padding: R.fontSize.Size5,
                         borderRadius: R.fontSize.Size5,
-                        backgroundColor: R.colors.appColor,
+                        backgroundColor:
+                          onSelect != ''
+                            ? R.colors.appColor
+                            : R.colors.lightWhite,
                       }}>
                       <Image
                         source={R.images.backIcon}
@@ -261,12 +270,15 @@ const GroupForm = props => {
                     </Pressable>
 
                     <Pressable
+                      disabled={onDeSelect != '' ? false : true}
                       onPress={() => onHandlePop()}
                       style={{
                         borderWidth: 1,
                         padding: R.fontSize.Size5,
                         borderRadius: R.fontSize.Size5,
-                        backgroundColor: R.colors.appColor,
+                        backgroundColor: onDeSelect != ''
+                            ? R.colors.appColor
+                            : R.colors.lightWhite,
                       }}>
                       <Image
                         source={R.images.backIcon}
@@ -297,7 +309,10 @@ const GroupForm = props => {
                             borderBottomWidth: 1,
                             borderColor: R.colors.placeholderTextColor,
                             padding: R.fontSize.Size5,
-                            backgroundColor:item.id == onDeSelect ? R.colors.appColor: R.colors.lightWhite,
+                            backgroundColor:
+                              item.id == onDeSelect
+                                ? R.colors.appColor
+                                : R.colors.lightWhite,
                           }}>
                           <Text>{item.title}</Text>
                         </Pressable>

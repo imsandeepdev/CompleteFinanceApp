@@ -15,6 +15,7 @@ const images = {
   backIcon: require('./images/back_icon.png'),
   galleryIcon: require('./images/galleryIcon.png'),
   documentIcon: require('./images/document.png'),
+  applicantIcon: require('./images/applicantIcon3.png'),
 };
 
 export {images}

@@ -13,7 +13,9 @@ import GenralDetail from './GenralDetail';
 import AddressDetail from './AddressDetail';
 import BankDetail from './BankDetail';
 import BusinessDetail from './BusinessDetail';
-const screenWidth = Dimensions.get('screen').width
+const screenWidth = Dimensions.get('screen').width;
+import {useDispatch,connect} from 'react-redux';
+import { GenderListRequest } from '../../actions/dropdown.action';
 
 const headerList = [
   {
@@ -40,6 +42,7 @@ const headerList = [
 
 const ApplicantForm = (props) => {
 
+    const dispatch = useDispatch()
     const [selectedHeader, setSelectedHeader] = useState(0)
     const [listModal, setListModal] = useState(false);
     const [listModalData, setListModalData] = useState([]);
@@ -100,6 +103,9 @@ const ApplicantForm = (props) => {
   const [coApplicantKYPName2, setCoApplicantKYPName2] = useState('');
   const [coApplicantKYPMobNo2, setCoApplicantKYPMobNo2] = useState('');
   const [coApplicantKYPDocument2, setCoApplicantKYPDocument2] = useState('');
+  const [sameNomaniDetail, setSameNomaniDetail] = useState(false);
+
+  const [selectNomaniKYPDocument, setSelectNomaniKYPDocument] = useState({});
 
 
 
@@ -152,8 +158,7 @@ const ApplicantForm = (props) => {
               cropping: true,
             }).then(image => {
               console.log('Image===>', image);
-              setApplicantPic(image);
-              setGalleryModalVisible(false);
+             
             });
           }
      
@@ -173,46 +178,190 @@ const ApplicantForm = (props) => {
 
     const handleRoleSelect = item => {
       console.log('select Role==>', item);
-      listModalType == 'Gender' && setGender(item.RoleName)
-      listModalType == 'MaritalStatus' && setMaritalStatus(item.RoleName);
-      listModalType == 'MemberQualification' && setMemberQualification(item.RoleName);
-      listModalType == 'Religion' && setMemberReligion(item.RoleName);
-      listModalType == 'Caste' && setMemberCaste(item.RoleName);
-      listModalType == 'houseStatus' && setHouseStatus(item.RoleName);
-      listModalType == 'NatureofBusiness' && setNatureBusiness(item.RoleName);
+      listModalType == 'Gender' && setGender(item)
+      listModalType == 'MaritalStatus' && setMaritalStatus(item);
+      listModalType == 'MemberQualification' && setMemberQualification(item);
+      listModalType == 'Religion' && setMemberReligion(item);
+      listModalType == 'Caste' && setMemberCaste(item);
+      listModalType == 'houseStatus' && setHouseStatus(item);
+      listModalType == 'NatureofBusiness' && setNatureBusiness(item);
       listModalType == 'noFamilyMember' && setNoOfFamilyMember(item.RoleName);
       listModalType == 'noOfDaughter' && setNoOfDaughter(item.RoleName);
       listModalType == 'noOfSon' && setNoOfSon(item.RoleName);
-      listModalType == 'accountType' && setAccountType(item.RoleName);
+      listModalType == 'accountType' && setAccountType(item);
       listModalType == 'HusbandQualification' &&
-        setHusbandQualification(item.RoleName);
-      listModalType == 'NomaniRelation' && setNomaniRelation(item.RoleName);
+        setHusbandQualification(item);
+      listModalType == 'NomaniRelation' && setNomaniRelation(item);
       listModalType == 'CoApplicantRelation' &&
-        setCoApplicantRelation(item.RoleName);
+        setCoApplicantRelation(item);
+      listModalType == 'NomaniKYCType' && setNomaniKYPName(item);
+      listModalType == 'NomaniKYCType2' && setNomaniKYPName2(item);
+      listModalType == 'coApplicantKycType' && setCoApplicantKYPName(item);
+      listModalType == 'coApplicantKycType2' && setCoApplicantKYPName2(item);
 
+      setListModalData([])
       setListModal(false);
     };
 
     const handleListModal = (type) => {
       setListModalType(type)
-      setListModal(true)
-      type == 'Gender' && setListModalData(AppContent.genderList)
-      type == 'MaritalStatus' && setListModalData(AppContent.maritalStatusList)
-      type == 'MemberQualification' && setListModalData(AppContent.memberQualification);
-      type == 'Religion' && setListModalData(AppContent.religionList);
-      type == 'Caste' && setListModalData(AppContent.casteList);
-      type == 'houseStatus' && setListModalData(AppContent.houseStatusList);
-      type == 'NatureofBusiness' && setListModalData(AppContent.natureBusinessList);
+      type == 'Gender' && handleDropDownList('Gender')
+      type == 'MaritalStatus' && handleDropDownList('Marital Status');
+      type == 'MemberQualification' && handleDropDownList('Qualification');
+      type == 'Religion' && handleDropDownList('Religion');
+      type == 'Caste' && handleDropDownList('Caste');
+      type == 'houseStatus' && handleDropDownList('House Status');
+      type == 'NatureofBusiness' && handleDropDownList('Nature O Business');
       type == 'noFamilyMember' && setListModalData(AppContent.noOfMember);
       type == 'noOfDaughter' && setListModalData(AppContent.noOfMember);
       type == 'noOfSon' && setListModalData(AppContent.noOfMember);
-      type == 'accountType' && setListModalData(AppContent.accountType);
-      type == 'HusbandQualification' &&
-        setListModalData(AppContent.memberQualification);
-      type == 'NomaniRelation' && setListModalData(AppContent.NomanidataList);
-      type == 'CoApplicantRelation' &&
-        setListModalData(AppContent.NomanidataList);;
+      type == 'accountType' && handleDropDownList('Account Type');
+      type == 'HusbandQualification' && handleDropDownList('Qualification');
+      type == 'NomaniRelation' && handleDropDownList('Relation');
+      type == 'CoApplicantRelation' && handleDropDownList('Relation');
+      type == 'NomaniKYCType' && handleDropDownList('KYC');
+      type == 'NomaniKYCType2' && handleDropDownList('KYC');
+      type == 'coApplicantKycType' && handleDropDownList('KYC');
+      type == 'coApplicantKycType2' && handleDropDownList('KYC');
+
+
+        setListModal(true);
+    
     }
+
+    const handleDropDownList = (mode_type) => {
+      dispatch(GenderListRequest(mode_type, response =>{
+        console.log("Drop Down List Response==>", response)
+        if (response.statusCode==200)
+        {
+        setListModalData(response.entity.entity);
+        }
+      }))
+    }
+
+    const handleSameNomani = ()=>{
+      setSameNomaniDetail(!sameNomaniDetail);
+      !sameNomaniDetail
+        ? (setCoApplicantName(nomaniName),
+          setCoApplicantDob(nomaniDob),
+          setCoApplicantRelation(nomaniRelation),
+          setCoApplicantKYPName(nomaniKYPName),
+          setCoApplicantKYPMobNo(nomaniKYPMobNo),
+          setCoApplicantKYPName2(nomaniKYPName2),
+          setCoApplicantKYPMobNo2(nomaniKYPMobNo2))
+        : (setCoApplicantName(''),
+          setCoApplicantDob(''),
+          setCoApplicantRelation(''),
+          setCoApplicantKYPName(''),
+          setCoApplicantKYPMobNo(''),
+          setCoApplicantKYPName2(''),
+          setCoApplicantKYPMobNo2(''));
+    }
+
+    const handleNomaniDocPicker = () => {
+      console.log("PICKER")
+       ImagePicker.openPicker({
+         width: 400,
+         height: 400,
+         cropping: true,
+       }).then(image => {
+         console.log('Image===>', image);
+         let tempDoc = []
+         tempDoc.push(image)
+         setSelectNomaniKYPDocument(image);
+       });
+    }
+
+    const handleSubmitData = {
+      staffId: 0,
+      branchId: 0,
+      firstName: fname,
+      middleName: mname,
+      lastName: lname,
+      husbandname: husbandName,
+      fatherName: fatherName,
+      applicantDateofbirth: birthDate,
+      joinDate: '2023-06-17T07:27:54.007Z',
+      applicantAddress: 'string',
+      houseNo: houseNo,
+      street: streetName,
+      stateId: stateName,
+      districtId: 0,
+      contactNo: contactNo,
+      aContactNo: altContactNo,
+      email: email,
+      p_ApplicantAddress: 'string',
+      pHouseNo: perHouseNo,
+      pStreet: perStreetName,
+      pStateId: perStateName,
+      pDistrictId: 'string',
+      contactNo2: 'string',
+      acontactNo2: 'string',
+      emailID: email,
+      birthPlace: birthPlace,
+      photo: applicantPic.path,
+      gender: gender,
+      maritalstatus: maritalStatus,
+      kyCtype1: 0,
+      kyC_No: 0,
+      kyCtype2: 0,
+      kyC_No2: 'string',
+      loanproducttype: 0,
+      langitude: 0,
+      latitude: 0,
+      biometricReference: 'string',
+      isTransfered: 0,
+      dropOutStatus: 'string',
+      dropOutDate: '2023-06-17T07:27:54.007Z',
+      dropOutReason: 'string',
+      custOtherID: 0,
+      nomineeName: nomaniName,
+      nomineeRelation: nomaniRelation,
+      dateofbirth: nomaniDob,
+      nomineeKYPName1: nomaniKYPName,
+      nomineeKYCNo1: nomaniKYPMobNo,
+      nomineeKYCdoc: nomaniKYPDocument,
+      nomineeKYPName2: nomaniKYPName2,
+      nomineeKYCNo2: nomaniKYPMobNo2,
+      nomineeKYCdoc2: nomaniKYPDocument2,
+      houseStatus: houseStatus.RuleID,
+      natureOfBusiness: natureBusiness.RuleID,
+      businessName: businessName,
+      businessAddress: businessAddress,
+      nomineeID: 0,
+      religion: memberReligion,
+      bankdetailId: 0,
+      boId: 0,
+      bankName: bankName,
+      accountNo: accountNo,
+      ifscCode: ifscCode,
+      accountHolderName: accountHolder,
+      accountType: accountType.RuleID,
+      bankBranchName: branchName,
+      documenttype: 'string',
+      imagedocument: 'string',
+      caste: memberCaste,
+      noOfMembers: noOfFamilyMember,
+      dAgeabove18: noOfDaughter,
+      sAgeabove18: noOfSon,
+      totalArea: landArea,
+      assetDetail: assetDetail,
+      assetValue: assetValue,
+      residenceStatus: true,
+      memberqualification: true,
+      husbandqualification: true,
+      coapplicantName: coApplicantName,
+      coapplicantKYPName1: coApplicantKYPName,
+      coapplicantKYCNo1: coApplicantKYPMobNo,
+      coapplicantKYCdoc: coApplicantKYPDocument,
+      coapplicantRelation: coApplicantRelation,
+      isDeleted: false,
+      usetid: 0,
+      coapplicantID: 0,
+      createdDate: new Date(),
+      updatedBy: 0,
+      updatedDate: new Date(),
+    };
 
     return (
       <StoryScreen>
@@ -287,19 +436,19 @@ const ApplicantForm = (props) => {
                       nextOnPress={() => setSelectedHeader(1)}
                       title_birthDate={birthDate}
                       onPressBirthDate={() => setIsDisplayDate(true)}
-                      title_gender={gender}
+                      title_gender={gender.RoleName}
                       onPressGender={() => handleListModal('Gender')}
-                      title_maritalStatus={maritalStatus}
+                      title_maritalStatus={maritalStatus.RoleName}
                       onPressMaritalStatus={() =>
                         handleListModal('MaritalStatus')
                       }
-                      title_memberQualification={memberQualification}
+                      title_memberQualification={memberQualification.RoleName}
                       onPressMemberQualification={() =>
                         handleListModal('MemberQualification')
                       }
-                      title_memberReligion={memberReligion}
+                      title_memberReligion={memberReligion.RoleName}
                       onPressMemberReligion={() => handleListModal('Religion')}
-                      title_memberCaste={memberCaste}
+                      title_memberCaste={memberCaste.RoleName}
                       onPressMemberCaste={() => handleListModal('Caste')}
                       value_fatherName={fatherName}
                       onChange_fatherName={text => setFatherName(text)}
@@ -307,7 +456,7 @@ const ApplicantForm = (props) => {
                       onChange_motherName={text => setMotherName(text)}
                       value_husbandName={husbandName}
                       onChange_husbandName={text => setHusbandName(text)}
-                      title_husbandQualification={husbandQualification}
+                      title_husbandQualification={husbandQualification.RoleName}
                       onPress_husbandQualification={() =>
                         handleListModal('HusbandQualification')
                       }
@@ -347,52 +496,83 @@ const ApplicantForm = (props) => {
                       onChange_nomaniName={text => setNomaniName(text)}
                       title_nomaniDob={nomaniDob}
                       onPress_nomaniDob={() => setNomaniDisplayDate(true)}
-                      title_nomaniRelation={nomaniRelation}
+                      title_nomaniRelation={nomaniRelation.RoleName}
                       onPress_nomaniRelation={() =>
                         handleListModal('NomaniRelation')
                       }
-                      value_nomaniKYPName={nomaniKYPName}
-                      onChange_nomaniKYPName={text => setNomaniKYPName(text)}
+                      onPress_nomaniKycType={() => {
+                        handleListModal('NomaniKYCType');
+                      }}
+                      title_nomaniKycType={nomaniKYPName.RoleName}
                       value_nomaniKYPMobNo={nomaniKYPMobNo}
                       onChange_nomaniKYPMobNo={text => setNomaniKYPMobNo(text)}
-                      value_nomaniKYPName2={nomaniKYPName2}
-                      onChange_nomaniKYPName2={text => setNomaniKYPName2(text)}
+                      onPress_nomaniKycType2={() => {
+                        handleListModal('NomaniKYCType2');
+                      }}
+                      title_nomaniKycType2={nomaniKYPName2.RoleName}
                       value_nomaniKYPMobNo2={nomaniKYPMobNo2}
                       onChange_nomaniKYPMobNo2={text =>
                         setNomaniKYPMobNo2(text)
                       }
                       title_nomaniKYPDocument={nomaniKYPDocument}
-                      onPress_nomaniKYPDocument={() => console.log('KYP')}
+                      onPress_nomaniKYPDocument={() => handleNomaniDocPicker()}
+                      selectedDoc={
+                        <Pressable
+                          style={{
+                            height: 70,
+                            width: 80,
+                            marginTop: R.fontSize.Size2,
+                            borderRadius: R.fontSize.Size4,
+                            overflow: 'hidden',
+                          }}>
+                          <Image
+                            source={{uri: selectNomaniKYPDocument.path}}
+                            style={{
+                              height: '100%',
+                              width: '100%',
+                            }}
+                            resizeMode={'cover'}
+                          />
+                        </Pressable>
+                      }
                       title_nomaniKYPDocument2={nomaniKYPDocument2}
                       onPress_nomaniKYPDocument2={() => console.log('KYP')}
                       value_coApplicantName={coApplicantName}
                       onChange_coApplicantName={text =>
                         setCoApplicantName(text)
                       }
+                      sameNomaniOnPress={() => handleSameNomani()}
+                      sameNomaniBackgroundColor={
+                        sameNomaniDetail ? R.colors.appColor : R.colors.white
+                      }
                       title_coApplicantDob={coApplicantDob}
-                      onPress_coApplicantDob={() => setCoApplicantDob(true)}
-                      title_coApplicantRelation={coApplicantRelation}
+                      onPress_coApplicantDob={() =>
+                        setCoApplicantDisplayDate(true)
+                      }
+                      title_coApplicantRelation={coApplicantRelation.RoleName}
                       onPress_coApplicantRelation={() =>
                         handleListModal('CoApplicantRelation')
                       }
-                      value_coApplicantKYPName={coApplicantKYPName}
-                      onChange_coApplicantKYPName={text =>
-                        setCoApplicantKYPName(text)
-                      }
+                      onPress_coApplicantKycType={() => {
+                        handleListModal('coApplicantKycType');
+                      }}
+                      title_coApplicantKycType={coApplicantKYPName.RoleName}
                       value_coApplicantKYPMobNo={coApplicantKYPMobNo}
                       onChange_coApplicantKYPMobNo={text =>
                         setCoApplicantKYPMobNo(text)
                       }
-                      value_coApplicantKYPName2={coApplicantKYPName2}
-                      onChange_coApplicantKYPName2={text =>
-                        setCoApplicantKYPName2(text)
-                      }
+                      onPress_coApplicantKycType2={() => {
+                        handleListModal('coApplicantKycType2');
+                      }}
+                      title_coApplicantKycType2={coApplicantKYPName2.RoleName}
                       value_coApplicantKYPMobNo2={coApplicantKYPMobNo2}
                       onChange_coApplicantKYPMobNo2={text =>
                         setCoApplicantKYPMobNo2(text)
                       }
                       title_coApplicantKYPDocument={coApplicantKYPDocument}
-                      onPress_coApplicantKYPDocument={() => console.log('KYP')}
+                      onPress_coApplicantKYPDocument={() =>
+                        handleNomaniDocPicker()
+                      }
                       title_coApplicantKYPDocument2={coApplicantKYPDocument2}
                       onPress_coApplicantKYPDocument2={() => console.log('KYP')}
                       nextOnPress={() => setSelectedHeader(2)}
@@ -412,6 +592,22 @@ const ApplicantForm = (props) => {
                       }}
                       onCancel={() => {
                         setNomaniDisplayDate(false);
+                      }}
+                    />
+                    <DatePicker
+                      modal
+                      maximumDate={new Date()}
+                      minimumDate={new Date('1940-01-01')}
+                      open={coApplicantDisplayDate}
+                      date={new Date('2000-01-01')}
+                      mode="date"
+                      onConfirm={date => {
+                        setCoApplicantDisplayDate(false);
+                        console.log('DATE', date);
+                        setCoApplicantDob(moment(date).format('Do-MMM-YYYY'));
+                      }}
+                      onCancel={() => {
+                        setCoApplicantDisplayDate(false);
                       }}
                     />
                   </View>
@@ -469,7 +665,7 @@ const ApplicantForm = (props) => {
                       onChange_ifscCode={text => setIfscCode(text)}
                       value_branchName={branchName}
                       onChange_branchName={text => setBranchName(text)}
-                      title_accountType={accountType}
+                      title_accountType={accountType.RoleName}
                       onPress_AccountType={() => handleListModal('accountType')}
                       submitOnPress={() => console.log('ONSUBMIT')}
                       backOnPress={() => setSelectedHeader(3)}
@@ -491,9 +687,9 @@ const ApplicantForm = (props) => {
                       onChange_assetDetail={text => setAssetDetail(text)}
                       value_assetValue={assetValue}
                       onChange_assetValue={text => setAssetValue(text)}
-                      title_houseStatus={houseStatus}
+                      title_houseStatus={houseStatus.RoleName}
                       onPress_houseStatus={() => handleListModal('houseStatus')}
-                      title_natureBusiness={natureBusiness}
+                      title_natureBusiness={natureBusiness.RoleName}
                       onPress_natureBusiness={() =>
                         handleListModal('NatureofBusiness')
                       }

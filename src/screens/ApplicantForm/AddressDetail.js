@@ -27,25 +27,6 @@ const AddressDetail = props => {
   const perpinCodeRef = createRef();
 
 
-
-
-
-  const [houseNo, setHouseNo] = useState('');
-  const [addressArea, setAddressArea] = useState('');
-  const [streetName, setStreetName] = useState('');
-  const [landmark, setLandmark] = useState('');
-  const [cityName, setCityName] = useState('');
-  const [stateName, setStateName] = useState('');
-  const [countryName, setCountryName] = useState('');
-  const [pinCode, setPinCode] = useState('');
-  const [perHouseNo, setPerHouseNo] = useState('');
-  const [perAddressArea, setPerAddressArea] = useState('');
-  const [perStreetName, setPerStreetName] = useState('');
-  const [perLandmark, setPerLandmark] = useState('');
-  const [perCityName, setPerCityName] = useState('');
-  const [perStateName, setPerStateName] = useState('');
-  const [perCountryName, setPerCountryName] = useState('');
-  const [perPinCode, setPerPinCode] = useState('');
   const [sameResidentStatus, setSameResidentStatus] = useState(false)
  
 

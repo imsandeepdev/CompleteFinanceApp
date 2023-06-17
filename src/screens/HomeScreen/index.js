@@ -9,7 +9,8 @@ import {
     SafeAreaView,
     FlatList, 
     Pressable,
-    Animated
+    Animated,
+    ScrollView
   } from 'react-native';
 import {
   AppButton,
@@ -20,11 +21,13 @@ import {
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
+import {useDispatch,connect} from 'react-redux';
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
 
 import Toast from 'react-native-simple-toast';
 import style from './style';
+import { GetMenuListRequest } from '../../actions/role.action';
 
 const HeaderList = [
   {
@@ -61,47 +64,67 @@ const HeaderList = [
 
 const ListOne = [
   {
-    id: '1',
-    title: 'Saving Plan',
-    url: 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png',
+    id: 0,
+    Title: 'Loan Application',
+    icon: 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png',
+    Url: 'ApplicantForm',
   },
   {
-    id: '2',
-    title: 'Money Tree',
-    url: 'https://cdn.iconscout.com/icon/free/png-256/free-agriculture-loan-1795547-1522752.png',
+    id: 1,
+    Title: 'Group Formation',
+    icon: 'https://cdn.iconscout.com/icon/free/png-256/free-agriculture-loan-1795547-1522752.png',
+    Url: 'GroupForm',
   },
   {
-    id: '3',
-    title: 'Home Loan',
-    url: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    id: 2,
+    Title: 'Center Formation',
+    icon: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    Url: 'CenterForm',
   },
   {
-    id: '4',
-    title: 'Family Plan',
-    url: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    id: 3,
+    Title: 'GRT',
+    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    Url: 'GrtForm',
+  },
+  {
+    id: 4,
+    Title: 'Sub Master-2',
+    icon: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    Url: 'GrtForm',
+  },
+  {
+    id: 5,
+    Title: 'Assign Menu',
+    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    Url: 'GrtForm',
   },
 ];
 
 const ListTwo = [
   {
     id: '1',
-    title: 'Corporate Finance',
-    url: 'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-corporate-finance-icon-design-image_1170929.jpg',
+    Title: 'Corporate Finance',
+    icon: 'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-corporate-finance-icon-design-image_1170929.jpg',
+    Url: 'ApplicantForm',
   },
   {
     id: '2',
-    title: 'Muntual fund',
-    url: 'https://www.pngitem.com/pimgs/m/34-349175_mutual-fund-investment-icon-hd-png-download.png',
+    Title: 'Muntual fund',
+    icon: 'https://www.pngitem.com/pimgs/m/34-349175_mutual-fund-investment-icon-hd-png-download.png',
+    Url: 'GroupForm',
   },
   {
     id: '3',
-    title: 'Public finance',
-    url: 'https://img.freepik.com/premium-vector/ppp-public-private-partnership-online-market-safe-finance-investment-vector-stock-illustration_100456-9766.jpg?w=2000',
+    Title: 'Public finance',
+    icon: 'https://img.freepik.com/premium-vector/ppp-public-private-partnership-online-market-safe-finance-investment-vector-stock-illustration_100456-9766.jpg?w=2000',
+    Url: 'CenterForm',
   },
   {
     id: '4',
-    title: 'Family Plan',
-    url: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    Title: 'Family Plan',
+    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    Url: 'GrtForm',
   },
 ];
 
@@ -121,23 +144,36 @@ const CustomCard = (props) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => {
             return (
-              <View
-                key={index}
+              <Pressable
+                onPress={() => props.onPress(item.Url)}
                 style={{paddingLeft: index == 0 ? R.fontSize.Size14 : 0}}>
                 <View style={style.customCardFlatView}>
                   <Image
-                    source={{uri: item.url}}
+                    source={{uri: item.icon}}
+                    resizeMode={'contain'}
+                    style={{
+                      height: R.fontSize.Size45,
+                      width: R.fontSize.Size45,
+                    }}
+                  />
+                  {/* <Image
+                    source={{
+                      uri: 
+                        index % 2 == 0
+                          ? 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png'
+                          : 'https://www.pngitem.com/pimgs/m/34-349175_mutual-fund-investment-icon-hd-png-download.png',
+                    }}
                     resizeMode={'contain'}
                     style={{
                       height: R.fontSize.Size40,
                       width: R.fontSize.Size40,
                     }}
-                  />
-                  <Text style={style.customCardTitleText}
-                    numberOfLines={1}>{`${item.title}`}
+                  /> */}
+                  <Text style={style.customCardTitleText} numberOfLines={1}>
+                    {`${item.Title}`}
                   </Text>
                 </View>
-              </View>
+              </Pressable>
             );
           }}
         />
@@ -149,15 +185,42 @@ const CustomCard = (props) => {
 
 const HomeScreen = props => {
 
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
   const [showMore, setShowMore] = useState(false)
   const [fadeValue] = useState(new Animated.Value(0))
+  const [menuList, setMenuList] = useState([]);
+
+
+useEffect(()=>{
+ const unsubscribe = props.navigation.addListener('focus', () => {
+   screenFocus();
+ });
+ return unsubscribe;
+},[props.navigation])
+
+const screenFocus = () => {
+  handleMenuListAPI();
+}
+
+ const handleMenuListAPI = () => {
+  setLoading(true)
+   dispatch(
+     GetMenuListRequest(response => {
+       console.log('Menu List Res==>', response);
+       setMenuList(response.entity.entity);
+        setLoading(false);
+
+     }),
+   );
+ };
  
 const _start = () => {
   if(!showMore)
   {
 
-     setShowMore(!showMore);
-  
+  setShowMore(!showMore);
   Animated.timing(fadeValue, {
     toValue: 3,
     duration: 3000,
@@ -181,7 +244,7 @@ else
 };
 
   return (
-    <StoryScreen>
+    <StoryScreen loading={loading}>
       <SafeAreaView style={style.mainView}>
         <Header
           onPress={() => props.navigation.toggleDrawer()}
@@ -264,9 +327,7 @@ else
               ]}>
               <Pressable
                 onPress={() => {
-                  _start(),
-                  
-                    console.log('Fade value==>', fadeValue._value);
+                  _start(), console.log('Fade value==>', fadeValue._value);
                 }}
                 style={({pressed}) => [
                   style.dropDownPress,
@@ -283,8 +344,21 @@ else
               </Pressable>
             </View>
           </View>
-          <CustomCard heading={'Loan List'} data={ListOne} />
-          <CustomCard heading={'Finance List'} data={ListTwo} />
+
+          <ScrollView contentContainerStyle={{flexGrow: 1}}>
+            <View>
+              <CustomCard
+                heading={'Loan List'}
+                data={ListOne}
+                onPress={item => props.navigation.navigate(item)}
+              />
+              <CustomCard
+                heading={'Finance List'}
+                data={ListTwo}
+                onPress={item => props.navigation.navigate(item)}
+              />
+            </View>
+          </ScrollView>
         </View>
       </SafeAreaView>
     </StoryScreen>

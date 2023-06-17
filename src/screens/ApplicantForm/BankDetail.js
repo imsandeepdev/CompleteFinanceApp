@@ -3,9 +3,7 @@ import {useState,createRef} from 'react';
 import {View, Pressable, Text, Image} from 'react-native';
 import R from '../../res/R';
 import {AppButton, AppCardPress, AppTextInput, ListViewModal} from '../../components';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
-import AppContent from '../../utils/AppContent';
+
 
 const BankDetail = props => {
   let bankNameRef = createRef();
@@ -14,19 +12,6 @@ const BankDetail = props => {
   let accountTypeRef = createRef();
   let branchNameRef = createRef();
   let ifscCodeRef = createRef();
-
-
-  const [bankName, setBankName] = useState('');
-  const [accountNo, setAccountNo] = useState('');
-  const [accountHolder, setAccountHolder] = useState('');
-  const [accountType, setAccountType] = useState('');
-  const [branchName, setBranchName] = useState('');
-  const [ifscCode, setIfscCode] = useState('');
-
-
-
-  const [permanentAdd, setPermanentAdd] = useState('');
-
  
 
   return (
@@ -106,17 +91,17 @@ const BankDetail = props => {
           onPress={props.onPress_AccountType}
           headTitle={'Account type'}
           title={
-            props.title_accountType != ''
+            props.title_accountType != null
               ? props.title_accountType
               : 'Account type'
           }
           TextColor={
-            props.title_accountType != ''
+            props.title_accountType != null
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
           headTitleColor={
-            props.title_accountType != ''
+            props.title_accountType != null
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }

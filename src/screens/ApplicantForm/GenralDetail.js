@@ -160,14 +160,14 @@ const GenralDetail = (props) => {
           <AppCardPress
             onPress={props.onPressGender}
             headTitle={'Gender'}
-            title={props.title_gender != '' ? props.title_gender : 'Gender'}
+            title={props.title_gender != null ? props.title_gender : 'Gender'}
             TextColor={
-              props.title_gender != ''
+              props.title_gender != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_gender != ''
+              props.title_gender != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -177,17 +177,17 @@ const GenralDetail = (props) => {
             onPress={props.onPressMaritalStatus}
             headTitle={'Marital Status'}
             title={
-              props.title_maritalStatus != ''
+              props.title_maritalStatus != null
                 ? props.title_maritalStatus
                 : 'Marital Status'
             }
             TextColor={
-              props.title_maritalStatus != ''
+              props.title_maritalStatus != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_maritalStatus != ''
+              props.title_maritalStatus != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -197,17 +197,17 @@ const GenralDetail = (props) => {
             onPress={props.onPressMemberQualification}
             headTitle={'Member Qualification'}
             title={
-              props.title_memberQualification != ''
+              props.title_memberQualification != null
                 ? props.title_memberQualification
                 : 'Member Qualification'
             }
             TextColor={
-              props.title_memberQualification != ''
+              props.title_memberQualification != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_memberQualification != ''
+              props.title_memberQualification != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -217,17 +217,17 @@ const GenralDetail = (props) => {
             onPress={props.onPressMemberReligion}
             headTitle={'Religion'}
             title={
-              props.title_memberReligion != ''
+              props.title_memberReligion != null
                 ? props.title_memberReligion
                 : 'Religion'
             }
             TextColor={
-              props.title_memberReligion != ''
+              props.title_memberReligion != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_memberReligion != ''
+              props.title_memberReligion != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -237,15 +237,15 @@ const GenralDetail = (props) => {
             onPress={props.onPressMemberCaste}
             headTitle={'Caste'}
             title={
-              props.title_memberCaste != '' ? props.title_memberCaste : 'Caste'
+              props.title_memberCaste != null ? props.title_memberCaste : 'Caste'
             }
             TextColor={
-              props.title_memberCaste != ''
+              props.title_memberCaste != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_memberCaste != ''
+              props.title_memberCaste != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }
@@ -263,7 +263,7 @@ const GenralDetail = (props) => {
             value={props.value_fatherName}
             onChangeText={props.onChange_fatherName}
           />
-          <AppTextInput
+          {/*<AppTextInput
             placeholder={'Mother Name'}
             headTitle={'Mother Name'}
             headTitleColor={
@@ -273,7 +273,7 @@ const GenralDetail = (props) => {
             }
             value={props.value_motherName}
             onChangeText={props.onChange_motherName}
-          />
+          />*/}
           <AppTextInput
             placeholder={'Husband Name'}
             headTitle={'Husband Name'}
@@ -289,17 +289,17 @@ const GenralDetail = (props) => {
             onPress={props.onPress_husbandQualification}
             headTitle={'Husband Qualification'}
             title={
-              props.title_husbandQualification != ''
+              props.title_husbandQualification != null
                 ? props.title_husbandQualification
                 : 'Husband Qualification'
             }
             TextColor={
-              props.title_husbandQualification != ''
+              props.title_husbandQualification != null
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
             headTitleColor={
-              props.title_husbandQualification != ''
+              props.title_husbandQualification != null
                 ? R.colors.darkGreenColor
                 : R.colors.textPriColor
             }

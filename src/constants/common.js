@@ -27,3 +27,13 @@ export const get_role_error = 'get_role_error';
 export const get_menu_list = 'get_menu_list';
 export const get_menu_list_success = 'get_menu_list_success';
 export const get_menu_list_error = 'get_menu_list_error';
+
+//gender_list
+export const gender_list = 'gender_list';
+export const gender_list_success = 'gender_list_success';
+export const gender_list_error = 'gender_list_error';
+
+//save_customer
+export const save_customer = 'save_customer';
+export const save_customer_success = 'save_customer_success';
+export const save_customer_error = 'save_customer_error';
