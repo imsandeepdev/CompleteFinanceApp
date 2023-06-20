@@ -45,6 +45,8 @@ let tempList1 = [
 
 
 const GroupForm = props => {
+  const [staffName, setStaffName] = useState('');
+
   const [groupName, setGroupName] = useState('');
   const [branchManager, setBranchManager] = useState('');
   const [centerName, setCenterName] = useState('');
@@ -118,16 +120,16 @@ const GroupForm = props => {
                 paddingTop: R.fontSize.Size50,
               }}>
               <AppCardPress
-                onPress={() => console.log('Group Name')}
-                headTitle={'Group Name'}
-                title={groupName != '' ? groupName : 'Group Name'}
+                onPress={() => console.log('Staff Name')}
+                headTitle={'Staff Name'}
+                title={staffName != '' ? staffName : 'Staff Name'}
                 TextColor={
-                  groupName != ''
+                  staffName != ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  groupName != ''
+                  staffName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -149,17 +151,33 @@ const GroupForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
-
-              <AppTextInput
-                placeholder={'Center name'}
-                headTitle={'Center name'}
+              <AppCardPress
+                onPress={() => console.log('Center Name')}
+                headTitle={'Center Name'}
+                title={centerName != '' ? centerName : 'Center Name'}
+                TextColor={
+                  centerName != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
                 headTitleColor={
                   centerName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerName}
-                onChangeText={text => setCenterName(text)}
+                rightIcon={R.images.dropdownIcon}
+              />
+
+              <AppTextInput
+                placeholder={'Group Name'}
+                headTitle={'Group Name'}
+                headTitleColor={
+                  groupName != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                value={groupName}
+                onChangeText={text => setGroupName(text)}
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
@@ -276,7 +294,8 @@ const GroupForm = props => {
                         borderWidth: 1,
                         padding: R.fontSize.Size5,
                         borderRadius: R.fontSize.Size5,
-                        backgroundColor: onDeSelect != ''
+                        backgroundColor:
+                          onDeSelect != ''
                             ? R.colors.appColor
                             : R.colors.lightWhite,
                       }}>

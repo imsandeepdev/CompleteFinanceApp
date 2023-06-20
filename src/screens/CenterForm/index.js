@@ -164,7 +164,7 @@ const CenterForm = props => {
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
-              <AppCardPress
+              {/* <AppCardPress
                 onPress={() => (
                   setIsDisplayDate(true), setMeetingDay('dissolvedDate')
                 )}
@@ -185,7 +185,7 @@ const CenterForm = props => {
                     : R.colors.textPriColor
                 }
                 rightIcon={R.images.dropdownIcon}
-              />
+              /> */}
               <DatePicker
                 modal
                 // maximumDate={new Date()}
