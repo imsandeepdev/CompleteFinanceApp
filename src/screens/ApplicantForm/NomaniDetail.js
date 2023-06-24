@@ -122,7 +122,8 @@ const NomaniDetail = (props) => {
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
             Iconwidth={R.fontSize.Size22}
-            selectedDoc={props.selectedDoc}
+            selectedDoc={props.selectedNomineeKYCDoc1}
+            handleRemove={props.handleRemoveNomineeKYCDoc1}
           />
           <AppCardPress
             onPress={props.onPress_nomaniKycType2}
@@ -177,6 +178,8 @@ const NomaniDetail = (props) => {
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
             Iconwidth={R.fontSize.Size22}
+            selectedDoc={props.selectedNomineeKYCDoc2}
+            handleRemove={props.handleRemoveNomineeKYCDoc2}
           />
 
           <View
@@ -342,6 +345,8 @@ const NomaniDetail = (props) => {
               borderStyle={'dashed'}
               Iconheight={R.fontSize.Size22}
               Iconwidth={R.fontSize.Size22}
+              selectedDoc={props.selectedCoApplicantKYCDoc}
+              handleRemove={props.handleRemoveCoApplicantKYCDoc}
             />
 
             <AppCardPress
@@ -386,6 +391,8 @@ const NomaniDetail = (props) => {
               borderStyle={'dashed'}
               Iconheight={R.fontSize.Size22}
               Iconwidth={R.fontSize.Size22}
+              selectedDoc={props.selectedCoApplicantKYCDoc2}
+              handleRemove={props.handleRemoveCoApplicantKYCDoc2}
             />
           </View>
         </View>

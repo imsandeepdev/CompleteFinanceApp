@@ -28,9 +28,9 @@ export const SaveCustomerRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(SaveCustomer());
     api
-      .multipartRequest({
+      .multipostRequest({
         needAuth: false,
-        formData:data,
+        data:data,
         url: `${Config.saveCustomerAPI}`,
       })
       .then(response => {

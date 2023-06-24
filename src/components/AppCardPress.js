@@ -89,7 +89,65 @@ const AppCardPress = props => {
           {props.headTitle}
         </Text>
       </View>
-      {props.selectedDoc}
+      {props.selectedDoc && (
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}>
+          {props.selectedDoc.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  height: R.fontSize.Size70,
+                  width: R.fontSize.Size90,
+                  marginTop: R.fontSize.Size2,
+                  borderRadius: R.fontSize.Size4,
+                  overflow: 'hidden',
+                  marginHorizontal: R.fontSize.Size5,
+                  borderWidth: 1,
+                }}>
+                <Image
+                  source={{uri: item}}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                  }}
+                  resizeMode={'cover'}
+                />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: R.fontSize.Size2,
+                    right: R.fontSize.Size2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Pressable
+                    onPress={()=>props.handleRemove(index)}
+                    style={{
+                      height: R.fontSize.Size18,
+                      width: R.fontSize.Size18,
+                      borderWidth: 1,
+                      backgroundColor: R.colors.lightWhite,
+                      padding: R.fontSize.Size2,
+                    }}>
+                    <Image
+                      source={R.images.cancelIcon}
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                      }}
+                      resizeMode={'contain'}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 };

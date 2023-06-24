@@ -8,6 +8,6 @@ export const Config = {
   GetMenuListAPI: '/User/GetMenuList',
   dropDownAPI: '/User/GetCustomerMasterDropdown?mode=',
   saveCustomerAPI: '/User/SaveCustomer',
-
-
+  regGroupAPI: '/Group/RegisterGroup',
+  regCenterAPI: '/Center/RegisterCenter',
 };

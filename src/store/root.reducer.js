@@ -6,6 +6,7 @@ import registerRoot from '../reducer/registration.reducer';
 import profileRoot from '../reducer/profile.reducer';
 import roleRoot from '../reducer/role.reducer';
 import dropDownRoot from '../reducer/dropDown.reducer';
+import regGroupRoot from '../reducer/regGroup.reducer';
 
 const authPersistConfig = {
   storage: AsyncStorage,
@@ -17,5 +18,6 @@ export default combineReducers({
   registerRoot,
   profileRoot,
   roleRoot,
-  dropDownRoot
+  dropDownRoot,
+  regGroupRoot
 });

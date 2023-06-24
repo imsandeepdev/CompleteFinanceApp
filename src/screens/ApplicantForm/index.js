@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {Text, Image, View, Pressable, SafeAreaView, ScrollView,Dimensions} from 'react-native';
+import {Text, Image, View, Pressable, SafeAreaView, ScrollView,Dimensions,Platform} from 'react-native';
 import { AppCardPress, AppTextInput, CustomCardPress, CustomPhotoCard, CustomTextInput, GalleryModal, Header, ListViewModal, StoryScreen } from '../../components';
 import style from './style';
 import R from '../../res/R';
@@ -16,6 +16,9 @@ import BusinessDetail from './BusinessDetail';
 const screenWidth = Dimensions.get('screen').width;
 import {useDispatch,connect} from 'react-redux';
 import { GenderListRequest } from '../../actions/dropdown.action';
+import { SaveCustomerRequest } from '../../actions/saveCustomer.action';
+import Toast from 'react-native-simple-toast'
+import CommonFunctions from '../../utils/CommonFunctions';
 
 const headerList = [
   {
@@ -105,7 +108,13 @@ const ApplicantForm = (props) => {
   const [coApplicantKYPDocument2, setCoApplicantKYPDocument2] = useState('');
   const [sameNomaniDetail, setSameNomaniDetail] = useState(false);
 
-  const [selectNomaniKYPDocument, setSelectNomaniKYPDocument] = useState({});
+  const [selectDocumentType, setSelectDocumentType] = useState('');
+  const [selectNomaniKYCDocumentList, setSelectNomaniKYCDocumentList] = useState([]);
+  const [selectNomaniKYCDocumentList2, setSelectNomaniKYCDocumentList2] =useState([]);
+  const [selectCoApplicantKYCDocumentList, setSelectCoApplicantKYCDocumentList] = useState([]);
+  const [selectCoApplicantKYCDocumentList2, setSelectCoApplicantKYCDocumentList2] = useState([]);
+
+
 
 
 
@@ -248,7 +257,11 @@ const ApplicantForm = (props) => {
           setCoApplicantKYPName(nomaniKYPName),
           setCoApplicantKYPMobNo(nomaniKYPMobNo),
           setCoApplicantKYPName2(nomaniKYPName2),
-          setCoApplicantKYPMobNo2(nomaniKYPMobNo2))
+          setCoApplicantKYPMobNo2(nomaniKYPMobNo2),
+          setSelectCoApplicantKYCDocumentList(selectNomaniKYCDocumentList),
+          setSelectCoApplicantKYCDocumentList2(selectNomaniKYCDocumentList2)
+
+          )
         : (setCoApplicantName(''),
           setCoApplicantDob(''),
           setCoApplicantRelation(''),
@@ -258,110 +271,318 @@ const ApplicantForm = (props) => {
           setCoApplicantKYPMobNo2(''));
     }
 
-    const handleNomaniDocPicker = () => {
-      console.log("PICKER")
+    const handleNomaniDocPicker = (type) => {
+      
+      setSelectDocumentType(type);
        ImagePicker.openPicker({
          width: 400,
          height: 400,
          cropping: true,
        }).then(image => {
          console.log('Image===>', image);
-         let tempDoc = []
-         tempDoc.push(image)
-         setSelectNomaniKYPDocument(image);
+         
+         type =='nomineeKYCDoc1' && setSelectNomaniKYCDocumentList([
+           ...selectNomaniKYCDocumentList,
+           image.path,
+         ]);
+         type == 'nomineeKYCDoc2' &&
+           setSelectNomaniKYCDocumentList2([
+             ...selectNomaniKYCDocumentList2,
+             image.path,
+           ]);
+          type == 'coApplicantKYCDoc1' &&
+            setSelectCoApplicantKYCDocumentList([
+              ...selectCoApplicantKYCDocumentList,
+              image.path,
+            ]);
+          type == 'coApplicantKYCDoc2' &&
+            setSelectCoApplicantKYCDocumentList2([
+              ...selectCoApplicantKYCDocumentList2,
+              image.path,
+            ]);
+          ;
        });
     }
 
-    const handleSubmitData = {
-      staffId: 0,
-      branchId: 0,
-      firstName: fname,
-      middleName: mname,
-      lastName: lname,
-      husbandname: husbandName,
-      fatherName: fatherName,
-      applicantDateofbirth: birthDate,
-      joinDate: '2023-06-17T07:27:54.007Z',
-      applicantAddress: 'string',
-      houseNo: houseNo,
-      street: streetName,
-      stateId: stateName,
-      districtId: 0,
-      contactNo: contactNo,
-      aContactNo: altContactNo,
-      email: email,
-      p_ApplicantAddress: 'string',
-      pHouseNo: perHouseNo,
-      pStreet: perStreetName,
-      pStateId: perStateName,
-      pDistrictId: 'string',
-      contactNo2: 'string',
-      acontactNo2: 'string',
-      emailID: email,
-      birthPlace: birthPlace,
-      photo: applicantPic.path,
-      gender: gender,
-      maritalstatus: maritalStatus,
-      kyCtype1: 0,
-      kyC_No: 0,
-      kyCtype2: 0,
-      kyC_No2: 'string',
-      loanproducttype: 0,
-      langitude: 0,
-      latitude: 0,
-      biometricReference: 'string',
-      isTransfered: 0,
-      dropOutStatus: 'string',
-      dropOutDate: '2023-06-17T07:27:54.007Z',
-      dropOutReason: 'string',
-      custOtherID: 0,
-      nomineeName: nomaniName,
-      nomineeRelation: nomaniRelation,
-      dateofbirth: nomaniDob,
-      nomineeKYPName1: nomaniKYPName,
-      nomineeKYCNo1: nomaniKYPMobNo,
-      nomineeKYCdoc: nomaniKYPDocument,
-      nomineeKYPName2: nomaniKYPName2,
-      nomineeKYCNo2: nomaniKYPMobNo2,
-      nomineeKYCdoc2: nomaniKYPDocument2,
-      houseStatus: houseStatus.RuleID,
-      natureOfBusiness: natureBusiness.RuleID,
-      businessName: businessName,
-      businessAddress: businessAddress,
-      nomineeID: 0,
-      religion: memberReligion,
-      bankdetailId: 0,
-      boId: 0,
-      bankName: bankName,
-      accountNo: accountNo,
-      ifscCode: ifscCode,
-      accountHolderName: accountHolder,
-      accountType: accountType.RuleID,
-      bankBranchName: branchName,
-      documenttype: 'string',
-      imagedocument: 'string',
-      caste: memberCaste,
-      noOfMembers: noOfFamilyMember,
-      dAgeabove18: noOfDaughter,
-      sAgeabove18: noOfSon,
-      totalArea: landArea,
-      assetDetail: assetDetail,
-      assetValue: assetValue,
-      residenceStatus: true,
-      memberqualification: true,
-      husbandqualification: true,
-      coapplicantName: coApplicantName,
-      coapplicantKYPName1: coApplicantKYPName,
-      coapplicantKYCNo1: coApplicantKYPMobNo,
-      coapplicantKYCdoc: coApplicantKYPDocument,
-      coapplicantRelation: coApplicantRelation,
-      isDeleted: false,
-      usetid: 0,
-      coapplicantID: 0,
-      createdDate: new Date(),
-      updatedBy: 0,
-      updatedDate: new Date(),
-    };
+    const handleRemoveNomKycDoc = (index,type) => {
+      console.log("index=>",index)
+      type == 'nomineeKYCDoc2' &&
+        (selectNomaniKYCDocumentList2.splice(index, 1),
+        setSelectNomaniKYCDocumentList2([...selectNomaniKYCDocumentList2]));
+      type == 'nomineeKYCDoc1' &&
+      (selectNomaniKYCDocumentList.splice(index, 1),
+      setSelectNomaniKYCDocumentList([...selectNomaniKYCDocumentList]));
+      type == 'coApplicantKYCDoc2' &&
+        (selectCoApplicantKYCDocumentList2.splice(index, 1),
+        setSelectCoApplicantKYCDocumentList2([...selectCoApplicantKYCDocumentList2]));
+      type == 'coApplicantKYCDoc1' &&
+        (selectCoApplicantKYCDocumentList.splice(index, 1),
+        setSelectCoApplicantKYCDocumentList([...selectCoApplicantKYCDocumentList]));
+    }
+
+    const handleCustomerVerification = () => {
+      return (
+        CommonFunctions.isBlank(fname.trim(), 'pleasse enter first name') &&
+        CommonFunctions.isBlank(mname.trim(), 'pleasse enter middle name') &&
+        CommonFunctions.isBlank(lname.trim(), 'pleasse enter last name') &&
+        CommonFunctions.isBlank(contactNo.trim(), 'pleasse enter contact no') &&
+        CommonFunctions.isBlank(
+          nomaniName.trim(),
+          'pleasse enter nominee name',
+        ) &&
+        CommonFunctions.isBlank(bankName.trim(), 'pleasse enter bank name') &&
+        CommonFunctions.isBlank(
+          accountHolder.trim(),
+          'pleasse account holder name',
+        ) &&
+        CommonFunctions.isBlank(
+          accountNo.trim(),
+          'pleasse account holder number',
+        )
+      );
+    }
+
+    const handleSaveCustomerAPI = () => {
+      if(handleCustomerVerification())
+      {
+        handleSaveCustomer()
+      }
+    }
+
+    const handleSaveCustomer = () => {
+
+      let formData = new FormData()
+      formData.append('mode', 'Save');
+      formData.append('applicantId', 1);
+      formData.append('applicantCode','ASSA121');
+      formData.append('applicantName', 'ASSA121');
+      formData.append('staffId',1)
+      formData.append('branchId', 1);
+      formData.append('firstName', 'fname');
+      formData.append('middleName', 'mname');
+      formData.append('lastName', 'lname');
+      formData.append('husbandname', 'husbandName');
+      formData.append('fatherName', 'fatherName');
+      formData.append('applicantDateofbirth', '1997-07-24');
+      formData.append('joinDate', moment().format('YYYY-MM-DD'));
+      formData.append('applicantAddress', 'string');
+      formData.append('houseNo', 1);
+      formData.append('street', 'streetName');
+      formData.append('stateId', 1);
+      formData.append('districtId', 1);
+      formData.append('contactNo', 'contactNo');
+      formData.append('aContactNo', 'altContactNo');
+      formData.append('email', 'sandeep@gmail.inn');
+      formData.append('p_ApplicantAddress', 'string');
+      formData.append('pHouseNo', 'perHouseNo');
+      formData.append('pStreet', 'perStreetName');
+      formData.append('pStateId', 'perStateName');
+      formData.append('pDistrictId', 'string');
+      formData.append('contactNo2', 'string');
+      formData.append('acontactNo2', 'string');
+      formData.append('emailID', 'sandeep@gmail.inn');
+      formData.append('birthPlace', 'birthPlace');
+      formData.append('photo','/fdfdf/ggfg'); 
+      formData.append('gender', 1);
+      formData.append('maritalstatus', 1);
+      formData.append('kyCtype1', 1);
+      formData.append('kyC_No', 1);
+      formData.append('kyCtype2', 1);
+      formData.append('kyC_No2', 'string');
+      formData.append('loanproducttype', 1);
+      formData.append('langitude', 1);
+      formData.append('latitude', 1);
+      formData.append('biometricReference','string');
+      formData.append("isTransfered",1);
+      formData.append("dropOutStatus",'kkkk1');
+      formData.append('dropOutDate', '2023-06-17');
+      formData.append('dropOutReason', 'string');
+      formData.append('custOtherID', 0);
+      formData.append('nomineeName', 'nomaniName');
+      formData.append('nomineeRelation', 'jh');
+      formData.append('dateofbirth', '1997-07-24');
+      formData.append('nomineeKYPName1', 'ifffu');
+      formData.append('nomineeKYCNo1', 'nomaniKYPMobNo');
+      formData.append('nomineeKYCdoc', '/fdfdf/ggfg');
+      formData.append('nomineeKYPName2', 'gfffh');
+      formData.append('nomineeKYCNo2', 'nomaniKYPMobNo2');
+      formData.append('nomineeKYCdoc2', '/fdfdf/ggfg');
+      formData.append('houseStatus', 'hfffj');
+      formData.append('natureOfBusiness', 'ghfffgh');
+      formData.append('businessName', 'businessName');
+      formData.append('businessAddress', 'businessAddress');
+      formData.append('nomineeAddress', 'businessAddress');
+      formData.append('nomineeID', 1);
+      formData.append('religion', memberReligion.RuleID);
+      formData.append('bankdetailId', 1);
+      formData.append('boId', 1);
+      formData.append('bankName', 'bankName');
+      formData.append('accountNo', 'accountNo');
+      formData.append('ifscCode', 'ifscCode');
+      formData.append('accountHolderName', 'accountHolder');
+      formData.append('accountType', 'bhfffh');
+      formData.append('bankBranchName', 'branchName');
+      formData.append('documenttype', 'string',);
+      formData.append('imagedocument', 'string');
+      formData.append('caste', 'hjdddd');
+      formData.append('noOfMembers', 1);
+      formData.append('dAgeabove18', 1);
+      formData.append('sAgeabove18', 1);
+      formData.append('totalArea', 'landArea');
+      formData.append('assetDetail', 'assetDetail');
+      formData.append('assetValue', 'assetValue');
+      formData.append('residenceStatus', 1);
+      formData.append('memberqualification', 1);
+      formData.append('husbandqualification', 1);
+      formData.append('coapplicantName', 'coApplicantName');
+      formData.append('coapplicantAdress', 'coApplicantName');
+      formData.append('adress', 'coApplicantName');
+      formData.append('coapplicantKYPName1', 'hhdddgh');
+      formData.append('coapplicantKYCNo1', 'hhhh');
+      formData.append('coapplicantKYCdoc', '/fdfdf/ggfg');
+      formData.append('kycFirstDoc', '/fdfdf/ggfg');
+      formData.append('kycSecondDoc', '/fdfdf/ggfg');
+      formData.append('coapplicantRelation', 0);
+      formData.append('isDeleted', true);
+      formData.append('usetid', 1);
+      // formData.append('coapplicantID', 1);
+      formData.append('createdDate', moment().format('YYYY-MM-DD'));
+      formData.append('updatedBy', 1);
+      formData.append('updatedDate', moment().format('YYYY-MM-DD'));
+     
+
+      const data = {
+        mode: 'Save',
+        applicantId: 1,
+        applicantCode: 'trtr',
+        staffId: 1,
+        branchId: 1,
+        applicantName: 'fhg',
+        firstName: fname,
+        middleName: mname,
+        lastName: lname,
+        husbandname: husbandName,
+        fatherName: fatherName,
+        applicantDateofbirth: '2023-06-21T15:38:57.261Z',
+        joinDate: '2023-06-21T15:38:57.261Z',
+        applicantAddress: 'ghjk',
+        houseNo: 1,
+        street: streetName,
+        stateId: 1,
+        districtId: 1,
+        contactNo: contactNo,
+        aContactNo: altContactNo,
+        email: email,
+        p_ApplicantAddress: 'ghjk',
+        pHouseNo: perHouseNo,
+        pStreet: perStreetName,
+        pStateId: 'ghjk',
+        pDistrictId: 'gjhk',
+        contactNo2: contactNo,
+        acontactNo2: altContactNo,
+        emailID: email,
+        birthPlace: birthPlace,
+        photo: 'ghjk',
+        gender: gender.RuleID,
+        maritalstatus: 1,
+        kyCtype1: 1,
+        kyC_No: 1,
+        kyCtype2: 1,
+        kyC_No2: 'hj',
+        loanproducttype: 1,
+        langitude: 1,
+        latitude: 1,
+        biometricReference: 'ghj',
+        isTransfered: 1,
+        dropOutStatus: 'N',
+        dropOutDate: '2023-06-21T15:38:57.261Z',
+        dropOutReason: 'ghjk',
+        custOtherID: 0,
+        nomineeName: nomaniName,
+        nomineeRelation: nomaniRelation.RoleName,
+        dateofbirth: '2023-06-21T15:38:57.261Z',
+        nomineeKYPName1: nomaniKYPName.RoleName,
+        nomineeKYCNo1: nomaniKYPMobNo,
+        nomineeKYCdoc: 'gjkl',
+        nomineeKYPName2: nomaniKYPName2.RoleName,
+        nomineeKYCNo2: nomaniKYPMobNo2,
+        nomineeKYCdoc2: 'gjkl',
+        houseStatus: houseStatus.RoleName,
+        natureOfBusiness: natureBusiness.RoleName,
+        businessName: businessName,
+        businessAddress: businessAddress,
+        namineeAdress: 'gjklss',
+        nomineeID: 1,
+        religion: 1,
+        bankdetailId: 1,
+        boId: 1,
+        bankName: bankName,
+        accountNo: accountNo,
+        ifscCode: ifscCode,
+        accountHolderName: accountHolder,
+        accountType: accountType.RoleName,
+        bankBranchName: branchName,
+        documenttype: 'ghjk',
+        imagedocument: 'ghjk',
+        caste: memberCaste.RoleName,
+        noOfMembers: 1,
+        dAgeabove18: 1,
+        sAgeabove18: 1,
+        totalArea: landArea,
+        assetDetail: assetDetail,
+        assetValue: assetValue,
+        residenceStatus: 1,
+        memberqualification: 1,
+        husbandqualification: 1,
+        coapplicantName: coApplicantName,
+        coapplicantAdress: 'sssss',
+        adress: 'fghj',
+        coapplicantKYPName1: coApplicantKYPName.RoleName,
+        coapplicantKYCNo1: coApplicantKYPMobNo,
+        coapplicantKYCdoc: 'fghjk',
+        kycFirstDoc: 'fjk',
+        kycSecondDoc: 'ghjk',
+        coapplicantRelation: 0,
+        isDeleted: true,
+        usetid: 1,
+        createdDate: '2023-06-21T15:38:57.262Z',
+        updatedBy: 1,
+        updatedDate: '2023-06-21T15:38:57.262Z',
+      };
+
+      console.log("FORMDATA=>",data)
+      dispatch(SaveCustomerRequest(data,response=>{
+        console.log('Save Customer Response==>', response);
+        if(response.message == 'Success')
+        {
+          Toast.show('Successfully! save customer details',Toast.SHORT)
+          props.navigation.goBack()
+        }
+
+      }))      
+}
+
+const handleSameResidentAddress = () => {
+  setSameResidentStatus(!sameResidentStatus);
+  !sameResidentStatus
+    ? (setPerHouseNo(houseNo),
+      setPerAddressArea(addressArea),
+      setPerStreetName(streetName),
+      setPerLandmark(landmark),
+      setPerCityName(cityName),
+      setPerStateName(stateName),
+      setPerCountryName(countryName),
+      setPerPinCode(pinCode))
+    : (setPerHouseNo(''),
+      setPerAddressArea(''),
+      setPerStreetName(''),
+      setPerLandmark(''),
+      setPerCityName(''),
+      setPerStateName(''),
+      setPerCountryName(''),
+      setPerPinCode(''));
+
+}
 
     return (
       <StoryScreen>
@@ -430,7 +651,7 @@ const ApplicantForm = (props) => {
                       value_altContactNo={altContactNo}
                       onChange_altContactNo={text => setAltContactNo(text)}
                       value_email={email}
-                      onChange_Email={text => setEmail(text)}
+                      onChange_email={text => setEmail(text)}
                       value_birthPlace={birthPlace}
                       onChange_birthPlace={text => setBirthPlace(text)}
                       nextOnPress={() => setSelectedHeader(1)}
@@ -515,28 +736,21 @@ const ApplicantForm = (props) => {
                         setNomaniKYPMobNo2(text)
                       }
                       title_nomaniKYPDocument={nomaniKYPDocument}
-                      onPress_nomaniKYPDocument={() => handleNomaniDocPicker()}
-                      selectedDoc={
-                        <Pressable
-                          style={{
-                            height: 70,
-                            width: 80,
-                            marginTop: R.fontSize.Size2,
-                            borderRadius: R.fontSize.Size4,
-                            overflow: 'hidden',
-                          }}>
-                          <Image
-                            source={{uri: selectNomaniKYPDocument.path}}
-                            style={{
-                              height: '100%',
-                              width: '100%',
-                            }}
-                            resizeMode={'cover'}
-                          />
-                        </Pressable>
+                      onPress_nomaniKYPDocument={() =>
+                        handleNomaniDocPicker('nomineeKYCDoc1')
+                      }
+                      selectedNomineeKYCDoc1={selectNomaniKYCDocumentList}
+                      handleRemoveNomineeKYCDoc1={index =>
+                        handleRemoveNomKycDoc(index, 'nomineeKYCDoc1')
                       }
                       title_nomaniKYPDocument2={nomaniKYPDocument2}
-                      onPress_nomaniKYPDocument2={() => console.log('KYP')}
+                      onPress_nomaniKYPDocument2={() =>
+                        handleNomaniDocPicker('nomineeKYCDoc2')
+                      }
+                      selectedNomineeKYCDoc2={selectNomaniKYCDocumentList2}
+                      handleRemoveNomineeKYCDoc2={index =>
+                        handleRemoveNomKycDoc(index, 'nomineeKYCDoc2')
+                      }
                       value_coApplicantName={coApplicantName}
                       onChange_coApplicantName={text =>
                         setCoApplicantName(text)
@@ -571,10 +785,20 @@ const ApplicantForm = (props) => {
                       }
                       title_coApplicantKYPDocument={coApplicantKYPDocument}
                       onPress_coApplicantKYPDocument={() =>
-                        handleNomaniDocPicker()
+                        handleNomaniDocPicker('coApplicantKYCDoc1')
+                      }
+                      selectedCoApplicantKYCDoc={selectCoApplicantKYCDocumentList}
+                      handleRemoveCoApplicantKYCDoc={index =>
+                        handleRemoveNomKycDoc(index, 'coApplicantKYCDoc1')
                       }
                       title_coApplicantKYPDocument2={coApplicantKYPDocument2}
-                      onPress_coApplicantKYPDocument2={() => console.log('KYP')}
+                      onPress_coApplicantKYPDocument2={() =>
+                        handleNomaniDocPicker('coApplicantKYCDoc2')
+                      }
+                      selectedCoApplicantKYCDoc2={selectCoApplicantKYCDocumentList2}
+                      handleRemoveCoApplicantKYCDoc2={index =>
+                        handleRemoveNomKycDoc(index, 'coApplicantKYCDoc2')
+                      }
                       nextOnPress={() => setSelectedHeader(2)}
                       backOnPress={() => setSelectedHeader(0)}
                     />
@@ -649,6 +873,10 @@ const ApplicantForm = (props) => {
                       onChange_perpinCode={text => setPerPinCode(text)}
                       nextOnPress={() => setSelectedHeader(3)}
                       backOnPress={() => setSelectedHeader(1)}
+                      onPressSameAddress={() => handleSameResidentAddress()}
+                      sameAddressBackgrounColor={
+                        sameResidentStatus ? R.colors.appColor : R.colors.white
+                      }
                     />
                   </View>
                 )}
@@ -667,7 +895,7 @@ const ApplicantForm = (props) => {
                       onChange_branchName={text => setBranchName(text)}
                       title_accountType={accountType.RoleName}
                       onPress_AccountType={() => handleListModal('accountType')}
-                      submitOnPress={() => console.log('ONSUBMIT')}
+                      submitOnPress={() => handleSaveCustomerAPI()}
                       backOnPress={() => setSelectedHeader(3)}
                     />
                   </View>

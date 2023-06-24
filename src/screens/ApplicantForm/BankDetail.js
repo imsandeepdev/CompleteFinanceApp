@@ -83,7 +83,7 @@ const BankDetail = props => {
               : R.colors.textPriColor
           }
           value={props.value_branchName}
-          onChangeText={props.onChange_branchNAme}
+          onChangeText={props.onChange_branchName}
           returnKeyType={'done'}
           onSubmitEditing={props.onPress_AccountType}
         />

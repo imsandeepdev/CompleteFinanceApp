@@ -64,7 +64,6 @@ const GroupForm = props => {
   const [onSelectTemp1, setOnSelectTemp1] = useState(tempList1);
   const [onSelectValue, setOnSelectValue] = useState();
   const [onDeSelectValue, setOnDeSelectValue] = useState();
-
   const [onSelectedArray, setOnSelectedArray] = useState([]);
 
 
@@ -98,6 +97,32 @@ const GroupForm = props => {
        setOnSelect('');
        setOnDeSelect('');
   };
+
+  const handleGroupSubmit = () => {
+    let data = {
+      groupId: 0,
+      groupCode: 'string',
+      branchId: 0,
+      groupName: 'string',
+      bmId: 0,
+      testerId: 0,
+      staffid: 0,
+      crtDate: '2023-06-24T16:30:17.748Z',
+      approveStatus: 'string',
+      approvedBy: 0,
+      approveDate: '2023-06-24T16:30:17.748Z',
+      approvalReason: 'string',
+      firstMeetingDate: '2023-06-24T16:30:17.748Z',
+      remarks: 'string',
+      isActive: true,
+      createdDate: '2023-06-24T16:30:17.748Z',
+      updatedDate: '2023-06-24T16:30:17.748Z',
+      createdBy: 0,
+      updatedBy: 0,
+      processDate: '2023-06-24T16:30:17.748Z',
+      staff_Recg: 0,
+    };
+  }
 
   return (
     <StoryScreen>

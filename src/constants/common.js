@@ -37,3 +37,13 @@ export const gender_list_error = 'gender_list_error';
 export const save_customer = 'save_customer';
 export const save_customer_success = 'save_customer_success';
 export const save_customer_error = 'save_customer_error';
+
+//register_group
+export const reg_group = 'reg_group';
+export const reg_group_success = 'reg_group_success';
+export const reg_group_error = 'reg_group_error';
+
+//register_center
+export const reg_center = 'reg_center';
+export const reg_center_success = 'reg_center_success';
+export const reg_center_error = 'reg_center_error';

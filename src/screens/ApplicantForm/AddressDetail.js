@@ -185,7 +185,7 @@ const AddressDetail = props => {
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Pressable
-              onPress={() => setSameResidentStatus(!sameResidentStatus)}
+              onPress={props.onPressSameAddress}
               style={{
                 height: R.fontSize.Size25,
                 width: R.fontSize.Size25,
@@ -199,9 +199,7 @@ const AddressDetail = props => {
                 style={{
                   height: '100%',
                   width: '100%',
-                  backgroundColor: sameResidentStatus
-                    ? R.colors.appColor
-                    : R.colors.white,
+                  backgroundColor: props.sameAddressBackgrounColor
                 }}
               />
             </Pressable>

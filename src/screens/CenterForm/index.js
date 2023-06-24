@@ -14,10 +14,13 @@ import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {useDispatch,connect} from 'react-redux';
+import { RegCenterRequest } from '../../actions/regCenter.action';
 
 
 const CenterForm = props => {
 
+    const dispatch = useDispatch()
     const [staffName, setStaffName] = useState('')
     const [centerName, setCenterName] = useState('');
     const [centerMeetingDay, setCenterMeetingDay] = useState('');
@@ -32,6 +35,41 @@ const CenterForm = props => {
 
 
 
+
+  const handleCenterSubmit = () => {
+    let data = {
+      centerId: 0,
+      branchId: 0,
+      staffId_Org: 0,
+      grtId: 0,
+      staffId_Recg: 0,
+      centercode: 'string',
+      centerName: centerName,
+      areaName: 'string',
+      formationDate: '2023-06-24T16:43:24.770Z',
+      centerMeetingDay: 2,
+      centerMeetingTime: "2023-06-24T16:43:24.770Z",
+      reportingDay: 0,
+      address: centerAddress,
+      village: 'string',
+      postalCode: centerPostalCode,
+      landMark: centerLandmark,
+      dissolvedDate: '2023-06-24T16:43:24.770Z',
+      locationStatus: 0,
+      transferStatus: 'string',
+      tranferDate: '2023-06-24T16:43:24.770Z',
+      isActive: true,
+      createdBy: 0,
+      createdDate: '2023-06-24T16:43:24.770Z',
+      updatedBy: 0,
+      updatedDate: '2023-06-24T16:43:24.770Z',
+    };
+
+    dispatch(RegCenterRequest(data,response =>{
+      console.log("Response Center=>", response)
+    }))
+    
+  }
 
 
 
@@ -222,9 +260,10 @@ const CenterForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton 
-            marginHorizontal={R.fontSize.Size30} 
-            title={'Submit'} 
+          <AppButton
+            onPress={() => handleCenterSubmit()}
+            marginHorizontal={R.fontSize.Size30}
+            title={'Submit'}
           />
         </View>
       </SafeAreaView>
