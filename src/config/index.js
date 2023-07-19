@@ -1,5 +1,6 @@
 export const Config = {
-  API_URL: 'http://ratneshyadav2407-001-site1.htempurl.com/api',
+  // API_URL: 'http://ratneshyadav2407-001-site1.htempurl.com/api',
+  API_URL: 'http://223.239.128.138:8090/api',
 
   LoginAPI: '/Account/Login',
   RegisterAPI: '/User/RegisterUser',
@@ -10,4 +11,6 @@ export const Config = {
   saveCustomerAPI: '/User/SaveCustomer',
   regGroupAPI: '/Group/RegisterGroup',
   regCenterAPI: '/Center/RegisterCenter',
+  getAllCustomerAPI: '/User/GetAllCustomer',
+  getGroupDropDown: '/Group/GetgroupDropdown',
 };

@@ -5,7 +5,10 @@ import {
   get_role_error,
   get_menu_list,
   get_menu_list_success,
-  get_menu_list_error
+  get_menu_list_error,
+  get_allCustomer,
+  get_allCustomer_success,
+  get_allCustomer_error
 } from '../constants/common';
 import api from '../services/api';
 
@@ -45,6 +48,24 @@ export const GetMenuListError = error => {
   };
 };
 
+export const GetAllCustomer = () => {
+  return {
+    type: get_allCustomer,
+  };
+};
+export const GetAllCustomerSuccess = payload => {
+  return {
+    type: get_allCustomer_success,
+    payload,
+  };
+};
+export const GetAllCustomerError = error => {
+  return {
+    type: get_allCustomer_error,
+    payload: error,
+  };
+};
+
 export const GetRoleRequest = (user_id, success, failed) => {
   return dispatch => {
     dispatch(GetRole());
@@ -77,6 +98,25 @@ export const GetMenuListRequest = (success, failed) => {
       })
       .catch(error => {
         dispatch(GetMenuListError(error));
+        failed?.(error);
+      });
+  };
+};
+
+
+export const GetAllCustomerRequest = (success, failed) => {
+  return dispatch => {
+    dispatch(GetAllCustomer());
+    api
+      .multiGetRequest({
+        url: `${Config.getAllCustomerAPI}`,
+      })
+      .then(response => {
+        dispatch(GetAllCustomerSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(GetAllCustomerError(error));
         failed?.(error);
       });
   };

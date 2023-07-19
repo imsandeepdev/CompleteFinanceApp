@@ -87,6 +87,8 @@ const ApplicantForm = (props) => {
 
 // Nomani State
   const [nomaniName, setNomaniName] = useState('')
+  const [nomaniAddress, setNomaniAddress] = useState('');
+  const [coApplicantAddress, setCoApplicantAddress] = useState('');
   const [nomaniRelation, setNomaniRelation] = useState('');
   const [nomaniDob, setNomaniDob] = useState('');
   const [nomaniDisplayDate, setNomaniDisplayDate] = useState(false);
@@ -252,6 +254,7 @@ const ApplicantForm = (props) => {
       setSameNomaniDetail(!sameNomaniDetail);
       !sameNomaniDetail
         ? (setCoApplicantName(nomaniName),
+          setCoApplicantAddress(nomaniAddress),
           setCoApplicantDob(nomaniDob),
           setCoApplicantRelation(nomaniRelation),
           setCoApplicantKYPName(nomaniKYPName),
@@ -259,10 +262,9 @@ const ApplicantForm = (props) => {
           setCoApplicantKYPName2(nomaniKYPName2),
           setCoApplicantKYPMobNo2(nomaniKYPMobNo2),
           setSelectCoApplicantKYCDocumentList(selectNomaniKYCDocumentList),
-          setSelectCoApplicantKYCDocumentList2(selectNomaniKYCDocumentList2)
-
-          )
+          setSelectCoApplicantKYCDocumentList2(selectNomaniKYCDocumentList2))
         : (setCoApplicantName(''),
+          setCoApplicantAddress(''),
           setCoApplicantDob(''),
           setCoApplicantRelation(''),
           setCoApplicantKYPName(''),
@@ -466,7 +468,7 @@ const ApplicantForm = (props) => {
         applicantDateofbirth: '2023-06-21T15:38:57.261Z',
         joinDate: '2023-06-21T15:38:57.261Z',
         applicantAddress: 'ghjk',
-        houseNo: 1,
+        houseNo: houseNo,
         street: streetName,
         stateId: 1,
         districtId: 1,
@@ -511,7 +513,7 @@ const ApplicantForm = (props) => {
         natureOfBusiness: natureBusiness.RoleName,
         businessName: businessName,
         businessAddress: businessAddress,
-        namineeAdress: 'gjklss',
+        namineeAdress: nomaniAddress,
         nomineeID: 1,
         religion: 1,
         bankdetailId: 1,
@@ -535,7 +537,7 @@ const ApplicantForm = (props) => {
         memberqualification: 1,
         husbandqualification: 1,
         coapplicantName: coApplicantName,
-        coapplicantAdress: 'sssss',
+        coapplicantAdress: coApplicantAddress,
         adress: 'fghj',
         coapplicantKYPName1: coApplicantKYPName.RoleName,
         coapplicantKYCNo1: coApplicantKYPMobNo,
@@ -715,6 +717,8 @@ const handleSameResidentAddress = () => {
                     <NomaniDetail
                       value_nomaniName={nomaniName}
                       onChange_nomaniName={text => setNomaniName(text)}
+                      value_nomaniAddress={nomaniAddress}
+                      onChange_nomaniAddress={text => setNomaniAddress(text)}
                       title_nomaniDob={nomaniDob}
                       onPress_nomaniDob={() => setNomaniDisplayDate(true)}
                       title_nomaniRelation={nomaniRelation.RoleName}
@@ -755,6 +759,10 @@ const handleSameResidentAddress = () => {
                       onChange_coApplicantName={text =>
                         setCoApplicantName(text)
                       }
+                      value_coApplicantAddress={coApplicantAddress}
+                      onChange_coApplicantAddress={text =>
+                        setCoApplicantAddress(text)
+                      }
                       sameNomaniOnPress={() => handleSameNomani()}
                       sameNomaniBackgroundColor={
                         sameNomaniDetail ? R.colors.appColor : R.colors.white
@@ -787,7 +795,9 @@ const handleSameResidentAddress = () => {
                       onPress_coApplicantKYPDocument={() =>
                         handleNomaniDocPicker('coApplicantKYCDoc1')
                       }
-                      selectedCoApplicantKYCDoc={selectCoApplicantKYCDocumentList}
+                      selectedCoApplicantKYCDoc={
+                        selectCoApplicantKYCDocumentList
+                      }
                       handleRemoveCoApplicantKYCDoc={index =>
                         handleRemoveNomKycDoc(index, 'coApplicantKYCDoc1')
                       }
@@ -795,7 +805,9 @@ const handleSameResidentAddress = () => {
                       onPress_coApplicantKYPDocument2={() =>
                         handleNomaniDocPicker('coApplicantKYCDoc2')
                       }
-                      selectedCoApplicantKYCDoc2={selectCoApplicantKYCDocumentList2}
+                      selectedCoApplicantKYCDoc2={
+                        selectCoApplicantKYCDocumentList2
+                      }
                       handleRemoveCoApplicantKYCDoc2={index =>
                         handleRemoveNomKycDoc(index, 'coApplicantKYCDoc2')
                       }

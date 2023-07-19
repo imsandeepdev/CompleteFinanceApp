@@ -24,6 +24,17 @@ const NomaniDetail = (props) => {
             value={props.value_nomaniName}
             onChangeText={props.onChange_nomaniName}
           />
+          <AppTextInput
+            placeholder={'Nomani Address'}
+            headTitle={'Nomani Address'}
+            headTitleColor={
+              props.value_nomaniAddress != ''
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            value={props.value_nomaniAddress}
+            onChangeText={props.onChange_nomaniAddress}
+          />
 
           <View>
             <AppCardPress
@@ -246,6 +257,17 @@ const NomaniDetail = (props) => {
               }
               value={props.value_coApplicantName}
               onChangeText={props.onChange_coApplicantName}
+            />
+            <AppTextInput
+              placeholder={'CoApplicant Address'}
+              headTitle={'CoApplicant Address'}
+              headTitleColor={
+                props.value_coApplicantAddress != ''
+                  ? R.colors.darkGreenColor
+                  : R.colors.textPriColor
+              }
+              value={props.value_coApplicantAddress}
+              onChangeText={props.onChange_coApplicantAddress}
             />
 
             <View>

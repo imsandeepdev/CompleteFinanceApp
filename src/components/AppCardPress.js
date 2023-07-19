@@ -16,6 +16,7 @@ const AppCardPress = props => {
           : R.fontSize.Size14,
       }}>
       <Pressable
+        disabled={props.disabled}
         onPress={props.onPress}
         style={({pressed}) => [
           {
@@ -58,6 +59,7 @@ const AppCardPress = props => {
             {props.title}
           </Text>
         </View>
+        {props.rightIcon &&
         <View>
           <Image
             source={props.rightIcon}
@@ -68,6 +70,7 @@ const AppCardPress = props => {
             resizeMode={'contain'}
           />
         </View>
+        }
       </Pressable>
       <View
         style={{
@@ -125,7 +128,7 @@ const AppCardPress = props => {
                     justifyContent: 'center',
                   }}>
                   <Pressable
-                    onPress={()=>props.handleRemove(index)}
+                    onPress={() => props.handleRemove(index)}
                     style={{
                       height: R.fontSize.Size18,
                       width: R.fontSize.Size18,

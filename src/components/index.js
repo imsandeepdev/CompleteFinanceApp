@@ -10,6 +10,8 @@ import CustomPhotoCard from "./CustomPhotoCard";
 import GalleryModal from "./GalleryModal";
 import AppTextInput from "./AppTextInput";
 import AppCardPress from "./AppCardPress";
+import ListGroupModal from "./ListGroupModal";
+import GroupDropDownModal from "./GroupDropDownModal";
 
 export {
     CustomTextInput,
@@ -23,5 +25,7 @@ export {
     CustomPhotoCard,
     GalleryModal,
     AppTextInput,
-    AppCardPress
+    AppCardPress,
+    ListGroupModal,
+    GroupDropDownModal
 }

@@ -47,3 +47,17 @@ export const reg_group_error = 'reg_group_error';
 export const reg_center = 'reg_center';
 export const reg_center_success = 'reg_center_success';
 export const reg_center_error = 'reg_center_error';
+
+//getAllCustomer
+export const get_allCustomer = 'get_allCustomer';
+export const get_allCustomer_success = 'get_allCustomer_success';
+export const get_allCustomer_error = 'get_allCustomer_error';
+
+//getGroupDropDown
+export const get_Group_DropDown = 'get_Group_DropDown';
+export const get_Group_DropDown_success = 'get_Group_DropDown_success';
+export const get_Group_DropDown_error = 'get_Group_DropDown_error';
+
+
+
+

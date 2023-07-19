@@ -23,7 +23,7 @@ const AppTextInput = React.forwardRef((props,ref) => {
       }}>
       <View
         style={{
-          height: R.fontSize.Size45,
+          height: props.height ? props.height : R.fontSize.Size45,
           backgroundColor: R.colors.white,
           borderRadius: R.fontSize.Size5,
           alignItems: 'center',
@@ -56,6 +56,7 @@ const AppTextInput = React.forwardRef((props,ref) => {
               secureTextEntry={props.secureTextEntry}
               returnKeyType={props.returnKeyType}
               onSubmitEditing={props.onSubmitEditing}
+              multiline={props.multiline}
             />
           </View>
           {props.rightIcon && (

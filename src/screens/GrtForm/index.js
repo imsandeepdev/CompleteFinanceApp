@@ -31,6 +31,10 @@ const GrtForm = props => {
   const [staffName, setStaffName] = useState('');
   const [groupName, setGroupName] = useState('');
   const [centerName, setCenterName] = useState('');
+
+  const [approvalDate, setApprovalDate] = useState('');
+  const [approvalStatus, setApprovalStatus] = useState('');
+  const [approvalBy, setApprovalBy] = useState('');
   
   return (
     <StoryScreen>
@@ -52,57 +56,125 @@ const GrtForm = props => {
                 paddingHorizontal: R.fontSize.Size24,
                 paddingTop: R.fontSize.Size50,
               }}>
-              <AppTextInput
-                placeholder={'Branch Name'}
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
                 headTitle={'Branch Name'}
+                title={branchName != '' ? branchName : 'Branch Name'}
+                TextColor={
+                  branchName != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
                 headTitleColor={
                   branchName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={branchName}
-                onChangeText={text => setBranchName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
+                rightIcon={R.images.dropdownIcon}
               />
-              <AppTextInput
-                placeholder={'Staff Name'}
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
                 headTitle={'Staff Name'}
+                title={staffName != '' ? staffName : 'Staff Name'}
+                TextColor={
+                  staffName != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
                 headTitleColor={
                   staffName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={staffName}
-                onChangeText={text => setStaffName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
+                rightIcon={R.images.dropdownIcon}
               />
-              <AppTextInput
-                placeholder={'Center name'}
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
                 headTitle={'Center name'}
+                title={centerName != '' ? centerName : 'Center name'}
+                TextColor={
+                  centerName != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
                 headTitleColor={
                   centerName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerName}
-                onChangeText={text => setCenterName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
+                rightIcon={R.images.dropdownIcon}
               />
-              <AppTextInput
-                placeholder={'Group Name'}
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
                 headTitle={'Group Name'}
+                title={groupName != '' ? groupName : 'Group Name'}
+                TextColor={
+                  groupName != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
                 headTitleColor={
-                  centerName != ''
+                  groupName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerName}
-                onChangeText={text => setCenterName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
+                rightIcon={R.images.dropdownIcon}
+              />
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
+                headTitle={'Approved Status'}
+                title={
+                  approvalStatus != '' ? approvalStatus : 'Approved Status'
+                }
+                TextColor={
+                  approvalStatus != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  approvalStatus != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
+              />
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
+                headTitle={'Approved Date'}
+                title={approvalDate != '' ? approvalDate : 'Approved Date'}
+                TextColor={
+                  approvalDate != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  approvalDate != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
+              />
+
+              <AppCardPress
+                onPress={() => console.log('First Meeting Date')}
+                headTitle={'Approved By'}
+                title={approvalBy != '' ? approvalBy : 'Approved By'}
+                TextColor={
+                  approvalBy != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  approvalBy != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
               />
             </View>
           </View>

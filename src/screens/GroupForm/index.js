@@ -16,104 +16,178 @@ import {
   AppCardPress,
   AppTextInput,
   CustomTextInput,
+  GroupDropDownModal,
   Header,
+  ListGroupModal,
+  ListViewModal,
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import CommonFunctions from '../../utils/CommonFunctions';
+import {useDispatch,connect} from 'react-redux';
+import { RegGroupRequest } from '../../actions/regGroup.action';
+import Toast from 'react-native-simple-toast';
+import { GetAllCustomerRequest } from '../../actions/role.action';
+import Styles from './style';
+import { GetCenterDropDownRequest, GetGroupDropDownRequest } from '../../actions/dropdown.action';
 
 let tempList1 = [
   {
     id: 1,
     title: 'Support1',
+    selected: false,
   },
   {
     id: 2,
     title: 'Support2',
+    selected: false,
   },
   {
     id: 3,
     title: 'Support3',
+    selected: false,
   },
   {
     id: 4,
     title: 'Support4',
+    selected: false,
   },
 ];
 
 
 const GroupForm = props => {
-  const [staffName, setStaffName] = useState('');
 
+  const dispatch = useDispatch()
+  const [profileDetail, setProfileDetail] = useState('');
   const [groupName, setGroupName] = useState('');
+  const [groupAddress, setGroupAddress] = useState('');
   const [branchManager, setBranchManager] = useState('');
   const [centerName, setCenterName] = useState('');
-  const [centerAddress, setCenterAddress] = useState('');
-  const [centerPostalCode, setCenterPostalCode] = useState('');
-  const [centerLandmark, setCenterLandmark] = useState('');
-  const [centerDissolvedDate, setCenterDissolvedDate] = useState('');
-  const [isDisplayDate, setIsDisplayDate] = useState(false);
-  const [meetingDay, setMeetingDay] = useState('meetingDay');
+  const [postalCode, setPostalCode] = useState('');
+  const [landmark, setLandMark] = useState('');
+  const [firstMeetDate, setFirstMeetDate] = useState('');
+  // const [onSelect, setOnSelect] = useState('');
+  // const [onDeSelect, setOnDeSelect] = useState('');
+  // const [onSelectTemp1, setOnSelectTemp1] = useState(tempList1);
+  // const [onSelectValue, setOnSelectValue] = useState();
+  // const [onDeSelectValue, setOnDeSelectValue] = useState();
+  // const [onSelectedArray, setOnSelectedArray] = useState([]);
+  const [empModal, setEmpModal] = useState(false)
+  const [empList, setEmpList] = useState();
+  const [selectedEmpList, setSelectedEmpList] = useState([]);
+  const [selectedEmpIdList, setSelectedEmpIdList] = useState([]);
+  const [groupDropDownModal, setGroupDropDownModal] = useState(false)
+  const [groupDropDownList, setGroupDropDownList] = useState([]);
+  const [groupDropDownType, setGroupDropDownType] = useState('');
 
+  useEffect(()=>{
+    handleGetAllCustomer()
+    handleProfile()
+  },[props.navigation])
 
-  const [onSelect, setOnSelect] = useState('');
-  const [onDeSelect, setOnDeSelect] = useState('');
+  const handleProfile = () => {
+    console.log('PROPS PROFILE', props.profile.entity[0]);
+    setProfileDetail(props.profile.entity[0]);
+  }
 
-  const [onSelectTemp1, setOnSelectTemp1] = useState(tempList1);
-  const [onSelectValue, setOnSelectValue] = useState();
-  const [onDeSelectValue, setOnDeSelectValue] = useState();
-  const [onSelectedArray, setOnSelectedArray] = useState([]);
+  const handleGetAllCustomer = () =>{
+    dispatch(GetAllCustomerRequest(response=>{
+      console.log("Get All Customer Response=>", response.entity.entity)
+      let tempList = response.entity.entity
+      let tempSelectedList = []
+      for(let i=0; i<tempList.length; i++)
+      {
+        console.log("ITEM=>",tempList[i].ApplicantName)
+        tempSelectedList.push({
+          ApplicantName: tempList[i].ApplicantName,
+          Husbandname: tempList[i].Husbandname,
+          StaffId: tempList[i].StaffId,
+          ApplicantDateofbirth: tempList[i].ApplicantDateofbirth,
+          selected: false,
+        }); 
+      }
+      setEmpList(tempSelectedList)
+    }))
+  }
 
+  // const handleOnPress = item => {
+  //   console.log('ONCLICK==>', item);
+  //   setOnSelectValue(item);
+  //   setOnSelect(onSelect == item.id ? 0 : item.id);
+  // };
 
-  const handleOnPress = item => {
-    console.log('ONCLICK==>', item);
-    setOnSelectValue(item);
-    setOnSelect(onSelect == item.id ? 0 : item.id);
-  };
-
-  const handleDeSelectOnPress = item => {
-    console.log('ONCLICK==>', item);
-    setOnDeSelectValue(item);
-    setOnDeSelect(onDeSelect == item.id ? 0 : item.id);
+  // const handleDeSelectOnPress = item => {
+  //   console.log('ONCLICK==>', item);
+  //   setOnDeSelectValue(item);
+  //   setOnDeSelect(onDeSelect == item.id ? 0 : item.id);
     
-  };
+  // };
 
-  const onHandlePush = () => {
-    let tempList = onSelectTemp1.filter(item => item.id != onSelectValue.id);
-    setOnSelectTemp1(tempList);
-    console.log('temp selected==>', tempList);
-    setOnSelectedArray([...onSelectedArray, onSelectValue]);
-    setOnSelect('');
-    setOnDeSelect('')
-  };
+  // const onHandlePush = () => {
+  //   let tempList = onSelectTemp1.filter(item => item.id != onSelectValue.id);
+  //   setOnSelectTemp1(tempList);
+  //   console.log('temp selected==>', tempList);
+  //   setOnSelectedArray([...onSelectedArray, onSelectValue]);
+  //   setOnSelect('');
+  //   setOnDeSelect('')
+  // };
 
-  const onHandlePop = () => {
-      let tempList = onSelectedArray.filter(item => item.id != onDeSelectValue.id);
-      setOnSelectedArray(tempList);
-      console.log('temp selected==>', tempList);
-      setOnSelectTemp1([...onSelectTemp1, onDeSelectValue]);
-       setOnSelect('');
-       setOnDeSelect('');
-  };
+  // const onHandlePop = () => {
+  //     let tempList = onSelectedArray.filter(item => item.id != onDeSelectValue.id);
+  //     setOnSelectedArray(tempList);
+  //     console.log('temp selected==>', tempList);
+  //     setOnSelectTemp1([...onSelectTemp1, onDeSelectValue]);
+  //      setOnSelect('');
+  //      setOnDeSelect('');
+  // };
+
+  const handleValidation = () => {
+    return (
+      CommonFunctions.isBlank(branchManager, 'Please select branch manager') &&
+      CommonFunctions.isBlank(centerName, 'Please select center name') &&
+      CommonFunctions.isBlank(firstMeetDate, 'Please select meeting day') &&
+      CommonFunctions.isBlank(groupName.trim(), 'please enter group name') &&
+      CommonFunctions.isBlank(groupAddress.trim(), 'please enter address') &&
+      CommonFunctions.isBlank(postalCode.trim(), 'please enter postal code') &&
+      handleCustomerList()
+    );
+  }
+
+  const handleCustomerList = () =>{
+    if(selectedEmpList.length == 0)
+    {
+      Toast.show('please select customer details',Toast.SHORT)
+      return false
+    }
+    else return true
+  }
+
+  const handleGroupSubAPI = () => {
+    if(handleValidation())
+    {
+      handleGroupSubmit()
+    }
+  }
 
   const handleGroupSubmit = () => {
     let data = {
       groupId: 0,
-      groupCode: 'string',
-      branchId: 0,
-      groupName: 'string',
+      groupCode: 'test',
+      branchId: branchManager.BoId,
+      groupName: groupName,
       bmId: 0,
       testerId: 0,
-      staffid: 0,
+      staffid: profileDetail.StaffID,
       crtDate: '2023-06-24T16:30:17.748Z',
       approveStatus: 'string',
       approvedBy: 0,
       approveDate: '2023-06-24T16:30:17.748Z',
-      approvalReason: 'string',
-      firstMeetingDate: '2023-06-24T16:30:17.748Z',
-      remarks: 'string',
+      approvalReason: postalCode,
+      firstMeetingDate: firstMeetDate.RuleID,
+      remarks: landmark,
       isActive: true,
       createdDate: '2023-06-24T16:30:17.748Z',
       updatedDate: '2023-06-24T16:30:17.748Z',
@@ -121,11 +195,72 @@ const GroupForm = props => {
       updatedBy: 0,
       processDate: '2023-06-24T16:30:17.748Z',
       staff_Recg: 0,
+      customerList: selectedEmpIdList,
+      centerId: centerName.CenterId,
+      customerId: 1,
+      g_LandMark: landmark,
+      g_PostalCode: postalCode,
+      g_Address: groupAddress,
     };
+
+    console.log("GROUP DATA=>",data)
+    dispatch(RegGroupRequest(data,response => {
+      console.log("response =>",response)
+      if(response.statusCode == 200)
+      {
+        Toast.show('Successfully! save group form details', Toast.SHORT);
+        props.navigation.goBack()
+      }
+    }))  
+  }
+
+  const handleRoleSelect = (item,index) => {
+    let tempList = empList
+    let arr = tempList.map((item1,index1)=>{
+      if(index1==index)
+      {
+        item1.selected = !item1.selected;
+      }
+      return{...item1}
+    })
+    setEmpList(arr)
+    // setEmpModal(false);
+  }
+
+  const handleConfirmOnPress = () =>{
+    let tempFilter = empList.filter(item=>item.selected == true)
+    setSelectedEmpList(tempFilter)
+    console.log("FILTER",tempFilter)
+    let tempIdList = []
+    tempFilter.forEach(item=>{
+      console.log('ITEM=>', item.StaffId);
+      tempIdList.push(JSON.stringify(item.StaffId));
+    })
+
+    console.log("TEMPID LIS",tempIdList)
+    setSelectedEmpIdList(tempIdList)
+    setEmpModal(false);
+  }
+
+  const handleGroupDropDown = (mode) =>{
+    setGroupDropDownType(mode);
+    dispatch(GetGroupDropDownRequest(mode, response=>{
+      console.log("Group drop down res=>",response)
+      setGroupDropDownList(response.entity.entity);
+    }))
+    setGroupDropDownModal(true)
+  }
+
+  const handleGroupDropDownSelect = (item) => {
+    console.log("ITEM SELECT",item)
+    groupDropDownType == 'Branch' && setBranchManager(item);
+    groupDropDownType == 'Center' && setCenterName(item);
+    groupDropDownType == 'MeetingDay' && setFirstMeetDate(item);
+    setGroupDropDownModal(false);
   }
 
   return (
-    <StoryScreen>
+    <StoryScreen loading={props.loading}>
       <SafeAreaView style={{flex: 1}}>
         <Header
           onPress={() => props.navigation.goBack()}
@@ -138,32 +273,22 @@ const GroupForm = props => {
             flexGrow: 1,
           }}>
           <View style={{flex: 1}}>
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: R.fontSize.Size24,
-                paddingTop: R.fontSize.Size50,
-              }}>
+            <View style={Styles.mainView}>
               <AppCardPress
-                onPress={() => console.log('Staff Name')}
+                disabled={true}
                 headTitle={'Staff Name'}
-                title={staffName != '' ? staffName : 'Staff Name'}
-                TextColor={
-                  staffName != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
+                title={
+                  profileDetail != '' ? profileDetail.StaffName : 'Staff Name'
                 }
-                headTitleColor={
-                  staffName != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
               />
               <AppCardPress
-                onPress={() => console.log('Branch Manager')}
+                onPress={() => handleGroupDropDown('Branch')}
                 headTitle={'Branch Manager'}
-                title={branchManager != '' ? branchManager : 'Branch Manager'}
+                title={
+                  branchManager != '' ? branchManager.BoCode : 'Branch Manager'
+                }
                 TextColor={
                   branchManager != ''
                     ? R.colors.secAppColor
@@ -177,9 +302,9 @@ const GroupForm = props => {
                 rightIcon={R.images.dropdownIcon}
               />
               <AppCardPress
-                onPress={() => console.log('Center Name')}
+                onPress={() => handleGroupDropDown('Center')}
                 headTitle={'Center Name'}
-                title={centerName != '' ? centerName : 'Center Name'}
+                title={centerName != '' ? centerName.CenterName : 'Center Name'}
                 TextColor={
                   centerName != ''
                     ? R.colors.secAppColor
@@ -192,7 +317,26 @@ const GroupForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
-
+              <AppCardPress
+                onPress={() => handleGroupDropDown('MeetingDay')}
+                headTitle={'First Meeting Day'}
+                title={
+                  firstMeetDate != ''
+                    ? firstMeetDate.RoleName
+                    : 'First Meeting Day'
+                }
+                TextColor={
+                  firstMeetDate != ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  firstMeetDate != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
+              />
               <AppTextInput
                 placeholder={'Group Name'}
                 headTitle={'Group Name'}
@@ -206,17 +350,16 @@ const GroupForm = props => {
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
-
               <AppTextInput
                 placeholder={'Address'}
                 headTitle={'Address'}
                 headTitleColor={
-                  centerAddress != ''
+                  groupAddress != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerAddress}
-                onChangeText={text => setCenterAddress(text)}
+                value={groupAddress}
+                onChangeText={text => setGroupAddress(text)}
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
@@ -224,30 +367,70 @@ const GroupForm = props => {
                 placeholder={'Postal Code'}
                 headTitle={'Postal Code'}
                 headTitleColor={
-                  centerPostalCode != ''
+                  postalCode != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerPostalCode}
-                onChangeText={text => setCenterPostalCode(text)}
+                value={postalCode}
+                onChangeText={text => setPostalCode(text)}
                 returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
               />
               <AppTextInput
                 placeholder={'Landmark'}
                 headTitle={'Landmark'}
                 headTitleColor={
-                  centerLandmark != ''
+                  landmark != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                value={centerLandmark}
-                onChangeText={text => setCenterLandmark(text)}
+                value={landmark}
+                onChangeText={text => setLandMark(text)}
                 returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
               />
+              <AppCardPress
+                onPress={() => {
+                  setEmpModal(true);
+                }}
+                title={'Select Customer Detail'}
+                TextColor={
+                  selectedEmpList.length != 0
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  selectedEmpList.length != 0
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
+                marginBottom={R.fontSize.Size2}
+              />
+              {selectedEmpList.length != 0 &&
+                selectedEmpList.map((item, index) => {
+                  return (
+                    <View style={Styles.headMainView} key={index}>
+                      <View style={Styles.headView}>
+                        <Text style={Styles.modelHeadText} numberOfLines={1}>
+                          {item.ApplicantName}
+                        </Text>
+                      </View>
+                      <View style={Styles.headView}>
+                        <Text style={Styles.modelHeadText} numberOfLines={1}>
+                          {item.Husbandname}
+                        </Text>
+                      </View>
+                      <View style={[Styles.headView, {borderRightWidth: 0}]}>
+                        <Text style={Styles.modelHeadText} numberOfLines={1}>
+                          {moment(item.ApplicantDateofbirth).format(
+                            'Do-MMM-YYYY',
+                          )}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                })}
 
-              <View
+              {/* <View
                 style={{
                   flex: 1,
                   borderWidth: 1,
@@ -364,7 +547,7 @@ const GroupForm = props => {
                     })}
                   </View>
                 </View>
-              </View>
+              </View> */}
             </View>
           </View>
         </ScrollView>
@@ -372,11 +555,33 @@ const GroupForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton marginHorizontal={R.fontSize.Size30} title={'Submit'} />
+          <AppButton
+            onPress={() => handleGroupSubAPI()}
+            marginHorizontal={R.fontSize.Size30}
+            title={'Submit'}
+          />
         </View>
       </SafeAreaView>
+      <ListGroupModal
+        visible={empModal}
+        onPressClose={() => setEmpModal(false)}
+        onPress={(item, index) => handleRoleSelect(item, index)}
+        dataList={empList}
+        onPressConfirm={() => handleConfirmOnPress()}
+      />
+      <GroupDropDownModal
+        visible={groupDropDownModal}
+        cancelOnPress={() => setGroupDropDownModal(false)}
+        onPress={item => handleGroupDropDownSelect(item)}
+        dataList={groupDropDownList}
+      />
     </StoryScreen>
   );
 };
 
-export default GroupForm;
+const mapStateToProps = (state, props) => ({
+  loading: state.regGroupRoot.loading || state.profileRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+
+export default connect(mapStateToProps)(GroupForm);

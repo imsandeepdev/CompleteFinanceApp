@@ -16,6 +16,8 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {useDispatch,connect} from 'react-redux';
 import { RegCenterRequest } from '../../actions/regCenter.action';
+import CommonFunctions from '../../utils/CommonFunctions';
+import Toast from 'react-native-simple-toast';
 
 
 const CenterForm = props => {
@@ -34,7 +36,23 @@ const CenterForm = props => {
     const [meetingDay,setMeetingDay]= useState('meetingDay')
 
 
+  const handleValidation = () => {
+    return (
+      CommonFunctions.isBlank(staffName.trim(), 'please enter staff name') &&
+      CommonFunctions.isBlank(centerName.trim(), 'please enter center name') &&
+      CommonFunctions.isBlank(centerAddress.trim(), 'please enter address') &&
+      CommonFunctions.isBlank(centerPostalCode.trim(), 'please enter postal code') &&
+      CommonFunctions.isBlank(centerLandmark.trim(), 'please enter landmark')
 
+    );
+  }
+
+  const handleCenterSumitAPI =() => {
+    if(handleValidation())
+    {
+      handleCenterSubmit()
+    }
+  }
 
   const handleCenterSubmit = () => {
     let data = {
@@ -67,6 +85,10 @@ const CenterForm = props => {
 
     dispatch(RegCenterRequest(data,response =>{
       console.log("Response Center=>", response)
+      if (response.message == 'Success') {
+        Toast.show('Successfully! save center form details', Toast.SHORT);
+        props.navigation.goBack();
+      }
     }))
     
   }
@@ -261,7 +283,7 @@ const CenterForm = props => {
             marginVertical: R.fontSize.Size10,
           }}>
           <AppButton
-            onPress={() => handleCenterSubmit()}
+            onPress={() => handleCenterSumitAPI()}
             marginHorizontal={R.fontSize.Size30}
             title={'Submit'}
           />
