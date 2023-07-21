@@ -16,6 +16,7 @@ import {
   AppCardPress,
   AppTextInput,
   CustomTextInput,
+  GroupDropDownModal,
   Header,
   StoryScreen,
 } from '../../components';
@@ -23,21 +24,57 @@ import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {connect,useDispatch} from 'react-redux';
+import { GetGroupDropDownRequest } from '../../actions/dropdown.action';
 
 
 
 const GrtForm = props => {
+
+  const dispatch = useDispatch()
+  const [profileDetail, setProfileDetail] = useState('');
   const [branchName, setBranchName] = useState('');
   const [staffName, setStaffName] = useState('');
   const [groupName, setGroupName] = useState('');
   const [centerName, setCenterName] = useState('');
-
   const [approvalDate, setApprovalDate] = useState('');
   const [approvalStatus, setApprovalStatus] = useState('');
   const [approvalBy, setApprovalBy] = useState('');
+  const [grtDropDownModal,setGrtDropDownModal] = useState(false)
+  const [grtDropDownList, setGrtDropDownList] = useState([])
+  const [grtDropDownType, setGrtDropDownType] = useState('');
+
+
+  useEffect(()=>{
+    handleProfile()
+  },[props.navigation])
+
+    const handleProfile = () => {
+      setProfileDetail(props.profile.entity[0]);
+    };
+
+ const handleGrtDropDown = mode => {
+   setGrtDropDownType(mode);
+   dispatch(
+     GetGroupDropDownRequest(mode, response => {
+       console.log('Group drop down res=>', response);
+       setGrtDropDownList(response.entity.entity);
+     }),
+   );
+   setGrtDropDownModal(true);
+ };
+
+  const handleGrtDropDownSelect = (item) =>{
+    console.log('ITEM SELECT', item);
+    grtDropDownType == 'Branch' && setBranchName(item);
+    grtDropDownType == 'Center' && setCenterName(item);
+    grtDropDownType == 'MeetingDay' && setFirstMeetDate(item);
+    setGrtDropDownModal(false);
+
+  }
   
   return (
-    <StoryScreen>
+    <StoryScreen loading={props.loading}>
       <SafeAreaView style={{flex: 1}}>
         <Header
           onPress={() => props.navigation.goBack()}
@@ -57,33 +94,25 @@ const GrtForm = props => {
                 paddingTop: R.fontSize.Size50,
               }}>
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
-                headTitle={'Branch Name'}
-                title={branchName != '' ? branchName : 'Branch Name'}
-                TextColor={
-                  branchName != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  branchName != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-              />
-
-              <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                disabled={true}
                 headTitle={'Staff Name'}
-                title={staffName != '' ? staffName : 'Staff Name'}
+                title={
+                  profileDetail != '' ? profileDetail.StaffName : 'Staff Name'
+                }
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+              <AppCardPress
+                onPress={() => handleGrtDropDown('Branch')}
+                headTitle={'Branch Name'}
+                title={branchName != '' ? branchName.BoCode : 'Branch Name'}
                 TextColor={
-                  staffName != ''
+                  branchName != ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  staffName != ''
+                  branchName != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -91,9 +120,9 @@ const GrtForm = props => {
               />
 
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                onPress={() => handleGrtDropDown('Center')}
                 headTitle={'Center name'}
-                title={centerName != '' ? centerName : 'Center name'}
+                title={centerName != '' ? centerName.CenterName : 'Center name'}
                 TextColor={
                   centerName != ''
                     ? R.colors.secAppColor
@@ -144,20 +173,11 @@ const GrtForm = props => {
               />
 
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                disabled={true}
                 headTitle={'Approved Date'}
-                title={approvalDate != '' ? approvalDate : 'Approved Date'}
-                TextColor={
-                  approvalDate != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  approvalDate != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
+                title={moment().format('DD-MM-YYYY')}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
               />
 
               <AppCardPress
@@ -186,8 +206,19 @@ const GrtForm = props => {
           <AppButton marginHorizontal={R.fontSize.Size30} title={'Submit'} />
         </View>
       </SafeAreaView>
+      <GroupDropDownModal
+        visible={grtDropDownModal}
+        cancelOnPress={() => setGrtDropDownModal(false)}
+        onPress={item => handleGrtDropDownSelect(item)}
+        dataList={grtDropDownList}
+      />
     </StoryScreen>
   );
 };
 
-export default GrtForm;
+const mapStateToProps = (state, props) => ({
+  loading: state.profileRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+
+export default connect(mapStateToProps)(GrtForm);

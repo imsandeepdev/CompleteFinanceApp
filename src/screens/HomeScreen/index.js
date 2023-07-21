@@ -175,6 +175,8 @@ const HomeScreen = props => {
   const [fadeValue] = useState(new Animated.Value(0))
   const [menuList, setMenuList] = useState([]);
 
+  const scrollA = React.useRef(new Animated.Value(0))
+
 
 useEffect(()=>{
  const unsubscribe = props.navigation.addListener('focus', () => {
@@ -303,28 +305,6 @@ else
 
                   </View>
                 
-                {/* <FlatList
-                  style={style.mainView}
-                  numColumns={2}
-                  data={HeaderList}
-                  keyExtractor={(item, index) => index}
-                  renderItem={({item, index}) => {
-                    return (
-                      <View key={index} style={style.flatMainView}>
-                        <Image
-                          source={{uri: item.url}}
-                          style={{height: '100%', width: '100%'}}
-                          resizeMode={'cover'}
-                        />
-                        <View style={style.flatTitleMainView}>
-                          <View style={style.flatTitleView}>
-                            <Text>{item.title}</Text>
-                          </View>
-                        </View>
-                      </View>
-                    );
-                  }}
-                /> */}
               </Animated.View>
               <View
                 style={[

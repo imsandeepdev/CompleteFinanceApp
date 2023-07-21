@@ -490,7 +490,7 @@ const ApplicantForm = (props) => {
         kyCtype1: 1,
         kyC_No: 1,
         kyCtype2: 1,
-        kyC_No2: 'hj',
+        kyC_No2: 1,
         loanproducttype: 1,
         langitude: 1,
         latitude: 1,
@@ -552,7 +552,7 @@ const ApplicantForm = (props) => {
         updatedDate: '2023-06-21T15:38:57.262Z',
       };
 
-      console.log("FORMDATA=>",data)
+      console.log("DATA=>",data)
       dispatch(SaveCustomerRequest(data,response=>{
         console.log('Save Customer Response==>', response);
         if(response.message == 'Success')

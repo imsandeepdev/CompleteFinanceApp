@@ -104,7 +104,7 @@ const GroupForm = props => {
         tempSelectedList.push({
           ApplicantName: tempList[i].ApplicantName,
           Husbandname: tempList[i].Husbandname,
-          StaffId: tempList[i].StaffId,
+          ApplicantId: tempList[i].ApplicantId,
           ApplicantDateofbirth: tempList[i].ApplicantDateofbirth,
           selected: false,
         }); 
@@ -233,8 +233,8 @@ const GroupForm = props => {
     console.log("FILTER",tempFilter)
     let tempIdList = []
     tempFilter.forEach(item=>{
-      console.log('ITEM=>', item.StaffId);
-      tempIdList.push(JSON.stringify(item.StaffId));
+      console.log('ITEM=>', item.ApplicantId);
+      tempIdList.push(JSON.stringify(item.ApplicantId));
     })
 
     console.log("TEMPID LIS",tempIdList)
