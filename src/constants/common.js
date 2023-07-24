@@ -48,6 +48,11 @@ export const reg_center = 'reg_center';
 export const reg_center_success = 'reg_center_success';
 export const reg_center_error = 'reg_center_error';
 
+//register_grt
+export const reg_grt = 'reg_grt';
+export const reg_grt_success = 'reg_grt_success';
+export const reg_grt_error = 'reg_grt_error';
+
 //getAllCustomer
 export const get_allCustomer = 'get_allCustomer';
 export const get_allCustomer_success = 'get_allCustomer_success';
@@ -57,6 +62,11 @@ export const get_allCustomer_error = 'get_allCustomer_error';
 export const get_Group_DropDown = 'get_Group_DropDown';
 export const get_Group_DropDown_success = 'get_Group_DropDown_success';
 export const get_Group_DropDown_error = 'get_Group_DropDown_error';
+
+//getGroupWiseCustomerDropDown
+export const get_Group_Wise_Customer_DropDown = 'get_Group_Wise_Customer_DropDown';
+export const get_Group_Wise_Customer_DropDown_success = 'get_Group_Wise_Customer_DropDown_success';
+export const get_Group_Wise_Customer_DropDown_error = 'get_Group_Wise_Customer_DropDown_error';
 
 
 

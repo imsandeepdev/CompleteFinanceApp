@@ -197,7 +197,7 @@ const AppContent = {
     },
   ],
 
-  LoanProposalHeader:[
+  LoanProposalHeader: [
     {
       id: '1',
       title: 'Income Details',
@@ -209,8 +209,19 @@ const AppContent = {
     {
       id: '3',
       title: 'Loan Proposal',
-    }
-  ]
+    },
+  ],
+
+  ApprovedStatusGrt: [
+    {
+      id: 1,
+      approvedTitile: 'Accept',
+    },
+    {
+      id: 0,
+      approvedTitile: 'Rejected',
+    },
+  ],
 };
 
 export default AppContent

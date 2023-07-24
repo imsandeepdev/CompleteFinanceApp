@@ -128,6 +128,16 @@ const ApplicantForm = (props) => {
    const [branchName, setBranchName] = useState('');
    const [ifscCode, setIfscCode] = useState('');
 
+   const [applicantDocType1,setApplicantDocType1] = useState('')
+   const [applicantKYCNo1, setApplicantKYCNo1] = useState('');
+   const [applicantKYCDocList1, setApplicantKYCDocList1] = useState([]);
+
+  const [applicantDocType2, setApplicantDocType2] = useState('');
+  const [applicantKYCNo2, setApplicantKYCNo2] = useState('');
+  const [applicantKYCDocList2, setApplicantKYCDocList2] = useState([]);
+
+
+
 // Address Details
   const [houseNo, setHouseNo] = useState('');
   const [addressArea, setAddressArea] = useState('');
@@ -209,6 +219,9 @@ const ApplicantForm = (props) => {
       listModalType == 'NomaniKYCType2' && setNomaniKYPName2(item);
       listModalType == 'coApplicantKycType' && setCoApplicantKYPName(item);
       listModalType == 'coApplicantKycType2' && setCoApplicantKYPName2(item);
+      listModalType == 'ApplicantKYCType' && setApplicantDocType1(item);
+      listModalType == 'ApplicantKYCType2' && setApplicantDocType2(item);
+
 
       setListModalData([])
       setListModal(false);
@@ -234,6 +247,9 @@ const ApplicantForm = (props) => {
       type == 'NomaniKYCType2' && handleDropDownList('KYC');
       type == 'coApplicantKycType' && handleDropDownList('KYC');
       type == 'coApplicantKycType2' && handleDropDownList('KYC');
+      type == 'ApplicantKYCType' && handleDropDownList('KYC');
+      type == 'ApplicantKYCType2' && handleDropDownList('KYC');
+
 
 
         setListModal(true);
@@ -302,6 +318,13 @@ const ApplicantForm = (props) => {
               ...selectCoApplicantKYCDocumentList2,
               image.path,
             ]);
+          type == 'applicantKYCDoc1' &&
+            setApplicantKYCDocList1([
+              ...applicantKYCDocList1,
+              image.path,
+            ]);
+          type == 'applicantKYCDoc2' &&
+            setApplicantKYCDocList2([...applicantKYCDocList2, image.path]);
           ;
        });
     }
@@ -320,26 +343,32 @@ const ApplicantForm = (props) => {
       type == 'coApplicantKYCDoc1' &&
         (selectCoApplicantKYCDocumentList.splice(index, 1),
         setSelectCoApplicantKYCDocumentList([...selectCoApplicantKYCDocumentList]));
+      type == 'applicantKYCDoc1' &&
+        (applicantKYCDocList1.splice(index, 1),
+        setApplicantKYCDocList1([...applicantKYCDocList1])),
+      type == 'applicantKYCDoc2' &&
+        (applicantKYCDocList2.splice(index, 1),
+        setApplicantKYCDocList2([...applicantKYCDocList2]));
     }
 
     const handleCustomerVerification = () => {
       return (
-        CommonFunctions.isBlank(fname.trim(), 'pleasse enter first name') &&
-        CommonFunctions.isBlank(mname.trim(), 'pleasse enter middle name') &&
-        CommonFunctions.isBlank(lname.trim(), 'pleasse enter last name') &&
-        CommonFunctions.isBlank(contactNo.trim(), 'pleasse enter contact no') &&
+        CommonFunctions.isBlank(fname.trim(), 'please enter first name') &&
+        CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
+        CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
+        CommonFunctions.isBlank(contactNo.trim(), 'please enter contact no') &&
         CommonFunctions.isBlank(
           nomaniName.trim(),
-          'pleasse enter nominee name',
+          'please enter nominee name',
         ) &&
-        CommonFunctions.isBlank(bankName.trim(), 'pleasse enter bank name') &&
+        CommonFunctions.isBlank(bankName.trim(), 'please enter bank name') &&
         CommonFunctions.isBlank(
           accountHolder.trim(),
-          'pleasse account holder name',
+          'please account holder name',
         ) &&
         CommonFunctions.isBlank(
           accountNo.trim(),
-          'pleasse account holder number',
+          'please account holder number',
         )
       );
     }
@@ -452,21 +481,20 @@ const ApplicantForm = (props) => {
       formData.append('updatedBy', 1);
       formData.append('updatedDate', moment().format('YYYY-MM-DD'));
      
-
       const data = {
         mode: 'Save',
         applicantId: 1,
         applicantCode: 'trtr',
         staffId: 1,
         branchId: 1,
-        applicantName: 'fhg',
+        applicantName: fname,
         firstName: fname,
         middleName: mname,
         lastName: lname,
         husbandname: husbandName,
         fatherName: fatherName,
-        applicantDateofbirth: '2023-06-21T15:38:57.261Z',
-        joinDate: '2023-06-21T15:38:57.261Z',
+        applicantDateofbirth: birthDate,
+        joinDate: moment().format('YYYY-MM-DD'),
         applicantAddress: 'ghjk',
         houseNo: houseNo,
         street: streetName,
@@ -490,19 +518,19 @@ const ApplicantForm = (props) => {
         kyCtype1: 1,
         kyC_No: 1,
         kyCtype2: 1,
-        kyC_No2: 1,
+        kyC_No2: '1' /*{string rquired}*/,
         loanproducttype: 1,
         langitude: 1,
         latitude: 1,
         biometricReference: 'ghj',
         isTransfered: 1,
         dropOutStatus: 'N',
-        dropOutDate: '2023-06-21T15:38:57.261Z',
+        dropOutDate: '2023-06-21',
         dropOutReason: 'ghjk',
         custOtherID: 0,
         nomineeName: nomaniName,
         nomineeRelation: nomaniRelation.RoleName,
-        dateofbirth: '2023-06-21T15:38:57.261Z',
+        dateofbirth: '2023-06-21',
         nomineeKYPName1: nomaniKYPName.RoleName,
         nomineeKYCNo1: nomaniKYPMobNo,
         nomineeKYCdoc: 'gjkl',
@@ -515,7 +543,7 @@ const ApplicantForm = (props) => {
         businessAddress: businessAddress,
         namineeAdress: nomaniAddress,
         nomineeID: 1,
-        religion: 1,
+        religion: memberReligion.RuleID,
         bankdetailId: 1,
         boId: 1,
         bankName: bankName,
@@ -527,15 +555,15 @@ const ApplicantForm = (props) => {
         documenttype: 'ghjk',
         imagedocument: 'ghjk',
         caste: memberCaste.RoleName,
-        noOfMembers: 1,
-        dAgeabove18: 1,
-        sAgeabove18: 1,
+        noOfMembers: noOfFamilyMember.RoleName,
+        dAgeabove18: noOfDaughter.RoleName,
+        sAgeabove18: noOfSon.RoleName,
         totalArea: landArea,
         assetDetail: assetDetail,
         assetValue: assetValue,
-        residenceStatus: 1,
-        memberqualification: 1,
-        husbandqualification: 1,
+        residenceStatus: 1 /*{true rquired}*/,
+        memberqualification: memberQualification.RuleID /*{true rquired}*/,
+        husbandqualification: husbandQualification.RuleID /*{true rquired}*/,
         coapplicantName: coApplicantName,
         coapplicantAdress: coApplicantAddress,
         adress: 'fghj',
@@ -544,13 +572,15 @@ const ApplicantForm = (props) => {
         coapplicantKYCdoc: 'fghjk',
         kycFirstDoc: 'fjk',
         kycSecondDoc: 'ghjk',
-        coapplicantRelation: 0,
+        coapplicantRelation: coApplicantRelation.RuleID,
         isDeleted: true,
         usetid: 1,
-        createdDate: '2023-06-21T15:38:57.262Z',
+        createdDate: '2023-06-21',
         updatedBy: 1,
-        updatedDate: '2023-06-21T15:38:57.262Z',
+        updatedDate: '2023-06-21',
+        coapplicantID: 0,
       };
+
 
       console.log("DATA=>",data)
       dispatch(SaveCustomerRequest(data,response=>{
@@ -561,7 +591,7 @@ const ApplicantForm = (props) => {
           props.navigation.goBack()
         }
 
-      }))      
+      }))   
 }
 
 const handleSameResidentAddress = () => {
@@ -704,7 +734,7 @@ const handleSameResidentAddress = () => {
                       onConfirm={date => {
                         setIsDisplayDate(false);
                         console.log('DATE', date);
-                        setBirthDate(moment(date).format('Do-MMM-YYYY'));
+                        setBirthDate(moment(date).format('YYYY-MM-DD'));
                       }}
                       onCancel={() => {
                         setIsDisplayDate(false);
@@ -907,6 +937,36 @@ const handleSameResidentAddress = () => {
                       onChange_branchName={text => setBranchName(text)}
                       title_accountType={accountType.RoleName}
                       onPress_AccountType={() => handleListModal('accountType')}
+                      onPress_applicantKycType={() => {
+                        handleListModal('ApplicantKYCType');
+                      }}
+                      title_applicantKycType={applicantDocType1.RoleName}
+                      value_applicantKYCNo={applicantKYCNo1}
+                      onChange_applicantKYCNo={text => setApplicantKYCNo1(text)}
+                      // title_applicantKYCDoc={nomaniKYPDocument}
+                      onPress_applicantKYCDoc={() =>
+                        handleNomaniDocPicker('applicantKYCDoc1')
+                      }
+                      selectedApplicantKYCDoc1={applicantKYCDocList1}
+                      handleRemoveApplicantKYCDoc1={index =>
+                        handleRemoveNomKycDoc(index, 'applicantKYCDoc1')
+                      }
+                      onPress_applicantKycType2={() => {
+                        handleListModal('ApplicantKYCType2');
+                      }}
+
+                      title_applicantKycType2={applicantDocType2.RoleName}
+                      value_applicantKYCNo2={applicantKYCNo2}
+                      onChange_applicantKYCNo2={text => setApplicantKYCNo2(text)}
+                      // title_applicantKYCDoc={nomaniKYPDocument}
+                      onPress_applicantKYCDoc2={() =>
+                        handleNomaniDocPicker('applicantKYCDoc2')
+                      }
+                      selectedApplicantKYCDoc2={applicantKYCDocList2}
+                      handleRemoveApplicantKYCDoc2={index =>
+                        handleRemoveNomKycDoc(index, 'applicantKYCDoc2')
+                      }
+
                       submitOnPress={() => handleSaveCustomerAPI()}
                       backOnPress={() => setSelectedHeader(3)}
                     />

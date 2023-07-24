@@ -118,7 +118,7 @@ const Menu = props => {
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
           <CustomDrawerButton
-            title={'Profile'}
+            title={'Loan Proposal'}
             image={R.images.aboutIcon}
             onPress={() => props.navigation.navigate('LoanProposal')}
           />

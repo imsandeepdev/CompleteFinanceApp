@@ -52,7 +52,7 @@ const GroupDropDownModal = props => {
               data={props.dataList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
-                let title = item.CenterName || item.RoleName || item.BoCode;
+                let title = item.CenterName || item.RoleName || item.BoCode || item.GroupName || item.approvedTitile
                 console.log("TITLE==>",title)
                 return (
                   <Pressable

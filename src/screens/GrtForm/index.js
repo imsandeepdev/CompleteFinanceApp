@@ -25,7 +25,12 @@ const screenHeight = Dimensions.get('screen').height;
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {connect,useDispatch} from 'react-redux';
-import { GetGroupDropDownRequest } from '../../actions/dropdown.action';
+import Toast from 'react-native-simple-toast';
+import { GetGroupDropDownRequest, GetGroupWiseCustomerDropDownRequest } from '../../actions/dropdown.action';
+import Styles from './style';
+import AppContent from '../../utils/AppContent';
+import CommonFunctions from '../../utils/CommonFunctions';
+import { RegGRTRequest } from '../../actions/regGRT.action';
 
 
 
@@ -37,12 +42,14 @@ const GrtForm = props => {
   const [staffName, setStaffName] = useState('');
   const [groupName, setGroupName] = useState('');
   const [centerName, setCenterName] = useState('');
-  const [approvalDate, setApprovalDate] = useState('');
+  const [approvalReason, setApprovalReason] = useState('');
   const [approvalStatus, setApprovalStatus] = useState('');
   const [approvalBy, setApprovalBy] = useState('');
   const [grtDropDownModal,setGrtDropDownModal] = useState(false)
   const [grtDropDownList, setGrtDropDownList] = useState([])
   const [grtDropDownType, setGrtDropDownType] = useState('');
+
+  const [groupCustomerList, setGroupCustomerList] = useState([])
 
 
   useEffect(()=>{
@@ -64,13 +71,107 @@ const GrtForm = props => {
    setGrtDropDownModal(true);
  };
 
+ const handleApprovedStatusDropDown = (mode) => {
+  setGrtDropDownType(mode);
+  setGrtDropDownList(AppContent.ApprovedStatusGrt)
+   setGrtDropDownModal(true);
+
+ }
+
   const handleGrtDropDownSelect = (item) =>{
     console.log('ITEM SELECT', item);
     grtDropDownType == 'Branch' && setBranchName(item);
     grtDropDownType == 'Center' && setCenterName(item);
     grtDropDownType == 'MeetingDay' && setFirstMeetDate(item);
+    grtDropDownType == 'Group' &&
+      (setGroupName(item), handleGroupNamePicker('Customer', item.GroupId));
+    grtDropDownType == 'ApprovedStatus' && setApprovalStatus(item)
     setGrtDropDownModal(false);
 
+  }
+
+  const handleGroupNamePickerValidation = () => {
+    if(centerName!='')
+    {
+      handleGroupNamePicker('Group', centerName.CenterId);
+    }
+    else
+    {
+      Toast.show('Please firstly select center name',Toast.SHORT)
+    }
+  }
+
+  const handleGroupNamePicker = (modeName,idNo) => {
+   
+    let data ={
+      mode:modeName,
+      id:idNo
+    }
+    dispatch(GetGroupWiseCustomerDropDownRequest(data,response=>{
+      console.log("GROUP WISE RES=>",response)
+      if (response.statusCode==200)
+      {
+        if (modeName == 'Group') {
+          setGrtDropDownType(modeName);
+          setGrtDropDownList(response.entity.entity);
+          setGrtDropDownModal(true);
+        } else {
+          setGroupCustomerList(response.entity.entity);
+        }
+      }
+    }))
+  }
+
+  const handleValidationOnSubmit = () =>{
+    return (
+      CommonFunctions.isBlank(branchName, 'Please select branch name') &&
+      CommonFunctions.isBlank(centerName, 'Please select center name') &&
+      CommonFunctions.isBlank(groupName, 'Please select group name') &&
+      CommonFunctions.isBlank(approvalStatus, 'Please select approved status') &&
+      CommonFunctions.isBlank(approvalReason.trim(),'Please enter reason')
+    );
+  } 
+
+  const handleOnSubmit = () =>{
+    if(handleValidationOnSubmit())
+    {
+      handleOnSubmitAPI()
+    }
+  }
+
+  const handleOnSubmitAPI = () => {
+
+    let data = {
+      // staff: profileDetail.StaffID,
+      // branchId: branchName.BoId,
+      // centerId: centerName.CenterId,
+      // groupId: groupName.GroupId,
+      // approvedStatus: approvalStatus.id,
+      // approvalDate: moment().format('DD-MM-YYYY'),
+      // approvedBy: profileDetail.StaffID,
+
+      groupId: groupName.GroupId,
+      staffid: profileDetail.StaffID,
+      approveStatus: `${approvalStatus.id}`,
+      approvedBy: profileDetail.StaffID,
+      approveDate: `${moment().format()}`,
+      approvalReason: 'string',
+      firstMeetingDate: 1,
+      remarks: 'string',
+      updatedDate: `${moment().format()}`,
+
+    };
+
+    console.log("DATA==>",data)
+
+    dispatch(RegGRTRequest(data,response=>{
+      console.log("GRT RES=>",response)
+      if (response.statusCode==200)
+      {
+        Toast.show('Successfully! save grt form details', Toast.SHORT);
+        props.navigation.goBack();
+      }
+    }))
   }
   
   return (
@@ -137,9 +238,9 @@ const GrtForm = props => {
               />
 
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                onPress={() => handleGroupNamePickerValidation()}
                 headTitle={'Group Name'}
-                title={groupName != '' ? groupName : 'Group Name'}
+                title={groupName != '' ? groupName.GroupName : 'Group Name'}
                 TextColor={
                   groupName != ''
                     ? R.colors.secAppColor
@@ -154,10 +255,12 @@ const GrtForm = props => {
               />
 
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                onPress={() => handleApprovedStatusDropDown('ApprovedStatus')}
                 headTitle={'Approved Status'}
                 title={
-                  approvalStatus != '' ? approvalStatus : 'Approved Status'
+                  approvalStatus != ''
+                    ? approvalStatus.approvedTitile
+                    : 'Approved Status'
                 }
                 TextColor={
                   approvalStatus != ''
@@ -170,6 +273,26 @@ const GrtForm = props => {
                     : R.colors.textPriColor
                 }
                 rightIcon={R.images.dropdownIcon}
+              />
+
+              <AppTextInput
+                placeholder={
+                  approvalStatus != ''
+                    ? `${approvalStatus.approvedTitile} Reason`
+                    : `Approved Reason`
+                }
+                headTitle={
+                  approvalStatus != ''
+                    ? `${approvalStatus.approvedTitile} Reason`
+                    : `Approved Reason`
+                }
+                headTitleColor={
+                  approvalReason != ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                value={approvalReason}
+                onChangeText={text => setApprovalReason(text)}
               />
 
               <AppCardPress
@@ -179,23 +302,43 @@ const GrtForm = props => {
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
               />
-
               <AppCardPress
-                onPress={() => console.log('First Meeting Date')}
+                disabled={true}
                 headTitle={'Approved By'}
-                title={approvalBy != '' ? approvalBy : 'Approved By'}
-                TextColor={
-                  approvalBy != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
+                title={
+                  profileDetail != '' ? profileDetail.StaffName : 'Approved By'
                 }
-                headTitleColor={
-                  approvalBy != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
               />
+              
+              {groupCustomerList.length != 0 && (
+                <View style={{marginBottom: R.fontSize.Size20}}>
+                  {groupCustomerList.map((item, index) => {
+                    return (
+                      <View style={Styles.headMainView} key={index}>
+                        <View style={Styles.headView}>
+                          <Text style={Styles.modelHeadText} numberOfLines={1}>
+                            {item.ApplicantName}
+                          </Text>
+                        </View>
+                        {/* <View style={Styles.headView}>
+                        <Text style={Styles.modelHeadText} numberOfLines={1}>
+                          {item.Husbandname}
+                        </Text>
+                      </View> */}
+                        <View style={[Styles.headView, {borderRightWidth: 0}]}>
+                          <Text style={Styles.modelHeadText} numberOfLines={1}>
+                            {moment(item.ApplicantDateofbirth).format(
+                              'Do-MMM-YYYY',
+                            )}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
             </View>
           </View>
         </ScrollView>
@@ -203,7 +346,11 @@ const GrtForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton marginHorizontal={R.fontSize.Size30} title={'Submit'} />
+          <AppButton
+            onPress={() => handleOnSubmit()}
+            marginHorizontal={R.fontSize.Size30}
+            title={'Submit'}
+          />
         </View>
       </SafeAreaView>
       <GroupDropDownModal

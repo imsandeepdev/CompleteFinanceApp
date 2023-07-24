@@ -4,16 +4,17 @@ import {
   gender_list_error,
   get_Group_DropDown,
   get_Group_DropDown_success,
-  get_Group_DropDown_error
+  get_Group_DropDown_error,
+  get_Group_Wise_Customer_DropDown,
+  get_Group_Wise_Customer_DropDown_success,
+  get_Group_Wise_Customer_DropDown_error,
 } from '../constants/common';
 
 const initial_state = {
   loading: false,
   genderInit: {},
-  centerInit: {},
-  branchInit: {},
-  meetDayInit: {},
-  staffInit: {},
+  getGroupInit: {},
+  getGroupWiseCustomerInit: {},
   error: '',
 };
 
@@ -43,9 +44,25 @@ const reducer = (state = initial_state, {type, payload}) => {
     case get_Group_DropDown_success:
       return {
         loading: false,
-        centerInit: payload,
+        getGroupInit: payload,
       };
     case get_Group_DropDown_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+
+    case get_Group_Wise_Customer_DropDown:
+      return {
+        ...state,
+        loading: true,
+      };
+    case get_Group_Wise_Customer_DropDown_success:
+      return {
+        loading: false,
+        getGroupWiseCustomerInit: payload,
+      };
+    case get_Group_Wise_Customer_DropDown_error:
       return {
         loading: false,
         error: payload,

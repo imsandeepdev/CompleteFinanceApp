@@ -1,4 +1,4 @@
-import {StyleSheet,Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
@@ -18,7 +18,7 @@ const style = StyleSheet.create({
     fontSize: R.fontSize.Size14,
     fontWeight: '700',
     color: R.colors.secAppColor,
-    textAlign:'center'
+    textAlign: 'center',
   },
   flatUpperView: {
     marginHorizontal: R.fontSize.Size10,
@@ -54,9 +54,9 @@ const style = StyleSheet.create({
   dropDownMainView: {
     alignItems: 'center',
     justifyContent: 'center',
-    top:15,
-    left:0,
-    right:0
+    top: 15,
+    left: 0,
+    right: 0,
   },
   dropDownPress: {
     padding: R.fontSize.Size10,
@@ -83,13 +83,13 @@ const style = StyleSheet.create({
   customCardFlatView: {
     marginHorizontal: R.fontSize.Size6,
     borderWidth: 1,
-    
+
     padding: R.fontSize.Size5,
     width: R.fontSize.Size120,
-    height: R.fontSize.Size90,
+    height: R.fontSize.Size150,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: R.fontSize.Size4,
+    borderRadius: R.fontSize.Size8,
     borderColor: R.colors.placeHolderColor,
     backgroundColor: R.colors.white,
     shadowColor: R.colors.lightBlack,
@@ -102,13 +102,13 @@ const style = StyleSheet.create({
     elevation: 6,
   },
   customCardTitleText: {
-    fontFamily:R.fonts.medium,
+    fontFamily: R.fonts.medium,
     fontSize: R.fontSize.Size12,
     color: R.colors.secAppColor,
     textAlign: 'center',
     marginTop: R.fontSize.Size6,
-    fontWeight:'600'
+    fontWeight: '600',
   },
 });
 
-export default style
+export default style;

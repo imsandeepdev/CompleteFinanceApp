@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect,useRef} from 'react';
 import {
-  View, 
-  Text, 
+  View,
+  Text,
   StyleSheet,
-   Image,
-    Dimensions,
-    SafeAreaView,
-    FlatList, 
-    Pressable,
-    Animated,
-    ScrollView
-  } from 'react-native';
+  Image,
+  Dimensions,
+  SafeAreaView,
+  FlatList,
+  Pressable,
+  Animated,
+  ScrollView,
+} from 'react-native';
 import {
   AppButton,
   CustomCardPress,
@@ -21,13 +21,13 @@ import {
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
-import {useDispatch,connect} from 'react-redux';
+import {useDispatch, connect} from 'react-redux';
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
 
 import Toast from 'react-native-simple-toast';
 import style from './style';
-import { GetMenuListRequest } from '../../actions/role.action';
+import {GetMenuListRequest} from '../../actions/role.action';
 
 const HeaderList = [
   {
@@ -90,141 +90,101 @@ const ListOne = [
   {
     id: 4,
     Title: 'Sub Master-2',
-    icon: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
-    Url: 'GrtForm',
+    icon: 'https://static-00.iconduck.com/assets.00/m-letter-icon-256x256-9jskhkb1.png',
+    Url: 'SubMasterForm',
   },
   {
     id: 5,
     Title: 'Assign Menu',
-    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
-    Url: 'GrtForm',
+    icon: 'https://ps.w.org/menu-image/assets/icon-128x128.png?rev=2123398',
+    Url: 'AssignMenuForm',
   },
 ];
 
-const ListTwo = [
-  {
-    id: '1',
-    Title: 'Corporate Finance',
-    icon: 'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-corporate-finance-icon-design-image_1170929.jpg',
-    Url: 'ApplicantForm',
-  },
-  {
-    id: '2',
-    Title: 'Muntual fund',
-    icon: 'https://www.pngitem.com/pimgs/m/34-349175_mutual-fund-investment-icon-hd-png-download.png',
-    Url: 'GroupForm',
-  },
-  {
-    id: '3',
-    Title: 'Public finance',
-    icon: 'https://img.freepik.com/premium-vector/ppp-public-private-partnership-online-market-safe-finance-investment-vector-stock-illustration_100456-9766.jpg?w=2000',
-    Url: 'CenterForm',
-  },
-  {
-    id: '4',
-    Title: 'Family Plan',
-    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
-    Url: 'GrtForm',
-  },
-];
 
-const CustomCard = (props) => {
+const CustomCard = props => {
   return (
     <View style={style.customCardMainView}>
       <View style={style.customCardView}>
         <Text style={style.customCardHead}>{props.heading}</Text>
       </View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap',alignItems:'center',justifyContent:'center'}}>
-        {
-        props.data.map((item,index)=>{
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {props.data.map((item, index) => {
           return (
             <Pressable
               key={index}
               onPress={() => props.onPress(item.Url)}
-              style={{marginVertical:R.fontSize.Size5}}>
+              style={{marginVertical: R.fontSize.Size5}}>
               <View style={style.customCardFlatView}>
-                <Image
-                  source={{uri: item.icon}}
-                  resizeMode={'contain'}
-                  style={{
-                    height: R.fontSize.Size45,
-                    width: R.fontSize.Size45,
-                  }}
-                />
+                <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                  <Image
+                    source={{uri: item.icon}}
+                    resizeMode={'contain'}
+                    style={{
+                      height: R.fontSize.Size45,
+                      width: R.fontSize.Size45,
+                    }}
+                  />
+                </View>
+                <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:1}}/>
                 <Text style={style.customCardTitleText} numberOfLines={1}>
                   {`${item.Title}`}
                 </Text>
               </View>
             </Pressable>
           );
-        })
-        
-        }
-        
+        })}
       </View>
     </View>
   );
-}
-
+};
 
 const HomeScreen = props => {
-
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [showMore, setShowMore] = useState(false)
-  const [fadeValue] = useState(new Animated.Value(0))
-  const [menuList, setMenuList] = useState([]);
+  const [showMore, setShowMore] = useState(false);
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
-  const scrollA = React.useRef(new Animated.Value(0))
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      screenFocus();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
 
 
-useEffect(()=>{
- const unsubscribe = props.navigation.addListener('focus', () => {
-   screenFocus();
- });
- return unsubscribe;
-},[props.navigation])
+  const screenFocus = () => {
+    handleMenuListAPI();
+  };
 
-const screenFocus = () => {
-  handleMenuListAPI();
-}
+  const handleMenuListAPI = () => {
+    setLoading(true);
+    dispatch(
+      GetMenuListRequest(response => {
+        console.log('Menu List Res==>', response);
+        setMenuList(response.entity.entity);
+        
+      }),
+    );
+    setLoading(false);
+  };
 
- const handleMenuListAPI = () => {
-  setLoading(true)
-   dispatch(
-     GetMenuListRequest(response => {
-       console.log('Menu List Res==>', response);
-       setMenuList(response.entity.entity);
-        setLoading(false);
+  const toggleCard = () => {
+    Animated.timing(animatedValue, {
+      toValue: animatedValue._value === 0 ? 1 : 0, // Toggle between 0 and 1
+      duration: 300, // Animation duration in milliseconds
+      useNativeDriver: false, // Set to true if you want to use the native driver (Android only)
+    }).start();
+      setShowMore(!showMore);
 
-     }),
-   );
- };
- 
-const _start = () => {
-  if(!showMore)
-  {
+  };
 
-  setShowMore(!showMore);
-  Animated.timing(fadeValue, {
-    toValue: 3,
-    duration: 3000,
-    useNativeDriver:true
-  }).start();
-
-}
-else
-{
-   Animated.timing(fadeValue, {
-     toValue: 0,
-     duration: 3000,
-     useNativeDriver: true,
-   }).start();
-   setTimeout(() => {
-     setShowMore(!showMore);
-   }, 3000);
-}
-};
 
   return (
     <StoryScreen loading={loading}>
@@ -269,11 +229,11 @@ else
                 style={[
                   style.flatUpperView,
                   {
-                    opacity: fadeValue,
+                    opacity: animatedValue,
                     height: !showMore ? 0 : null,
                     transform: [
                       {
-                        translateY: fadeValue.interpolate({
+                        translateY: animatedValue.interpolate({
                           inputRange: [0, 1],
                           outputRange: [-10, -5], // 0 : 150, 0.5 : 75, 1 : 0
                         }),
@@ -281,30 +241,24 @@ else
                     ],
                   },
                 ]}>
-                  <View
-                  style={{flexDirection:'row',flexWrap:'wrap'}}
-                  >
-                    {
-                      HeaderList.map((item,index)=>{
-                        return (
-                          <View key={index} style={style.flatMainView}>
-                            <Image
-                              source={{uri: item.url}}
-                              style={{height: '100%', width: '100%'}}
-                              resizeMode={'cover'}
-                            />
-                            <View style={style.flatTitleMainView}>
-                              <View style={style.flatTitleView}>
-                                <Text>{item.title}</Text>
-                              </View>
-                            </View>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  {HeaderList.map((item, index) => {
+                    return (
+                      <View key={index} style={style.flatMainView}>
+                        <Image
+                          source={{uri: item.url}}
+                          style={{height: '100%', width: '100%'}}
+                          resizeMode={'cover'}
+                        />
+                        <View style={style.flatTitleMainView}>
+                          <View style={style.flatTitleView}>
+                            <Text>{item.title}</Text>
                           </View>
-                        );
-                      })
-                    }
-
-                  </View>
-                
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
               </Animated.View>
               <View
                 style={[
@@ -314,9 +268,7 @@ else
                   },
                 ]}>
                 <Pressable
-                  onPress={() => {
-                    _start(), console.log('Fade value==>', fadeValue._value);
-                  }}
+                  onPress={toggleCard}
                   style={({pressed}) => [
                     style.dropDownPress,
                     {opacity: pressed ? 0.5 : 1},
@@ -333,7 +285,7 @@ else
               </View>
             </View>
 
-            <View>
+            <View style={{marginTop:R.fontSize.Size18}}>
               <CustomCard
                 heading={'Loan List'}
                 data={ListOne}

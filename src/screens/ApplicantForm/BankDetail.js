@@ -107,6 +107,122 @@ const BankDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
+
+        <AppCardPress
+          onPress={props.onPress_applicantKycType}
+          headTitle={'Applicant KYC Type'}
+          title={
+            props.title_applicantKycType != null
+              ? props.title_applicantKycType
+              : 'Applicant KYC Type'
+          }
+          TextColor={
+            props.title_applicantKycType != null
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.title_applicantKycType != null
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          rightIcon={R.images.dropdownIcon}
+        />
+
+        <AppTextInput
+          placeholder={'Applicant KYC No'}
+          headTitle={'Applicant KYC No'}
+          headTitleColor={
+            props.value_applicantKYCNo != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.value_applicantKYCNo}
+          onChangeText={props.onChange_applicantKYCNo}
+        />
+        <AppCardPress
+          onPress={props.onPress_applicantKYCDoc}
+          headTitle={'Applicant KYC Document'}
+          title={
+            props.title_applicantKYCDoc != ''
+              ? props.title_applicantKYCDoc
+              : 'Applicant KYC Document'
+          }
+          TextColor={
+            props.title_applicantKYCDoc != ''
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.title_applicantKYCDoc != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          rightIcon={R.images.documentIcon}
+          borderStyle={'dashed'}
+          Iconheight={R.fontSize.Size22}
+          Iconwidth={R.fontSize.Size22}
+          selectedDoc={props.selectedApplicantKYCDoc1}
+          handleRemove={props.handleRemoveApplicantKYCDoc1}
+        />
+
+        <AppCardPress
+          onPress={props.onPress_applicantKycType2}
+          headTitle={'Applicant KYC Type2'}
+          title={
+            props.title_applicantKycType2 != null
+              ? props.title_applicantKycType2
+              : 'Applicant KYC Type'
+          }
+          TextColor={
+            props.title_applicantKycType2 != null
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.title_applicantKycType2 != null
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          rightIcon={R.images.dropdownIcon}
+        />
+
+        <AppTextInput
+          placeholder={'Applicant KYC No 2'}
+          headTitle={'Applicant KYC No 2'}
+          headTitleColor={
+            props.value_applicantKYCNo2 != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.value_applicantKYCNo2}
+          onChangeText={props.onChange_applicantKYCNo2}
+        />
+        <AppCardPress
+          onPress={props.onPress_applicantKYCDoc2}
+          headTitle={'Applicant KYC Document'}
+          title={
+            props.title_applicantKYCDoc2 != ''
+              ? props.title_applicantKYCDoc2
+              : 'Applicant KYC Document'
+          }
+          TextColor={
+            props.title_applicantKYCDoc2 != ''
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.title_applicantKYCDoc2 != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          rightIcon={R.images.documentIcon}
+          borderStyle={'dashed'}
+          Iconheight={R.fontSize.Size22}
+          Iconwidth={R.fontSize.Size22}
+          selectedDoc={props.selectedApplicantKYCDoc2}
+          handleRemove={props.handleRemoveApplicantKYCDoc2}
+        />
       </View>
       <View
         style={{

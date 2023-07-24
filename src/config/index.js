@@ -13,4 +13,7 @@ export const Config = {
   regCenterAPI: '/Center/RegisterCenter',
   getAllCustomerAPI: '/User/GetAllCustomer',
   getGroupDropDown: '/Group/GetgroupDropdown',
+  getGroupWiseCustomerAPI: '/Group/GetgroupWiseCustomer',
+  updateGRTAPI: '/Group/UpdateGRT',
+
 };
