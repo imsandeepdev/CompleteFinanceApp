@@ -15,5 +15,7 @@ export const Config = {
   getGroupDropDown: '/Group/GetgroupDropdown',
   getGroupWiseCustomerAPI: '/Group/GetgroupWiseCustomer',
   updateGRTAPI: '/Group/UpdateGRT',
+  saveCustomerDocAPI:'/User/SaveCustomerDocument',
+  
 
 };

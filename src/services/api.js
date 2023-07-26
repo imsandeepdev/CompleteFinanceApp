@@ -49,7 +49,7 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
     console.log('Request params ==> ', formData, ' ==> ', requestUrl);
 
     axios
-      .post(requestUrl, {headers})
+      .post(requestUrl,formData, {headers})
       .then(response => {
         console.log('AXIOS RESPONSE ON API', response);
         if (response.status == '200') {

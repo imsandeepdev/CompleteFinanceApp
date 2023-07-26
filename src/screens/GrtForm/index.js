@@ -80,6 +80,7 @@ const GrtForm = props => {
 
   const handleGrtDropDownSelect = (item) =>{
     console.log('ITEM SELECT', item);
+    grtDropDownType == 'Staff' && setStaffName(item);
     grtDropDownType == 'Branch' && setBranchName(item);
     grtDropDownType == 'Center' && setCenterName(item);
     grtDropDownType == 'MeetingDay' && setFirstMeetDate(item);
@@ -195,13 +196,12 @@ const GrtForm = props => {
                 paddingTop: R.fontSize.Size50,
               }}>
               <AppCardPress
-                disabled={true}
+                onPress={() => handleGrtDropDown('Staff')}
                 headTitle={'Staff Name'}
-                title={
-                  profileDetail != '' ? profileDetail.StaffName : 'Staff Name'
-                }
+                title={staffName != '' ? staffName.BoCode : 'Staff Name'}
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
+                rightIcon={R.images.dropdownIcon}
               />
               <AppCardPress
                 onPress={() => handleGrtDropDown('Branch')}
@@ -311,7 +311,7 @@ const GrtForm = props => {
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
               />
-              
+
               {groupCustomerList.length != 0 && (
                 <View style={{marginBottom: R.fontSize.Size20}}>
                   {groupCustomerList.map((item, index) => {

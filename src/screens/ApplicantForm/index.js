@@ -16,7 +16,7 @@ import BusinessDetail from './BusinessDetail';
 const screenWidth = Dimensions.get('screen').width;
 import {useDispatch,connect} from 'react-redux';
 import { GenderListRequest } from '../../actions/dropdown.action';
-import { SaveCustomerRequest } from '../../actions/saveCustomer.action';
+import { SaveCustomerDocumentRequest, SaveCustomerRequest } from '../../actions/saveCustomer.action';
 import Toast from 'react-native-simple-toast'
 import CommonFunctions from '../../utils/CommonFunctions';
 
@@ -357,6 +357,68 @@ const ApplicantForm = (props) => {
         CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
         CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
         CommonFunctions.isBlank(contactNo.trim(), 'please enter contact no') &&
+        CommonFunctions.isCheckValidLength(
+          contactNo.trim(),
+          10,
+          'please enter valid mob no',
+        ) &&
+        CommonFunctions.isBlank(
+          altContactNo.trim(),
+          'please enter alternate contact no',
+        ) &&
+        CommonFunctions.isCheckValidLength(
+          altContactNo.trim(),
+          10,
+          'please enter valid alternate contact no',
+        ) &&
+        CommonFunctions.isBlank(email.trim(), 'please enter email id') &&
+        CommonFunctions.isEmailValid(
+          email.trim(),
+          'please enter valid email id',
+        ) &&
+        CommonFunctions.isBlank(
+          birthPlace.trim(),
+          'please enter birth place',
+        ) &&
+        CommonFunctions.isBlank(birthDate, 'please select date of birth') &&
+        CommonFunctions.isBlank(gender, 'please select user gender') &&
+        CommonFunctions.isBlank(
+          maritalStatus,
+          'please select marital status',
+        ) &&
+        CommonFunctions.isBlank(
+          memberQualification,
+          'please select member qualification',
+        ) &&
+        CommonFunctions.isBlank(
+          memberReligion,
+          'please select member religion',
+        ) &&
+        CommonFunctions.isBlank(memberCaste, 'please select member caste') &&
+        CommonFunctions.isBlank(
+          fatherName.trim(),
+          'please enter member father name',
+        ) &&
+        CommonFunctions.isBlank(
+          husbandName.trim(),
+          'please enter member husband/wife name',
+        ) &&
+        CommonFunctions.isBlank(
+          husbandQualification,
+          'please select husband qualification',
+        ) &&
+        CommonFunctions.isBlank(
+          noOfFamilyMember,
+          'please select number of family members',
+        ) &&
+        CommonFunctions.isBlank(
+          noOfDaughter,
+          'please select number of daughter',
+        ) &&
+        CommonFunctions.isBlank(
+          noOfSon,
+          'please select number of son',
+        ) &&
         CommonFunctions.isBlank(
           nomaniName.trim(),
           'please enter nominee name',
@@ -575,9 +637,9 @@ const ApplicantForm = (props) => {
         coapplicantRelation: coApplicantRelation.RuleID,
         isDeleted: true,
         usetid: 1,
-        createdDate: '2023-06-21',
+        createdDate: moment().format('YYYY-MM-DD'),
         updatedBy: 1,
-        updatedDate: '2023-06-21',
+        updatedDate: moment().format('YYYY-MM-DD'),
         coapplicantID: 0,
       };
 
@@ -587,11 +649,114 @@ const ApplicantForm = (props) => {
         console.log('Save Customer Response==>', response);
         if(response.message == 'Success')
         {
-          Toast.show('Successfully! save customer details',Toast.SHORT)
-          props.navigation.goBack()
+          handleApplicantDocument();
+          // Toast.show('Successfully! save customer details',Toast.SHORT)
+          // props.navigation.goBack()
         }
 
       }))   
+}
+
+const handleApplicantDocument = () => {
+  let formData = new FormData()
+  formData.append(
+    'Applicant_ProfilePic',
+    applicantPic?.path != null || applicantPic?.path != undefined
+      ? {
+          uri:
+            Platform.OS === 'android'
+              ? applicantPic?.path
+              : (applicantPic?.path).replace('file://', ''),
+          type: 'image/png',
+          name: `image.png`,
+        }
+      : '',
+  );
+  applicantKYCDocList1.forEach((item, index) => {
+    formData.append(`Applicant_ProfilePic`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+  formData.append('Applicant_DocType1', applicantDocType1.RuleID);
+  formData.append('Applicant_DocNo1', applicantKYCNo1);
+  applicantKYCDocList1.forEach((item,index)=>{
+    formData.append(`Applicant_Doc1`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`
+    });
+  })
+
+  formData.append('Applicant_DocType2', applicantDocType2.RuleID);
+  formData.append('Applicant_DocNo2', applicantKYCNo2);
+  applicantKYCDocList2.forEach((item, index) => {
+    formData.append(`Applicant_Doc2`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+ 
+
+  formData.append('Nomanee_DocType1', nomaniKYPName.RuleID);
+  formData.append('Nomanee_DocNo1', nomaniKYPMobNo);
+  selectNomaniKYCDocumentList.forEach((item, index) => {
+    formData.append(`Nomanee_Doc1`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+
+  formData.append('Nomanee_DocType2', nomaniKYPName2.RuleID);
+  formData.append('Nomanee_DocNo2', nomaniKYPMobNo2);
+  selectNomaniKYCDocumentList2.forEach((item, index) => {
+    formData.append(`Nomanee_Doc2`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+  
+
+  formData.append('CoApplicant_DocType1', coApplicantKYPName.RuleID);
+  formData.append('CoApplicant_DocNo1', coApplicantKYPMobNo);
+  selectCoApplicantKYCDocumentList.forEach((item, index) => {
+    formData.append(`CoApplicant_Doc1`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+
+  
+  formData.append('CoApplicant_DocType2', coApplicantKYPName2.RuleID);
+  formData.append('CoApplicant_DocNo2', coApplicantKYPMobNo2);
+  selectCoApplicantKYCDocumentList2.forEach((item, index) => {
+    formData.append(`CoApplicant_Doc2`, {
+      uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+      type: 'image/png',
+      name: `image${index}.png`,
+    });
+  });
+
+  
+
+
+console.log("FORMDATA=>",formData)
+
+dispatch(SaveCustomerDocumentRequest(formData,response =>{
+  console.log("Response=>", response)
+   Toast.show('Successfully! save customer details', Toast.SHORT);
+   props.navigation.goBack();
+}))
+
+
+
+
+
 }
 
 const handleSameResidentAddress = () => {
@@ -954,10 +1119,11 @@ const handleSameResidentAddress = () => {
                       onPress_applicantKycType2={() => {
                         handleListModal('ApplicantKYCType2');
                       }}
-
                       title_applicantKycType2={applicantDocType2.RoleName}
                       value_applicantKYCNo2={applicantKYCNo2}
-                      onChange_applicantKYCNo2={text => setApplicantKYCNo2(text)}
+                      onChange_applicantKYCNo2={text =>
+                        setApplicantKYCNo2(text)
+                      }
                       // title_applicantKYCDoc={nomaniKYPDocument}
                       onPress_applicantKYCDoc2={() =>
                         handleNomaniDocPicker('applicantKYCDoc2')
@@ -966,8 +1132,8 @@ const handleSameResidentAddress = () => {
                       handleRemoveApplicantKYCDoc2={index =>
                         handleRemoveNomKycDoc(index, 'applicantKYCDoc2')
                       }
-
                       submitOnPress={() => handleSaveCustomerAPI()}
+                      // submitOnPress={() => handleApplicantDocument()}
                       backOnPress={() => setSelectedHeader(3)}
                     />
                   </View>

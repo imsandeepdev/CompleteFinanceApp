@@ -38,6 +38,11 @@ export const save_customer = 'save_customer';
 export const save_customer_success = 'save_customer_success';
 export const save_customer_error = 'save_customer_error';
 
+//save_customer_document
+export const save_customer_document = 'save_customer_document';
+export const save_customer_document_success = 'save_customer_document_success';
+export const save_customer_document_error = 'save_customer_document_error';
+
 //register_group
 export const reg_group = 'reg_group';
 export const reg_group_success = 'reg_group_success';

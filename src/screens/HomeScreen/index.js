@@ -89,15 +89,15 @@ const ListOne = [
   },
   {
     id: 4,
-    Title: 'Sub Master-2',
+    Title: 'Loan Proposal',
     icon: 'https://static-00.iconduck.com/assets.00/m-letter-icon-256x256-9jskhkb1.png',
-    Url: 'SubMasterForm',
+    Url: 'LoanProposal',
   },
   {
     id: 5,
     Title: 'Assign Menu',
     icon: 'https://ps.w.org/menu-image/assets/icon-128x128.png?rev=2123398',
-    Url: 'AssignMenuForm',
+    Url: 'CustomerList',
   },
 ];
 

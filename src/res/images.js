@@ -16,6 +16,8 @@ const images = {
   galleryIcon: require('./images/galleryIcon.png'),
   documentIcon: require('./images/document.png'),
   applicantIcon: require('./images/applicantIcon3.png'),
+  planeIcon: require('./images/planePaper.png'),
+  darkPlaneIcon: require('./images/darkPlane.png'),
 };
 
 export {images}
