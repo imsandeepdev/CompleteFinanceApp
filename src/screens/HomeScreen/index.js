@@ -67,36 +67,45 @@ const ListOne = [
     id: 0,
     Title: 'Loan Application',
     icon: 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png',
+    icon1: R.images.applicantFormIcon,
     Url: 'ApplicantForm',
   },
   {
     id: 1,
     Title: 'Group Formation',
     icon: 'https://cdn.iconscout.com/icon/free/png-256/free-agriculture-loan-1795547-1522752.png',
+    icon1: R.images.groupIcon,
     Url: 'GroupForm',
   },
   {
     id: 2,
     Title: 'Center Formation',
     icon: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    icon1: R.images.applicantFormIcon,
+
     Url: 'CenterForm',
   },
   {
     id: 3,
     Title: 'GRT',
     icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    icon1: R.images.grtIcon,
+
     Url: 'GrtForm',
   },
   {
     id: 4,
     Title: 'Loan Proposal',
     icon: 'https://static-00.iconduck.com/assets.00/m-letter-icon-256x256-9jskhkb1.png',
+    icon1: R.images.applicantFormIcon,
+
     Url: 'LoanProposal',
   },
   {
     id: 5,
     Title: 'Assign Menu',
     icon: 'https://ps.w.org/menu-image/assets/icon-128x128.png?rev=2123398',
+    icon1: R.images.applicantFormIcon,
     Url: 'CustomerList',
   },
 ];
@@ -124,15 +133,15 @@ const CustomCard = props => {
               <View style={style.customCardFlatView}>
                 <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
                   <Image
-                    source={{uri: item.icon}}
+                    source={item.icon1}
                     resizeMode={'contain'}
                     style={{
-                      height: R.fontSize.Size45,
-                      width: R.fontSize.Size45,
+                      height: R.fontSize.Size100,
+                      width: R.fontSize.Size100,
                     }}
                   />
                 </View>
-                <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:1}}/>
+                <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:0.6,width:'100%',borderColor:R.colors.darkBlueColor}}/>
                 <Text style={style.customCardTitleText} numberOfLines={1}>
                   {`${item.Title}`}
                 </Text>

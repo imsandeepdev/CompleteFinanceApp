@@ -16,6 +16,7 @@ const colors = {
   textPriColor: '#1f2021',
   textSecColor: '#a2ce39',
   darkGreenColor: '#018235',
+  darkBlueColor: '#2c0985',
 };
 
 export {colors};

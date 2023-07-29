@@ -32,6 +32,64 @@ import AppContent from '../../utils/AppContent';
 import CommonFunctions from '../../utils/CommonFunctions';
 import { RegGRTRequest } from '../../actions/regGRT.action';
 
+const CustomCardView = (props) => {
+  return (
+    <View style={Styles.headMainView}>
+      <View style={Styles.headView}>
+        <Text style={Styles.modelHeadText} numberOfLines={1}>
+          {props.title}
+        </Text>
+      </View>
+      <View style={Styles.headView}>
+        <Text style={Styles.modelHeadText} numberOfLines={1}>
+          {props.subTitle}
+        </Text>
+      </View>
+      <Pressable
+        onPress={props.onPressUdid}
+        style={({pressed}) => [
+          Styles.headView,
+          {
+            flex: 1 / 2,
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}>
+        {props.onPressUdid ? (
+          <Image
+            source={{
+              uri: 'https://previews.123rf.com/images/magurok/magurok1608/magurok160800001/61213444-vector-application-form.jpg',
+            }}
+            resizeMode={'cover'}
+            style={{height: '100%', width: '100%'}}
+          />
+        ) : (
+          <Text style={Styles.modelHeadText}>{'UDID'}</Text>
+        )}
+      </Pressable>
+      <Pressable
+        style={({pressed}) => [
+          Styles.headView,
+          {
+            borderRightWidth: 0,
+            flex: 1 / 2,
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}>
+        {props.onPressBank ? (
+          <Image
+            source={{
+              uri: 'https://previews.123rf.com/images/magurok/magurok1608/magurok160800001/61213444-vector-application-form.jpg',
+            }}
+            resizeMode={'cover'}
+            style={{height: '100%', width: '100%'}}
+          />
+        ) : (
+          <Text style={Styles.modelHeadText}>{'BANK'}</Text>
+        )}
+      </Pressable>
+    </View>
+  );
+}
 
 
 const GrtForm = props => {
@@ -314,27 +372,21 @@ const GrtForm = props => {
 
               {groupCustomerList.length != 0 && (
                 <View style={{marginBottom: R.fontSize.Size20}}>
+                  <CustomCardView
+                    title={'Applicant'}
+                    subTitle={'center'}
+                  />
                   {groupCustomerList.map((item, index) => {
                     return (
-                      <View style={Styles.headMainView} key={index}>
-                        <View style={Styles.headView}>
-                          <Text style={Styles.modelHeadText} numberOfLines={1}>
-                            {item.ApplicantName}
-                          </Text>
-                        </View>
-                        {/* <View style={Styles.headView}>
-                        <Text style={Styles.modelHeadText} numberOfLines={1}>
-                          {item.Husbandname}
-                        </Text>
-                      </View> */}
-                        <View style={[Styles.headView, {borderRightWidth: 0}]}>
-                          <Text style={Styles.modelHeadText} numberOfLines={1}>
-                            {moment(item.ApplicantDateofbirth).format(
+                       <CustomCardView
+                          key={index}
+                          title={item.ApplicantName}
+                          subTitle={moment(item.ApplicantDateofbirth).format(
                               'Do-MMM-YYYY',
                             )}
-                          </Text>
-                        </View>
-                      </View>
+                          onPressUdid={()=>{console.log('pressed')}}
+                          onPressBank={()=>{console.log('pressed')}}
+                        />
                     );
                   })}
                 </View>

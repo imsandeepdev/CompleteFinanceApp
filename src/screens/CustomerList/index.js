@@ -37,16 +37,19 @@ const CardLayout = (props) => {
       <View style={Styles.customerView}>
         <Text style={Styles.titleText}>{props.customer}</Text>
       </View>
+      <View style={Styles.customerLineWhite} />
       <View style={Styles.customerView}>
         <Text style={Styles.titleText}>{props.center}</Text>
       </View>
-
-      
-        <View
-          style={{width: R.fontSize.Size60, alignItems: 'center'}}>
-          <Text style={Styles.titleText}>{props.proceed}</Text>
-        </View>
-      
+      <View style={Styles.customerLineWhite} />
+      <View
+        style={{
+          width: R.fontSize.Size70,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text style={Styles.titleText}>{props.proceed}</Text>
+      </View>
     </View>
   );
 }
@@ -57,21 +60,21 @@ const CardLineLayout = props => {
       <View style={Styles.customerLineView}>
         <Text style={Styles.titleLineText}>{props.customer}</Text>
       </View>
+      <View style={Styles.customerLineNew} />
       <View style={Styles.customerLineView}>
         <Text style={Styles.titleLineText}>{props.center}</Text>
       </View>
+      <View style={Styles.customerLineNew} />
+
       <Pressable
         onPress={props.onPress}
-        style={({pressed})=>[{
-          width: R.fontSize.Size60, 
-          alignItems: 'center',
-          opacity:pressed?0.5:1
-        }]}>
-        <Image
-          source={R.images.darkPlaneIcon}
-          style={{height: R.fontSize.Size20, width: R.fontSize.Size20}}
-          resizeMode={'contain'}
-        />
+        style={({pressed}) => [
+          Styles.customerLinePress,
+          {opacity: pressed ? 0.5 : 1}
+        ]}>
+        <Text style={Styles.loanText}>
+          {'Loan'}
+        </Text>
       </Pressable>
     </View>
   );
@@ -112,8 +115,8 @@ const CustomerList = (props) =>{
             title={'Customer List'}
           />
           <CardLayout
-            customer={'Customer Name'}
-            center={'Center Name'}
+            customer={'Center Name'}
+            center={'Customer Name'}
             proceed={'Proceed'}
           />
           <View style={Styles.mainView}>
@@ -124,8 +127,8 @@ const CustomerList = (props) =>{
                 return (
                   <CardLineLayout
                     key={index}
-                    customer={item.ApplicantName}
-                    center={item.Husbandname}
+                    customer={item.CenterName}
+                    center={item.ApplicantName}
                     onPress={() => handleProceed(item)}
                   />
                 );

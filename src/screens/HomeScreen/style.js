@@ -82,7 +82,7 @@ const style = StyleSheet.create({
   },
   customCardFlatView: {
     marginHorizontal: R.fontSize.Size6,
-    borderWidth: 1,
+    borderWidth: 1.5,
 
     padding: R.fontSize.Size5,
     width: R.fontSize.Size120,
@@ -90,7 +90,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: R.fontSize.Size8,
-    borderColor: R.colors.placeHolderColor,
+    borderColor: R.colors.darkBlueColor,
     backgroundColor: R.colors.white,
     shadowColor: R.colors.lightBlack,
     shadowOffset: {
@@ -107,7 +107,7 @@ const style = StyleSheet.create({
     color: R.colors.secAppColor,
     textAlign: 'center',
     marginTop: R.fontSize.Size6,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });
 

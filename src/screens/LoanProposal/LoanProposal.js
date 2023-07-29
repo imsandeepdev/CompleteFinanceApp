@@ -45,12 +45,12 @@ const LoanProposalForm = props => {
           placeholder={'Proposal Code'}
           headTitle={'Proposal Code'}
           headTitleColor={
-            props.monthly_medical != ''
+            props.proposal_code != ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
-          value={props.monthly_medical}
-          onChangeText={props.onChange_monthlyMedical}
+          value={props.proposal_code}
+          onChangeText={props.onChange_proposalCode}
           returnKeyType={'next'}
           onSubmitEditing={() => customerNameRef.current?.focus()}
         />
@@ -79,7 +79,8 @@ const LoanProposalForm = props => {
           }
           value={props.customer_code}
           onChangeText={props.onChange_customerCode}
-          returnKeyType={'done'}
+          returnKeyType={'next'}
+          onSubmitEditing={() => insuranceAmountRef.current?.focus()}
         />
 
         <AppTextInput
@@ -87,12 +88,12 @@ const LoanProposalForm = props => {
           placeholder={'Insurance Amount'}
           headTitle={'Insurance Amount'}
           headTitleColor={
-            props.monthly_food_clothing != ''
+            props.insurance_amount != ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
-          value={props.monthly_food_clothing}
-          onChangeText={props.onChange_monthlyfood_clothing}
+          value={props.insurance_amount}
+          onChangeText={props.onChange_insuranceAmount}
           returnKeyType={'next'}
           onSubmitEditing={() => maxAmountRef.current?.focus()}
         />

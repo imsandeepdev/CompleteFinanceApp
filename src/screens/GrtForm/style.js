@@ -15,11 +15,10 @@ const Styles = StyleSheet.create({
   },
   headMainView: {
     height: R.fontSize.Size40,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: R.colors.darkGreenColor,
     borderRadius: R.fontSize.Size4,
     flexDirection: 'row',
-    paddingHorizontal: R.fontSize.Size5,
     marginVertical: R.fontSize.Size2,
     backgroundColor: R.colors.lightWhite,
     marginHorizontal: R.fontSize.Size2,
@@ -33,8 +32,53 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    borderRightWidth: 1,
+    borderRightWidth: 2,
     borderColor: R.colors.darkGreenColor,
+  },
+
+  cardLineView: {
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderColor: R.colors.darkGreenColor,
+    height: R.fontSize.Size35,
+    paddingHorizontal: R.fontSize.Size10,
+  },
+  customerLineView: {
+    flex: 1,
+    paddingHorizontal: R.fontSize.Size8,
+    borderColor: R.colors.darkGreenColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleLineText: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size14,
+    fontWeight: '700',
+    color: R.colors.textPriColor,
+  },
+  customerLineNew: {
+    height: '100%',
+    width: 2,
+    backgroundColor: R.colors.darkGreenColor,
+  },
+  customerLineWhite: {
+    height: '100%',
+    width: 2,
+    backgroundColor: R.colors.lightWhite,
+  },
+  customerLinePress: {
+    width: R.fontSize.Size60,
+    alignItems: 'center',
+    backgroundColor: R.colors.darkGreenColor,
+    borderRadius: R.fontSize.Size2,
+    justifyContent: 'center',
+    marginLeft: R.fontSize.Size10,
+    marginVertical: R.fontSize.Size2,
+  },
+  loanText: {
+    color: R.colors.lightWhite,
+    fontSize: R.fontSize.Size12,
+    fontWeight: '600',
   },
 });
 
