@@ -11,8 +11,9 @@ const multiGetRequest = ({url}) =>
       Accept: 'application/json',
       'Content-Type': 'multipart/form-data',
     };
-    console.log('HEADER=>>', headers);
     const requestUrl = Config.API_URL + url;
+    console.log('HEADER=>>', headers,"Req URL=>",requestUrl);
+
     axios
       .get(requestUrl, {headers})
       .then(response => {

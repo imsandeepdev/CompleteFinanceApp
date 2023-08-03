@@ -28,14 +28,14 @@ const GenralDetail = (props) => {
               cardWidth={R.fontSize.Size140}
               marginRight={R.fontSize.Size10}
               icon={R.images.galleryIcon}
-              title={'Upload a photo'}
+              title={'Upload a photo *'}
               selectedPhoto={props.selectedPhoto}
             />
           </View>
           <AppTextInput
             ref={fnameRef}
             placeholder={'First Name'}
-            headTitle={'First Name'}
+            headTitle={'First Name *'}
             headTitleColor={
               props.value_fname != ''
                 ? R.colors.darkGreenColor
@@ -49,7 +49,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={mnameRef}
             placeholder={'Middle Name'}
-            headTitle={'Middle Name'}
+            headTitle={'Middle Name *'}
             headTitleColor={
               props.value_mname != ''
                 ? R.colors.darkGreenColor
@@ -63,7 +63,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={lnameRef}
             placeholder={'Last Name'}
-            headTitle={'Last Name'}
+            headTitle={'Last Name *'}
             headTitleColor={
               props.value_lname != ''
                 ? R.colors.darkGreenColor
@@ -78,7 +78,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={contactNoRef}
             placeholder={'Contact No'}
-            headTitle={'Contact No'}
+            headTitle={'Contact No *'}
             headTitleColor={
               props.value_contactNo != ''
                 ? R.colors.darkGreenColor
@@ -94,7 +94,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={altContactNoRef}
             placeholder={'Alternate Contact No'}
-            headTitle={'Alternate Contact No'}
+            headTitle={'Alternate Contact No *'}
             headTitleColor={
               props.value_altContactNo != ''
                 ? R.colors.darkGreenColor
@@ -110,7 +110,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={emailRef}
             placeholder={'Email'}
-            headTitle={'Email'}
+            headTitle={'Email *'}
             headTitleColor={
               props.value_email != ''
                 ? R.colors.darkGreenColor
@@ -124,7 +124,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={birthPlaceRef}
             placeholder={'Birth Place'}
-            headTitle={'Birth Place'}
+            headTitle={'Birth Place *'}
             headTitleColor={
               props.value_birthPlace != ''
                 ? R.colors.darkGreenColor
@@ -138,7 +138,7 @@ const GenralDetail = (props) => {
           <View>
             <AppCardPress
               onPress={props.onPressBirthDate}
-              headTitle={'Date of brith'}
+              headTitle={'Date of brith *'}
               title={
                 props.title_birthDate != ''
                   ? props.title_birthDate
@@ -159,7 +159,7 @@ const GenralDetail = (props) => {
           </View>
           <AppCardPress
             onPress={props.onPressGender}
-            headTitle={'Gender'}
+            headTitle={'Gender *'}
             title={props.title_gender != null ? props.title_gender : 'Gender'}
             TextColor={
               props.title_gender != null
@@ -175,7 +175,7 @@ const GenralDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPressMaritalStatus}
-            headTitle={'Marital Status'}
+            headTitle={'Marital Status *'}
             title={
               props.title_maritalStatus != null
                 ? props.title_maritalStatus
@@ -195,7 +195,7 @@ const GenralDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPressMemberQualification}
-            headTitle={'Member Qualification'}
+            headTitle={'Member Qualification *'}
             title={
               props.title_memberQualification != null
                 ? props.title_memberQualification
@@ -215,7 +215,7 @@ const GenralDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPressMemberReligion}
-            headTitle={'Religion'}
+            headTitle={'Religion *'}
             title={
               props.title_memberReligion != null
                 ? props.title_memberReligion
@@ -237,7 +237,9 @@ const GenralDetail = (props) => {
             onPress={props.onPressMemberCaste}
             headTitle={'Caste'}
             title={
-              props.title_memberCaste != null ? props.title_memberCaste : 'Caste'
+              props.title_memberCaste != null
+                ? props.title_memberCaste
+                : 'Caste'
             }
             TextColor={
               props.title_memberCaste != null
@@ -254,7 +256,7 @@ const GenralDetail = (props) => {
 
           <AppTextInput
             placeholder={'Father Name'}
-            headTitle={'Father Name'}
+            headTitle={'Father Name *'}
             headTitleColor={
               props.value_fatherName != ''
                 ? R.colors.darkGreenColor
@@ -275,8 +277,8 @@ const GenralDetail = (props) => {
             onChangeText={props.onChange_motherName}
           />*/}
           <AppTextInput
-            placeholder={'Husband Name'}
-            headTitle={'Husband Name'}
+            placeholder={'Husband/Wife Name'}
+            headTitle={'Husband/Wife Name'}
             headTitleColor={
               props.value_husbandName != ''
                 ? R.colors.darkGreenColor
@@ -287,11 +289,11 @@ const GenralDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_husbandQualification}
-            headTitle={'Husband Qualification'}
+            headTitle={'Husband/Wife Qualification'}
             title={
               props.title_husbandQualification != null
                 ? props.title_husbandQualification
-                : 'Husband Qualification'
+                : 'Husband/Wife Qualification'
             }
             TextColor={
               props.title_husbandQualification != null

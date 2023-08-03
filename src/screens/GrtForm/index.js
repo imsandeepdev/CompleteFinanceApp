@@ -16,6 +16,7 @@ import {
   AppCardPress,
   AppTextInput,
   CustomTextInput,
+  DocumentViewModal,
   GroupDropDownModal,
   Header,
   StoryScreen,
@@ -46,6 +47,7 @@ const CustomCardView = (props) => {
         </Text>
       </View>
       <Pressable
+        disabled={props.disabled}
         onPress={props.onPressUdid}
         style={({pressed}) => [
           Styles.headView,
@@ -57,7 +59,7 @@ const CustomCardView = (props) => {
         {props.onPressUdid ? (
           <Image
             source={{
-              uri: 'https://previews.123rf.com/images/magurok/magurok1608/magurok160800001/61213444-vector-application-form.jpg',
+              uri: props.udidURI,
             }}
             resizeMode={'cover'}
             style={{height: '100%', width: '100%'}}
@@ -67,6 +69,8 @@ const CustomCardView = (props) => {
         )}
       </Pressable>
       <Pressable
+        disabled={props.disabled}
+        onPress={props.onPressBank}
         style={({pressed}) => [
           Styles.headView,
           {
@@ -78,7 +82,7 @@ const CustomCardView = (props) => {
         {props.onPressBank ? (
           <Image
             source={{
-              uri: 'https://previews.123rf.com/images/magurok/magurok1608/magurok160800001/61213444-vector-application-form.jpg',
+              uri: props.bankURI,
             }}
             resizeMode={'cover'}
             style={{height: '100%', width: '100%'}}
@@ -106,6 +110,9 @@ const GrtForm = props => {
   const [grtDropDownModal,setGrtDropDownModal] = useState(false)
   const [grtDropDownList, setGrtDropDownList] = useState([])
   const [grtDropDownType, setGrtDropDownType] = useState('');
+  const [documentModal,setDocumentModal] = useState(false)
+  const [selectDocument,setSelectDocument] = useState()
+
 
   const [groupCustomerList, setGroupCustomerList] = useState([])
 
@@ -232,6 +239,12 @@ const GrtForm = props => {
       }
     }))
   }
+
+  const handleOpenDocumentModal = (item) => {
+    console.log("ITEM",item)
+    setSelectDocument(item)
+    setDocumentModal(true)
+  }
   
   return (
     <StoryScreen loading={props.loading}>
@@ -294,7 +307,8 @@ const GrtForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
-
+              {
+              centerName != ''&&
               <AppCardPress
                 onPress={() => handleGroupNamePickerValidation()}
                 headTitle={'Group Name'}
@@ -311,6 +325,7 @@ const GrtForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
+              }
 
               <AppCardPress
                 onPress={() => handleApprovedStatusDropDown('ApprovedStatus')}
@@ -375,18 +390,25 @@ const GrtForm = props => {
                   <CustomCardView
                     title={'Applicant'}
                     subTitle={'center'}
+                    disabled={true}
                   />
                   {groupCustomerList.map((item, index) => {
                     return (
-                       <CustomCardView
-                          key={index}
-                          title={item.ApplicantName}
-                          subTitle={moment(item.ApplicantDateofbirth).format(
-                              'Do-MMM-YYYY',
-                            )}
-                          onPressUdid={()=>{console.log('pressed')}}
-                          onPressBank={()=>{console.log('pressed')}}
-                        />
+                      <CustomCardView
+                        key={index}
+                        title={item.ApplicantName}
+                        subTitle={moment(item.ApplicantDateofbirth).format(
+                          'Do-MMM-YYYY',
+                        )}
+                        onPressUdid={() => {
+                          handleOpenDocumentModal(item.KycFirstDoc);
+                        }}
+                        udidURI={`${item.KycFirstDoc}`}
+                        bankURI={`${item.KycSecondDoc}`}
+                        onPressBank={() => {
+                          handleOpenDocumentModal(item.KycSecondDoc);
+                        }}
+                      />
                     );
                   })}
                 </View>
@@ -410,6 +432,12 @@ const GrtForm = props => {
         cancelOnPress={() => setGrtDropDownModal(false)}
         onPress={item => handleGrtDropDownSelect(item)}
         dataList={grtDropDownList}
+      />
+      <DocumentViewModal
+        visible={documentModal}
+        onPressClose={() => setDocumentModal(false)}
+        feedBackOnPress={() => setDocumentModal(false)}
+        sourceURL={selectDocument}
       />
     </StoryScreen>
   );

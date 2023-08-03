@@ -7,6 +7,8 @@ import profileRoot from '../reducer/profile.reducer';
 import roleRoot from '../reducer/role.reducer';
 import dropDownRoot from '../reducer/dropDown.reducer';
 import regGroupRoot from '../reducer/regGroup.reducer';
+import saveCustomerRoot from '../reducer/saveCustomer.reducer';
+import loanProposalRoot from '../reducer/loanProposal.reducer'
 
 const authPersistConfig = {
   storage: AsyncStorage,
@@ -19,5 +21,7 @@ export default combineReducers({
   profileRoot,
   roleRoot,
   dropDownRoot,
-  regGroupRoot
+  regGroupRoot,
+  saveCustomerRoot,
+  loanProposalRoot
 });

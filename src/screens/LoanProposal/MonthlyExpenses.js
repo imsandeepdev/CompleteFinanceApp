@@ -9,6 +9,25 @@ import {
   ListViewModal,
 } from '../../components';
 
+const CustomTitle = props => {
+  return (
+    <View
+      style={{
+        marginVertical: R.fontSize.Size15,
+      }}>
+      <Text
+        style={{
+          fontFamily: R.fonts.regular,
+          fontSize: R.fontSize.Size14,
+          fontWeight: '700',
+          color: R.colors.textPriColor,
+        }}>
+        {props.title}
+      </Text>
+    </View>
+  );
+};
+
 const MonthlyExpenses = props => {
 
 
@@ -120,6 +139,31 @@ const MonthlyExpenses = props => {
           value={props.monthly_other_expense}
           onChangeText={props.onChange_monthlyother_expense}
           returnKeyType={'done'}
+        />
+        
+        <View
+          style={{
+            width: '100%',
+            height: 2,
+            backgroundColor: R.colors.lightWhite,
+          }}
+        />
+        <CustomTitle title={'Monthly Total Expenses'} />
+
+        <AppCardPress
+          title={
+            props.overAllExpenses != null ? props.overAllExpenses : 'Monthly Total Expenses'
+          }
+          TextColor={
+            props.overAllExpenses != null
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.overAllExpenses != null
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
         />
       </View>
       <View

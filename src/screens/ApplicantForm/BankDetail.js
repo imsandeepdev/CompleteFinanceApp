@@ -34,7 +34,7 @@ const BankDetail = props => {
         <AppTextInput
           ref={accountHolderRef}
           placeholder={'Account holder name'}
-          headTitle={'Account holder name'}
+          headTitle={'Account holder name *'}
           headTitleColor={
             props.value_accountHolder != ''
               ? R.colors.darkGreenColor
@@ -48,7 +48,7 @@ const BankDetail = props => {
         <AppTextInput
           ref={accountNoRef}
           placeholder={'Account number'}
-          headTitle={'Account number'}
+          headTitle={'Account number *'}
           headTitleColor={
             props.value_accountNo != ''
               ? R.colors.darkGreenColor
@@ -62,7 +62,7 @@ const BankDetail = props => {
         <AppTextInput
           ref={ifscCodeRef}
           placeholder={'IFSC Code'}
-          headTitle={'IFSC Code'}
+          headTitle={'IFSC Code *'}
           headTitleColor={
             props.value_ifscCode != ''
               ? R.colors.darkGreenColor
@@ -89,7 +89,7 @@ const BankDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_AccountType}
-          headTitle={'Account type'}
+          headTitle={'Account type *'}
           title={
             props.title_accountType != null
               ? props.title_accountType
@@ -110,7 +110,7 @@ const BankDetail = props => {
 
         <AppCardPress
           onPress={props.onPress_applicantKycType}
-          headTitle={'Applicant KYC Type'}
+          headTitle={'Applicant KYC Type *'}
           title={
             props.title_applicantKycType != null
               ? props.title_applicantKycType
@@ -131,7 +131,7 @@ const BankDetail = props => {
 
         <AppTextInput
           placeholder={'Applicant KYC No'}
-          headTitle={'Applicant KYC No'}
+          headTitle={'Applicant KYC No *'}
           headTitleColor={
             props.value_applicantKYCNo != ''
               ? R.colors.darkGreenColor
@@ -142,23 +142,19 @@ const BankDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_applicantKYCDoc}
-          headTitle={'Applicant KYC Document'}
+          headTitle={'Applicant KYC Document *'}
           title={
-            props.title_applicantKYCDoc != ''
-              ? props.title_applicantKYCDoc
-              : 'Applicant KYC Document'
+            props.applicantKYCList >= 1
+              ? 'Selected documents'
+              : 'Select applicant KYC document'
           }
           TextColor={
-            props.title_applicantKYCDoc != ''
+            props.applicantKYCList >= 1
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
-          headTitleColor={
-            props.title_applicantKYCDoc != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.documentIcon}
+          headTitleColor={R.colors.darkGreenColor}
+          rightIcon={R.images.cameraIcon1}
           borderStyle={'dashed'}
           Iconheight={R.fontSize.Size22}
           Iconwidth={R.fontSize.Size22}
@@ -168,7 +164,7 @@ const BankDetail = props => {
 
         <AppCardPress
           onPress={props.onPress_applicantKycType2}
-          headTitle={'Applicant KYC Type2'}
+          headTitle={'Applicant KYC Type2 *'}
           title={
             props.title_applicantKycType2 != null
               ? props.title_applicantKycType2
@@ -189,7 +185,7 @@ const BankDetail = props => {
 
         <AppTextInput
           placeholder={'Applicant KYC No 2'}
-          headTitle={'Applicant KYC No 2'}
+          headTitle={'Applicant KYC No 2 *'}
           headTitleColor={
             props.value_applicantKYCNo2 != ''
               ? R.colors.darkGreenColor
@@ -200,23 +196,19 @@ const BankDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_applicantKYCDoc2}
-          headTitle={'Applicant KYC Document'}
+          headTitle={'Applicant KYC Document 2 *'}
           title={
-            props.title_applicantKYCDoc2 != ''
-              ? props.title_applicantKYCDoc2
-              : 'Applicant KYC Document'
+            props.applicantKYCList2 >= 1
+              ? 'Selected documents'
+              : 'Select applicant KYC document 2'
           }
           TextColor={
-            props.title_applicantKYCDoc2 != ''
+            props.applicantKYCList2 >= 1
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
-          headTitleColor={
-            props.title_applicantKYCDoc2 != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.documentIcon}
+          headTitleColor={R.colors.darkGreenColor}
+          rightIcon={R.images.cameraIcon1}
           borderStyle={'dashed'}
           Iconheight={R.fontSize.Size22}
           Iconwidth={R.fontSize.Size22}

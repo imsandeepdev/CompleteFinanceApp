@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect,useRef} from 'react';
 import {Text, Image, View, Pressable, SafeAreaView, ScrollView,Dimensions,Platform} from 'react-native';
 import { AppCardPress, AppTextInput, CustomCardPress, CustomPhotoCard, CustomTextInput, GalleryModal, Header, ListViewModal, StoryScreen } from '../../components';
 import style from './style';
@@ -19,6 +19,7 @@ import { GenderListRequest } from '../../actions/dropdown.action';
 import { SaveCustomerDocumentRequest, SaveCustomerRequest } from '../../actions/saveCustomer.action';
 import Toast from 'react-native-simple-toast'
 import CommonFunctions from '../../utils/CommonFunctions';
+import { set } from 'react-native-reanimated';
 
 const headerList = [
   {
@@ -45,6 +46,7 @@ const headerList = [
 
 const ApplicantForm = (props) => {
 
+    const scrollRef = useRef();
     const dispatch = useDispatch()
     const [selectedHeader, setSelectedHeader] = useState(0)
     const [listModal, setListModal] = useState(false);
@@ -156,7 +158,6 @@ const ApplicantForm = (props) => {
   const [perCountryName, setPerCountryName] = useState('');
   const [perPinCode, setPerPinCode] = useState('');
   const [sameResidentStatus, setSameResidentStatus] = useState(false);
-
 
   const [galleryModalVisible, setGalleryModalVisible] = useState(false);
 
@@ -292,7 +293,7 @@ const ApplicantForm = (props) => {
     const handleNomaniDocPicker = (type) => {
       
       setSelectDocumentType(type);
-       ImagePicker.openPicker({
+       ImagePicker.openCamera({
          width: 400,
          height: 400,
          cropping: true,
@@ -353,6 +354,7 @@ const ApplicantForm = (props) => {
 
     const handleCustomerVerification = () => {
       return (
+        CommonFunctions.isNull(applicantPic?.path,'please upload applicant photo') &&
         CommonFunctions.isBlank(fname.trim(), 'please enter first name') &&
         CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
         CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
@@ -394,49 +396,193 @@ const ApplicantForm = (props) => {
           memberReligion,
           'please select member religion',
         ) &&
-        CommonFunctions.isBlank(memberCaste, 'please select member caste') &&
-        CommonFunctions.isBlank(
-          fatherName.trim(),
-          'please enter member father name',
-        ) &&
-        CommonFunctions.isBlank(
-          husbandName.trim(),
-          'please enter member husband/wife name',
-        ) &&
-        CommonFunctions.isBlank(
-          husbandQualification,
-          'please select husband qualification',
-        ) &&
-        CommonFunctions.isBlank(
-          noOfFamilyMember,
-          'please select number of family members',
-        ) &&
-        CommonFunctions.isBlank(
-          noOfDaughter,
-          'please select number of daughter',
-        ) &&
-        CommonFunctions.isBlank(
-          noOfSon,
-          'please select number of son',
-        ) &&
+        // CommonFunctions.isBlank(memberCaste, 'please select member caste') &&
+        // CommonFunctions.isBlank(
+        //   fatherName.trim(),
+        //   'please enter member father name',
+        // ) &&
+        // CommonFunctions.isBlank(
+        //   husbandName.trim(),
+        //   'please enter member husband/wife name',
+        // ) &&
+        // CommonFunctions.isBlank(
+        //   husbandQualification,
+        //   'please select husband qualification',
+        // ) &&
+        // CommonFunctions.isBlank(
+        //   noOfFamilyMember,
+        //   'please select number of family members',
+        // ) &&
+        // CommonFunctions.isBlank(
+        //   noOfDaughter,
+        //   'please select number of daughter',
+        // ) &&
+        // CommonFunctions.isBlank(noOfSon, 'please select number of son') &&
         CommonFunctions.isBlank(
           nomaniName.trim(),
           'please enter nominee name',
         ) &&
-        CommonFunctions.isBlank(bankName.trim(), 'please enter bank name') &&
+        CommonFunctions.isBlank(
+          nomaniAddress.trim(),
+          'please enter nominee address',
+        ) &&
+        CommonFunctions.isBlank(nomaniDob, 'please select nominee DOB') &&
+        CommonFunctions.isBlank(
+          nomaniRelation,
+          'please select nominee relation',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPName,
+          'please select first nominee KYC Type',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPMobNo.trim(),
+          'please enter first nominee KYC No',
+        ) &&
+        CommonFunctions.isCheckValidLength(
+          selectNomaniKYCDocumentList,
+          1,
+          'please select first nominee KYC Documents',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPName2,
+          'please select second nominee KYC Type',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPMobNo.trim(),
+          'please enter second nominee KYC No',
+        ) &&
+        CommonFunctions.isCheckValidLength(
+          selectNomaniKYCDocumentList2,
+          1,
+          'please select second nominee KYC Documents',
+        ) &&
+        CommonFunctions.isBlank(
+          houseNo.trim(),
+          'please enter residential house no',
+        ) &&
+        CommonFunctions.isBlank(
+          addressArea.trim(),
+          'please enter residential address area',
+        ) &&
+        CommonFunctions.isBlank(
+          streetName.trim(),
+          'please enter residential street name',
+        ) &&
+        CommonFunctions.isBlank(
+          cityName.trim(),
+          'please enter residential city name',
+        ) &&
+        CommonFunctions.isBlank(
+          stateName.trim(),
+          'please enter residential state name',
+        ) &&
+        CommonFunctions.isBlank(
+          countryName.trim(),
+          'please enter residential country name',
+        ) &&
+        CommonFunctions.isBlank(
+          pinCode.trim(),
+          'please enter residential pin code',
+        ) &&
+        CommonFunctions.isBlank(
+          perHouseNo.trim(),
+          'please enter permanent house no',
+        ) &&
+        CommonFunctions.isBlank(
+          perAddressArea.trim(),
+          'please enter permanent address area',
+        ) &&
+        CommonFunctions.isBlank(
+          perStateName.trim(),
+          'please enter permanent street name',
+        ) &&
+        CommonFunctions.isBlank(
+          perCityName.trim(),
+          'please enter permanent city name',
+        ) &&
+        CommonFunctions.isBlank(
+          perStateName.trim(),
+          'please enter permanent state name',
+        ) &&
+        CommonFunctions.isBlank(
+          perCountryName.trim(),
+          'please enter permanent country name',
+        ) &&
+        CommonFunctions.isBlank(
+          perPinCode.trim(),
+          'please enter permanent pin code',
+        ) &&
+        CommonFunctions.isBlank(
+          businessName.trim(),
+          'please enter business name',
+        ) &&
+        CommonFunctions.isBlank(
+          businessAddress.trim(),
+          'please enter business address',
+        ) &&
+        CommonFunctions.isBlank(
+          landArea.trim(),
+          'please enter business land area',
+        ) &&
+        CommonFunctions.isBlank(
+          assetDetail.trim(),
+          'please enter business asset detail',
+        ) &&
+        CommonFunctions.isBlank(
+          assetValue.trim(),
+          'please enter business asset value',
+        ) &&
+        CommonFunctions.isBlank(
+          houseStatus,
+          'please select business house status',
+        ) &&
+        CommonFunctions.isBlank(
+          natureBusiness,
+          'please select business nature of business',
+        ) &&
         CommonFunctions.isBlank(
           accountHolder.trim(),
-          'please account holder name',
+          'please enter account holder name',
         ) &&
         CommonFunctions.isBlank(
           accountNo.trim(),
-          'please account holder number',
+          'please enter account number',
+        ) &&
+        CommonFunctions.isBlank(ifscCode.trim(), 'please enter IFSC code') &&
+        CommonFunctions.isBlank(
+          accountType,
+          'please select bank account type',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantDocType1,
+          'please select applicant fisrt KYC type',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantKYCNo1.trim(),
+          'please enter fisrt KYC number',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantKYCDocList1,
+          'please select fisrt KYC documents',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantDocType2,
+          'please select applicant second KYC type',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantKYCNo2.trim(),
+          'please enter second KYC number',
+        ) &&
+        CommonFunctions.isBlank(
+          applicantKYCDocList2,
+          'please select second KYC documents',
         )
       );
     }
 
     const handleSaveCustomerAPI = () => {
-      if(handleCustomerVerification())
+      if(handleGenralValidation()&&handleNomineeValidation()&&handleAddressValidation()&&handleBusinessValidation()&&handleBankValidation())
       {
         handleSaveCustomer()
       }
@@ -444,104 +590,104 @@ const ApplicantForm = (props) => {
 
     const handleSaveCustomer = () => {
 
-      let formData = new FormData()
-      formData.append('mode', 'Save');
-      formData.append('applicantId', 1);
-      formData.append('applicantCode','ASSA121');
-      formData.append('applicantName', 'ASSA121');
-      formData.append('staffId',1)
-      formData.append('branchId', 1);
-      formData.append('firstName', 'fname');
-      formData.append('middleName', 'mname');
-      formData.append('lastName', 'lname');
-      formData.append('husbandname', 'husbandName');
-      formData.append('fatherName', 'fatherName');
-      formData.append('applicantDateofbirth', '1997-07-24');
-      formData.append('joinDate', moment().format('YYYY-MM-DD'));
-      formData.append('applicantAddress', 'string');
-      formData.append('houseNo', 1);
-      formData.append('street', 'streetName');
-      formData.append('stateId', 1);
-      formData.append('districtId', 1);
-      formData.append('contactNo', 'contactNo');
-      formData.append('aContactNo', 'altContactNo');
-      formData.append('email', 'sandeep@gmail.inn');
-      formData.append('p_ApplicantAddress', 'string');
-      formData.append('pHouseNo', 'perHouseNo');
-      formData.append('pStreet', 'perStreetName');
-      formData.append('pStateId', 'perStateName');
-      formData.append('pDistrictId', 'string');
-      formData.append('contactNo2', 'string');
-      formData.append('acontactNo2', 'string');
-      formData.append('emailID', 'sandeep@gmail.inn');
-      formData.append('birthPlace', 'birthPlace');
-      formData.append('photo','/fdfdf/ggfg'); 
-      formData.append('gender', 1);
-      formData.append('maritalstatus', 1);
-      formData.append('kyCtype1', 1);
-      formData.append('kyC_No', 1);
-      formData.append('kyCtype2', 1);
-      formData.append('kyC_No2', 'string');
-      formData.append('loanproducttype', 1);
-      formData.append('langitude', 1);
-      formData.append('latitude', 1);
-      formData.append('biometricReference','string');
-      formData.append("isTransfered",1);
-      formData.append("dropOutStatus",'kkkk1');
-      formData.append('dropOutDate', '2023-06-17');
-      formData.append('dropOutReason', 'string');
-      formData.append('custOtherID', 0);
-      formData.append('nomineeName', 'nomaniName');
-      formData.append('nomineeRelation', 'jh');
-      formData.append('dateofbirth', '1997-07-24');
-      formData.append('nomineeKYPName1', 'ifffu');
-      formData.append('nomineeKYCNo1', 'nomaniKYPMobNo');
-      formData.append('nomineeKYCdoc', '/fdfdf/ggfg');
-      formData.append('nomineeKYPName2', 'gfffh');
-      formData.append('nomineeKYCNo2', 'nomaniKYPMobNo2');
-      formData.append('nomineeKYCdoc2', '/fdfdf/ggfg');
-      formData.append('houseStatus', 'hfffj');
-      formData.append('natureOfBusiness', 'ghfffgh');
-      formData.append('businessName', 'businessName');
-      formData.append('businessAddress', 'businessAddress');
-      formData.append('nomineeAddress', 'businessAddress');
-      formData.append('nomineeID', 1);
-      formData.append('religion', memberReligion.RuleID);
-      formData.append('bankdetailId', 1);
-      formData.append('boId', 1);
-      formData.append('bankName', 'bankName');
-      formData.append('accountNo', 'accountNo');
-      formData.append('ifscCode', 'ifscCode');
-      formData.append('accountHolderName', 'accountHolder');
-      formData.append('accountType', 'bhfffh');
-      formData.append('bankBranchName', 'branchName');
-      formData.append('documenttype', 'string',);
-      formData.append('imagedocument', 'string');
-      formData.append('caste', 'hjdddd');
-      formData.append('noOfMembers', 1);
-      formData.append('dAgeabove18', 1);
-      formData.append('sAgeabove18', 1);
-      formData.append('totalArea', 'landArea');
-      formData.append('assetDetail', 'assetDetail');
-      formData.append('assetValue', 'assetValue');
-      formData.append('residenceStatus', 1);
-      formData.append('memberqualification', 1);
-      formData.append('husbandqualification', 1);
-      formData.append('coapplicantName', 'coApplicantName');
-      formData.append('coapplicantAdress', 'coApplicantName');
-      formData.append('adress', 'coApplicantName');
-      formData.append('coapplicantKYPName1', 'hhdddgh');
-      formData.append('coapplicantKYCNo1', 'hhhh');
-      formData.append('coapplicantKYCdoc', '/fdfdf/ggfg');
-      formData.append('kycFirstDoc', '/fdfdf/ggfg');
-      formData.append('kycSecondDoc', '/fdfdf/ggfg');
-      formData.append('coapplicantRelation', 0);
-      formData.append('isDeleted', true);
-      formData.append('usetid', 1);
-      // formData.append('coapplicantID', 1);
-      formData.append('createdDate', moment().format('YYYY-MM-DD'));
-      formData.append('updatedBy', 1);
-      formData.append('updatedDate', moment().format('YYYY-MM-DD'));
+      // let formData = new FormData()
+      // formData.append('mode', 'Save');
+      // formData.append('applicantId', 1);
+      // formData.append('applicantCode','ASSA121');
+      // formData.append('applicantName', 'ASSA121');
+      // formData.append('staffId',1)
+      // formData.append('branchId', 1);
+      // formData.append('firstName', 'fname');
+      // formData.append('middleName', 'mname');
+      // formData.append('lastName', 'lname');
+      // formData.append('husbandname', 'husbandName');
+      // formData.append('fatherName', 'fatherName');
+      // formData.append('applicantDateofbirth', '1997-07-24');
+      // formData.append('joinDate', moment().format('YYYY-MM-DD'));
+      // formData.append('applicantAddress', 'string');
+      // formData.append('houseNo', 1);
+      // formData.append('street', 'streetName');
+      // formData.append('stateId', 1);
+      // formData.append('districtId', 1);
+      // formData.append('contactNo', 'contactNo');
+      // formData.append('aContactNo', 'altContactNo');
+      // formData.append('email', 'sandeep@gmail.inn');
+      // formData.append('p_ApplicantAddress', 'string');
+      // formData.append('pHouseNo', 'perHouseNo');
+      // formData.append('pStreet', 'perStreetName');
+      // formData.append('pStateId', 'perStateName');
+      // formData.append('pDistrictId', 'string');
+      // formData.append('contactNo2', 'string');
+      // formData.append('acontactNo2', 'string');
+      // formData.append('emailID', 'sandeep@gmail.inn');
+      // formData.append('birthPlace', 'birthPlace');
+      // formData.append('photo','/fdfdf/ggfg'); 
+      // formData.append('gender', 1);
+      // formData.append('maritalstatus', 1);
+      // formData.append('kyCtype1', 1);
+      // formData.append('kyC_No', 1);
+      // formData.append('kyCtype2', 1);
+      // formData.append('kyC_No2', 'string');
+      // formData.append('loanproducttype', 1);
+      // formData.append('langitude', 1);
+      // formData.append('latitude', 1);
+      // formData.append('biometricReference','string');
+      // formData.append("isTransfered",1);
+      // formData.append("dropOutStatus",'kkkk1');
+      // formData.append('dropOutDate', '2023-06-17');
+      // formData.append('dropOutReason', 'string');
+      // formData.append('custOtherID', 0);
+      // formData.append('nomineeName', 'nomaniName');
+      // formData.append('nomineeRelation', 'jh');
+      // formData.append('dateofbirth', '1997-07-24');
+      // formData.append('nomineeKYPName1', 'ifffu');
+      // formData.append('nomineeKYCNo1', 'nomaniKYPMobNo');
+      // formData.append('nomineeKYCdoc', '/fdfdf/ggfg');
+      // formData.append('nomineeKYPName2', 'gfffh');
+      // formData.append('nomineeKYCNo2', 'nomaniKYPMobNo2');
+      // formData.append('nomineeKYCdoc2', '/fdfdf/ggfg');
+      // formData.append('houseStatus', 'hfffj');
+      // formData.append('natureOfBusiness', 'ghfffgh');
+      // formData.append('businessName', 'businessName');
+      // formData.append('businessAddress', 'businessAddress');
+      // formData.append('nomineeAddress', 'businessAddress');
+      // formData.append('nomineeID', 1);
+      // formData.append('religion', memberReligion.RuleID);
+      // formData.append('bankdetailId', 1);
+      // formData.append('boId', 1);
+      // formData.append('bankName', 'bankName');
+      // formData.append('accountNo', 'accountNo');
+      // formData.append('ifscCode', 'ifscCode');
+      // formData.append('accountHolderName', 'accountHolder');
+      // formData.append('accountType', 'bhfffh');
+      // formData.append('bankBranchName', 'branchName');
+      // formData.append('documenttype', 'string',);
+      // formData.append('imagedocument', 'string');
+      // formData.append('caste', 'hjdddd');
+      // formData.append('noOfMembers', 1);
+      // formData.append('dAgeabove18', 1);
+      // formData.append('sAgeabove18', 1);
+      // formData.append('totalArea', 'landArea');
+      // formData.append('assetDetail', 'assetDetail');
+      // formData.append('assetValue', 'assetValue');
+      // formData.append('residenceStatus', 1);
+      // formData.append('memberqualification', 1);
+      // formData.append('husbandqualification', 1);
+      // formData.append('coapplicantName', 'coApplicantName');
+      // formData.append('coapplicantAdress', 'coApplicantName');
+      // formData.append('adress', 'coApplicantName');
+      // formData.append('coapplicantKYPName1', 'hhdddgh');
+      // formData.append('coapplicantKYCNo1', 'hhhh');
+      // formData.append('coapplicantKYCdoc', '/fdfdf/ggfg');
+      // formData.append('kycFirstDoc', '/fdfdf/ggfg');
+      // formData.append('kycSecondDoc', '/fdfdf/ggfg');
+      // formData.append('coapplicantRelation', 0);
+      // formData.append('isDeleted', true);
+      // formData.append('usetid', 1);
+      // // formData.append('coapplicantID', 1);
+      // formData.append('createdDate', moment().format('YYYY-MM-DD'));
+      // formData.append('updatedBy', 1);
+      // formData.append('updatedDate', moment().format('YYYY-MM-DD'));
      
       const data = {
         mode: 'Save',
@@ -646,10 +792,13 @@ const ApplicantForm = (props) => {
 
       console.log("DATA=>",data)
       dispatch(SaveCustomerRequest(data,response=>{
-        console.log('Save Customer Response==>', response);
+        console.log(
+          'Save Customer Response ID==>',
+          response.entity.entity[0].IDENT_CURRENT,
+        );
         if(response.message == 'Success')
         {
-          handleApplicantDocument();
+          handleApplicantDocument(response.entity.entity[0].IDENT_CURRENT);
           // Toast.show('Successfully! save customer details',Toast.SHORT)
           // props.navigation.goBack()
         }
@@ -657,8 +806,9 @@ const ApplicantForm = (props) => {
       }))   
 }
 
-const handleApplicantDocument = () => {
+const handleApplicantDocument = (customer_id) => {
   let formData = new FormData()
+  formData.append('customerId',customer_id)
   formData.append(
     'Applicant_ProfilePic',
     applicantPic?.path != null || applicantPic?.path != undefined
@@ -781,8 +931,245 @@ const handleSameResidentAddress = () => {
 
 }
 
+const onPressTouch = () => {
+  scrollRef.current?.scrollTo({
+    y: 0,
+    animated: true,
+  });
+};
+
+const handleHeaderValidation = (index)=>{
+  setSelectedHeader(index)
+  onPressTouch()
+}
+
+const handleNextValidation = (index) => {
+  index == 0 &&
+    handleGenralValidation() &&
+    (setSelectedHeader(1), onPressTouch());
+  index == 1 &&
+    handleNomineeValidation() &&
+    (setSelectedHeader(2), onPressTouch());
+  index == 2 &&
+    handleAddressValidation() &&
+    (setSelectedHeader(3), onPressTouch());
+  index == 3 &&
+    handleBusinessValidation() &&
+    (setSelectedHeader(4), onPressTouch());  
+}
+
+const handleGenralValidation = () => {
+  return (
+    // CommonFunctions.isNull(applicantPic?.path,'please upload applicant photo') &&
+    CommonFunctions.isBlank(fname.trim(), 'please enter first name') &&
+    CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
+    CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
+    CommonFunctions.isBlank(contactNo.trim(), 'please enter contact no') &&
+    CommonFunctions.isCheckValidLength(
+      contactNo.trim(),
+      10,
+      'please enter valid mob no',
+    ) &&
+    CommonFunctions.isBlank(
+      altContactNo.trim(),
+      'please enter alternate contact no',
+    ) &&
+    CommonFunctions.isCheckValidLength(
+      altContactNo.trim(),
+      10,
+      'please enter valid alternate contact no',
+    ) &&
+    CommonFunctions.isBlank(email.trim(), 'please enter email id') &&
+    CommonFunctions.isEmailValid(email.trim(), 'please enter valid email id') &&
+    CommonFunctions.isBlank(birthPlace.trim(), 'please enter birth place') &&
+    CommonFunctions.isBlank(birthDate, 'please select date of birth') &&
+    CommonFunctions.isBlank(gender, 'please select user gender') &&
+    CommonFunctions.isBlank(maritalStatus, 'please select marital status') &&
+    CommonFunctions.isBlank(
+      memberQualification,
+      'please select member qualification',
+    ) &&
+    CommonFunctions.isBlank(memberReligion, 'please select member religion') &&
+    CommonFunctions.isBlank(fatherName.trim(), 'please enter member father name')
+  );
+}
+
+const handleNomineeValidation = () => {
+  return(
+  CommonFunctions.isBlank(
+          nomaniName.trim(),
+          'please enter nominee name',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniAddress.trim(),
+          'please enter nominee address',
+        ) &&
+        CommonFunctions.isBlank(nomaniDob, 'please select nominee DOB') &&
+        CommonFunctions.isBlank(
+          nomaniRelation,
+          'please select nominee relation',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPName,
+          'please select first nominee KYC Type',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPMobNo.trim(),
+          'please enter first nominee KYC No',
+        ) &&
+        // CommonFunctions.isCheckValidLength(
+        //   selectNomaniKYCDocumentList,
+        //   1,
+        //   'please select first nominee KYC Documents',
+        // ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPName2,
+          'please select second nominee KYC Type',
+        ) &&
+        CommonFunctions.isBlank(
+          nomaniKYPMobNo2.trim(),
+          'please enter second nominee KYC No',
+        ) 
+        // CommonFunctions.isCheckValidLength(
+        //   selectNomaniKYCDocumentList2,
+        //   1,
+        //   'please select second nominee KYC Documents',
+        // ) 
+  )
+}
+
+const handleAddressValidation = ()=>{
+  return (
+    CommonFunctions.isBlank(
+      houseNo.trim(),
+      'please enter residential house no',
+    ) &&
+    CommonFunctions.isBlank(
+      addressArea.trim(),
+      'please enter residential address area',
+    ) &&
+    CommonFunctions.isBlank(
+      streetName.trim(),
+      'please enter residential street name',
+    ) &&
+    CommonFunctions.isBlank(
+      cityName.trim(),
+      'please enter residential city name',
+    ) &&
+    CommonFunctions.isBlank(
+      stateName.trim(),
+      'please enter residential state name',
+    ) &&
+    CommonFunctions.isBlank(
+      countryName.trim(),
+      'please enter residential country name',
+    ) &&
+    CommonFunctions.isBlank(
+      pinCode.trim(),
+      'please enter residential pin code',
+    ) &&
+    CommonFunctions.isBlank(
+      perHouseNo.trim(),
+      'please enter permanent house no',
+    ) &&
+    CommonFunctions.isBlank(
+      perAddressArea.trim(),
+      'please enter permanent address area',
+    ) &&
+    CommonFunctions.isBlank(
+      perStateName.trim(),
+      'please enter permanent street name',
+    ) &&
+    CommonFunctions.isBlank(
+      perCityName.trim(),
+      'please enter permanent city name',
+    ) &&
+    CommonFunctions.isBlank(
+      perStateName.trim(),
+      'please enter permanent state name',
+    ) &&
+    CommonFunctions.isBlank(
+      perCountryName.trim(),
+      'please enter permanent country name',
+    ) &&
+    CommonFunctions.isBlank(
+      perPinCode.trim(),
+      'please enter permanent pin code',
+    )
+  );
+}
+
+const handleBusinessValidation = ()=>{
+  return (
+    CommonFunctions.isBlank(
+      businessName.trim(),
+      'please enter business name',
+    ) &&
+    CommonFunctions.isBlank(
+      businessAddress.trim(),
+      'please enter business address',
+    ) &&
+    CommonFunctions.isBlank(
+      landArea.trim(),
+      'please enter business land area',
+    ) &&
+    CommonFunctions.isBlank(
+      assetDetail.trim(),
+      'please enter business asset detail',
+    ) &&
+    CommonFunctions.isBlank(
+      assetValue.trim(),
+      'please enter business asset value',
+    ) &&
+    CommonFunctions.isBlank(
+      houseStatus,
+      'please select business house status',
+    ) &&
+    CommonFunctions.isBlank(
+      natureBusiness,
+      'please select business nature of business',
+    )
+  );
+}
+
+const handleBankValidation = () =>{
+  return (
+    CommonFunctions.isBlank(
+      accountHolder.trim(),
+      'please enter account holder name',
+    ) &&
+    CommonFunctions.isBlank(accountNo.trim(), 'please enter account number') &&
+    CommonFunctions.isBlank(ifscCode.trim(), 'please enter IFSC code') &&
+    CommonFunctions.isBlank(accountType, 'please select bank account type') &&
+    CommonFunctions.isBlank(
+      applicantDocType1,
+      'please select applicant fisrt KYC type',
+    ) &&
+    CommonFunctions.isBlank(
+      applicantKYCNo1.trim(),
+      'please enter fisrt KYC number',
+    ) &&
+    CommonFunctions.isBlank(
+      applicantKYCDocList1,
+      'please select fisrt KYC documents',
+    ) &&
+    CommonFunctions.isBlank(
+      applicantDocType2,
+      'please select applicant second KYC type',
+    ) &&
+    CommonFunctions.isBlank(
+      applicantKYCNo2.trim(),
+      'please enter second KYC number',
+    ) &&
+    CommonFunctions.isBlank(
+      applicantKYCDocList2,
+      'please select second KYC documents',
+    )
+  );
+}
+
     return (
-      <StoryScreen>
+      <StoryScreen loading={props.loading}>
         <SafeAreaView style={style.mainView}>
           <Header
             onPress={() => props.navigation.goBack()}
@@ -798,7 +1185,9 @@ const handleSameResidentAddress = () => {
               {headerList.map((item, index) => {
                 return (
                   <Pressable
-                    onPress={() => setSelectedHeader(index)}
+                    onPress={() => {
+                      handleHeaderValidation(index);
+                    }}
                     key={index}
                     style={{
                       height: R.fontSize.Size40,
@@ -830,7 +1219,7 @@ const handleSameResidentAddress = () => {
                 );
               })}
             </View>
-            <ScrollView contentContainerStyle={{flexGrow: 1}}>
+            <ScrollView contentContainerStyle={{flexGrow: 1}} ref={scrollRef}>
               <View style={{flex: 1, marginHorizontal: R.fontSize.Size20}}>
                 {selectedHeader == 0 && (
                   <View style={{flex: 1}}>
@@ -851,7 +1240,7 @@ const handleSameResidentAddress = () => {
                       onChange_email={text => setEmail(text)}
                       value_birthPlace={birthPlace}
                       onChange_birthPlace={text => setBirthPlace(text)}
-                      nextOnPress={() => setSelectedHeader(1)}
+                      nextOnPress={() => handleNextValidation(0)}
                       title_birthDate={birthDate}
                       onPressBirthDate={() => setIsDisplayDate(true)}
                       title_gender={gender.RoleName}
@@ -934,7 +1323,7 @@ const handleSameResidentAddress = () => {
                       onChange_nomaniKYPMobNo2={text =>
                         setNomaniKYPMobNo2(text)
                       }
-                      title_nomaniKYPDocument={nomaniKYPDocument}
+                      NomineeKYCList={selectNomaniKYCDocumentList.length}
                       onPress_nomaniKYPDocument={() =>
                         handleNomaniDocPicker('nomineeKYCDoc1')
                       }
@@ -942,7 +1331,7 @@ const handleSameResidentAddress = () => {
                       handleRemoveNomineeKYCDoc1={index =>
                         handleRemoveNomKycDoc(index, 'nomineeKYCDoc1')
                       }
-                      title_nomaniKYPDocument2={nomaniKYPDocument2}
+                      NomineeKYC2List={selectNomaniKYCDocumentList2.length}
                       onPress_nomaniKYPDocument2={() =>
                         handleNomaniDocPicker('nomineeKYCDoc2')
                       }
@@ -986,7 +1375,9 @@ const handleSameResidentAddress = () => {
                       onChange_coApplicantKYPMobNo2={text =>
                         setCoApplicantKYPMobNo2(text)
                       }
-                      title_coApplicantKYPDocument={coApplicantKYPDocument}
+                      coApplicantKYCList={
+                        selectCoApplicantKYCDocumentList.length
+                      }
                       onPress_coApplicantKYPDocument={() =>
                         handleNomaniDocPicker('coApplicantKYCDoc1')
                       }
@@ -996,7 +1387,9 @@ const handleSameResidentAddress = () => {
                       handleRemoveCoApplicantKYCDoc={index =>
                         handleRemoveNomKycDoc(index, 'coApplicantKYCDoc1')
                       }
-                      title_coApplicantKYPDocument2={coApplicantKYPDocument2}
+                      coApplicantKYCList2={
+                        selectCoApplicantKYCDocumentList2.length
+                      }
                       onPress_coApplicantKYPDocument2={() =>
                         handleNomaniDocPicker('coApplicantKYCDoc2')
                       }
@@ -1006,7 +1399,7 @@ const handleSameResidentAddress = () => {
                       handleRemoveCoApplicantKYCDoc2={index =>
                         handleRemoveNomKycDoc(index, 'coApplicantKYCDoc2')
                       }
-                      nextOnPress={() => setSelectedHeader(2)}
+                      nextOnPress={() => handleNextValidation(1)}
                       backOnPress={() => setSelectedHeader(0)}
                     />
                     <DatePicker
@@ -1078,7 +1471,9 @@ const handleSameResidentAddress = () => {
                       onChange_percountryName={text => setPerCountryName(text)}
                       value_perpinCode={perPinCode}
                       onChange_perpinCode={text => setPerPinCode(text)}
-                      nextOnPress={() => setSelectedHeader(3)}
+                      nextOnPress={() => {
+                        handleNextValidation(2);
+                      }}
                       backOnPress={() => setSelectedHeader(1)}
                       onPressSameAddress={() => handleSameResidentAddress()}
                       sameAddressBackgrounColor={
@@ -1108,7 +1503,7 @@ const handleSameResidentAddress = () => {
                       title_applicantKycType={applicantDocType1.RoleName}
                       value_applicantKYCNo={applicantKYCNo1}
                       onChange_applicantKYCNo={text => setApplicantKYCNo1(text)}
-                      // title_applicantKYCDoc={nomaniKYPDocument}
+                      applicantKYCList={applicantKYCDocList1.length}
                       onPress_applicantKYCDoc={() =>
                         handleNomaniDocPicker('applicantKYCDoc1')
                       }
@@ -1124,7 +1519,7 @@ const handleSameResidentAddress = () => {
                       onChange_applicantKYCNo2={text =>
                         setApplicantKYCNo2(text)
                       }
-                      // title_applicantKYCDoc={nomaniKYPDocument}
+                      applicantKYCList2={applicantKYCDocList2.length}
                       onPress_applicantKYCDoc2={() =>
                         handleNomaniDocPicker('applicantKYCDoc2')
                       }
@@ -1159,7 +1554,9 @@ const handleSameResidentAddress = () => {
                       onPress_natureBusiness={() =>
                         handleListModal('NatureofBusiness')
                       }
-                      nextOnPress={() => setSelectedHeader(4)}
+                      nextOnPress={() => {
+                       handleNextValidation(3);
+                      }}
                       backOnPress={() => setSelectedHeader(2)}
                     />
                   </View>
@@ -1189,4 +1586,8 @@ const handleSameResidentAddress = () => {
     );
 }
 
-export default ApplicantForm
+const mapStateToProps = (state, props) => ({
+  loading: state.saveCustomerRoot.loading,
+});
+
+export default connect(mapStateToProps)(ApplicantForm)

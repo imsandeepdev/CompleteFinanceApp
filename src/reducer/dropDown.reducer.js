@@ -8,6 +8,12 @@ import {
   get_Group_Wise_Customer_DropDown,
   get_Group_Wise_Customer_DropDown_success,
   get_Group_Wise_Customer_DropDown_error,
+  loan_Proposal_DropDown,
+  loan_Proposal_DropDown_success,
+  loan_Proposal_DropDown_error,
+  propose_amount,
+  propose_amount_success,
+  propose_amount_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -15,6 +21,8 @@ const initial_state = {
   genderInit: {},
   getGroupInit: {},
   getGroupWiseCustomerInit: {},
+  loanProDropDownInit: {},
+  proposeAmountInit: {},
   error: '',
 };
 
@@ -63,6 +71,36 @@ const reducer = (state = initial_state, {type, payload}) => {
         getGroupWiseCustomerInit: payload,
       };
     case get_Group_Wise_Customer_DropDown_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case loan_Proposal_DropDown:
+      return {
+        ...state,
+        loading: true,
+      };
+    case loan_Proposal_DropDown_success:
+      return {
+        loading: false,
+        loanProDropDownInit: payload,
+      };
+    case loan_Proposal_DropDown_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case propose_amount:
+      return {
+        ...state,
+        loading: true,
+      };
+    case propose_amount_success:
+      return {
+        loading: false,
+        proposeAmountInit: payload,
+      };
+    case propose_amount_error:
       return {
         loading: false,
         error: payload,

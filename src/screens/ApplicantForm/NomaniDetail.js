@@ -14,8 +14,8 @@ const NomaniDetail = (props) => {
       <View style={{flex: 1}}>
         <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
           <AppTextInput
-            placeholder={'Nomani Name'}
-            headTitle={'Nomani Name'}
+            placeholder={'Nominee Name'}
+            headTitle={'Nominee Name *'}
             headTitleColor={
               props.value_nomaniName != ''
                 ? R.colors.darkGreenColor
@@ -25,8 +25,8 @@ const NomaniDetail = (props) => {
             onChangeText={props.onChange_nomaniName}
           />
           <AppTextInput
-            placeholder={'Nomani Address'}
-            headTitle={'Nomani Address'}
+            placeholder={'Nominee Address'}
+            headTitle={'Nominee Address *'}
             headTitleColor={
               props.value_nomaniAddress != ''
                 ? R.colors.darkGreenColor
@@ -39,11 +39,11 @@ const NomaniDetail = (props) => {
           <View>
             <AppCardPress
               onPress={props.onPress_nomaniDob}
-              headTitle={'Nomani DOB'}
+              headTitle={'Nominee DOB *'}
               title={
                 props.title_nomaniDob != ''
                   ? props.title_nomaniDob
-                  : 'Nomani DOB'
+                  : 'Nominee DOB'
               }
               TextColor={
                 props.title_nomaniDob != ''
@@ -61,11 +61,11 @@ const NomaniDetail = (props) => {
 
           <AppCardPress
             onPress={props.onPress_nomaniRelation}
-            headTitle={'Nomani Relation'}
+            headTitle={'Nominee Relation *'}
             title={
               props.title_nomaniRelation != null
                 ? props.title_nomaniRelation
-                : 'Nomani Relation'
+                : 'Nominee Relation'
             }
             TextColor={
               props.title_nomaniRelation != null
@@ -81,11 +81,11 @@ const NomaniDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_nomaniKycType}
-            headTitle={'Nomani KYC Type'}
+            headTitle={'Nominee KYC Type *'}
             title={
               props.title_nomaniKycType != null
                 ? props.title_nomaniKycType
-                : 'Nomani KYC Type'
+                : 'Nominee KYC Type'
             }
             TextColor={
               props.title_nomaniKycType != null
@@ -101,8 +101,8 @@ const NomaniDetail = (props) => {
           />
 
           <AppTextInput
-            placeholder={'Nomani KYC No'}
-            headTitle={'Nomani KYC No'}
+            placeholder={'Nominee KYC No'}
+            headTitle={'Nominee KYC No *'}
             headTitleColor={
               props.value_nomaniKYPMobNo != ''
                 ? R.colors.darkGreenColor
@@ -113,23 +113,19 @@ const NomaniDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_nomaniKYPDocument}
-            headTitle={'Nomani KYC Document'}
+            headTitle={'Nominee KYC Document *'}
             title={
-              props.title_nomaniKYPDocument != ''
-                ? props.title_nomaniKYPDocument
-                : 'Nomani KYC Document'
+              props.NomineeKYCList >= 1
+                ? 'Selected documents'
+                : 'Select nominee KYC document'
             }
             TextColor={
-              props.title_nomaniKYPDocument != ''
+              props.NomineeKYCList >= 1
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
-            headTitleColor={
-              props.title_nomaniKYPDocument != ''
-                ? R.colors.darkGreenColor
-                : R.colors.textPriColor
-            }
-            rightIcon={R.images.documentIcon}
+            headTitleColor={R.colors.darkGreenColor}
+            rightIcon={R.images.cameraIcon1}
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
             Iconwidth={R.fontSize.Size22}
@@ -138,11 +134,11 @@ const NomaniDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_nomaniKycType2}
-            headTitle={'Nomani KYC Type 2'}
+            headTitle={'Nominee KYC Type 2 *'}
             title={
               props.title_nomaniKycType2 != null
                 ? props.title_nomaniKycType2
-                : 'Nomani KYC Type 2'
+                : 'Nominee KYC Type 2'
             }
             TextColor={
               props.title_nomaniKycType2 != null
@@ -157,8 +153,8 @@ const NomaniDetail = (props) => {
             rightIcon={R.images.dropdownIcon}
           />
           <AppTextInput
-            placeholder={'Nomani KYC No2'}
-            headTitle={'Nomani KYC No2'}
+            placeholder={'Nominee KYC No2'}
+            headTitle={'Nominee KYC No2 *'}
             headTitleColor={
               props.value_nomaniKYPMobNo2 != ''
                 ? R.colors.darkGreenColor
@@ -169,23 +165,19 @@ const NomaniDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_nomaniKYPDocument2}
-            headTitle={'Nomani KYP Document2'}
+            headTitle={'Nominee KYC Document2 *'}
             title={
-              props.title_nomaniKYPDocument2 != ''
-                ? props.title_nomaniKYPDocument2
-                : 'Nomani KYP Document2'
+              props.NomineeKYC2List >= 1
+                ? 'Selected documents'
+                : 'Select nominee KYC document2'
             }
             TextColor={
-              props.title_nomaniKYPDocument2 != ''
+              props.NomineeKYC2List >= 1
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
-            headTitleColor={
-              props.title_nomaniKYPDocument2 != ''
-                ? R.colors.darkGreenColor
-                : R.colors.textPriColor
-            }
-            rightIcon={R.images.documentIcon}
+            headTitleColor={R.colors.darkGreenColor}
+            rightIcon={R.images.cameraIcon1}
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
             Iconwidth={R.fontSize.Size22}
@@ -241,7 +233,7 @@ const NomaniDetail = (props) => {
                   fontWeight: '600',
                   fontSize: R.fontSize.Size14,
                 }}>
-                {'Same as Nomani'}
+                {'Same as Nominee'}
               </Text>
             </View>
           </View>
@@ -249,7 +241,7 @@ const NomaniDetail = (props) => {
           <View>
             <AppTextInput
               placeholder={'Coapplicant Name'}
-              headTitle={'Coapplicant Name'}
+              headTitle={'Coapplicant Name *'}
               headTitleColor={
                 props.value_coApplicantName != ''
                   ? R.colors.darkGreenColor
@@ -260,7 +252,7 @@ const NomaniDetail = (props) => {
             />
             <AppTextInput
               placeholder={'CoApplicant Address'}
-              headTitle={'CoApplicant Address'}
+              headTitle={'CoApplicant Address *'}
               headTitleColor={
                 props.value_coApplicantAddress != ''
                   ? R.colors.darkGreenColor
@@ -273,7 +265,7 @@ const NomaniDetail = (props) => {
             <View>
               <AppCardPress
                 onPress={props.onPress_coApplicantDob}
-                headTitle={'CoApplicant DOB'}
+                headTitle={'CoApplicant DOB *'}
                 title={
                   props.title_coApplicantDob != ''
                     ? props.title_coApplicantDob
@@ -295,7 +287,7 @@ const NomaniDetail = (props) => {
 
             <AppCardPress
               onPress={props.onPress_coApplicantRelation}
-              headTitle={'CoApplicant Relation'}
+              headTitle={'CoApplicant Relation *'}
               title={
                 props.title_coApplicantRelation != null
                   ? props.title_coApplicantRelation
@@ -315,7 +307,7 @@ const NomaniDetail = (props) => {
             />
             <AppCardPress
               onPress={props.onPress_coApplicantKycType}
-              headTitle={'CoApplicant KYC Type'}
+              headTitle={'CoApplicant KYC Type *'}
               title={
                 props.title_coApplicantKycType != null
                   ? props.title_coApplicantKycType
@@ -336,7 +328,7 @@ const NomaniDetail = (props) => {
 
             <AppTextInput
               placeholder={'CoApplicant KYC No'}
-              headTitle={'CoApplicant KYC No'}
+              headTitle={'CoApplicant KYC No *'}
               headTitleColor={
                 props.value_coApplicantKYPMobNo != ''
                   ? R.colors.darkGreenColor
@@ -347,23 +339,19 @@ const NomaniDetail = (props) => {
             />
             <AppCardPress
               onPress={props.onPress_coApplicantKYPDocument}
-              headTitle={'CoApplicant KYC Document'}
+              headTitle={'CoApplicant KYC Document *'}
               title={
-                props.title_coApplicantKYPDocument != ''
-                  ? props.title_coApplicantKYPDocument
-                  : 'CoApplicant KYC Document'
+                props.coApplicantKYCList >= 1
+                  ? 'Selected documents'
+                  : 'Select CoApplicant KYC document'
               }
               TextColor={
-                props.title_coApplicantKYPDocument != ''
+                props.coApplicantKYCList >= 1
                   ? R.colors.secAppColor
                   : R.colors.placeholderTextColor
               }
-              headTitleColor={
-                props.title_coApplicantKYPDocument != ''
-                  ? R.colors.darkGreenColor
-                  : R.colors.textPriColor
-              }
-              rightIcon={R.images.documentIcon}
+              headTitleColor={R.colors.darkGreenColor}
+              rightIcon={R.images.cameraIcon1}
               borderStyle={'dashed'}
               Iconheight={R.fontSize.Size22}
               Iconwidth={R.fontSize.Size22}
@@ -373,7 +361,7 @@ const NomaniDetail = (props) => {
 
             <AppCardPress
               onPress={props.onPress_coApplicantKycType2}
-              headTitle={'CoApplicant KYC Type2'}
+              headTitle={'CoApplicant KYC Type2 *'}
               title={
                 props.title_coApplicantKycType2 != null
                   ? props.title_coApplicantKycType2
@@ -391,25 +379,32 @@ const NomaniDetail = (props) => {
               }
               rightIcon={R.images.dropdownIcon}
             />
-            <AppCardPress
-              onPress={props.onPress_coApplicantKYPDocument2}
-              headTitle={'CoApplicant KYC Document2'}
-              title={
-                props.title_coApplicantKYPDocument2 != ''
-                  ? props.title_coApplicantKYPDocument2
-                  : 'CoApplicant KYC Document2'
-              }
-              TextColor={
-                props.title_coApplicantKYPDocument2 != ''
-                  ? R.colors.secAppColor
-                  : R.colors.placeholderTextColor
-              }
+            <AppTextInput
+              placeholder={'CoApplicant KYC No 2'}
+              headTitle={'CoApplicant KYC No 2 *'}
               headTitleColor={
-                props.title_coApplicantKYPDocument2 != ''
+                props.value_coApplicantKYPMobNo2 != ''
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
-              rightIcon={R.images.documentIcon}
+              value={props.value_coApplicantKYPMobNo2}
+              onChangeText={props.onChange_coApplicantKYPMobNo2}
+            />
+            <AppCardPress
+              onPress={props.onPress_coApplicantKYPDocument2}
+              headTitle={'CoApplicant KYC Document 2 *'}
+              title={
+                props.coApplicantKYCList2 >= 1
+                  ? 'Selected documents'
+                  : 'Select CoApplicant KYC document 2'
+              }
+              TextColor={
+                props.coApplicantKYCList2 >= 1
+                  ? R.colors.secAppColor
+                  : R.colors.placeholderTextColor
+              }
+              headTitleColor={R.colors.darkGreenColor}
+              rightIcon={R.images.cameraIcon1}
               borderStyle={'dashed'}
               Iconheight={R.fontSize.Size22}
               Iconwidth={R.fontSize.Size22}

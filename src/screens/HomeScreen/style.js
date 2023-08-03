@@ -91,7 +91,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: R.fontSize.Size8,
     borderColor: R.colors.darkBlueColor,
-    backgroundColor: R.colors.white,
+    backgroundColor: '#b0babc',
     shadowColor: R.colors.lightBlack,
     shadowOffset: {
       width: 0,
@@ -103,8 +103,8 @@ const style = StyleSheet.create({
   },
   customCardTitleText: {
     fontFamily: R.fonts.medium,
-    fontSize: R.fontSize.Size12,
-    color: R.colors.secAppColor,
+    fontSize: R.fontSize.Size14,
+    color: R.colors.darkBlueColor,
     textAlign: 'center',
     marginTop: R.fontSize.Size6,
     fontWeight: '700',

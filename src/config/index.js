@@ -15,7 +15,8 @@ export const Config = {
   getGroupDropDown: '/Group/GetgroupDropdown',
   getGroupWiseCustomerAPI: '/Group/GetgroupWiseCustomer',
   updateGRTAPI: '/Group/UpdateGRT',
-  saveCustomerDocAPI:'/User/SaveCustomerDocument',
-  
-
+  saveCustomerDocAPI: '/User/SaveCustomerDocument',
+  loanProposalDropdownAPI: '/Loan/GetloanPurposalDropdown?mode=',
+  saveLoanProposalAPI: '/Loan/SaveLoanProposal',
+  proposeAmountAPI:'/Loan/GetLoanProposedAmount',
 };

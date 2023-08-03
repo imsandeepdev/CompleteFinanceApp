@@ -72,6 +72,7 @@ const CustomPhotoCard = props => {
                 fontWeight: '400',
                 color: R.colors.placeHolderColor,
                 textAlign: 'center',
+                fontSize:R.fontSize.Size14
               }}>
               {props.title}
             </Text>

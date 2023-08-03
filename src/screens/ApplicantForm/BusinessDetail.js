@@ -22,7 +22,7 @@ const BusinessDetail = (props) => {
           <AppTextInput
             ref={businessNameRef}
             placeholder={'Business Name'}
-            headTitle={'Business Name'}
+            headTitle={'Business Name *'}
             headTitleColor={
               props.value_businessName != ''
                 ? R.colors.darkGreenColor
@@ -36,7 +36,7 @@ const BusinessDetail = (props) => {
           <AppTextInput
             ref={businessAddressRef}
             placeholder={'Business Address'}
-            headTitle={'Business Address'}
+            headTitle={'Business Address *'}
             headTitleColor={
               props.value_businessAddress != ''
                 ? R.colors.darkGreenColor
@@ -50,7 +50,7 @@ const BusinessDetail = (props) => {
           <AppTextInput
             ref={landAreaRef}
             placeholder={'Land Area'}
-            headTitle={'Land Area'}
+            headTitle={'Land Area *'}
             headTitleColor={
               props.value_landArea != ''
                 ? R.colors.darkGreenColor
@@ -64,7 +64,7 @@ const BusinessDetail = (props) => {
           <AppTextInput
             ref={assetDetailRef}
             placeholder={'Asset Detail'}
-            headTitle={'Asset Detail'}
+            headTitle={'Asset Detail *'}
             headTitleColor={
               props.value_assetDetail != ''
                 ? R.colors.darkGreenColor
@@ -78,7 +78,7 @@ const BusinessDetail = (props) => {
           <AppTextInput
             ref={assetValueRef}
             placeholder={'Asset Value'}
-            headTitle={'Asset Value'}
+            headTitle={'Asset Value *'}
             headTitleColor={
               props.value_assetValue != ''
                 ? R.colors.darkGreenColor
@@ -90,7 +90,7 @@ const BusinessDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_houseStatus}
-            headTitle={'house Status'}
+            headTitle={'house Status *'}
             title={
               props.title_houseStatus != null
                 ? props.title_houseStatus
@@ -110,7 +110,7 @@ const BusinessDetail = (props) => {
           />
           <AppCardPress
             onPress={props.onPress_natureBusiness}
-            headTitle={'Nature of business'}
+            headTitle={'Nature of business *'}
             title={
               props.title_natureBusiness != null
                 ? props.title_natureBusiness

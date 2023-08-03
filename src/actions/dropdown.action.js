@@ -8,7 +8,13 @@ import {
   get_Group_DropDown_error,
   get_Group_Wise_Customer_DropDown,
   get_Group_Wise_Customer_DropDown_success,
-  get_Group_Wise_Customer_DropDown_error
+  get_Group_Wise_Customer_DropDown_error,
+  loan_Proposal_DropDown,
+  loan_Proposal_DropDown_success,
+  loan_Proposal_DropDown_error,
+  propose_amount,
+  propose_amount_success,
+  propose_amount_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -69,7 +75,42 @@ export const GetGroupWiseCustomerDropDownError = error => {
 };
 
 
+export const LoanProposalDropDown = () => {
+  return {
+    type: loan_Proposal_DropDown,
+  };
+};
+export const LoanProposalDropDownSuccess = payload => {
+  return {
+    type: loan_Proposal_DropDown_success,
+    payload,
+  };
+};
+export const LoanProposalDropDownError = error => {
+  return {
+    type: loan_Proposal_DropDown_error,
+    payload: error,
+  };
+};
 
+
+export const ProposeAmount = () => {
+  return {
+    type: propose_amount,
+  };
+};
+export const ProposeAmountSuccess = payload => {
+  return {
+    type: propose_amount_success,
+    payload,
+  };
+};
+export const ProposeAmountError = error => {
+  return {
+    type: propose_amount_error,
+    payload: error,
+  };
+};
 
 
 export const GenderListRequest = (modeType, success, failed) => {
@@ -124,6 +165,46 @@ export const GetGroupWiseCustomerDropDownRequest = (type, success, failed) => {
       .catch(error => {
         dispatch(GetGroupWiseCustomerDropDownError(error));
         failed?.(error);
+      });
+  };
+};
+
+
+export const LoanProposalDropdownRequest = (modeType, success, failed) => {
+  return dispatch => {
+    dispatch(LoanProposalDropDown());
+    api
+      .multipostRequest({
+        url: `${Config.loanProposalDropdownAPI}${modeType}`,
+      })
+      .then(response => {
+        dispatch(LoanProposalDropDownSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(LoanProposalDropDownError(error));
+        failed?.(error);
+      });
+  };
+};
+
+
+export const ProposeAmountRequest = (data, success, failed) => {
+  return dispatch => {
+    dispatch(ProposeAmount());
+    api
+      .multipostRequest({
+        needAuth: false,
+        url: `${Config.proposeAmountAPI}?ProductTypeId=${data.productId}&PaymentFrequency=${data.frequencyId}`,
+      })
+      .then(response => {
+        dispatch(ProposeAmountSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(ProposeAmountError(error));
+        failed?.(error);
+        console.log('Error: ', error);
       });
   };
 };

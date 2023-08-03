@@ -73,6 +73,20 @@ export const get_Group_Wise_Customer_DropDown = 'get_Group_Wise_Customer_DropDow
 export const get_Group_Wise_Customer_DropDown_success = 'get_Group_Wise_Customer_DropDown_success';
 export const get_Group_Wise_Customer_DropDown_error = 'get_Group_Wise_Customer_DropDown_error';
 
+//loanProposalDropDown
+export const loan_Proposal_DropDown = 'loan_Proposal_DropDown';
+export const loan_Proposal_DropDown_success = 'loan_Proposal_DropDown_success';
+export const loan_Proposal_DropDown_error = 'loan_Proposal_DropDown_error';
+
+//saveLoanProposal
+export const save_loan_proposal = 'save_loan_proposal';
+export const save_loan_proposal_success = 'save_loan_proposal_success';
+export const save_loan_proposal_error = 'save_loan_proposal_error';
+
+//proposeAmount
+export const propose_amount = 'propose_amount';
+export const propose_amount_success = 'propose_amount_success';
+export const propose_amount_error = 'propose_amount_error';
 
 
 

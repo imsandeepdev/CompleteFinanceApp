@@ -66,21 +66,21 @@ const ListOne = [
   {
     id: 0,
     Title: 'Loan Application',
-    icon: 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png',
-    icon1: R.images.applicantFormIcon,
+    icon: 'https://poonawallafincorp.com/pfca/assets/og_image/og_image-what-is-loan-account-number-og.jpg',
+    icon1: R.images.applicantScreen,
     Url: 'ApplicantForm',
   },
   {
     id: 1,
     Title: 'Group Formation',
-    icon: 'https://cdn.iconscout.com/icon/free/png-256/free-agriculture-loan-1795547-1522752.png',
+    icon: 'https://www.rhythmsystems.com/hubfs/16_RS_For_Blogs/iStock-504635632.jpg',
     icon1: R.images.groupIcon,
     Url: 'GroupForm',
   },
   {
     id: 2,
     Title: 'Center Formation',
-    icon: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
     icon1: R.images.applicantFormIcon,
 
     Url: 'CenterForm',
@@ -88,23 +88,22 @@ const ListOne = [
   {
     id: 3,
     Title: 'GRT',
-    icon: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
-    icon1: R.images.grtIcon,
+    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
+    icon1: R.images.grtScreen,
 
     Url: 'GrtForm',
   },
   {
     id: 4,
     Title: 'Loan Proposal',
-    icon: 'https://static-00.iconduck.com/assets.00/m-letter-icon-256x256-9jskhkb1.png',
+    icon: 'https://www.firstib.com/wp-content/uploads/2022/04/iStock-1322517295.jpg',
     icon1: R.images.applicantFormIcon,
-
-    Url: 'LoanProposal',
+    Url: 'CustomerList',
   },
   {
-    id: 5,
-    Title: 'Assign Menu',
-    icon: 'https://ps.w.org/menu-image/assets/icon-128x128.png?rev=2123398',
+    id: 4,
+    Title: 'Loan Approval',
+    icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
     icon1: R.images.applicantFormIcon,
     Url: 'CustomerList',
   },
@@ -122,29 +121,44 @@ const CustomCard = props => {
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'center',
+          // justifyContent: 'center',
+          marginHorizontal:R.fontSize.Size4
         }}>
         {props.data.map((item, index) => {
           return (
+            // <Pressable
+            //   key={index}
+            //   onPress={() => props.onPress(item.Url)}
+            //   style={{marginVertical: R.fontSize.Size5}}>
+            //   <View style={style.customCardFlatView}>
+            //     <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            //       <Image
+            //         source={item.icon1}
+            //         resizeMode={'contain'}
+            //         style={{
+            //           height: R.fontSize.Size100,
+            //           width: R.fontSize.Size100,
+            //         }}
+            //       />
+            //     </View>
+            //     <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:0.6,width:'100%',borderColor:R.colors.darkBlueColor}}/>
+            //     <Text style={style.customCardTitleText} numberOfLines={2}>
+            //       {`${item.Title}`}
+            //     </Text>
+            //   </View>
+            // </Pressable>
             <Pressable
               key={index}
-              onPress={() => props.onPress(item.Url)}
-              style={{marginVertical: R.fontSize.Size5}}>
-              <View style={style.customCardFlatView}>
-                <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-                  <Image
-                    source={item.icon1}
-                    resizeMode={'contain'}
-                    style={{
-                      height: R.fontSize.Size100,
-                      width: R.fontSize.Size100,
-                    }}
-                  />
+              onPress={() => props.onPress(item.Url)} style={style.flatMainView}>
+              <Image
+                source={{uri: item.icon}}
+                style={{height: '100%', width: '100%'}}
+                resizeMode={'cover'}
+              />
+              <View style={style.flatTitleMainView}>
+                <View style={style.flatTitleView}>
+                  <Text>{item.Title}</Text>
                 </View>
-                <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:0.6,width:'100%',borderColor:R.colors.darkBlueColor}}/>
-                <Text style={style.customCardTitleText} numberOfLines={1}>
-                  {`${item.Title}`}
-                </Text>
               </View>
             </Pressable>
           );

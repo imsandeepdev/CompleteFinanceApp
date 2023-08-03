@@ -131,46 +131,50 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        <AppCardPress
-          onPress={props.onPress_customerSector}
-          headTitle={'Sector'}
-          title={
-            props.title_customerSector != null
-              ? props.title_customerSector
-              : 'Sector'
-          }
-          TextColor={
-            props.title_customerSector != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_customerSector != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
-        <AppCardPress
-          onPress={props.onPress_customerSectorPurpose}
-          headTitle={'Sector Purpose'}
-          title={
-            props.title_customerSectorPurpose != null
-              ? props.title_customerSectorPurpose
-              : 'Sector Purpose'
-          }
-          TextColor={
-            props.title_customerSectorPurpose != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_customerSectorPurpose != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
+        {props.visible_customerSector && (
+          <AppCardPress
+            onPress={props.onPress_customerSector}
+            headTitle={'Sector'}
+            title={
+              props.title_customerSector != null
+                ? props.title_customerSector
+                : 'Sector'
+            }
+            TextColor={
+              props.title_customerSector != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_customerSector != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
+        {props.visible_customerSector && (
+          <AppCardPress
+            onPress={props.onPress_customerSectorPurpose}
+            headTitle={'Sector Purpose'}
+            title={
+              props.title_customerSectorPurpose != null
+                ? props.title_customerSectorPurpose
+                : 'Sector Purpose'
+            }
+            TextColor={
+              props.title_customerSectorPurpose != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_customerSectorPurpose != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
         <AppTextInput
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
@@ -212,46 +216,50 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        <AppCardPress
-          onPress={props.onPress_spooseSector}
-          headTitle={'Sector'}
-          title={
-            props.title_spooseSector != null
-              ? props.title_spooseSector
-              : 'Sector'
-          }
-          TextColor={
-            props.title_spooseSector != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_spooseSector != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
-        <AppCardPress
-          onPress={props.onPress_spooseSectorPurpose}
-          headTitle={'Sector Purpose'}
-          title={
-            props.title_spooseSectorPurpose != null
-              ? props.title_spooseSectorPurpose
-              : 'Sector Purpose'
-          }
-          TextColor={
-            props.title_spooseSectorPurpose != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_spooseSectorPurpose != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
+        {props.visible_spooseSector && (
+          <AppCardPress
+            onPress={props.onPress_spooseSector}
+            headTitle={'Sector'}
+            title={
+              props.title_spooseSector != null
+                ? props.title_spooseSector
+                : 'Sector'
+            }
+            TextColor={
+              props.title_spooseSector != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_spooseSector != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
+        {props.visible_spooseSector && (
+          <AppCardPress
+            onPress={props.onPress_spooseSectorPurpose}
+            headTitle={'Sector Purpose'}
+            title={
+              props.title_spooseSectorPurpose != null
+                ? props.title_spooseSectorPurpose
+                : 'Sector Purpose'
+            }
+            TextColor={
+              props.title_spooseSectorPurpose != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_spooseSectorPurpose != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
         <AppTextInput
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
@@ -294,6 +302,7 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
+        {props.visible_unmarriedChildSector &&
         <AppCardPress
           onPress={props.onPress_unmarriedChildSector}
           headTitle={'Sector'}
@@ -314,6 +323,8 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
+}
+ {props.visible_unmarriedChildSector &&
         <AppCardPress
           onPress={props.onPress_unmarriedChildSectorPurpose}
           headTitle={'Sector Purpose'}
@@ -334,6 +345,7 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
+}
         <AppTextInput
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
@@ -358,9 +370,7 @@ const IncomeDetail = props => {
 
         <AppCardPress
           title={
-            props.overAllIncome != null
-              ? props.overAllIncome
-              : 'Total Income'
+            props.overAllIncome != null ? props.overAllIncome : 'Total Income'
           }
           TextColor={
             props.overAllIncome != null
@@ -373,7 +383,6 @@ const IncomeDetail = props => {
               : R.colors.textPriColor
           }
         />
-
       </View>
       <View
         style={{

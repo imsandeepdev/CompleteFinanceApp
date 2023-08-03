@@ -12,6 +12,7 @@ import AppTextInput from "./AppTextInput";
 import AppCardPress from "./AppCardPress";
 import ListGroupModal from "./ListGroupModal";
 import GroupDropDownModal from "./GroupDropDownModal";
+import DocumentViewModal from "./DocumentViewModal";
 
 export {
     CustomTextInput,
@@ -27,5 +28,6 @@ export {
     AppTextInput,
     AppCardPress,
     ListGroupModal,
-    GroupDropDownModal
+    GroupDropDownModal,
+    DocumentViewModal
 }

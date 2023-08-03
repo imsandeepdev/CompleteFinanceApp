@@ -21,6 +21,10 @@ const images = {
   applicantFormIcon: require('./images/applicant.png'),
   groupIcon: require('./images/groupIcon.png'),
   grtIcon: require('./images/grtIcon.png'),
+  cameraIcon: require('./images/camera.png'),
+  cameraIcon1: require('./images/camera1.png'),
+  applicantScreen: require('./images/loanScreen.png'),
+  grtScreen: require('./images/grtScreen.png'),
 };
 
 export {images}

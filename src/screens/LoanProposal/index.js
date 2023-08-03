@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, Pressable,SafeAreaView,Dimensions,ScrollView} from 'react-native';
-import { Header, StoryScreen } from '../../components';
+import { Header, ListViewModal, StoryScreen } from '../../components';
 import style from './style';
 import AppContent from '../../utils/AppContent';
 import R from '../../res/R';
@@ -9,10 +9,16 @@ import IncomeDetail from './IncomeDetail';
 import MonthlyExpenses from './MonthlyExpenses';
 import LoanProposalForm from './LoanProposal';
 const screenWidth = Dimensions.get('screen').width;
+import {useDispatch} from 'react-redux'
+import { LoanProposalDropdownRequest, ProposeAmountRequest} from '../../actions/dropdown.action';
+import moment from 'moment';
+import { SaveLoanProposalRequest } from '../../actions/loanProposal.action';
+import Toast from 'react-native-simple-toast';
 
 
 const LoanProposal = (props) => {
 
+    const dispatch = useDispatch()
     const [selectedHeader, setSelectedHeader] = useState(0);
     const [centerDetail,setCenterDetail] = useState({})
     const [customerOccupation, setCustomerOccupation] = useState('');
@@ -52,13 +58,141 @@ const LoanProposal = (props) => {
     const [proposedAmount, setProposedAmount] = useState('');
     const [loanProposeGroup, setLoanProposeGroup] = useState('');
     const [loanPropose, setLoanPropose] = useState('');
-
-
     const [monthlyIncome, setMonthlyIncome] = useState('')
+
+    const [listModal,setListModal] = useState(false)
+    const [listModalType, setListModalType] = useState('');
+    const [listModalData, setListModalData] = useState([])
 
     useEffect(()=>{
         setCenterDetail(props.route.params?.itemList);
     },[props.navigation])
+
+
+  const handleOpenListModal = (type,catType) => {
+
+    dispatch(LoanProposalDropdownRequest(type,response=>{
+      console.log("response==>",response.entity.entity)
+      setListModalData(response.entity.entity);
+    }))
+
+    // type == 'customerOccupation' && setListModalData(AppContent.memberQualification);
+    setListModal(true)
+    setListModalType(catType);
+  }
+
+  const handleRoleSelect =(item)=>{
+    listModalType == 'customerOccupation' && setCustomerOccupation(item);
+    listModalType == 'customerSector' && setCustomerSector(item);
+    listModalType == 'customerSectorPurpose' && setCustomerSectorPurpose(item);
+    listModalType == 'spooseOccupation' && setSpooseOccupation(item);
+    listModalType == 'spooseSector' && setSpooseSector(item);
+    listModalType == 'spooseSectorPurpose' && setSpooseSectorPurpose(item);
+    listModalType == 'unmarriedChildOccupation' && setUnMarriedChildOccupation(item);
+    listModalType == 'unmarriedChildSector' && setUnMarriedChildSector(item);
+    listModalType == 'unmarriedChildSectorPurpose' &&
+      setUnMarriedChildSectorPurpose(item);
+    listModalType == 'LoanProductCat' && setProductCategory(item);
+    listModalType == 'PaymentFrequency' && setPaymentFrequency(item);
+    listModalType == 'LoanPurposeGroup' && setLoanProposeGroup(item);
+    listModalType == 'LoanPurpose' && setLoanPropose(item);
+    listModalType == 'ProposedAmount' && setProposedAmount(item);
+
+    setListModal(false)
+  }
+
+  const handleProposeAmount = (catType) => {
+    setListModalType(catType)
+    let data = {
+      productId: productCategory.RuleID,
+      frequencyId: paymentFrequency.RuleID,
+    };
+    dispatch(ProposeAmountRequest(data,response=>{
+      console.log("RES=>",response)
+      setListModalData(response.entity.entity);
+    }))
+    setListModal(true);
+  }
+
+  const handleSaveLoanProposalAPI = () =>{
+
+    let data = {
+      mode: 'string',
+      proposalId: 0,
+      groupId: 0,
+      branchId: 0,
+      customerInfoId: 0,
+      staffId: 0,
+      centerId: 0,
+      proposalDate: moment().format('DD-MM-YYYY'),
+      productID: 0,
+      purposeID: 0,
+      loanType: 0,
+      loanAmount: 0,
+      loanStatus: 0,
+      processDate: 'string',
+      productCategory: 0,
+      productFreq: 0,
+      proposalStatus: 'string',
+      remark:loanRemark,
+      isDeleted: true,
+      createdDate: 'string',
+      updatedDate: 'string',
+      createdBy: 0,
+      updatedBy: 0,
+      incomeId: 0,
+      sectorPurpose: customerSectorPurpose.RuleID,
+      monthlyIncome: customerMonthlyIncome,
+      occupation: customerOccupation.RuleID,
+      sector: customerSector.RuleID,
+      sectorPurpose1: spooseSectorPurpose.RuleID,
+      monthlyIncome1: spooseMonthlyIncome,
+      occupation1: spooseOccupation.RuleID,
+      sector1: spooseSector.RuleID,
+      sectorPurpose2: unMarriedChildSectorPurpose.RuleID,
+      monthlyIncome2: unMarriedChildMonthlyIncome,
+      occupation2: unMarriedChildOccupation.RuleID,
+      sector2: unMarriedChildSector.RuleID,
+      sectorPurpose3: 0,
+      monthlyIncome3: 0,
+      occupation3: 0,
+      sector3: 0,
+      sectorPurpose4: 0,
+      monthlyIncome4: 0,
+      occupation4: 0,
+      sector4: 0,
+      totalInxcome:
+        Number(customerMonthlyIncome) +
+        Number(spooseMonthlyIncome) +
+        Number(unMarriedChildMonthlyIncome),
+      monthlyRent: monthlyRent,
+      monthlyMedical: monthlyMedical,
+      monthly_EB_LPG: monthlyEBLPG,
+      monthly_Transport: monthlyTransport,
+      monthly_Food_Clothing: monthlyFoodCloth,
+      monthly_Education: monthlyEducation,
+      monthly_Other_Incidental_Expense: monthlyOtherExpense,
+      monthly_total_Expense:
+        Number(monthlyRent) +
+        Number(monthlyMedical) +
+        Number(monthlyEBLPG) +
+        Number(monthlyTransport) +
+        Number(monthlyFoodCloth) +
+        Number(monthlyEducation) +
+        Number(monthlyOtherExpense),
+      assessment_Document_Upload: 'string',
+    };
+
+    dispatch(SaveLoanProposalRequest(data,response=>{
+      console.log("save loan response=>",response)
+       if (response.statusCode == 200) {
+         Toast.show('Successfully! send loan proposal details', Toast.SHORT);
+         props.navigation.replace('HomeMenu');
+       }
+      
+    }))
+  }
+
 
     return (
       <StoryScreen>
@@ -119,52 +253,82 @@ const LoanProposal = (props) => {
                         customerName={centerDetail.ApplicantName}
                         nextOnPress={() => setSelectedHeader(1)}
                         onPress_customerOccupation={() => {
-                          console.log('pressed');
+                          handleOpenListModal(
+                            'Occupation',
+                            'customerOccupation',
+                          );
                         }}
-                        title_customerOccupation={customerOccupation}
+                        title_customerOccupation={customerOccupation?.RoleName}
                         onPress_customerSector={() => {
-                          console.log('customer sector');
+                          handleOpenListModal('Sector', 'customerSector');
                         }}
-                        title_customerSector={customerSector}
+                        visible_customerSector={
+                          customerOccupation?.RoleName == 'Business'
+                        }
+                        title_customerSector={customerSector?.RoleName}
                         onPress_customerSectorPurpose={() => {
-                          console.log('customer sector purpose');
+                          handleOpenListModal(
+                            'SectorPurpose',
+                            'customerSectorPurpose',
+                          );
                         }}
-                        title_customerSectorPurpose={customerSectorPurpose}
+                        title_customerSectorPurpose={
+                          customerSectorPurpose?.RoleName
+                        }
                         customermonthly_income={customerMonthlyIncome}
                         onChange_customermonthlyIncome={text =>
                           setCustomerMonthlyIncome(text)
                         }
                         onPress_spooseOccupation={() => {
-                          console.log('pressed');
+                          handleOpenListModal('Occupation', 'spooseOccupation');
                         }}
-                        title_spooseOccupation={spooseOccupation}
+                        title_spooseOccupation={spooseOccupation?.RoleName}
+                        visible_spooseSector={
+                          spooseOccupation?.RoleName == 'Business'
+                        }
                         onPress_spooseSector={() => {
-                          console.log('spoose sector');
+                          handleOpenListModal('Sector', 'spooseSector');
                         }}
-                        title_spooseSector={spooseSector}
+                        title_spooseSector={spooseSector?.RoleName}
                         onPress_spooseSectorPurpose={() => {
-                          console.log('spoose sector purpose');
+                          handleOpenListModal(
+                            'SectorPurpose',
+                            'spooseSectorPurpose',
+                          );
                         }}
-                        title_spooseSectorPurpose={spooseSectorPurpose}
+                        title_spooseSectorPurpose={
+                          spooseSectorPurpose?.RoleName
+                        }
                         spoosemonthly_income={spooseMonthlyIncome}
                         onChange_spoosemonthlyIncome={text =>
                           setSpooseMonthlyIncome(text)
                         }
                         onPress_unmarriedChildOccupation={() => {
-                          console.log('pressed');
+                          handleOpenListModal(
+                            'Occupation',
+                            'unmarriedChildOccupation',
+                          );
                         }}
                         title_unmarriedChildOccupation={
-                          unMarriedChildOccupation
+                          unMarriedChildOccupation?.RoleName
+                        }
+                        visible_unmarriedChildSector={
+                          unMarriedChildOccupation?.RoleName == 'Business'
                         }
                         onPress_unmarriedChildSector={() => {
-                          console.log('unmarriedChild sector');
+                          handleOpenListModal('Sector', 'unmarriedChildSector');
                         }}
-                        title_unmarriedChildSector={unMarriedChildSector}
+                        title_unmarriedChildSector={
+                          unMarriedChildSector?.RoleName
+                        }
                         onPress_unmarriedChildSectorPurpose={() => {
-                          console.log('unmarriedChild sector purpose');
+                          handleOpenListModal(
+                            'SectorPurpose',
+                            'unmarriedChildSectorPurpose',
+                          );
                         }}
                         title_unmarriedChildSectorPurpose={
-                          unMarriedChildSectorPurpose
+                          unMarriedChildSectorPurpose?.RoleName
                         }
                         unmarriedChildmonthly_income={
                           unMarriedChildMonthlyIncome
@@ -207,6 +371,15 @@ const LoanProposal = (props) => {
                           setMonthlyOtherExpense(text)
                         }
                         monthly_other_expense={monthlyOtherExpense}
+                        overAllExpenses={
+                          Number(monthlyRent) +
+                          Number(monthlyMedical) +
+                          Number(monthlyEBLPG) +
+                          Number(monthlyTransport) +
+                          Number(monthlyFoodCloth) +
+                          Number(monthlyEducation) +
+                          Number(monthlyOtherExpense)
+                        }
                         nextOnPress={() => setSelectedHeader(2)}
                         backOnPress={() => setSelectedHeader(0)}
                       />
@@ -216,7 +389,7 @@ const LoanProposal = (props) => {
                     <View style={{flex: 1}}>
                       <LoanProposalForm
                         backOnPress={() => setSelectedHeader(1)}
-                        submitOnPress={() => console.log('Onsubmit')}
+                        submitOnPress={() => handleSaveLoanProposalAPI()}
                         proposal_date={proposalDate}
                         onChange_proposalDate={text => setProposalDate(text)}
                         onChange_proposalCode={text => setProposalCode(text)}
@@ -244,29 +417,35 @@ const LoanProposal = (props) => {
                         onChange_remarks={text => setLoanRemark(text)}
                         remarks={loanRemark}
                         onPress_productCategory={() => {
-                          console.log('productCat');
+                          handleOpenListModal('Product', 'LoanProductCat');
                         }}
-                        title_productCategory={productCategory}
-                        onPress_productFrequency={() => {
-                          console.log('productFre');
+                        title_productCategory={productCategory.RoleName}
+                        onPress_paymentFrequency={() => {
+                          handleOpenListModal(
+                            'paymentFrequency',
+                            'PaymentFrequency',
+                          );
                         }}
-                        title_productFrequency={productFrequency}
+                        title_paymentFrequency={paymentFrequency.RoleName}
                         onPress_loanProduct={() => {
                           console.log('loan product');
                         }}
                         title_loanProduct={loanProduct}
                         onPress_proposedAmount={() => {
-                          console.log('proposed amount');
+                          handleProposeAmount('ProposedAmount');
                         }}
-                        title_proposedAmount={proposedAmount}
+                        title_proposedAmount={proposedAmount.RoleName}
                         onPress_loanPurposeGroup={() => {
-                          console.log('loan purpose group');
+                          handleOpenListModal(
+                            'LoanPurpose',
+                            'LoanPurposeGroup',
+                          );
                         }}
-                        title_loanPurposeGroup={loanProposeGroup}
+                        title_loanPurposeGroup={loanProposeGroup.RoleName}
                         onPress_loanPurpose={() => {
-                          console.log('loan purpose');
+                          handleOpenListModal('LoanPurpose', 'LoanPurpose');
                         }}
-                        title_loanPurpose={loanPropose}
+                        title_loanPurpose={loanPropose.RoleName}
                       />
                     </View>
                   )}
@@ -275,6 +454,12 @@ const LoanProposal = (props) => {
             </View>
           </View>
         </SafeAreaView>
+        <ListViewModal
+          visible={listModal}
+          cancelOnPress={() => setListModal(false)}
+          onPress={item => handleRoleSelect(item)}
+          dataList={listModalData}
+        />
       </StoryScreen>
     );
 }

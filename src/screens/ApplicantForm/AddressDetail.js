@@ -53,7 +53,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={houseNoRef}
           placeholder={'House no'}
-          headTitle={'House no'}
+          headTitle={'House no *'}
           headTitleColor={
             props.value_houseNo != ''
               ? R.colors.darkGreenColor
@@ -67,7 +67,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={addressAreaRef}
           placeholder={'Address area'}
-          headTitle={'Address area'}
+          headTitle={'Address area *'}
           headTitleColor={
             props.value_addressArea != ''
               ? R.colors.darkGreenColor
@@ -81,7 +81,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={streetNameRef}
           placeholder={'Street name'}
-          headTitle={'Street name'}
+          headTitle={'Street name *'}
           headTitleColor={
             props.value_streetName != ''
               ? R.colors.darkGreenColor
@@ -109,7 +109,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={cityNameRef}
           placeholder={'City'}
-          headTitle={'City'}
+          headTitle={'City *'}
           headTitleColor={
             props.value_cityName != ''
               ? R.colors.darkGreenColor
@@ -123,7 +123,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={stateNameRef}
           placeholder={'State'}
-          headTitle={'State'}
+          headTitle={'State *'}
           headTitleColor={
             props.value_stateName != ''
               ? R.colors.darkGreenColor
@@ -137,7 +137,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={countryNameRef}
           placeholder={'Country'}
-          headTitle={'Country'}
+          headTitle={'Country *'}
           headTitleColor={
             props.value_countryName != ''
               ? R.colors.darkGreenColor
@@ -151,7 +151,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={pinCodeRef}
           placeholder={'Pin code'}
-          headTitle={'Pin code'}
+          headTitle={'Pin code *'}
           headTitleColor={
             props.value_pinCode != ''
               ? R.colors.darkGreenColor
@@ -199,7 +199,7 @@ const AddressDetail = props => {
                 style={{
                   height: '100%',
                   width: '100%',
-                  backgroundColor: props.sameAddressBackgrounColor
+                  backgroundColor: props.sameAddressBackgrounColor,
                 }}
               />
             </Pressable>
@@ -218,7 +218,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={perhouseNoRef}
           placeholder={'House no'}
-          headTitle={'House no'}
+          headTitle={'House no *'}
           headTitleColor={
             props.value_perhouseNo != ''
               ? R.colors.darkGreenColor
@@ -232,7 +232,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={peraddressAreaRef}
           placeholder={'Address area'}
-          headTitle={'Address area'}
+          headTitle={'Address area *'}
           headTitleColor={
             props.value_peraddressArea != ''
               ? R.colors.darkGreenColor
@@ -246,7 +246,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={perstreetNameRef}
           placeholder={'Street name'}
-          headTitle={'Street name'}
+          headTitle={'Street name *'}
           headTitleColor={
             props.value_perstreetName != ''
               ? R.colors.darkGreenColor
@@ -274,7 +274,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={percityNameRef}
           placeholder={'City'}
-          headTitle={'City'}
+          headTitle={'City *'}
           headTitleColor={
             props.value_percityName != ''
               ? R.colors.darkGreenColor
@@ -288,7 +288,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={perstateNameRef}
           placeholder={'State'}
-          headTitle={'State'}
+          headTitle={'State *'}
           headTitleColor={
             props.value_perstateName != ''
               ? R.colors.darkGreenColor
@@ -302,7 +302,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={percountryNameRef}
           placeholder={'Country'}
-          headTitle={'Country'}
+          headTitle={'Country *'}
           headTitleColor={
             props.value_percountryName != ''
               ? R.colors.darkGreenColor
@@ -316,7 +316,7 @@ const AddressDetail = props => {
         <AppTextInput
           ref={perpinCodeRef}
           placeholder={'Pin code'}
-          headTitle={'Pin code'}
+          headTitle={'Pin code *'}
           headTitleColor={
             props.value_perpinCode != ''
               ? R.colors.darkGreenColor
