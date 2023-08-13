@@ -28,7 +28,7 @@ const AppTextInput = React.forwardRef((props,ref) => {
           borderRadius: R.fontSize.Size5,
           alignItems: 'center',
           borderWidth: 1.3,
-          borderColor: R.colors.darkGreenColor
+          borderColor: R.colors.darkGreenColor,
         }}>
         <View
           style={{
@@ -57,7 +57,20 @@ const AppTextInput = React.forwardRef((props,ref) => {
               returnKeyType={props.returnKeyType}
               onSubmitEditing={props.onSubmitEditing}
               multiline={props.multiline}
+              onPressOut={props.onPressOut}
+              onBlur={props.onBlur}
             />
+            {props.messageText && (
+              <Text
+                style={{
+                  fontFamily: R.fonts.regular,
+                  fontSize: R.fontSize.Size12,
+                  color: R.colors.lightBlack,
+                  marginVertical: R.fontSize.Size2,
+                }}>
+                {props.messageText}
+              </Text>
+            )}
           </View>
           {props.rightIcon && (
             <Pressable
@@ -92,7 +105,9 @@ const AppTextInput = React.forwardRef((props,ref) => {
             fontFamily: R.fonts.regular,
             fontSize: R.fontSize.Size12,
             fontWeight: '700',
-            color: props.headTitleColor ? props.headTitleColor : R.colors.textPriColor,
+            color: props.headTitleColor
+              ? props.headTitleColor
+              : R.colors.textPriColor,
           }}>
           {props.headTitle}
         </Text>

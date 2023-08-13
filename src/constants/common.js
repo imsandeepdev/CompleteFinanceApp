@@ -88,5 +88,23 @@ export const propose_amount = 'propose_amount';
 export const propose_amount_success = 'propose_amount_success';
 export const propose_amount_error = 'propose_amount_error';
 
+//proposeAmountFilter
+export const propose_amount_filter = 'propose_amount_filter';
+export const propose_amount_filter_success = 'propose_amount_filter_success';
+export const propose_amount_filter_error = 'propose_amount_filter_error';
+
+//loanProposalDetail
+export const loan_proposal_detail = 'loan_proposal_detail';
+export const loan_proposal_detail_success = 'loan_proposal_detail_success';
+export const loan_proposal_detail_error = 'loan_proposal_detail_error';
 
 
+//approvedStatusDropDown
+export const approved_Status_DropDown = 'approved_Status_DropDown';
+export const approved_Status_DropDown_success = 'approved_Status_DropDown_success';
+export const approved_Status_DropDown_error = 'approved_Status_DropDown_error';
+
+//updateLoanApproval
+export const update_loan_approval = 'update_loan_approval';
+export const update_loan_approval_success = 'update_loan_approval_success';
+export const update_loan_approval_error = 'update_loan_approval_error';

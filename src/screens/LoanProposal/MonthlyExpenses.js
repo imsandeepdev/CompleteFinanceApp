@@ -46,7 +46,7 @@ const MonthlyExpenses = props => {
         <AppTextInput
           ref={monthlyRentRef}
           placeholder={'Monthly Rent'}
-          headTitle={'Monthly Rent'}
+          headTitle={'Monthly Rent *'}
           headTitleColor={
             props.monthly_rent != ''
               ? R.colors.darkGreenColor
@@ -55,6 +55,8 @@ const MonthlyExpenses = props => {
           value={props.monthly_rent}
           onChangeText={props.onChange_monthlyRent}
           returnKeyType={'next'}
+          keyboardType={'numeric'}
+          maxLength={4}
           onSubmitEditing={() => monthlyMedicalRef.current?.focus()}
         />
         <AppTextInput
@@ -68,7 +70,9 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_medical}
           onChangeText={props.onChange_monthlyMedical}
+          keyboardType={'numeric'}
           returnKeyType={'next'}
+          maxLength={4}
           onSubmitEditing={() => monthlyEB_LPGRef.current?.focus()}
         />
         <AppTextInput
@@ -82,7 +86,9 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_EB_LPG}
           onChangeText={props.onChange_monthlyEB_LPG}
+          keyboardType={'numeric'}
           returnKeyType={'next'}
+          maxLength={4}
           onSubmitEditing={() => monthlyTransportRef.current?.focus()}
         />
         <AppTextInput
@@ -96,7 +102,9 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_transport}
           onChangeText={props.onChange_monthlyTransport}
+          keyboardType={'numeric'}
           returnKeyType={'next'}
+          maxLength={4}
           onSubmitEditing={() => monthlyFood_ClothngRef.current?.focus()}
         />
         <AppTextInput
@@ -110,7 +118,9 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_food_clothing}
           onChangeText={props.onChange_monthlyfood_clothing}
+          keyboardType={'numeric'}
           returnKeyType={'next'}
+          maxLength={4}
           onSubmitEditing={() => monthlyEducationRef.current?.focus()}
         />
         <AppTextInput
@@ -124,7 +134,9 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_education}
           onChangeText={props.onChange_monthlyeducation}
+          keyboardType={'numeric'}
           returnKeyType={'next'}
+          maxLength={4}
           onSubmitEditing={() => monthlyOtherExpenseRef.current?.focus()}
         />
         <AppTextInput
@@ -138,9 +150,11 @@ const MonthlyExpenses = props => {
           }
           value={props.monthly_other_expense}
           onChangeText={props.onChange_monthlyother_expense}
+          keyboardType={'numeric'}
+          maxLength={4}
           returnKeyType={'done'}
         />
-        
+
         <View
           style={{
             width: '100%',
@@ -152,7 +166,9 @@ const MonthlyExpenses = props => {
 
         <AppCardPress
           title={
-            props.overAllExpenses != null ? props.overAllExpenses : 'Monthly Total Expenses'
+            props.overAllExpenses != null
+              ? props.overAllExpenses
+              : 'Monthly Total Expenses'
           }
           TextColor={
             props.overAllExpenses != null

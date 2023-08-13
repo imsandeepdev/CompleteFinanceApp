@@ -59,18 +59,18 @@ const AppCardPress = props => {
             {props.title}
           </Text>
         </View>
-        {props.rightIcon &&
-        <View>
-          <Image
-            source={props.rightIcon}
-            style={{
-              height: props.Iconheight ?? R.fontSize.Size12,
-              width: props.Iconwidth ?? R.fontSize.Size12,
-            }}
-            resizeMode={'contain'}
-          />
-        </View>
-        }
+        {props.rightIcon && (
+          <View>
+            <Image
+              source={props.rightIcon}
+              style={{
+                height: props.Iconheight ?? R.fontSize.Size12,
+                width: props.Iconwidth ?? R.fontSize.Size12,
+              }}
+              resizeMode={'contain'}
+            />
+          </View>
+        )}
       </Pressable>
       <View
         style={{
@@ -150,6 +150,17 @@ const AppCardPress = props => {
             );
           })}
         </View>
+      )}
+      {props.messageText && (
+        <Text
+          style={{
+            fontFamily: R.fonts.regular,
+            fontSize: R.fontSize.Size12,
+            color: R.colors.lightBlack,
+            marginVertical: R.fontSize.Size2,
+          }}>
+          {props.messageText}
+        </Text>
       )}
     </View>
   );

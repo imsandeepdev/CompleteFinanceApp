@@ -48,7 +48,7 @@ const LoanProposalForm = props => {
           TextColor={R.colors.secAppColor}
           headTitleColor={R.colors.darkGreenColor}
         />
-        <AppTextInput
+        {/* <AppTextInput
           ref={proposalCodeRef}
           placeholder={'Proposal Code'}
           headTitle={'Proposal Code'}
@@ -61,106 +61,25 @@ const LoanProposalForm = props => {
           onChangeText={props.onChange_proposalCode}
           returnKeyType={'next'}
           onSubmitEditing={() => customerNameRef.current?.focus()}
-        />
-        {/* <AppTextInput
-          ref={customerNameRef}
-          placeholder={'Customer Name'}
-          headTitle={'Customer Name'}
-          headTitleColor={
-            props.customer_name != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.customer_name}
-          onChangeText={props.onChange_customerName}
-          returnKeyType={'next'}
-          onSubmitEditing={() => customerCodeRef.current?.focus()}
         /> */}
-        <AppTextInput
-          ref={customerCodeRef}
-          placeholder={'Customer Code'}
-          headTitle={'Customer Code'}
-          headTitleColor={
-            props.customer_code != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.customer_code}
-          onChangeText={props.onChange_customerCode}
-          returnKeyType={'next'}
-          onSubmitEditing={() => insuranceAmountRef.current?.focus()}
-        />
-
-        <AppTextInput
-          ref={insuranceAmountRef}
-          placeholder={'Insurance Amount'}
-          headTitle={'Insurance Amount'}
-          headTitleColor={
-            props.insurance_amount != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.insurance_amount}
-          onChangeText={props.onChange_insuranceAmount}
-          returnKeyType={'next'}
-          onSubmitEditing={() => maxAmountRef.current?.focus()}
-        />
-        <AppTextInput
-          ref={maxAmountRef}
-          placeholder={'Max Amount To Be Disbursed'}
-          headTitle={'Max Amount To Be Disbursed'}
-          headTitleColor={
-            props.maxAmount != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.maxAmount}
-          onChangeText={props.onChange_maxAmount}
-          returnKeyType={'next'}
-          onSubmitEditing={() => paymentFreRef.current?.focus()}
-        />
-        <AppTextInput
-          ref={termsRef}
-          placeholder={'Terms'}
-          headTitle={'Terms'}
-          headTitleColor={
-            props.terms != '' ? R.colors.darkGreenColor : R.colors.textPriColor
-          }
-          value={props.terms}
-          onChangeText={props.onChange_terms}
-          returnKeyType={'next'}
-          onSubmitEditing={() => installmentAmountRef.current?.focus()}
-        />
-        <AppTextInput
-          ref={installmentAmountRef}
-          placeholder={'Installment Amount'}
-          headTitle={'Installment Amount'}
-          headTitleColor={
-            props.installment_amount != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.installment_amount}
-          onChangeText={props.onChange_installmentAmount}
-          returnKeyType={'next'}
-          onSubmitEditing={() => remarksRef.current?.focus()}
-        />
-        <AppTextInput
-          ref={remarksRef}
-          placeholder={'Remarks'}
-          headTitle={'Remarks'}
-          headTitleColor={
-            props.remarks != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.remarks}
-          onChangeText={props.onChange_remarks}
-          returnKeyType={'done'}
+        <AppCardPress
+          disabled={true}
+          headTitle={'Customer Name'}
+          title={props.customer_name}
+          TextColor={R.colors.secAppColor}
+          headTitleColor={R.colors.darkGreenColor}
         />
         <AppCardPress
+          disabled={true}
+          headTitle={'Customer Code'}
+          title={props.customer_code}
+          TextColor={R.colors.secAppColor}
+          headTitleColor={R.colors.darkGreenColor}
+        />
+
+        <AppCardPress
           onPress={props.onPress_productCategory}
-          headTitle={'Product Category'}
+          headTitle={'Product Category *'}
           title={
             props.title_productCategory != null
               ? props.title_productCategory
@@ -180,7 +99,7 @@ const LoanProposalForm = props => {
         />
         <AppCardPress
           onPress={props.onPress_paymentFrequency}
-          headTitle={'Payment Frequency'}
+          headTitle={'Payment Frequency *'}
           title={
             props.title_paymentFrequency != null
               ? props.title_paymentFrequency
@@ -198,11 +117,116 @@ const LoanProposalForm = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        {props.title_paymentFrequency != null &&
+        {props.loanProductList != '' && (
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Loan Product'}
+                title={props.title_loanProduct}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Term Period'}
+                title={props.terms}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Installment Amount'}
+                title={props.installment_amount}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Interest Rate'}
+                title={props.interestRate}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Proposed Amount'}
+                title={props.disbursedAmount}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Process Fee'}
+                title={props.processFee}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'ServiceTax'}
+                title={props.serviceTax}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+              <AppCardPress
+                flex={1}
+                disabled={true}
+                headTitle={'Received Amount'}
+                title={props.receivedAmount}
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
+              />
+            </View>
+          </View>
+        )}
+        {/* <AppTextInput
+          ref={installmentAmountRef}
+          placeholder={'Installment Amount'}
+          headTitle={'Installment Amount'}
+          headTitleColor={
+            props.installment_amount != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.installment_amount}
+          onChangeText={props.onChange_installmentAmount}
+          returnKeyType={'next'}
+          onSubmitEditing={() => remarksRef.current?.focus()}
+        />
+        <AppTextInput
+          ref={insuranceAmountRef}
+          placeholder={'Insurance Amount'}
+          headTitle={'Insurance Amount'}
+          headTitleColor={
+            props.insurance_amount != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.insurance_amount}
+          onChangeText={props.onChange_insuranceAmount}
+          returnKeyType={'next'}
+          onSubmitEditing={() => maxAmountRef.current?.focus()}
+        /> */}
+
+        {/* {props.title_paymentFrequency != null &&
           props.title_productCategory != null && (
             <AppCardPress
               onPress={props.onPress_proposedAmount}
-              headTitle={'Proposed Amount'}
+              headTitle={'Proposed Amount *'}
               title={
                 props.title_proposedAmount != null
                   ? props.title_proposedAmount
@@ -220,31 +244,46 @@ const LoanProposalForm = props => {
               }
               rightIcon={R.images.dropdownIcon}
             />
-          )}
+          )} */}
+
+        {/* <AppTextInput
+          ref={maxAmountRef}
+          placeholder={'Max Amount To Be Disbursed'}
+          headTitle={'Max Amount To Be Disbursed'}
+          headTitleColor={
+            props.maxAmount != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.maxAmount}
+          onChangeText={props.onChange_maxAmount}
+          returnKeyType={'next'}
+          onSubmitEditing={() => paymentFreRef.current?.focus()}
+        /> */}
+
         <AppCardPress
-          onPress={props.onPress_loanProduct}
-          headTitle={'Loan Product'}
+          onPress={props.onPress_loanPurpose}
+          headTitle={'Loan Purpose *'}
           title={
-            props.title_loanProduct != null
-              ? props.title_loanProduct
-              : 'Loan Product'
+            props.title_loanPurpose != null
+              ? props.title_loanPurpose
+              : 'Loan Purpose'
           }
           TextColor={
-            props.title_loanProduct != null
+            props.title_loanPurpose != null
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
           headTitleColor={
-            props.title_loanProduct != null
+            props.title_loanPurpose != null
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
           rightIcon={R.images.dropdownIcon}
         />
-
         <AppCardPress
           onPress={props.onPress_loanPurposeGroup}
-          headTitle={'Loan Purpose Group'}
+          headTitle={'Loan Purpose Group *'}
           title={
             props.title_loanPurposeGroup != null
               ? props.title_loanPurposeGroup
@@ -262,25 +301,18 @@ const LoanProposalForm = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        <AppCardPress
-          onPress={props.onPress_loanPurpose}
-          headTitle={'Loan Purpose'}
-          title={
-            props.title_loanPurpose != null
-              ? props.title_loanPurpose
-              : 'Loan Purpose'
-          }
-          TextColor={
-            props.title_loanPurpose != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
+        <AppTextInput
+          ref={remarksRef}
+          placeholder={'Remarks'}
+          headTitle={'Remarks'}
           headTitleColor={
-            props.title_loanPurpose != null
+            props.remarks != ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
-          rightIcon={R.images.dropdownIcon}
+          value={props.remarks}
+          onChangeText={props.onChange_remarks}
+          returnKeyType={'done'}
         />
       </View>
       <View

@@ -19,4 +19,6 @@ export const Config = {
   loanProposalDropdownAPI: '/Loan/GetloanPurposalDropdown?mode=',
   saveLoanProposalAPI: '/Loan/SaveLoanProposal',
   proposeAmountAPI:'/Loan/GetLoanProposedAmount',
+  loanProposalDetailAPI:'/Loan/GetLoanPurposalDetail',
+  updateLoanApprovalAPI:'/Loan/UpdateLoanApproval'
 };

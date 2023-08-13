@@ -113,7 +113,7 @@ const IncomeDetail = props => {
         <CustomTitle title={'Customer Detail'} />
         <AppCardPress
           onPress={props.onPress_customerOccupation}
-          headTitle={'Occupation'}
+          headTitle={'Occupation *'}
           title={
             props.title_customerOccupation != null
               ? props.title_customerOccupation
@@ -177,7 +177,7 @@ const IncomeDetail = props => {
         )}
         <AppTextInput
           placeholder={'Monthly Income'}
-          headTitle={'Monthly Income'}
+          headTitle={'Monthly Income *'}
           headTitleColor={
             props.customermonthly_income != ''
               ? R.colors.darkGreenColor
@@ -186,6 +186,9 @@ const IncomeDetail = props => {
           value={props.customermonthly_income}
           onChangeText={props.onChange_customermonthlyIncome}
           keyboardType={'numeric'}
+          maxLength={5}
+          messageText={'( Mininum 5000 monthly income required)'}
+          onBlur={props.customerOnBlur}
         />
         <View
           style={{
@@ -270,7 +273,10 @@ const IncomeDetail = props => {
           }
           value={props.spoosemonthly_income}
           onChangeText={props.onChange_spoosemonthlyIncome}
-          returnKeyType={'done'}
+          keyboardType={'numeric'}
+          maxLength={5}
+          messageText={'( Mininum 5000 monthly income required )'}
+          onBlur={props.spooseOnBlur}
         />
 
         <View
@@ -302,50 +308,50 @@ const IncomeDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        {props.visible_unmarriedChildSector &&
-        <AppCardPress
-          onPress={props.onPress_unmarriedChildSector}
-          headTitle={'Sector'}
-          title={
-            props.title_unmarriedChildSector != null
-              ? props.title_unmarriedChildSector
-              : 'Sector'
-          }
-          TextColor={
-            props.title_unmarriedChildSector != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_unmarriedChildSector != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
-}
- {props.visible_unmarriedChildSector &&
-        <AppCardPress
-          onPress={props.onPress_unmarriedChildSectorPurpose}
-          headTitle={'Sector Purpose'}
-          title={
-            props.title_unmarriedChildSectorPurpose != null
-              ? props.title_unmarriedChildSectorPurpose
-              : 'Sector Purpose'
-          }
-          TextColor={
-            props.title_unmarriedChildSectorPurpose != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_unmarriedChildSectorPurpose != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
-}
+        {props.visible_unmarriedChildSector && (
+          <AppCardPress
+            onPress={props.onPress_unmarriedChildSector}
+            headTitle={'Sector'}
+            title={
+              props.title_unmarriedChildSector != null
+                ? props.title_unmarriedChildSector
+                : 'Sector'
+            }
+            TextColor={
+              props.title_unmarriedChildSector != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_unmarriedChildSector != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
+        {props.visible_unmarriedChildSector && (
+          <AppCardPress
+            onPress={props.onPress_unmarriedChildSectorPurpose}
+            headTitle={'Sector Purpose'}
+            title={
+              props.title_unmarriedChildSectorPurpose != null
+                ? props.title_unmarriedChildSectorPurpose
+                : 'Sector Purpose'
+            }
+            TextColor={
+              props.title_unmarriedChildSectorPurpose != null
+                ? R.colors.secAppColor
+                : R.colors.placeholderTextColor
+            }
+            headTitleColor={
+              props.title_unmarriedChildSectorPurpose != null
+                ? R.colors.darkGreenColor
+                : R.colors.textPriColor
+            }
+            rightIcon={R.images.dropdownIcon}
+          />
+        )}
         <AppTextInput
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
@@ -356,7 +362,10 @@ const IncomeDetail = props => {
           }
           value={props.unmarriedChildmonthly_income}
           onChangeText={props.onChange_unmarriedChildmonthlyIncome}
-          returnKeyType={'done'}
+          keyboardType={'numeric'}
+          messageText={'( Mininum 5000 monthly income required )'}
+          maxLength={5}
+          onBlur={props.childOnBlur}
         />
 
         <View
@@ -379,6 +388,39 @@ const IncomeDetail = props => {
           }
           headTitleColor={
             props.overAllIncome != null
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          messageText={'( maximum 25000 total income accepted )'}
+        />
+        <AppTextInput
+          placeholder={'Total Loan Installment'}
+          headTitle={'Total Loan Installment'}
+          headTitleColor={
+            props.totalLoanInstallment != ''
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          value={props.totalLoanInstallment}
+          onChangeText={props.onChange_totalLoanInstallment}
+          keyboardType={'numeric'}
+          maxLength={5}
+        />
+
+        <AppCardPress
+          headTitle={'Total EMI Eligibility'}
+          title={
+            props.totalEmiEligibility != null
+              ? props.totalEmiEligibility
+              : 'Total EMI Eligibility'
+          }
+          TextColor={
+            props.totalEmiEligibility != null
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.totalEmiEligibility != null
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }

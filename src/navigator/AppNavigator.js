@@ -19,6 +19,7 @@ import LoanProposal from '../screens/LoanProposal';
 import SubMasterForm from '../screens/SubMasterForm';
 import AssignMenuForm from '../screens/AssignMenuForm';
 import CustomerList from '../screens/CustomerList';
+import LoanApproval from '../screens/LoanApproval';
 
 
 const Stack = createStackNavigator();
@@ -99,6 +100,11 @@ const AppNavigator = props => {
           <Stack.Screen
             name="CustomerList"
             component={CustomerList}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="LoanApproval"
+            component={LoanApproval}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -49,7 +49,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={mnameRef}
             placeholder={'Middle Name'}
-            headTitle={'Middle Name *'}
+            headTitle={'Middle Name'}
             headTitleColor={
               props.value_mname != ''
                 ? R.colors.darkGreenColor
@@ -63,7 +63,7 @@ const GenralDetail = (props) => {
           <AppTextInput
             ref={lnameRef}
             placeholder={'Last Name'}
-            headTitle={'Last Name *'}
+            headTitle={'Last Name'}
             headTitleColor={
               props.value_lname != ''
                 ? R.colors.darkGreenColor
@@ -86,7 +86,7 @@ const GenralDetail = (props) => {
             }
             value={props.value_contactNo}
             onChangeText={props.onChange_contactNo}
-            maxLength={13}
+            maxLength={10}
             keyboardType={'numeric'}
             returnKeyType={'next'}
             onSubmitEditing={() => altContactNoRef.current?.focus()}
@@ -102,7 +102,7 @@ const GenralDetail = (props) => {
             }
             value={props.value_altContactNo}
             onChangeText={props.onChange_altContactNo}
-            maxLength={13}
+            maxLength={10}
             keyboardType={'numeric'}
             returnKeyType={'next'}
             onSubmitEditing={() => emailRef.current?.focus()}

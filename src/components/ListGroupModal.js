@@ -33,7 +33,7 @@ const ListGroupModal = props => {
                 <Text style={Styles.modelHeadText}>{'Applicant Name'}</Text>
               </View>
               <View style={[Styles.headView, {marginHorizontal: 0}]}>
-                <Text style={Styles.modelHeadText}>{'Husband Name'}</Text>
+                <Text style={Styles.modelHeadText}>{'Applicant Id'}</Text>
               </View>
               <View
                 style={[
@@ -106,7 +106,7 @@ const ListGroupModal = props => {
                         },
                       ]}>
                       <Text style={Styles.modelHeadText} numberOfLines={1}>
-                        {item.Husbandname}
+                        {item.ApplicantId}
                       </Text>
                     </View>
                     <View

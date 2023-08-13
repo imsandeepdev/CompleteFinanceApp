@@ -86,12 +86,14 @@ const CustomerList = (props) =>{
   const [customerList, setCustomerList] = useState([])
 
   useEffect(()=>{
-    handleGetAllCustomer();
+    handleGetAllCustomer(props.profile.entity[0].StaffID);
   },[props.navigation])
 
-  const handleGetAllCustomer = () => {
+  const handleGetAllCustomer = (staffId) => {
+    console.log("STAFFID",staffId)
+    let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
     dispatch(
-      GetAllCustomerRequest(response => {
+      GetAllCustomerRequest(tempUrl,response => {
         console.log('Get All Customer Response=>', response.entity.entity);
         let tempList = response.entity.entity;
         setCustomerList(tempList);
@@ -107,7 +109,7 @@ const CustomerList = (props) =>{
     }
 
     return (
-      <StoryScreen>
+      <StoryScreen loading={props.loading}>
         <SafeAreaView style={Styles.mainSafeView}>
           <Header
             onPress={() => props.navigation.goBack()}
@@ -133,6 +135,18 @@ const CustomerList = (props) =>{
                   />
                 );
               }}
+              ListEmptyComponent={
+                <View style={{flex:1,alignItems:'center',justifyContent:'center',marginTop:R.fontSize.Size100}}>
+                <Text
+                style={{
+                  fontFamily:R.fonts.regular,
+                  fontWeight:'600',
+                  fontSize:R.fontSize.Size14,
+                  color:R.colors.placeHolderColor
+                }}
+                >{'No found customer list'}</Text>
+                </View>
+              }
             />
           </View>
         </SafeAreaView>
@@ -140,4 +154,8 @@ const CustomerList = (props) =>{
     );
 }
 
-export default CustomerList
+const mapStateToProps = (state, props) => ({
+  loading: state.regGroupRoot.loading || state.profileRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+export default connect(mapStateToProps) (CustomerList)

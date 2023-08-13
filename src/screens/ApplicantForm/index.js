@@ -174,7 +174,7 @@ const ApplicantForm = (props) => {
               setGalleryModalVisible(false);
             });
           } else if (params == 'gallery') {
-            ImagePicker.openPicker({
+            ImagePicker.openCamera({
               width: 400,
               height: 400,
               cropping: true,
@@ -960,10 +960,8 @@ const handleNextValidation = (index) => {
 
 const handleGenralValidation = () => {
   return (
-    // CommonFunctions.isNull(applicantPic?.path,'please upload applicant photo') &&
+    CommonFunctions.isNull(applicantPic?.path,'please upload applicant photo') &&
     CommonFunctions.isBlank(fname.trim(), 'please enter first name') &&
-    CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
-    CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
     CommonFunctions.isBlank(contactNo.trim(), 'please enter contact no') &&
     CommonFunctions.isCheckValidLength(
       contactNo.trim(),
@@ -1017,11 +1015,11 @@ const handleNomineeValidation = () => {
           nomaniKYPMobNo.trim(),
           'please enter first nominee KYC No',
         ) &&
-        // CommonFunctions.isCheckValidLength(
-        //   selectNomaniKYCDocumentList,
-        //   1,
-        //   'please select first nominee KYC Documents',
-        // ) &&
+        CommonFunctions.isCheckValidLength(
+          selectNomaniKYCDocumentList,
+          1,
+          'please select first nominee KYC Documents',
+        ) &&
         CommonFunctions.isBlank(
           nomaniKYPName2,
           'please select second nominee KYC Type',
@@ -1029,12 +1027,12 @@ const handleNomineeValidation = () => {
         CommonFunctions.isBlank(
           nomaniKYPMobNo2.trim(),
           'please enter second nominee KYC No',
+        ) &&
+        CommonFunctions.isCheckValidLength(
+          selectNomaniKYCDocumentList2,
+          1,
+          'please select second nominee KYC Documents',
         ) 
-        // CommonFunctions.isCheckValidLength(
-        //   selectNomaniKYCDocumentList2,
-        //   1,
-        //   'please select second nominee KYC Documents',
-        // ) 
   )
 }
 

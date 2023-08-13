@@ -24,6 +24,7 @@ const CenterForm = props => {
 
     const dispatch = useDispatch()
     const [staffName, setStaffName] = useState('')
+    const [profileDetail, setProfileDetail] = useState('');
     const [centerName, setCenterName] = useState('');
     const [centerMeetingDay, setCenterMeetingDay] = useState('');
     const [centerMeetingTime, setCenterMeetingTime] = useState('');
@@ -35,10 +36,17 @@ const CenterForm = props => {
     const [isDisplayDate, setIsDisplayDate] = useState(false);
     const [meetingDay,setMeetingDay]= useState('meetingDay')
 
+    useEffect(() => {
+      handleProfile();
+    }, [props.navigation]);
+
+    const handleProfile = () => {
+      console.log('PROPS PROFILE', props.profile.entity[0]);
+      setProfileDetail(props.profile.entity[0]);
+    };
 
   const handleValidation = () => {
     return (
-      CommonFunctions.isBlank(staffName.trim(), 'please enter staff name') &&
       CommonFunctions.isBlank(centerName.trim(), 'please enter center name') &&
       CommonFunctions.isBlank(centerAddress.trim(), 'please enter address') &&
       CommonFunctions.isBlank(centerPostalCode.trim(), 'please enter postal code') &&
@@ -58,15 +66,15 @@ const CenterForm = props => {
     let data = {
       centerId: 0,
       branchId: 0,
-      staffId_Org: 0,
+      staffId_Org: profileDetail.StaffID,
       grtId: 0,
-      staffId_Recg: 0,
+      staffId_Recg: profileDetail.StaffID,
       centercode: 'string',
       centerName: centerName,
       areaName: 'string',
       formationDate: '2023-06-24T16:43:24.770Z',
       centerMeetingDay: 2,
-      centerMeetingTime: "2023-06-24T16:43:24.770Z",
+      centerMeetingTime: '2023-06-24T16:43:24.770Z',
       reportingDay: 0,
       address: centerAddress,
       village: 'string',
@@ -115,7 +123,7 @@ const CenterForm = props => {
                 paddingHorizontal: R.fontSize.Size24,
                 paddingTop: R.fontSize.Size50,
               }}>
-              <AppTextInput
+              {/* <AppTextInput
                 placeholder={'Staff name'}
                 headTitle={'Staff name'}
                 headTitleColor={
@@ -127,6 +135,15 @@ const CenterForm = props => {
                 onChangeText={text => setStaffName(text)}
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
+              /> */}
+              <AppCardPress
+                disabled={true}
+                headTitle={'Staff Name'}
+                title={
+                  profileDetail != '' ? profileDetail.StaffName : 'Staff Name'
+                }
+                TextColor={R.colors.secAppColor}
+                headTitleColor={R.colors.darkGreenColor}
               />
               <AppTextInput
                 placeholder={'Center name'}
@@ -293,4 +310,9 @@ const CenterForm = props => {
   );
 };
 
-export default CenterForm;
+const mapStateToProps = (state, props) => ({
+  loading: state.regGroupRoot.loading || state.profileRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+
+export default connect(mapStateToProps) (CenterForm);

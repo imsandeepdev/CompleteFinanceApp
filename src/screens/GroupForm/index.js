@@ -84,7 +84,7 @@ const GroupForm = props => {
   const [groupDropDownType, setGroupDropDownType] = useState('');
 
   useEffect(()=>{
-    handleGetAllCustomer()
+    handleGetAllCustomer(props.profile.entity[0].StaffID);
     handleProfile()
   },[props.navigation])
 
@@ -93,8 +93,10 @@ const GroupForm = props => {
     setProfileDetail(props.profile.entity[0]);
   }
 
-  const handleGetAllCustomer = () =>{
-    dispatch(GetAllCustomerRequest(response=>{
+  const handleGetAllCustomer = (staffId) =>{
+    let tempUrl = `?mode=Get&LoginId=${staffId}`;
+
+    dispatch(GetAllCustomerRequest(tempUrl,response=>{
       console.log("Get All Customer Response=>", response.entity.entity)
       let tempList = response.entity.entity
       let tempSelectedList = []
@@ -103,7 +105,6 @@ const GroupForm = props => {
         console.log("ITEM=>",tempList[i].ApplicantName)
         tempSelectedList.push({
           ApplicantName: tempList[i].ApplicantName,
-          Husbandname: tempList[i].Husbandname,
           ApplicantId: tempList[i].ApplicantId,
           ApplicantDateofbirth: tempList[i].ApplicantDateofbirth,
           selected: false,
@@ -113,37 +114,7 @@ const GroupForm = props => {
     }))
   }
 
-  // const handleOnPress = item => {
-  //   console.log('ONCLICK==>', item);
-  //   setOnSelectValue(item);
-  //   setOnSelect(onSelect == item.id ? 0 : item.id);
-  // };
-
-  // const handleDeSelectOnPress = item => {
-  //   console.log('ONCLICK==>', item);
-  //   setOnDeSelectValue(item);
-  //   setOnDeSelect(onDeSelect == item.id ? 0 : item.id);
-    
-  // };
-
-  // const onHandlePush = () => {
-  //   let tempList = onSelectTemp1.filter(item => item.id != onSelectValue.id);
-  //   setOnSelectTemp1(tempList);
-  //   console.log('temp selected==>', tempList);
-  //   setOnSelectedArray([...onSelectedArray, onSelectValue]);
-  //   setOnSelect('');
-  //   setOnDeSelect('')
-  // };
-
-  // const onHandlePop = () => {
-  //     let tempList = onSelectedArray.filter(item => item.id != onDeSelectValue.id);
-  //     setOnSelectedArray(tempList);
-  //     console.log('temp selected==>', tempList);
-  //     setOnSelectTemp1([...onSelectTemp1, onDeSelectValue]);
-  //      setOnSelect('');
-  //      setOnDeSelect('');
-  // };
-
+ 
   const handleValidation = () => {
     return (
       CommonFunctions.isBlank(branchManager, 'Please select branch manager') &&
@@ -285,7 +256,7 @@ const GroupForm = props => {
               />
               <AppCardPress
                 onPress={() => handleGroupDropDown('Branch')}
-                headTitle={'Branch Manager'}
+                headTitle={'Branch Manager *'}
                 title={
                   branchManager != '' ? branchManager.BoCode : 'Branch Manager'
                 }
@@ -303,7 +274,7 @@ const GroupForm = props => {
               />
               <AppCardPress
                 onPress={() => handleGroupDropDown('Center')}
-                headTitle={'Center Name'}
+                headTitle={'Center Name *'}
                 title={centerName != '' ? centerName.CenterName : 'Center Name'}
                 TextColor={
                   centerName != ''
@@ -319,7 +290,7 @@ const GroupForm = props => {
               />
               <AppCardPress
                 onPress={() => handleGroupDropDown('MeetingDay')}
-                headTitle={'First Meeting Day'}
+                headTitle={'First Meeting Day *'}
                 title={
                   firstMeetDate != ''
                     ? firstMeetDate.RoleName
@@ -339,7 +310,7 @@ const GroupForm = props => {
               />
               <AppTextInput
                 placeholder={'Group Name'}
-                headTitle={'Group Name'}
+                headTitle={'Group Name *'}
                 headTitleColor={
                   groupName != ''
                     ? R.colors.darkGreenColor
@@ -352,7 +323,7 @@ const GroupForm = props => {
               />
               <AppTextInput
                 placeholder={'Address'}
-                headTitle={'Address'}
+                headTitle={'Address *'}
                 headTitleColor={
                   groupAddress != ''
                     ? R.colors.darkGreenColor
@@ -365,13 +336,14 @@ const GroupForm = props => {
               />
               <AppTextInput
                 placeholder={'Postal Code'}
-                headTitle={'Postal Code'}
+                headTitle={'Postal Code *'}
                 headTitleColor={
                   postalCode != ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
                 value={postalCode}
+                maxLength={6}
                 onChangeText={text => setPostalCode(text)}
                 returnKeyType={'next'}
               />
@@ -391,7 +363,7 @@ const GroupForm = props => {
                 onPress={() => {
                   setEmpModal(true);
                 }}
-                title={'Select Customer Detail'}
+                title={'Select Customer Detail *'}
                 TextColor={
                   selectedEmpList.length != 0
                     ? R.colors.secAppColor
@@ -416,7 +388,7 @@ const GroupForm = props => {
                       </View>
                       <View style={Styles.headView}>
                         <Text style={Styles.modelHeadText} numberOfLines={1}>
-                          {item.Husbandname}
+                          {item.ApplicantId}
                         </Text>
                       </View>
                       <View style={[Styles.headView, {borderRightWidth: 0}]}>
@@ -429,125 +401,6 @@ const GroupForm = props => {
                     </View>
                   );
                 })}
-
-              {/* <View
-                style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderRadius: R.fontSize.Size5,
-                  borderColor: R.colors.darkGreenColor,
-                }}>
-                <View style={{flexDirection: 'row', flex: 1}}>
-                  <View
-                    style={{
-                      flex: 1,
-                      borderRightWidth: 1,
-                      marginVertical: R.fontSize.Size4,
-                      borderColor: R.colors.placeholderTextColor,
-                    }}>
-                    {onSelectTemp1.map((item, index) => {
-                      return (
-                        <Pressable
-                          onPress={() => handleOnPress(item)}
-                          key={index}
-                          style={{
-                            marginVertical: R.fontSize.Size4,
-                            marginHorizontal: R.fontSize.Size2,
-                            borderBottomWidth: 1,
-                            borderColor: R.colors.placeholderTextColor,
-                            padding: R.fontSize.Size5,
-                            backgroundColor:
-                              item.id == onSelect
-                                ? R.colors.appColor
-                                : R.colors.lightWhite,
-                          }}>
-                          <Text>{item.title}</Text>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
-
-                  <View
-                    style={{
-                      justifyContent: 'space-around',
-                      padding: R.fontSize.Size4,
-                    }}>
-                    <Pressable
-                      disabled={onSelect != '' ? false : true}
-                      onPress={() => onHandlePush()}
-                      style={{
-                        borderWidth: 1,
-                        padding: R.fontSize.Size5,
-                        borderRadius: R.fontSize.Size5,
-                        backgroundColor:
-                          onSelect != ''
-                            ? R.colors.appColor
-                            : R.colors.lightWhite,
-                      }}>
-                      <Image
-                        source={R.images.backIcon}
-                        resizeMode={'contain'}
-                        style={{
-                          height: R.fontSize.Size20,
-                          width: R.fontSize.Size20,
-                          transform: [{rotate: '180deg'}],
-                        }}
-                      />
-                    </Pressable>
-
-                    <Pressable
-                      disabled={onDeSelect != '' ? false : true}
-                      onPress={() => onHandlePop()}
-                      style={{
-                        borderWidth: 1,
-                        padding: R.fontSize.Size5,
-                        borderRadius: R.fontSize.Size5,
-                        backgroundColor:
-                          onDeSelect != ''
-                            ? R.colors.appColor
-                            : R.colors.lightWhite,
-                      }}>
-                      <Image
-                        source={R.images.backIcon}
-                        resizeMode={'contain'}
-                        style={{
-                          height: R.fontSize.Size20,
-                          width: R.fontSize.Size20,
-                        }}
-                      />
-                    </Pressable>
-                  </View>
-
-                  <View
-                    style={{
-                      flex: 1,
-                      borderLeftWidth: 1,
-                      marginVertical: R.fontSize.Size4,
-                      borderColor: R.colors.placeholderTextColor,
-                    }}>
-                    {onSelectedArray.map((item, index) => {
-                      return (
-                        <Pressable
-                          onPress={() => handleDeSelectOnPress(item)}
-                          key={index}
-                          style={{
-                            marginVertical: R.fontSize.Size4,
-                            marginHorizontal: R.fontSize.Size2,
-                            borderBottomWidth: 1,
-                            borderColor: R.colors.placeholderTextColor,
-                            padding: R.fontSize.Size5,
-                            backgroundColor:
-                              item.id == onDeSelect
-                                ? R.colors.appColor
-                                : R.colors.lightWhite,
-                          }}>
-                          <Text>{item.title}</Text>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
-                </View>
-              </View> */}
             </View>
           </View>
         </ScrollView>

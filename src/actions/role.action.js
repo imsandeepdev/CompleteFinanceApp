@@ -104,12 +104,12 @@ export const GetMenuListRequest = (success, failed) => {
 };
 
 
-export const GetAllCustomerRequest = (success, failed) => {
+export const GetAllCustomerRequest = (staffId,success, failed) => {
   return dispatch => {
     dispatch(GetAllCustomer());
     api
       .multiGetRequest({
-        url: `${Config.getAllCustomerAPI}`,
+        url: `${Config.getAllCustomerAPI}${staffId}`,
       })
       .then(response => {
         dispatch(GetAllCustomerSuccess(response));

@@ -105,7 +105,7 @@ const ListOne = [
     Title: 'Loan Approval',
     icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
     icon1: R.images.applicantFormIcon,
-    Url: 'CustomerList',
+    Url: 'LoanApproval',
   },
 ];
 
