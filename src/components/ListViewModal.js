@@ -52,6 +52,7 @@ const ListViewModal = props => {
                 data={props.dataList}
                 keyExtractor={(item,index)=>index.toString()}
                 renderItem={({item,index})=>{
+                  let title = item.RoleName || item.BankName
                     return (
                       <Pressable
                         key={index}
@@ -73,7 +74,7 @@ const ListViewModal = props => {
                             color: R.colors.secAppColor,
                             fontWeight: '500',
                           }}>
-                          {item.RoleName}
+                          {title}
                         </Text>
                       </Pressable>
                     );

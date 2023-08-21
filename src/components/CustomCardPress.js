@@ -39,7 +39,7 @@ const CustomCardPress = props => {
         ]}>
         {
         props.leftIcon &&
-        <View>
+        <View style={{marginRight:R.fontSize.Size5}}>
           <Image
             source={props.leftIcon}
             style={{

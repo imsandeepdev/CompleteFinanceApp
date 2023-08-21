@@ -29,7 +29,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   flatMainView: {
-    width: screenWidth / 2.4,
+    width: screenWidth / 2.5,
     height: screenWidth / 3,
     marginHorizontal: R.fontSize.Size12,
     backgroundColor: R.colors.lightWhite,
@@ -45,11 +45,13 @@ const style = StyleSheet.create({
     right: 0,
   },
   flatTitleView: {
+    width:R.fontSize.Size140,
     backgroundColor: R.colors.lightWhite,
     padding: R.fontSize.Size4,
     paddingHorizontal: R.fontSize.Size8,
     opacity: 0.8,
     borderRadius: R.fontSize.Size4,
+    alignItems:'center'
   },
   dropDownMainView: {
     alignItems: 'center',

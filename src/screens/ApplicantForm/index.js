@@ -15,7 +15,7 @@ import BankDetail from './BankDetail';
 import BusinessDetail from './BusinessDetail';
 const screenWidth = Dimensions.get('screen').width;
 import {useDispatch,connect} from 'react-redux';
-import { GenderListRequest } from '../../actions/dropdown.action';
+import { GenderListRequest, GetBankNameRequest } from '../../actions/dropdown.action';
 import { SaveCustomerDocumentRequest, SaveCustomerRequest } from '../../actions/saveCustomer.action';
 import Toast from 'react-native-simple-toast'
 import CommonFunctions from '../../utils/CommonFunctions';
@@ -222,6 +222,7 @@ const ApplicantForm = (props) => {
       listModalType == 'coApplicantKycType2' && setCoApplicantKYPName2(item);
       listModalType == 'ApplicantKYCType' && setApplicantDocType1(item);
       listModalType == 'ApplicantKYCType2' && setApplicantDocType2(item);
+      listModalType == 'BankName' && setBankName(item)
 
 
       setListModalData([])
@@ -237,9 +238,15 @@ const ApplicantForm = (props) => {
       type == 'Caste' && handleDropDownList('Caste');
       type == 'houseStatus' && handleDropDownList('House Status');
       type == 'NatureofBusiness' && handleDropDownList('Nature O Business');
-      type == 'noFamilyMember' && setListModalData(AppContent.noOfMember);
-      type == 'noOfDaughter' && setListModalData(AppContent.noOfMember);
-      type == 'noOfSon' && setListModalData(AppContent.noOfMember);
+      type == 'noFamilyMember' && (setListModalData(AppContent.noOfMember),
+        setListModal(true)
+      );
+      type == 'noOfDaughter' && (setListModalData(AppContent.noOfMember),
+        setListModal(true)
+      );
+      type == 'noOfSon' && (setListModalData(AppContent.noOfMember),
+        setListModal(true)
+      );
       type == 'accountType' && handleDropDownList('Account Type');
       type == 'HusbandQualification' && handleDropDownList('Qualification');
       type == 'NomaniRelation' && handleDropDownList('Relation');
@@ -250,10 +257,8 @@ const ApplicantForm = (props) => {
       type == 'coApplicantKycType2' && handleDropDownList('KYC');
       type == 'ApplicantKYCType' && handleDropDownList('KYC');
       type == 'ApplicantKYCType2' && handleDropDownList('KYC');
-
-
-
-        setListModal(true);
+      type == 'BankName' && handleBankName()
+        // setListModal(true);
     
     }
 
@@ -263,9 +268,24 @@ const ApplicantForm = (props) => {
         if (response.statusCode==200)
         {
         setListModalData(response.entity.entity);
+        setListModal(true);
+
         }
       }))
     }
+
+    const handleBankName = () => {
+      dispatch(
+        GetBankNameRequest(response => {
+          console.log('response==>', response);
+           if (response.statusCode == 200) {
+             setListModalData(response.entity.entity);
+        setListModal(true);
+
+           }
+        }),
+      );
+    };
 
     const handleSameNomani = ()=>{
       setSameNomaniDetail(!sameNomaniDetail);
@@ -354,7 +374,10 @@ const ApplicantForm = (props) => {
 
     const handleCustomerVerification = () => {
       return (
-        CommonFunctions.isNull(applicantPic?.path,'please upload applicant photo') &&
+        CommonFunctions.isNull(
+          applicantPic?.path,
+          'please upload applicant photo',
+        ) &&
         CommonFunctions.isBlank(fname.trim(), 'please enter first name') &&
         CommonFunctions.isBlank(mname.trim(), 'please enter middle name') &&
         CommonFunctions.isBlank(lname.trim(), 'please enter last name') &&
@@ -540,6 +563,10 @@ const ApplicantForm = (props) => {
         CommonFunctions.isBlank(
           natureBusiness,
           'please select business nature of business',
+        ) &&
+        CommonFunctions.isBlank(
+          bankName,
+          'please select bank name',
         ) &&
         CommonFunctions.isBlank(
           accountHolder.trim(),
@@ -754,7 +781,7 @@ const ApplicantForm = (props) => {
         religion: memberReligion.RuleID,
         bankdetailId: 1,
         boId: 1,
-        bankName: bankName,
+        bankName: bankName.BankName,
         accountNo: accountNo,
         ifscCode: ifscCode,
         accountHolderName: accountHolder,
@@ -1166,6 +1193,8 @@ const handleBankValidation = () =>{
   );
 }
 
+
+
     return (
       <StoryScreen loading={props.loading}>
         <SafeAreaView style={style.mainView}>
@@ -1483,8 +1512,10 @@ const handleBankValidation = () =>{
                 {selectedHeader == 4 && (
                   <View style={{flex: 1}}>
                     <BankDetail
-                      value_bankName={bankName}
-                      onChange_bankName={text => setBankName(text)}
+                      title_bankName={bankName.BankName}
+                      onPress_BankName={()=>{handleListModal('BankName');}}
+                      // value_bankName={bankName}
+                      // onChange_bankName={text => setBankName(text)}
                       value_accountHolder={accountHolder}
                       onChange_accountHolder={text => setAccountHolder(text)}
                       value_accountNo={accountNo}
@@ -1553,7 +1584,7 @@ const handleBankValidation = () =>{
                         handleListModal('NatureofBusiness')
                       }
                       nextOnPress={() => {
-                       handleNextValidation(3);
+                        handleNextValidation(3);
                       }}
                       backOnPress={() => setSelectedHeader(2)}
                     />

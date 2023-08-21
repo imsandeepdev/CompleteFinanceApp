@@ -69,6 +69,7 @@ const ListOne = [
     icon: 'https://poonawallafincorp.com/pfca/assets/og_image/og_image-what-is-loan-account-number-og.jpg',
     icon1: R.images.applicantScreen,
     Url: 'ApplicantForm',
+    For: 'LoanApplication',
   },
   {
     id: 1,
@@ -76,29 +77,31 @@ const ListOne = [
     icon: 'https://www.rhythmsystems.com/hubfs/16_RS_For_Blogs/iStock-504635632.jpg',
     icon1: R.images.groupIcon,
     Url: 'GroupForm',
+    For: 'GroupForm',
   },
   {
     id: 2,
     Title: 'Center Formation',
     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
     icon1: R.images.applicantFormIcon,
-
     Url: 'CenterForm',
+    For: 'CenterForm',
   },
   {
     id: 3,
     Title: 'GRT',
     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
     icon1: R.images.grtScreen,
-
     Url: 'GrtForm',
+    For: 'Grt',
   },
   {
     id: 4,
     Title: 'Loan Proposal',
     icon: 'https://www.firstib.com/wp-content/uploads/2022/04/iStock-1322517295.jpg',
     icon1: R.images.applicantFormIcon,
-    Url: 'CustomerList',
+    Url: 'LoanProposal',
+    For: 'LoanProposal',
   },
   {
     id: 4,
@@ -106,6 +109,7 @@ const ListOne = [
     icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
     icon1: R.images.applicantFormIcon,
     Url: 'LoanApproval',
+    For: 'LoanApproval',
   },
 ];
 
@@ -121,7 +125,7 @@ const CustomCard = props => {
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignItems: 'center',
-          // justifyContent: 'center',
+          justifyContent: 'center',
           marginHorizontal:R.fontSize.Size4
         }}>
         {props.data.map((item, index) => {
@@ -149,7 +153,7 @@ const CustomCard = props => {
             // </Pressable>
             <Pressable
               key={index}
-              onPress={() => props.onPress(item.Url)} style={style.flatMainView}>
+              onPress={() => props.onPress(item)} style={style.flatMainView}>
               <Image
                 source={{uri: item.icon}}
                 style={{height: '100%', width: '100%'}}
@@ -157,7 +161,14 @@ const CustomCard = props => {
               />
               <View style={style.flatTitleMainView}>
                 <View style={style.flatTitleView}>
-                  <Text>{item.Title}</Text>
+                  <Text
+                  style={{
+                    fontFamily:R.fonts.regular,
+                    fontWeight:'700',
+                    color:R.colors.textPriColor,
+                    fontSize:R.fontSize.Size14
+                  }}
+                  >{item.Title}</Text>
                 </View>
               </View>
             </Pressable>
@@ -308,11 +319,15 @@ const HomeScreen = props => {
               </View>
             </View>
 
-            <View style={{marginTop:R.fontSize.Size18}}>
+            <View style={{marginTop: R.fontSize.Size18}}>
               <CustomCard
                 heading={'Loan List'}
                 data={ListOne}
-                onPress={item => props.navigation.navigate(item)}
+                onPress={item =>
+                  props.navigation.navigate(item.Url, {
+                    item,
+                  })
+                }
               />
             </View>
           </View>

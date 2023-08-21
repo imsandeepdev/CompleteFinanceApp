@@ -66,8 +66,11 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
       .catch(error => {
         reject(error);
         console.log('errorr==>', error);
-        if (error == 'Network Error')
+        if (error == 'Network Error') {
           Toast.show('Check Internet Connection', Toast.SHORT);
+        } else {
+          Toast.show(error.message, Toast.LONG);
+        }
       });
   });
 
@@ -99,7 +102,13 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
           reject(error);
           console.log('errorr==>', error);
           if (error == 'Network Error')
+          {
             Toast.show('Check Internet Connection', Toast.SHORT);
+          }
+          else
+          {
+            Toast.show(error.message, Toast.LONG);
+          }
         });
     });
 

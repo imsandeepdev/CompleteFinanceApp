@@ -276,7 +276,7 @@ const GrtForm = props => {
               />
               <AppCardPress
                 onPress={() => handleGrtDropDown('Branch')}
-                headTitle={'Branch Name'}
+                headTitle={'Branch Name *'}
                 title={branchName != '' ? branchName.BoCode : 'Branch Name'}
                 TextColor={
                   branchName != ''
@@ -293,7 +293,7 @@ const GrtForm = props => {
 
               <AppCardPress
                 onPress={() => handleGrtDropDown('Center')}
-                headTitle={'Center name'}
+                headTitle={'Center name *'}
                 title={centerName != '' ? centerName.CenterName : 'Center name'}
                 TextColor={
                   centerName != ''
@@ -311,7 +311,7 @@ const GrtForm = props => {
               centerName != ''&&
               <AppCardPress
                 onPress={() => handleGroupNamePickerValidation()}
-                headTitle={'Group Name'}
+                headTitle={'Group Name *'}
                 title={groupName != '' ? groupName.GroupName : 'Group Name'}
                 TextColor={
                   groupName != ''
@@ -329,7 +329,7 @@ const GrtForm = props => {
 
               <AppCardPress
                 onPress={() => handleApprovedStatusDropDown('ApprovedStatus')}
-                headTitle={'Approved Status'}
+                headTitle={'Approved Status *'}
                 title={
                   approvalStatus != ''
                     ? approvalStatus.approvedTitile
@@ -356,8 +356,8 @@ const GrtForm = props => {
                 }
                 headTitle={
                   approvalStatus != ''
-                    ? `${approvalStatus.approvedTitile} Reason`
-                    : `Approved Reason`
+                    ? `${approvalStatus.approvedTitile} Reason *`
+                    : `Approved Reason *`
                 }
                 headTitleColor={
                   approvalReason != ''

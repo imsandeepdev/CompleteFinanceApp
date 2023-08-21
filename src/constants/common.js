@@ -108,3 +108,8 @@ export const approved_Status_DropDown_error = 'approved_Status_DropDown_error';
 export const update_loan_approval = 'update_loan_approval';
 export const update_loan_approval_success = 'update_loan_approval_success';
 export const update_loan_approval_error = 'update_loan_approval_error';
+
+//getBankName
+export const get_Bank_Name = 'get_Bank_Name';
+export const get_Bank_Name_success = 'get_Bank_Name_success';
+export const get_Bank_Name_error = 'get_Bank_Name_error';

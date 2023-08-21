@@ -5,6 +5,7 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';
+import {useEffect} from 'react'
 import {
   SafeAreaView,
   Text
@@ -13,12 +14,15 @@ import LoginScreen from './src/screens/LoginScreen';
 import AppNavigator from './src/navigator/AppNavigator';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'reduxjs-toolkit-persist/integration/react';
-
+import SplashScreen from 'react-native-splash-screen';
 import {store, persistor} from './src/store';
 
 
 const App = () => {
 
+useEffect(()=>{
+SplashScreen.hide();
+},[])
 
   return (
     <Provider store={store}>

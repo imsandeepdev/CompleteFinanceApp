@@ -3,11 +3,13 @@ import {useState,useEffect} from 'react'
 import {View,Text,Image,SafeAreaView,ScrollView,Pressable} from 'react-native';
 import StoryScreen from '../../components/StoryScreen';
 import style from './style';
-import { AppButton, AppCardPress, Header, ListViewModal } from '../../components';
+import { AppButton, AppCardPress, CustomerListModal, Header, ListViewModal } from '../../components';
 import R from '../../res/R';
 import {useDispatch,connect} from 'react-redux';
 import { ApprovedStatusDropDownRequest, LoanProposalDetailRequest, UpdateLoanApprovalRequest } from '../../actions/loanApproval.action';
 import CommonFunctions from '../../utils/CommonFunctions';
+import Toast from 'react-native-simple-toast';
+import { GetAllCustomerRequest } from '../../actions/role.action';
 
 const LoanApproval = (props) => {
 
@@ -16,10 +18,34 @@ const LoanApproval = (props) => {
     const [approvalStatus, setApprovalStatus] = useState(false)
     const [listModalData, setListModalData] = useState([])
     const [selectedApproval, setSelectedApproval] = useState('');
+    const [profileDetail, setProfileDetail] = useState('');
+    const [customerListModal, setCustomerListModal] = useState(true);
+    const [customerList, setCustomerList] = useState([])
+    const [centerDetail, setCenterDetail] = useState({});
+
 
     useEffect(()=>{
       handleApprovalDetail()
+      handleProfile()
+      handleGetAllCustomer(props.profile.entity[0].StaffID);
     },[props.navigation])
+
+     const handleGetAllCustomer = (staffId) => {
+    console.log("STAFFID",staffId)
+    let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+    dispatch(
+      GetAllCustomerRequest(tempUrl,response => {
+        console.log('Get All Customer Response=>', response.entity.entity);
+        let tempList = response.entity.entity;
+        setCustomerList(tempList);
+      }),
+    );
+  };
+
+    const handleProfile = () => {
+      console.log('PROPS PROFILE', props.profile.entity[0]);
+      setProfileDetail(props.profile.entity[0]);
+    };
 
     const handleApprovalDetail = () => {
 
@@ -64,17 +90,30 @@ const LoanApproval = (props) => {
     const handleLoanSubmitAPI = () => {
       let data = {
         mode: 'Update',
-        proposalId: 13,
-        customerInfoId: 68,
-        staffId: 1,
-        approvalStatus: 1,
+        proposalId: approvalDetail.ProposalId,
+        customerInfoId: approvalDetail.ClientInfoId,
+        staffId: profileDetail.StaffID,
+        approvalStatus: selectedApproval.RuleID,
       };
+      console.log("DATA=>",data)
       dispatch(UpdateLoanApprovalRequest(data,response=>{
         console.log("Update loan status=>",response)
+        if(response.statusCode==200)
+        {
+          Toast.show('Successfully! Submitted Loan Approval',Toast.SHORT)
+          props.navigation.goBack()
+        }
+        
       }))
 
       console.log("success")
     }
+
+     const handleProceed = item => {
+       console.log('ITEM=>', item);
+       setCenterDetail(item)
+       setCustomerListModal(false)
+     };
 
     return (
       <StoryScreen loading={props.loading}>
@@ -169,12 +208,18 @@ const LoanApproval = (props) => {
           onPress={item => handleRoleSelect(item)}
           dataList={listModalData}
         />
+        <CustomerListModal
+          visible={customerListModal}
+          data={customerList}
+          onPress={item => handleProceed(item)}
+        />
       </StoryScreen>
     );
 }
 
 const mapStateToProps = (state, props) => ({
   loading: state.loanProposalDetailRoot.loading,
+  profile: state.profileRoot.userInit,
 });
 
 export default connect(mapStateToProps)(LoanApproval);

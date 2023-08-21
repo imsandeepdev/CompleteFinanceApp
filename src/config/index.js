@@ -20,5 +20,6 @@ export const Config = {
   saveLoanProposalAPI: '/Loan/SaveLoanProposal',
   proposeAmountAPI:'/Loan/GetLoanProposedAmount',
   loanProposalDetailAPI:'/Loan/GetLoanPurposalDetail',
-  updateLoanApprovalAPI:'/Loan/UpdateLoanApproval'
+  updateLoanApprovalAPI:'/Loan/UpdateLoanApproval',
+  getBankNameAPI:'/GeneralMaster/GetBankMaster'
 };

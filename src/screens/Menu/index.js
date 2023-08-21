@@ -123,6 +123,11 @@ const Menu = props => {
             onPress={() => props.navigation.navigate('LoanProposal')}
           />
           <CustomDrawerButton
+            title={'Pre Disbursement'}
+            image={R.images.aboutIcon}
+            onPress={() => props.navigation.navigate('DisbursementScreen')}
+          />
+          <CustomDrawerButton
             title={'About us'}
             image={R.images.aboutIcon}
             onPress={() => console.log('onpress')}

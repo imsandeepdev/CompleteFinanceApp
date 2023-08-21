@@ -84,9 +84,12 @@ const CustomerList = (props) =>{
 
   const dispatch = useDispatch()
   const [customerList, setCustomerList] = useState([])
+  const [cardDetail, setCardDetail] = useState({})
 
   useEffect(()=>{
     handleGetAllCustomer(props.profile.entity[0].StaffID);
+    console.log("selected card=>",props.route.params?.item)
+    setCardDetail(props.route.params.item);
   },[props.navigation])
 
   const handleGetAllCustomer = (staffId) => {
@@ -104,7 +107,7 @@ const CustomerList = (props) =>{
     const handleProceed = (item) => {
 
         console.log("ITEM=>",item)
-        props.navigation.navigate('LoanProposal',
+        props.navigation.navigate(cardDetail.For,
         {itemList:item});
     }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, Pressable,SafeAreaView,Dimensions,ScrollView, Alert} from 'react-native';
-import { AlertModal, Header, ListViewModal, StoryScreen } from '../../components';
+import { AlertModal, CustomerListModal, Header, ListViewModal, StoryScreen } from '../../components';
 import style from './style';
 import AppContent from '../../utils/AppContent';
 import R from '../../res/R';
@@ -9,17 +9,20 @@ import IncomeDetail from './IncomeDetail';
 import MonthlyExpenses from './MonthlyExpenses';
 import LoanProposalForm from './LoanProposal';
 const screenWidth = Dimensions.get('screen').width;
-import {useDispatch} from 'react-redux'
+import {connect, useDispatch} from 'react-redux'
 import { LoanProposalDropdownRequest, ProposeAmountRequest} from '../../actions/dropdown.action';
 import moment from 'moment';
 import { SaveLoanProposalRequest } from '../../actions/loanProposal.action';
 import Toast from 'react-native-simple-toast';
 import CommonFunctions from '../../utils/CommonFunctions';
+import { GetAllCustomerRequest } from '../../actions/role.action';
 
 
 const LoanProposal = (props) => {
 
     const dispatch = useDispatch()
+    const [customerListModal, setCustomerListModal] = useState(true);
+    const [customerList, setCustomerList] = useState([]);
     const [selectedHeader, setSelectedHeader] = useState(0);
     const [centerDetail,setCenterDetail] = useState({})
     const [customerOccupation, setCustomerOccupation] = useState('');
@@ -74,18 +77,27 @@ const LoanProposal = (props) => {
     const [listModalData, setListModalData] = useState([])
 
     useEffect(()=>{
-        setCenterDetail(props.route.params?.itemList);
+        handleGetAllCustomer(props.profile.entity[0].StaffID);
     },[props.navigation])
+
+      const handleGetAllCustomer = staffId => {
+        console.log('STAFFID', staffId);
+        let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+        dispatch(
+          GetAllCustomerRequest(tempUrl, response => {
+            console.log('Get All Customer Response=>', response.entity.entity);
+            let tempList = response.entity.entity;
+            setCustomerList(tempList);
+          }),
+        );
+      };
 
 
   const handleOpenListModal = (type,catType) => {
-
     dispatch(LoanProposalDropdownRequest(type,response=>{
       console.log("response==>",response.entity.entity)
       setListModalData(response.entity.entity);
     }))
-
-    // type == 'customerOccupation' && setListModalData(AppContent.memberQualification);
     setListModal(true)
     setListModalType(catType);
   }
@@ -343,7 +355,7 @@ const LoanProposal = (props) => {
       console.log("save loan response=>",response)
        if (response.statusCode == 200) {
          Toast.show('Successfully! send loan proposal details', Toast.SHORT);
-         props.navigation.replace('HomeMenu');
+         props.navigation.goBack();
        }
     }))
   }
@@ -376,6 +388,12 @@ const LoanProposal = (props) => {
          setSelectedHeader(2);
     }
   }
+
+   const handleProceed = item => {
+     console.log('ITEM=>', item);
+     setCenterDetail(item);
+     setCustomerListModal(false);
+   };
 
 
     return (
@@ -655,7 +673,17 @@ const LoanProposal = (props) => {
           title={alertMessage}
           onPress={() => setAlertModal(false)}
         />
+        <CustomerListModal
+          visible={customerListModal}
+          data={customerList}
+          onPress={item => handleProceed(item)}
+        />
       </StoryScreen>
     );
 }
-export default LoanProposal
+
+const mapStateToProps = (state, props) => ({
+  loading: state.loanProposalDetailRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+export default connect(mapStateToProps)(LoanProposal)

@@ -48,10 +48,20 @@ const CenterForm = props => {
   const handleValidation = () => {
     return (
       CommonFunctions.isBlank(centerName.trim(), 'please enter center name') &&
+      CommonFunctions.isBlank(
+        centerMeetingDay,
+        'please select center meeting day',
+      ) &&
+      CommonFunctions.isBlank(
+        centerMeetingTime,
+        'please select center meeting time',
+      ) &&
       CommonFunctions.isBlank(centerAddress.trim(), 'please enter address') &&
-      CommonFunctions.isBlank(centerPostalCode.trim(), 'please enter postal code') &&
+      CommonFunctions.isBlank(
+        centerPostalCode.trim(),
+        'please enter postal code',
+      ) &&
       CommonFunctions.isBlank(centerLandmark.trim(), 'please enter landmark')
-
     );
   }
 
@@ -147,7 +157,7 @@ const CenterForm = props => {
               />
               <AppTextInput
                 placeholder={'Center name'}
-                headTitle={'Center name'}
+                headTitle={'Center name *'}
                 headTitleColor={
                   centerName != ''
                     ? R.colors.darkGreenColor
@@ -162,7 +172,7 @@ const CenterForm = props => {
                 onPress={() => (
                   setIsDisplayDate(true), setMeetingDay('meetingDay')
                 )}
-                headTitle={'Center Meeting Day'}
+                headTitle={'Center Meeting Day *'}
                 title={
                   centerMeetingDay != ''
                     ? centerMeetingDay
@@ -184,7 +194,7 @@ const CenterForm = props => {
                 onPress={() => (
                   setIsDisplayDate(true), setMeetingDay('meetingTime')
                 )}
-                headTitle={'Center Meeting Time'}
+                headTitle={'Center Meeting Time *'}
                 title={
                   centerMeetingTime != ''
                     ? centerMeetingTime
@@ -204,7 +214,7 @@ const CenterForm = props => {
               />
               <AppTextInput
                 placeholder={'Address'}
-                headTitle={'Address'}
+                headTitle={'Address *'}
                 headTitleColor={
                   centerAddress != ''
                     ? R.colors.darkGreenColor
@@ -217,7 +227,7 @@ const CenterForm = props => {
               />
               <AppTextInput
                 placeholder={'Postal Code'}
-                headTitle={'Postal Code'}
+                headTitle={'Postal Code *'}
                 headTitleColor={
                   centerPostalCode != ''
                     ? R.colors.darkGreenColor
@@ -230,7 +240,7 @@ const CenterForm = props => {
               />
               <AppTextInput
                 placeholder={'Landmark'}
-                headTitle={'Landmark'}
+                headTitle={'Landmark *'}
                 headTitleColor={
                   centerLandmark != ''
                     ? R.colors.darkGreenColor

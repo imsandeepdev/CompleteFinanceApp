@@ -15,6 +15,9 @@ import {
   propose_amount,
   propose_amount_success,
   propose_amount_error,
+  get_Bank_Name,
+  get_Bank_Name_success,
+  get_Bank_Name_error
 } from '../constants/common';
 import api from '../services/api';
 
@@ -113,6 +116,25 @@ export const ProposeAmountError = error => {
 };
 
 
+export const GetBankName = () => {
+  return {
+    type: get_Bank_Name,
+  };
+};
+export const GetBankNameSuccess = payload => {
+  return {
+    type: get_Bank_Name_success,
+    payload,
+  };
+};
+export const GetBankNameError = error => {
+  return {
+    type: get_Bank_Name_error,
+    payload: error,
+  };
+};
+
+
 export const GenderListRequest = (modeType, success, failed) => {
   return dispatch => {
     dispatch(GenderList());
@@ -203,6 +225,27 @@ export const ProposeAmountRequest = (data, success, failed) => {
       })
       .catch(error => {
         dispatch(ProposeAmountError(error));
+        failed?.(error);
+        console.log('Error: ', error);
+      });
+  };
+};
+
+
+export const GetBankNameRequest = (success, failed) => {
+  return dispatch => {
+    dispatch(GetBankName());
+    api
+      .multipostRequest({
+        needAuth: false,
+        url: `${Config.getBankNameAPI}`,
+      })
+      .then(response => {
+        dispatch(GetBankNameSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(GetBankNameError(error));
         failed?.(error);
         console.log('Error: ', error);
       });

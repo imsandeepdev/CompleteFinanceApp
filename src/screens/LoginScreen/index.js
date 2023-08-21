@@ -11,7 +11,7 @@ import {
 import { AppButton, CustomTextInput, StoryScreen } from '../../components';
 import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height
-import {useDispatch} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import { AddCartSuccess } from '../../actions/addcart.action';
 import { SignInRequest } from '../../actions/Auth.action';
 import CommonFunctions from '../../utils/CommonFunctions';
@@ -179,4 +179,8 @@ const LoginScreen = (props) => {
     );
 }
 
-export default LoginScreen
+const mapStateToProps = (state, props) => ({
+  loading: state.auth.loading,
+});
+
+export default connect(mapStateToProps) (LoginScreen);

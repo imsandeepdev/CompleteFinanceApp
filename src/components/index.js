@@ -14,6 +14,7 @@ import ListGroupModal from "./ListGroupModal";
 import GroupDropDownModal from "./GroupDropDownModal";
 import DocumentViewModal from "./DocumentViewModal";
 import AlertModal from "./AlertModal";
+import CustomerListModal from "./CustomerListModal";
 
 export {
     CustomTextInput,
@@ -31,5 +32,6 @@ export {
     ListGroupModal,
     GroupDropDownModal,
     DocumentViewModal,
-    AlertModal
+    AlertModal,
+    CustomerListModal
 }

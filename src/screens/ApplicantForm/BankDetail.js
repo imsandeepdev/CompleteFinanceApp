@@ -17,7 +17,27 @@ const BankDetail = props => {
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
-        <AppTextInput
+        <AppCardPress
+          onPress={props.onPress_BankName}
+          headTitle={'Bank Name *'}
+          title={
+            props.title_bankName != null
+              ? props.title_bankName
+              : 'Bank Name'
+          }
+          TextColor={
+            props.title_bankName != null
+              ? R.colors.secAppColor
+              : R.colors.placeholderTextColor
+          }
+          headTitleColor={
+            props.title_bankName != null
+              ? R.colors.darkGreenColor
+              : R.colors.textPriColor
+          }
+          rightIcon={R.images.dropdownIcon}
+        />
+        {/* <AppTextInput
           ref={bankNameRef}
           placeholder={'Bank Name'}
           headTitle={'Bank Name'}
@@ -30,7 +50,7 @@ const BankDetail = props => {
           onChangeText={props.onChange_bankName}
           returnKeyType={'next'}
           onSubmitEditing={() => accountHolderRef.current?.focus()}
-        />
+        /> */}
         <AppTextInput
           ref={accountHolderRef}
           placeholder={'Account holder name'}
