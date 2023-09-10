@@ -1,9 +1,5 @@
 import {Config} from '../config';
-import {
-    reg_grt,
-    reg_grt_success,
-    reg_grt_error
-} from '../constants/common';
+import {reg_grt, reg_grt_success, reg_grt_error} from '../constants/common';
 import api from '../services/api';
 
 export const RegGRT = () => {

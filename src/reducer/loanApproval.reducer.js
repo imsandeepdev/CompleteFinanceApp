@@ -1,20 +1,20 @@
 import {
-    loan_proposal_detail,
-    loan_proposal_detail_success,
-    loan_proposal_detail_error,
-    approved_Status_DropDown,
-    approved_Status_DropDown_success,
-    approved_Status_DropDown_error,
-    update_loan_approval,
-    update_loan_approval_success,
-    update_loan_approval_error
+  loan_proposal_detail,
+  loan_proposal_detail_success,
+  loan_proposal_detail_error,
+  approved_Status_DropDown,
+  approved_Status_DropDown_success,
+  approved_Status_DropDown_error,
+  update_loan_approval,
+  update_loan_approval_success,
+  update_loan_approval_error,
 } from '../constants/common';
 
 const initial_state = {
   loading: false,
   loanProposalDetailInit: {},
-  approvedStatusInit:{},
-  updateLoanApproveInit:{},
+  approvedStatusInit: {},
+  updateLoanApproveInit: {},
   error: '',
 };
 

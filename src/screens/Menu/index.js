@@ -12,11 +12,10 @@ import {
 import R from '../../res/R';
 import style from './style';
 import {useDispatch} from 'react-redux';
-import { AppButton } from '../../components';
+import {AppButton} from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserProfileRequest } from '../../actions/profile.action';
-import { GetMenuListRequest } from '../../actions/role.action';
-
+import {UserProfileRequest} from '../../actions/profile.action';
+import {GetMenuListRequest} from '../../actions/role.action';
 
 const CustomDrawerButton = props => {
   return (
@@ -43,51 +42,49 @@ const CustomDrawerButton = props => {
 };
 
 const Menu = props => {
+  const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState({});
+  const [menuList, setMenuList] = useState([]);
 
-    const dispatch = useDispatch()
-    const [userDetail, setUserDetail] = useState({})
-    const [menuList ,setMenuList] = useState([])
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      screenFocus();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
 
-    useEffect(()=>{
-        const unsubscribe = props.navigation.addListener('focus', () => {
-          screenFocus();
-        });
-        return unsubscribe;
-    },[props.navigation])
+  const screenFocus = async () => {
+    let user_id = await AsyncStorage.getItem('userid');
+    handleProfile(Number(user_id));
+  };
 
-    const screenFocus = async() => {
-      let user_id = await AsyncStorage.getItem('userid')
-      handleProfile(user_id)
-   
-    }
-
-
-
-    const handleProfile = (userid) => {
-      dispatch(UserProfileRequest(userid, response =>{
-        console.log("user Profile res==>",response)
+  const handleProfile = userid => {
+    dispatch(
+      UserProfileRequest(userid, response => {
+        console.log('user Profile res==>', response);
         setUserDetail(response.entity[0]);
-      }))
-    }
+      }),
+    );
+  };
 
-     const onLogout = () => {
-       Alert.alert(
-         'Logout!',
-         'Are you sure you want to logout?',
-         [
-           {
-             text: 'LOGOUT',
-             onPress: () => onCalllogOutAPI(),
-           },
-           {text: 'CANCEL'},
-         ],
-         {cancelable: true},
-       );
-     };
+  const onLogout = () => {
+    Alert.alert(
+      'Logout!',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'LOGOUT',
+          onPress: () => onCalllogOutAPI(),
+        },
+        {text: 'CANCEL'},
+      ],
+      {cancelable: true},
+    );
+  };
 
-     const onCalllogOutAPI = () => {
-        props.navigation.replace('LoginScreen')
-     }
+  const onCalllogOutAPI = () => {
+    props.navigation.replace('LoginScreen');
+  };
 
   return (
     <View style={style.safeAreaStyle}>
@@ -102,9 +99,9 @@ const Menu = props => {
               resizeMode={'cover'}
             />
             <View>
-              <Text style={style.textStyle}>{`${userDetail.StaffName}`}</Text>
+              <Text style={style.textStyle}>{`${userDetail?.StaffName}`}</Text>
               <Text
-                style={style.subtextStyle}>{`${userDetail.ContactNo}`}</Text>
+                style={style.subtextStyle}>{`${userDetail?.ContactNo}`}</Text>
             </View>
           </View>
         </Pressable>

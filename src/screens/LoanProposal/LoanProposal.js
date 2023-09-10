@@ -1,32 +1,26 @@
 import * as React from 'react';
-import {useState, createRef} from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {createRef} from 'react';
+import {View} from 'react-native';
 import R from '../../res/R';
-import {
-  AppButton,
-  AppCardPress,
-  AppTextInput,
-  ListViewModal,
-} from '../../components';
+import {AppButton, AppCardPress, AppTextInput} from '../../components';
 import moment from 'moment';
+import style from './style';
 
 const LoanProposalForm = props => {
-  const proposalDateRef = createRef();
-  const proposalCodeRef = createRef();
-  const customerNameRef = createRef();
-  const customerCodeRef = createRef();
-  const insuranceAmountRef = createRef();
-  const maxAmountRef = createRef();
-  const paymentFreRef = createRef();
-  const termsRef = createRef();
-  const installmentAmountRef = createRef();
+  // const proposalDateRef = createRef();
+  // const proposalCodeRef = createRef();
+  // const customerNameRef = createRef();
+  // const customerCodeRef = createRef();
+  // const insuranceAmountRef = createRef();
+  // const maxAmountRef = createRef();
+  // const paymentFreRef = createRef();
+  // const termsRef = createRef();
+  // const installmentAmountRef = createRef();
   const remarksRef = createRef();
 
-
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
+    <View style={style.mainView}>
+      <View style={style.topView}>
         {/* <AppTextInput
           ref={proposalDateRef}
           placeholder={'Proposal Date'}
@@ -117,9 +111,9 @@ const LoanProposalForm = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        {props.loanProductList != '' && (
+        {props.loanProductList !== '' && (
           <View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={style.onlyRow}>
               <AppCardPress
                 flex={1}
                 disabled={true}
@@ -137,7 +131,7 @@ const LoanProposalForm = props => {
                 headTitleColor={R.colors.darkGreenColor}
               />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={style.onlyRow}>
               <AppCardPress
                 flex={1}
                 disabled={true}
@@ -155,7 +149,7 @@ const LoanProposalForm = props => {
                 headTitleColor={R.colors.darkGreenColor}
               />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={style.onlyRow}>
               <AppCardPress
                 flex={1}
                 disabled={true}
@@ -173,7 +167,7 @@ const LoanProposalForm = props => {
                 headTitleColor={R.colors.darkGreenColor}
               />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={style.onlyRow}>
               <AppCardPress
                 flex={1}
                 disabled={true}
@@ -306,7 +300,7 @@ const LoanProposalForm = props => {
           placeholder={'Remarks'}
           headTitle={'Remarks'}
           headTitleColor={
-            props.remarks != ''
+            props.remarks !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -315,11 +309,7 @@ const LoanProposalForm = props => {
           returnKeyType={'done'}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}>
+      <View style={style.rowFlexEnd}>
         <AppButton
           onPress={props.backOnPress}
           title={'Back'}

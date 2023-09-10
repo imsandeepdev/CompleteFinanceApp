@@ -18,8 +18,10 @@ export const Config = {
   saveCustomerDocAPI: '/User/SaveCustomerDocument',
   loanProposalDropdownAPI: '/Loan/GetloanPurposalDropdown?mode=',
   saveLoanProposalAPI: '/Loan/SaveLoanProposal',
-  proposeAmountAPI:'/Loan/GetLoanProposedAmount',
-  loanProposalDetailAPI:'/Loan/GetLoanPurposalDetail',
-  updateLoanApprovalAPI:'/Loan/UpdateLoanApproval',
-  getBankNameAPI:'/GeneralMaster/GetBankMaster'
+  proposeAmountAPI: '/Loan/GetLoanProposedAmount',
+  loanProposalDetailAPI: '/Loan/GetLoanPurposalDetail',
+  updateLoanApprovalAPI: '/Loan/UpdateLoanApproval',
+  getBankNameAPI: '/GeneralMaster/GetBankMaster',
+  disbursementAPI: '/Disbursement/UpdatePredisbursement',
+  payMethodListAPI: '/Disbursement/GetPayMethodList',
 };

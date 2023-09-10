@@ -1,29 +1,24 @@
 import * as React from 'react';
-import {useState,createRef} from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {createRef} from 'react';
+import {View} from 'react-native';
 import R from '../../res/R';
-import {AppButton, AppCardPress, AppTextInput, ListViewModal} from '../../components';
-
+import {AppButton, AppCardPress, AppTextInput} from '../../components';
+import style from './style';
 
 const BankDetail = props => {
-  let bankNameRef = createRef();
-  let accountNoRef = createRef()
+  let accountNoRef = createRef();
   let accountHolderRef = createRef();
-  let accountTypeRef = createRef();
   let branchNameRef = createRef();
   let ifscCodeRef = createRef();
- 
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
+    <View style={style.mainView}>
+      <View style={style.screenMainView}>
         <AppCardPress
           onPress={props.onPress_BankName}
           headTitle={'Bank Name *'}
           title={
-            props.title_bankName != null
-              ? props.title_bankName
-              : 'Bank Name'
+            props.title_bankName != null ? props.title_bankName : 'Bank Name'
           }
           TextColor={
             props.title_bankName != null
@@ -37,26 +32,12 @@ const BankDetail = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
-        {/* <AppTextInput
-          ref={bankNameRef}
-          placeholder={'Bank Name'}
-          headTitle={'Bank Name'}
-          headTitleColor={
-            props.value_bankName != ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.value_bankName}
-          onChangeText={props.onChange_bankName}
-          returnKeyType={'next'}
-          onSubmitEditing={() => accountHolderRef.current?.focus()}
-        /> */}
         <AppTextInput
           ref={accountHolderRef}
           placeholder={'Account holder name'}
           headTitle={'Account holder name *'}
           headTitleColor={
-            props.value_accountHolder != ''
+            props.value_accountHolder !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -70,7 +51,7 @@ const BankDetail = props => {
           placeholder={'Account number'}
           headTitle={'Account number *'}
           headTitleColor={
-            props.value_accountNo != ''
+            props.value_accountNo !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -84,7 +65,7 @@ const BankDetail = props => {
           placeholder={'IFSC Code'}
           headTitle={'IFSC Code *'}
           headTitleColor={
-            props.value_ifscCode != ''
+            props.value_ifscCode !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -98,7 +79,7 @@ const BankDetail = props => {
           placeholder={'Branch name'}
           headTitle={'Branch name'}
           headTitleColor={
-            props.value_branchName != ''
+            props.value_branchName !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -153,7 +134,7 @@ const BankDetail = props => {
           placeholder={'Applicant KYC No'}
           headTitle={'Applicant KYC No *'}
           headTitleColor={
-            props.value_applicantKYCNo != ''
+            props.value_applicantKYCNo !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -207,7 +188,7 @@ const BankDetail = props => {
           placeholder={'Applicant KYC No 2'}
           headTitle={'Applicant KYC No 2 *'}
           headTitleColor={
-            props.value_applicantKYCNo2 != ''
+            props.value_applicantKYCNo2 !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -236,11 +217,7 @@ const BankDetail = props => {
           handleRemove={props.handleRemoveApplicantKYCDoc2}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}>
+      <View style={style.rowFlexEnd}>
         <AppButton
           onPress={props.backOnPress}
           title={'Back'}

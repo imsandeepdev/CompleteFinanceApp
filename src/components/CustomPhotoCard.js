@@ -22,14 +22,6 @@ const CustomPhotoCard = props => {
             width: props.cardWidth ? props.cardWidth : R.fontSize.Size55,
             borderRadius: R.fontSize.Size8,
             backgroundColor: R.colors.storyBgColor,
-            // shadowColor: R.colors.black,
-            // shadowOffset: {
-            //   width: 0,
-            //   height: 2,
-            // },
-            // shadowOpacity: 0.25,
-            // shadowRadius: 1.84,
-            // elevation: 4,
             borderWidth: 0.7,
             borderColor: R.colors.placeHolderColor,
             marginHorizontal: props.marginHorizontal,
@@ -72,7 +64,7 @@ const CustomPhotoCard = props => {
                 fontWeight: '400',
                 color: R.colors.placeHolderColor,
                 textAlign: 'center',
-                fontSize:R.fontSize.Size14
+                fontSize: R.fontSize.Size14,
               }}>
               {props.title}
             </Text>

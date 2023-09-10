@@ -1,15 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {useState, createRef} from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {View, Text} from 'react-native';
 import R from '../../res/R';
-import {
-  AppButton,
-  AppCardPress,
-  AppTextInput,
-  ListViewModal,
-} from '../../components';
+import {AppButton, AppCardPress, AppTextInput} from '../../components';
+import style from './style';
 
-const CustomCenterCard = (props) =>{
+const CustomCenterCard = props => {
   return (
     <View
       style={{
@@ -69,9 +65,9 @@ const CustomCenterCard = (props) =>{
       </View>
     </View>
   );
-}
+};
 
-const CustomTitle = (props) => {
+const CustomTitle = props => {
   return (
     <View
       style={{
@@ -88,14 +84,12 @@ const CustomTitle = (props) => {
       </Text>
     </View>
   );
-}
+};
 
 const IncomeDetail = props => {
-
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, paddingVertical: R.fontSize.Size10}}>
+    <View style={style.mainView}>
+      <View style={style.topView}>
         <CustomCenterCard
           centerName={'Center name'}
           customerName={'Customer name'}
@@ -179,7 +173,7 @@ const IncomeDetail = props => {
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income *'}
           headTitleColor={
-            props.customermonthly_income != ''
+            props.customermonthly_income !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -190,13 +184,7 @@ const IncomeDetail = props => {
           messageText={'( Mininum 5000 monthly income required)'}
           onBlur={props.customerOnBlur}
         />
-        <View
-          style={{
-            width: '100%',
-            height: 2,
-            backgroundColor: R.colors.lightWhite,
-          }}
-        />
+        <View style={style.monthlyTitleView} />
 
         <CustomTitle title={'Spoose Detail'} />
         <AppCardPress
@@ -267,7 +255,7 @@ const IncomeDetail = props => {
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
           headTitleColor={
-            props.spoosemonthly_income != ''
+            props.spoosemonthly_income !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -279,13 +267,7 @@ const IncomeDetail = props => {
           onBlur={props.spooseOnBlur}
         />
 
-        <View
-          style={{
-            width: '100%',
-            height: 2,
-            backgroundColor: R.colors.lightWhite,
-          }}
-        />
+        <View style={style.monthlyTitleView} />
         <CustomTitle title={'Unmarried children detail'} />
 
         <AppCardPress
@@ -356,7 +338,7 @@ const IncomeDetail = props => {
           placeholder={'Monthly Income'}
           headTitle={'Monthly Income'}
           headTitleColor={
-            props.unmarriedChildmonthly_income != ''
+            props.unmarriedChildmonthly_income !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -368,13 +350,7 @@ const IncomeDetail = props => {
           onBlur={props.childOnBlur}
         />
 
-        <View
-          style={{
-            width: '100%',
-            height: 2,
-            backgroundColor: R.colors.lightWhite,
-          }}
-        />
+        <View style={style.monthlyTitleView} />
         <CustomTitle title={'Total Income'} />
 
         <AppCardPress
@@ -397,7 +373,7 @@ const IncomeDetail = props => {
           placeholder={'Total Loan Installment'}
           headTitle={'Total Loan Installment'}
           headTitleColor={
-            props.totalLoanInstallment != ''
+            props.totalLoanInstallment !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -426,11 +402,7 @@ const IncomeDetail = props => {
           }
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}>
+      <View style={style.rowFlexEnd}>
         <AppButton
           onPress={props.nextOnPress}
           title={'Next'}

@@ -1,161 +1,163 @@
 import * as React from 'react';
 import {useState, useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions, SafeAreaView, ScrollView} from 'react-native';
-import {AppButton, CustomTextInput, OtpModal, StoryScreen} from '../../components';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
+import {
+  AppButton,
+  CustomTextInput,
+  OtpModal,
+  StoryScreen,
+} from '../../components';
 import R from '../../res/R';
 import CommonFunctions from '../../utils/CommonFunctions';
 const screenHeight = Dimensions.get('screen').height;
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
-import { UserRegistrationRequest } from '../../actions/registration.action';
+import {UserRegistrationRequest} from '../../actions/registration.action';
 import moment from 'moment';
 
 const SignupScreen = props => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [empId, setEmpId] = useState();
   const [userMobNo, setUserMobNo] = useState('');
   const [password, setPassword] = useState('');
-  const [otpModal, setOtpModal] = useState(false)
+  const [otpModal, setOtpModal] = useState(false);
   const [otpArray, setOtpArray] = useState([]);
   const firstTextInputRef = useRef(null);
   const secondTextInputRef = useRef(null);
   const thirdTextInputRef = useRef(null);
   const fourthTextInputRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [deviceId, setDeviceId] = useState('')
-  const [buttonText,setButtonText] = useState('Proceed')
-  const [otpIndex, setOtpIndex] = useState(0)
+  const [deviceId, setDeviceId] = useState('');
+  const [buttonText, setButtonText] = useState('Proceed');
+  const [otpIndex, setOtpIndex] = useState(0);
   const todayDate = moment(new Date());
 
-  useEffect(()=>{
+  useEffect(() => {
+    handleDeviceInfo();
+  }, [props.navigation]);
 
-    handleDeviceInfo()
-  },[props.navigation])
-
-  const handleDeviceInfo = async() => {
+  const handleDeviceInfo = async () => {
     let deviceId = await DeviceInfo.getDeviceId();
     let deviceManufacturer = await DeviceInfo.getManufacturer();
     let deviceModal = await DeviceInfo.getModel();
     let deviceUniqueId = await DeviceInfo.getUniqueId();
 
-    console.log("DeviceId==>", deviceId)
+    console.log('DeviceId==>', deviceId);
     console.log('DeviceId==>', deviceManufacturer);
     console.log('DeviceId==>', deviceModal);
     console.log('DeviceId==>', deviceUniqueId);
-    let tempDeviceId = `${deviceManufacturer}-${deviceModal}-${deviceUniqueId}`
-    setDeviceId(tempDeviceId)
-  }
+    let tempDeviceId = `${deviceManufacturer}-${deviceModal}-${deviceUniqueId}`;
+    setDeviceId(tempDeviceId);
+  };
 
-    const onOtpChange = index => {
-      return value => {
-        if (isNaN(Number(value))) {
-          return;
-        }
-        const otpArrayCopy = otpArray.concat();
-        otpArrayCopy[index] = value;
-        setOtpArray(otpArrayCopy);
+  const onOtpChange = index => {
+    return value => {
+      if (isNaN(Number(value))) {
+        return;
+      }
+      const otpArrayCopy = otpArray.concat();
+      otpArrayCopy[index] = value;
+      setOtpArray(otpArrayCopy);
 
-        if (value !== '') {
-            index === 0 && secondTextInputRef.current.focus(),
-            index === 1 && thirdTextInputRef.current.focus(),
-            index === 2 && fourthTextInputRef.current.focus();
-        }
-      };
-    };
-
-    const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
-      console.log(keyValue);
-      console.log('Index', index);
-      setOtpIndex(index)
-      if (keyValue == 'Backspace') {
-          index === 3 && thirdTextInputRef.current.focus(),
-          index === 2 && secondTextInputRef.current.focus(),
-          index === 1 && firstTextInputRef.current.focus();
-      } else {
-          index === 0 && secondTextInputRef.current.focus(),
+      if (value !== '') {
+        index === 0 && secondTextInputRef.current.focus(),
           index === 1 && thirdTextInputRef.current.focus(),
           index === 2 && fourthTextInputRef.current.focus();
       }
     };
+  };
 
-    const handleVerify = () => {
-      console.log("L==>",otpArray)
-      if(otpIndex==3)
-      {
-       handleRegisterAPI()
-      }
-      else
-      {
-        Toast.show('Please enter verification code', Toast.SHORT);
-      }
+  const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
+    console.log(keyValue);
+    console.log('Index', index);
+    setOtpIndex(index);
+    if (keyValue == 'Backspace') {
+      index === 3 && thirdTextInputRef.current.focus(),
+        index === 2 && secondTextInputRef.current.focus(),
+        index === 1 && firstTextInputRef.current.focus();
+    } else {
+      index === 0 && secondTextInputRef.current.focus(),
+        index === 1 && thirdTextInputRef.current.focus(),
+        index === 2 && fourthTextInputRef.current.focus();
     }
+  };
 
-    const handleRegisterAPI = () => {
-      let data = {
-        mode: 'insert',
-        empId: '1',
-        logincode: '1',
-        password: 'Shyam@123',
-        deviceNo: deviceId,
-        mobileNo: userMobNo,
-        approvalLogin: 1,
-        is_Active: true,
-        createdby: 1,
-        createdDate: moment().format(),
-        approvedBy: 1,
-        approveddate: moment().format(),
-      };
+  const handleVerify = () => {
+    console.log('L==>', otpArray);
+    if (otpIndex == 3) {
+      handleRegisterAPI();
+    } else {
+      Toast.show('Please enter verification code', Toast.SHORT);
+    }
+  };
 
-      console.log('REGISTER FORM DATA==>', data);
-      dispatch(
-        UserRegistrationRequest(data, response => {
-          console.log('Register Response==>', response);
-          if (response.statusCode == 200) {
-            let tempMsg = response.entity.entity[0].Msg;
-            if (response.entity.entity[0].status == 'Success') {
-              setOtpModal(false);
-              props.navigation.replace('LoginScreen');
-              Toast.show(tempMsg, Toast.SHORT);
-              setOtpIndex(0)
-            } else {
-              setOtpModal(false);
-              Toast.show(tempMsg, Toast.SHORT);
-              setOtpIndex(0);
+  const handleRegisterAPI = () => {
+    let data = {
+      mode: 'insert',
+      empId: '1',
+      logincode: '1',
+      password: 'Shyam@123',
+      deviceNo: deviceId,
+      mobileNo: userMobNo,
+      approvalLogin: 1,
+      is_Active: true,
+      createdby: 1,
+      createdDate: moment().format(),
+      approvedBy: 1,
+      approveddate: moment().format(),
+    };
 
-            }
+    console.log('REGISTER FORM DATA==>', data);
+    dispatch(
+      UserRegistrationRequest(data, response => {
+        console.log('Register Response==>', response);
+        if (response.statusCode == 200) {
+          let tempMsg = response.entity.entity[0].Msg;
+          if (response.entity.entity[0].status == 'Success') {
+            setOtpModal(false);
+            props.navigation.replace('LoginScreen');
+            Toast.show(tempMsg, Toast.SHORT);
+            setOtpIndex(0);
+          } else {
+            setOtpModal(false);
+            Toast.show(tempMsg, Toast.SHORT);
+            setOtpIndex(0);
           }
-        }),
-      );
-    }
+        }
+      }),
+    );
+  };
 
-    const handleVerification = () => {
-      return (
-        CommonFunctions.isBlank(empId.trim(), 'Please enter employee id') &&
-        CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id') &&
-        CommonFunctions.isEmailValid(
-          userEmail,
-          'Please enter valid email id',
-        ) &&
-        CommonFunctions.isBlank(
-          userMobNo.trim(),
-          'Please enter mobile number',
-        ) &&
-        CommonFunctions.isBlank(password.trim(), 'Please enter password')
-      );
-    }
+  const handleVerification = () => {
+    return (
+      CommonFunctions.isBlank(empId.trim(), 'Please enter employee id') &&
+      CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id') &&
+      CommonFunctions.isEmailValid(userEmail, 'Please enter valid email id') &&
+      CommonFunctions.isBlank(userMobNo.trim(), 'Please enter mobile number') &&
+      CommonFunctions.isBlank(password.trim(), 'Please enter password')
+    );
+  };
 
-    const handleProceedVerify = () => {
-      if(handleVerification()){
-        handleOtpProcess()
-      }
+  const handleProceedVerify = () => {
+    if (handleVerification()) {
+      handleOtpProcess();
     }
+  };
 
-    const handleOtpProcess = () => {
-      setOtpModal(true)          
-    }
+  const handleOtpProcess = () => {
+    setOtpModal(true);
+  };
 
   return (
     <StoryScreen>

@@ -1,15 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {
-  View,
-  Pressable,
-  Text,
-  Image,
-  StyleSheet,
-  TextInput,
-} from 'react-native';
+import {View, Pressable, Text, Image, TextInput} from 'react-native';
 import R from '../res/R';
 
-const AppTextInput = React.forwardRef((props,ref) => {
+const AppTextInput = React.forwardRef((props, ref) => {
   return (
     <View
       style={{

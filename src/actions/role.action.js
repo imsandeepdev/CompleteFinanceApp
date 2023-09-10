@@ -8,7 +8,7 @@ import {
   get_menu_list_error,
   get_allCustomer,
   get_allCustomer_success,
-  get_allCustomer_error
+  get_allCustomer_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -84,7 +84,6 @@ export const GetRoleRequest = (user_id, success, failed) => {
   };
 };
 
-
 export const GetMenuListRequest = (success, failed) => {
   return dispatch => {
     dispatch(GetMenuList());
@@ -103,8 +102,7 @@ export const GetMenuListRequest = (success, failed) => {
   };
 };
 
-
-export const GetAllCustomerRequest = (staffId,success, failed) => {
+export const GetAllCustomerRequest = (staffId, success, failed) => {
   return dispatch => {
     dispatch(GetAllCustomer());
     api

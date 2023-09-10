@@ -17,7 +17,10 @@ import {
   propose_amount_error,
   get_Bank_Name,
   get_Bank_Name_success,
-  get_Bank_Name_error
+  get_Bank_Name_error,
+  payment_Mode_List,
+  payment_Mode_List_success,
+  payment_Mode_List_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -39,7 +42,6 @@ export const GenderListError = error => {
   };
 };
 
-
 export const GetGroupDropDown = () => {
   return {
     type: get_Group_DropDown,
@@ -57,7 +59,6 @@ export const GetGroupDropDownError = error => {
     payload: error,
   };
 };
-
 
 export const GetGroupWiseCustomerDropDown = () => {
   return {
@@ -77,7 +78,6 @@ export const GetGroupWiseCustomerDropDownError = error => {
   };
 };
 
-
 export const LoanProposalDropDown = () => {
   return {
     type: loan_Proposal_DropDown,
@@ -95,7 +95,6 @@ export const LoanProposalDropDownError = error => {
     payload: error,
   };
 };
-
 
 export const ProposeAmount = () => {
   return {
@@ -115,7 +114,6 @@ export const ProposeAmountError = error => {
   };
 };
 
-
 export const GetBankName = () => {
   return {
     type: get_Bank_Name,
@@ -134,6 +132,23 @@ export const GetBankNameError = error => {
   };
 };
 
+export const PaymentModeList = () => {
+  return {
+    type: payment_Mode_List,
+  };
+};
+export const PaymentModeListSuccess = payload => {
+  return {
+    type: payment_Mode_List_success,
+    payload,
+  };
+};
+export const PaymentModeListError = error => {
+  return {
+    type: payment_Mode_List_error,
+    payload: error,
+  };
+};
 
 export const GenderListRequest = (modeType, success, failed) => {
   return dispatch => {
@@ -153,7 +168,6 @@ export const GenderListRequest = (modeType, success, failed) => {
   };
 };
 
-
 export const GetGroupDropDownRequest = (modeType, success, failed) => {
   return dispatch => {
     dispatch(GetGroupDropDown());
@@ -171,7 +185,6 @@ export const GetGroupDropDownRequest = (modeType, success, failed) => {
       });
   };
 };
-
 
 export const GetGroupWiseCustomerDropDownRequest = (type, success, failed) => {
   return dispatch => {
@@ -191,7 +204,6 @@ export const GetGroupWiseCustomerDropDownRequest = (type, success, failed) => {
   };
 };
 
-
 export const LoanProposalDropdownRequest = (modeType, success, failed) => {
   return dispatch => {
     dispatch(LoanProposalDropDown());
@@ -209,7 +221,6 @@ export const LoanProposalDropdownRequest = (modeType, success, failed) => {
       });
   };
 };
-
 
 export const ProposeAmountRequest = (data, success, failed) => {
   return dispatch => {
@@ -231,7 +242,6 @@ export const ProposeAmountRequest = (data, success, failed) => {
   };
 };
 
-
 export const GetBankNameRequest = (success, failed) => {
   return dispatch => {
     dispatch(GetBankName());
@@ -252,5 +262,22 @@ export const GetBankNameRequest = (success, failed) => {
   };
 };
 
-
-
+export const PaymentModeListRequest = (success, failed) => {
+  return dispatch => {
+    dispatch(PaymentModeList());
+    api
+      .multipostRequest({
+        needAuth: false,
+        url: `${Config.payMethodListAPI}`,
+      })
+      .then(response => {
+        dispatch(PaymentModeListSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(PaymentModeListError(error));
+        failed?.(error);
+        console.log('Error: ', error);
+      });
+  };
+};

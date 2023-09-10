@@ -28,8 +28,6 @@ const reducer = (state = initial_state, {type, payload}) => {
         error: payload,
       };
 
-   
-
     default:
       return state;
   }

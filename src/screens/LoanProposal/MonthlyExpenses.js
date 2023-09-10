@@ -1,13 +1,9 @@
 import * as React from 'react';
-import {useState, createRef} from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {createRef} from 'react';
+import {View, Text} from 'react-native';
 import R from '../../res/R';
-import {
-  AppButton,
-  AppCardPress,
-  AppTextInput,
-  ListViewModal,
-} from '../../components';
+import {AppButton, AppCardPress, AppTextInput} from '../../components';
+import style from './style';
 
 const CustomTitle = props => {
   return (
@@ -15,22 +11,12 @@ const CustomTitle = props => {
       style={{
         marginVertical: R.fontSize.Size15,
       }}>
-      <Text
-        style={{
-          fontFamily: R.fonts.regular,
-          fontSize: R.fontSize.Size14,
-          fontWeight: '700',
-          color: R.colors.textPriColor,
-        }}>
-        {props.title}
-      </Text>
+      <Text style={style.monthlyTitleText}>{props.title}</Text>
     </View>
   );
 };
 
 const MonthlyExpenses = props => {
-
-
   const monthlyRentRef = createRef();
   const monthlyMedicalRef = createRef();
   const monthlyEB_LPGRef = createRef();
@@ -39,16 +25,15 @@ const MonthlyExpenses = props => {
   const monthlyEducationRef = createRef();
   const monthlyOtherExpenseRef = createRef();
 
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
+    <View style={style.mainView}>
+      <View style={style.topView}>
         <AppTextInput
           ref={monthlyRentRef}
           placeholder={'Monthly Rent'}
           headTitle={'Monthly Rent *'}
           headTitleColor={
-            props.monthly_rent != ''
+            props.monthly_rent !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -64,7 +49,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly Medical'}
           headTitle={'Monthly Medical'}
           headTitleColor={
-            props.monthly_medical != ''
+            props.monthly_medical !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -80,7 +65,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly EB & LPG'}
           headTitle={'Monthly EB & LPG'}
           headTitleColor={
-            props.monthly_EB_LPG != ''
+            props.monthly_EB_LPG !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -96,7 +81,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly Transport'}
           headTitle={'Monthly Transport'}
           headTitleColor={
-            props.monthly_transport != ''
+            props.monthly_transport !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -112,7 +97,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly Food & Clothing'}
           headTitle={'Monthly Food & Clothing'}
           headTitleColor={
-            props.monthly_food_clothing != ''
+            props.monthly_food_clothing !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -128,7 +113,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly Education'}
           headTitle={'Monthly Education'}
           headTitleColor={
-            props.monthly_education != ''
+            props.monthly_education !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -144,7 +129,7 @@ const MonthlyExpenses = props => {
           placeholder={'Monthly Other Incidental Expense'}
           headTitle={'Monthly Other Incidental Expense'}
           headTitleColor={
-            props.monthly_other_expense != ''
+            props.monthly_other_expense !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -155,13 +140,7 @@ const MonthlyExpenses = props => {
           returnKeyType={'done'}
         />
 
-        <View
-          style={{
-            width: '100%',
-            height: 2,
-            backgroundColor: R.colors.lightWhite,
-          }}
-        />
+        <View style={style.monthlyTitleView} />
         <CustomTitle title={'Monthly Total Expenses'} />
 
         <AppCardPress
@@ -182,11 +161,7 @@ const MonthlyExpenses = props => {
           }
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}>
+      <View style={style.rowFlexEnd}>
         <AppButton
           onPress={props.backOnPress}
           title={'Back'}

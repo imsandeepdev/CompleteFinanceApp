@@ -3,7 +3,6 @@ import {
   save_loan_proposal,
   save_loan_proposal_success,
   save_loan_proposal_error,
-  
 } from '../constants/common';
 import api from '../services/api';
 
@@ -25,8 +24,6 @@ export const SaveLoanProposalError = error => {
   };
 };
 
-
-
 export const SaveLoanProposalRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(SaveLoanProposal());
@@ -47,6 +44,3 @@ export const SaveLoanProposalRequest = (data, success, failed) => {
       });
   };
 };
-
-
-

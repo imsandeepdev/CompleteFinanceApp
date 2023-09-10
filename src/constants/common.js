@@ -69,9 +69,12 @@ export const get_Group_DropDown_success = 'get_Group_DropDown_success';
 export const get_Group_DropDown_error = 'get_Group_DropDown_error';
 
 //getGroupWiseCustomerDropDown
-export const get_Group_Wise_Customer_DropDown = 'get_Group_Wise_Customer_DropDown';
-export const get_Group_Wise_Customer_DropDown_success = 'get_Group_Wise_Customer_DropDown_success';
-export const get_Group_Wise_Customer_DropDown_error = 'get_Group_Wise_Customer_DropDown_error';
+export const get_Group_Wise_Customer_DropDown =
+  'get_Group_Wise_Customer_DropDown';
+export const get_Group_Wise_Customer_DropDown_success =
+  'get_Group_Wise_Customer_DropDown_success';
+export const get_Group_Wise_Customer_DropDown_error =
+  'get_Group_Wise_Customer_DropDown_error';
 
 //loanProposalDropDown
 export const loan_Proposal_DropDown = 'loan_Proposal_DropDown';
@@ -98,10 +101,10 @@ export const loan_proposal_detail = 'loan_proposal_detail';
 export const loan_proposal_detail_success = 'loan_proposal_detail_success';
 export const loan_proposal_detail_error = 'loan_proposal_detail_error';
 
-
 //approvedStatusDropDown
 export const approved_Status_DropDown = 'approved_Status_DropDown';
-export const approved_Status_DropDown_success = 'approved_Status_DropDown_success';
+export const approved_Status_DropDown_success =
+  'approved_Status_DropDown_success';
 export const approved_Status_DropDown_error = 'approved_Status_DropDown_error';
 
 //updateLoanApproval
@@ -113,3 +116,13 @@ export const update_loan_approval_error = 'update_loan_approval_error';
 export const get_Bank_Name = 'get_Bank_Name';
 export const get_Bank_Name_success = 'get_Bank_Name_success';
 export const get_Bank_Name_error = 'get_Bank_Name_error';
+
+//updateDisbursement
+export const update_Disbursement = 'update_Disbursement';
+export const update_Disbursement_success = 'update_Disbursement_success';
+export const update_Disbursement_error = 'update_Disbursement_error';
+
+//paymentModeList
+export const payment_Mode_List = 'payment_Mode_List';
+export const payment_Mode_List_success = 'payment_Mode_List_success';
+export const payment_Mode_List_error = 'payment_Mode_List_error';

@@ -5,15 +5,12 @@ import {
   Pressable,
   Text,
   Image,
-  ScrollView,
   Dimensions,
   StyleSheet,
   FlatList,
 } from 'react-native';
 import R from '../res/R';
-import AppContent from '../utils/AppContent';
 const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
 
 const GroupDropDownModal = props => {
   return (
@@ -43,17 +40,18 @@ const GroupDropDownModal = props => {
             </Pressable>
           </View>
 
-          <View
-            style={{
-              flex: 1,
-              marginHorizontal: R.fontSize.Size20,
-            }}>
+          <View style={Styles.flatView}>
             <FlatList
               data={props.dataList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
-                let title = item.CenterName || item.RoleName || item.BoCode || item.GroupName || item.approvedTitile
-                console.log("TITLE==>",title)
+                let title =
+                  item.CenterName ||
+                  item.RoleName ||
+                  item.BoCode ||
+                  item.GroupName ||
+                  item.approvedTitile;
+                console.log('TITLE==>', title);
                 return (
                   <Pressable
                     key={index}
@@ -69,14 +67,7 @@ const GroupDropDownModal = props => {
                         opacity: pressed ? 0.5 : 1,
                       },
                     ]}>
-                    <Text
-                      style={{
-                        fontSize: R.fontSize.Size16,
-                        color: R.colors.secAppColor,
-                        fontWeight: '500',
-                      }}>
-                      {title}
-                    </Text>
+                    <Text style={Styles.titleText}>{title}</Text>
                   </Pressable>
                 );
               }}
@@ -91,6 +82,15 @@ const GroupDropDownModal = props => {
 export default GroupDropDownModal;
 
 const Styles = StyleSheet.create({
+  flatView: {
+    flex: 1,
+    marginHorizontal: R.fontSize.Size20,
+  },
+  titleText: {
+    fontSize: R.fontSize.Size16,
+    color: R.colors.secAppColor,
+    fontWeight: '500',
+  },
   modalMainView: {
     flex: 1,
     backgroundColor: R.colors.modelBackground,

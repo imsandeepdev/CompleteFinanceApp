@@ -16,7 +16,10 @@ import {
   propose_amount_error,
   get_Bank_Name,
   get_Bank_Name_success,
-  get_Bank_Name_error
+  get_Bank_Name_error,
+  payment_Mode_List,
+  payment_Mode_List_success,
+  payment_Mode_List_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -26,7 +29,8 @@ const initial_state = {
   getGroupWiseCustomerInit: {},
   loanProDropDownInit: {},
   proposeAmountInit: {},
-  bankNameInit:{},
+  bankNameInit: {},
+  paymentModeInit: {},
   error: '',
 };
 
@@ -125,7 +129,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         loading: false,
         error: payload,
       };
-
+    case payment_Mode_List:
+      return {
+        ...state,
+        loading: true,
+      };
+    case payment_Mode_List_success:
+      return {
+        loading: false,
+        paymentModeInit: payload,
+      };
+    case payment_Mode_List_error:
+      return {
+        loading: false,
+        error: payload,
+      };
     default:
       return state;
   }

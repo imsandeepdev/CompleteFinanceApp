@@ -73,6 +73,23 @@ const Styles = StyleSheet.create({
     fontSize: R.fontSize.Size12,
     fontWeight: '600',
   },
+  cardLayoutProceed: {
+    width: R.fontSize.Size70,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: R.fontSize.Size100,
+  },
+  emptyText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '600',
+    fontSize: R.fontSize.Size14,
+    color: R.colors.placeHolderColor,
+  },
 });
 
 export default Styles;

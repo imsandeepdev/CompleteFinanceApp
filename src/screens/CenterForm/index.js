@@ -1,49 +1,43 @@
+/* eslint-disable no-undef */
 import * as React from 'react';
 import {useState, useEffect} from 'react';
+import {View, ScrollView, SafeAreaView} from 'react-native';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-  ScrollView,
-  SafeAreaView
-} from 'react-native';
-import {AppButton, AppCardPress, AppTextInput, CustomTextInput, Header, StoryScreen} from '../../components';
+  AppButton,
+  AppCardPress,
+  AppTextInput,
+  Header,
+  StoryScreen,
+} from '../../components';
 import R from '../../res/R';
-const screenHeight = Dimensions.get('screen').height;
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {useDispatch,connect} from 'react-redux';
-import { RegCenterRequest } from '../../actions/regCenter.action';
+import {useDispatch, connect} from 'react-redux';
+import {RegCenterRequest} from '../../actions/regCenter.action';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
-
+import style from './style';
 
 const CenterForm = props => {
+  const dispatch = useDispatch();
+  const [profileDetail, setProfileDetail] = useState('');
+  const [centerName, setCenterName] = useState('');
+  const [centerMeetingDay, setCenterMeetingDay] = useState('');
+  const [centerMeetingTime, setCenterMeetingTime] = useState('');
+  const [centerAddress, setCenterAddress] = useState('');
+  const [centerPostalCode, setCenterPostalCode] = useState('');
+  const [centerLandmark, setCenterLandmark] = useState('');
+  const [isDisplayDate, setIsDisplayDate] = useState(false);
+  const [meetingDay, setMeetingDay] = useState('meetingDay');
 
-    const dispatch = useDispatch()
-    const [staffName, setStaffName] = useState('')
-    const [profileDetail, setProfileDetail] = useState('');
-    const [centerName, setCenterName] = useState('');
-    const [centerMeetingDay, setCenterMeetingDay] = useState('');
-    const [centerMeetingTime, setCenterMeetingTime] = useState('');
-    const [centerAddress, setCenterAddress] = useState('');
-    const [centerPostalCode, setCenterPostalCode] = useState('');
-    const [centerLandmark, setCenterLandmark] = useState('');
-    const [centerDissolvedDate, setCenterDissolvedDate] = useState('');
-    const [centerLocationStatus, setCenterLocationStatus] = useState('');
-    const [isDisplayDate, setIsDisplayDate] = useState(false);
-    const [meetingDay,setMeetingDay]= useState('meetingDay')
+  useEffect(() => {
+    handleProfile();
+  }, [props.navigation]);
 
-    useEffect(() => {
-      handleProfile();
-    }, [props.navigation]);
-
-    const handleProfile = () => {
-      console.log('PROPS PROFILE', props.profile.entity[0]);
-      setProfileDetail(props.profile.entity[0]);
-    };
+  const handleProfile = () => {
+    console.log('PROPS PROFILE', props.profile.entity[0]);
+    setProfileDetail(props.profile.entity[0]);
+  };
 
   const handleValidation = () => {
     return (
@@ -63,14 +57,13 @@ const CenterForm = props => {
       ) &&
       CommonFunctions.isBlank(centerLandmark.trim(), 'please enter landmark')
     );
-  }
+  };
 
-  const handleCenterSumitAPI =() => {
-    if(handleValidation())
-    {
-      handleCenterSubmit()
+  const handleCenterSumitAPI = () => {
+    if (handleValidation()) {
+      handleCenterSubmit();
     }
-  }
+  };
 
   const handleCenterSubmit = () => {
     let data = {
@@ -101,56 +94,34 @@ const CenterForm = props => {
       updatedDate: '2023-06-24T16:43:24.770Z',
     };
 
-    dispatch(RegCenterRequest(data,response =>{
-      console.log("Response Center=>", response)
-      if (response.message == 'Success') {
-        Toast.show('Successfully! save center form details', Toast.SHORT);
-        props.navigation.goBack();
-      }
-    }))
-    
-  }
-
-
+    dispatch(
+      RegCenterRequest(data, response => {
+        console.log('Response Center=>', response);
+        if (response.message === 'Success') {
+          Toast.show('Successfully! save center form details', Toast.SHORT);
+          props.navigation.goBack();
+        }
+      }),
+    );
+  };
 
   return (
     <StoryScreen>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={style.mainView}>
         <Header
           onPress={() => props.navigation.goBack()}
           leftSource={R.images.backIcon}
           title={'Center Form'}
         />
 
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: R.fontSize.Size24,
-                paddingTop: R.fontSize.Size50,
-              }}>
-              {/* <AppTextInput
-                placeholder={'Staff name'}
-                headTitle={'Staff name'}
-                headTitleColor={
-                  staffName != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                value={staffName}
-                onChangeText={text => setStaffName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
-              /> */}
+        <ScrollView contentContainerStyle={style.scrollFlexGrow}>
+          <View style={style.mainView}>
+            <View style={style.topMainView}>
               <AppCardPress
                 disabled={true}
                 headTitle={'Staff Name'}
                 title={
-                  profileDetail != '' ? profileDetail.StaffName : 'Staff Name'
+                  profileDetail !== '' ? profileDetail.StaffName : 'Staff Name'
                 }
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
@@ -159,7 +130,7 @@ const CenterForm = props => {
                 placeholder={'Center name'}
                 headTitle={'Center name *'}
                 headTitleColor={
-                  centerName != ''
+                  centerName !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -174,17 +145,17 @@ const CenterForm = props => {
                 )}
                 headTitle={'Center Meeting Day *'}
                 title={
-                  centerMeetingDay != ''
+                  centerMeetingDay !== ''
                     ? centerMeetingDay
                     : 'Center Meeting Day'
                 }
                 TextColor={
-                  centerMeetingDay != ''
+                  centerMeetingDay !== ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  centerMeetingDay != ''
+                  centerMeetingDay !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -196,17 +167,17 @@ const CenterForm = props => {
                 )}
                 headTitle={'Center Meeting Time *'}
                 title={
-                  centerMeetingTime != ''
+                  centerMeetingTime !== ''
                     ? centerMeetingTime
                     : 'Center Meeting Time'
                 }
                 TextColor={
-                  centerMeetingTime != ''
+                  centerMeetingTime !== ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  centerMeetingTime != ''
+                  centerMeetingTime !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -216,7 +187,7 @@ const CenterForm = props => {
                 placeholder={'Address'}
                 headTitle={'Address *'}
                 headTitleColor={
-                  centerAddress != ''
+                  centerAddress !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -229,7 +200,7 @@ const CenterForm = props => {
                 placeholder={'Postal Code'}
                 headTitle={'Postal Code *'}
                 headTitleColor={
-                  centerPostalCode != ''
+                  centerPostalCode !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -242,7 +213,7 @@ const CenterForm = props => {
                 placeholder={'Landmark'}
                 headTitle={'Landmark *'}
                 headTitleColor={
-                  centerLandmark != ''
+                  centerLandmark !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -251,52 +222,27 @@ const CenterForm = props => {
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
-              {/* <AppCardPress
-                onPress={() => (
-                  setIsDisplayDate(true), setMeetingDay('dissolvedDate')
-                )}
-                headTitle={'Dissolved Date'}
-                title={
-                  centerDissolvedDate != ''
-                    ? centerDissolvedDate
-                    : 'Dissolved Date'
-                }
-                TextColor={
-                  centerDissolvedDate != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  centerDissolvedDate != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-              /> */}
               <DatePicker
                 modal
-                // maximumDate={new Date()}
                 minimumDate={
-                  meetingDay != 'meetingTime'
+                  meetingDay !== 'meetingTime'
                     ? new Date()
                     : new Date('2000-01-01')
                 }
                 open={isDisplayDate}
                 date={
-                  meetingDay != 'meetingTime'
+                  meetingDay !== 'meetingTime'
                     ? new Date()
                     : new Date('2000-01-01')
                 }
-                mode={meetingDay != 'meetingTime' ? 'date' : 'time'}
+                mode={meetingDay !== 'meetingTime' ? 'date' : 'time'}
                 onConfirm={date => {
                   setIsDisplayDate(false);
                   console.log('DATE', date);
-                  meetingDay == 'meetingDay' &&
+                  meetingDay === 'meetingDay' &&
                     setCenterMeetingDay(moment(date).format('Do MMM YYYY'));
-                  meetingDay == 'meetingTime' &&
+                  meetingDay === 'meetingTime' &&
                     setCenterMeetingTime(moment(date).format('hh:mm A'));
-                  meetingDay == 'dissolvedDate' &&
-                    setCenterDissolvedDate(moment(date).format('Do MMM YYYY'));
                 }}
                 onCancel={() => {
                   setIsDisplayDate(false);
@@ -325,4 +271,4 @@ const mapStateToProps = (state, props) => ({
   profile: state.profileRoot.userInit,
 });
 
-export default connect(mapStateToProps) (CenterForm);
+export default connect(mapStateToProps)(CenterForm);

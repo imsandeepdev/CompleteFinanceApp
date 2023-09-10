@@ -7,7 +7,7 @@ import {
   get_menu_list_error,
   get_allCustomer,
   get_allCustomer_success,
-  get_allCustomer_error
+  get_allCustomer_error,
 } from '../constants/common';
 
 const initial_state = {

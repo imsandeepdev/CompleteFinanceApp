@@ -45,13 +45,13 @@ const style = StyleSheet.create({
     right: 0,
   },
   flatTitleView: {
-    width:R.fontSize.Size140,
+    width: R.fontSize.Size140,
     backgroundColor: R.colors.lightWhite,
     padding: R.fontSize.Size4,
     paddingHorizontal: R.fontSize.Size8,
     opacity: 0.8,
     borderRadius: R.fontSize.Size4,
-    alignItems:'center'
+    alignItems: 'center',
   },
   dropDownMainView: {
     alignItems: 'center',
@@ -110,6 +110,23 @@ const style = StyleSheet.create({
     textAlign: 'center',
     marginTop: R.fontSize.Size6,
     fontWeight: '700',
+  },
+  customCardBottomView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginHorizontal: R.fontSize.Size12,
+  },
+  customCardBottomTitle: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '700',
+    color: R.colors.textPriColor,
+    fontSize: R.fontSize.Size14,
+  },
+  customCardBottomIcon100: {
+    height: '100%',
+    width: '100%',
   },
 });
 

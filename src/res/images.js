@@ -25,6 +25,7 @@ const images = {
   cameraIcon1: require('./images/camera1.png'),
   applicantScreen: require('./images/loanScreen.png'),
   grtScreen: require('./images/grtScreen.png'),
+  whiteBack: require('./images/white_Back.png'),
 };
 
-export {images}
+export {images};

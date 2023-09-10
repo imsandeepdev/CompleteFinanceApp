@@ -1,8 +1,4 @@
-import {
-    sign_in,
-    sign_in_success,
-    sign_in_error
-} from '../constants/common';
+import {sign_in, sign_in_success, sign_in_error} from '../constants/common';
 
 const initial_state = {
   loading: false,

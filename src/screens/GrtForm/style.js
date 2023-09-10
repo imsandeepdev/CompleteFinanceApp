@@ -1,8 +1,13 @@
-import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import R from '../../res/R';
 
 const Styles = StyleSheet.create({
+  flexView: {
+    flex: 1,
+  },
+  scrollFlexGrow: {
+    flexGrow: 1,
+  },
   mainView: {
     flex: 1,
     paddingHorizontal: R.fontSize.Size24,
@@ -79,6 +84,10 @@ const Styles = StyleSheet.create({
     color: R.colors.lightWhite,
     fontSize: R.fontSize.Size12,
     fontWeight: '600',
+  },
+  image100: {
+    height: '100%',
+    width: '100%',
   },
 });
 

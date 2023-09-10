@@ -1,11 +1,11 @@
 import {Config} from '../config';
 import {
- save_customer,
- save_customer_success,
- save_customer_error,
- save_customer_document,
- save_customer_document_success,
- save_customer_document_error
+  save_customer,
+  save_customer_success,
+  save_customer_error,
+  save_customer_document,
+  save_customer_document_success,
+  save_customer_document_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -26,7 +26,6 @@ export const SaveCustomerError = error => {
     payload: error,
   };
 };
-
 
 export const SaveCustomerDocument = () => {
   return {
@@ -52,7 +51,7 @@ export const SaveCustomerRequest = (data, success, failed) => {
     api
       .multipostRequest({
         needAuth: false,
-        data:data,
+        data: data,
         url: `${Config.saveCustomerAPI}`,
       })
       .then(response => {
@@ -67,14 +66,13 @@ export const SaveCustomerRequest = (data, success, failed) => {
   };
 };
 
-
 export const SaveCustomerDocumentRequest = (formdata, success, failed) => {
   return dispatch => {
     dispatch(SaveCustomerDocument());
     api
       .multipartRequest({
         needAuth: false,
-        formData:formdata,
+        formData: formdata,
         url: `${Config.saveCustomerDocAPI}`,
       })
       .then(response => {

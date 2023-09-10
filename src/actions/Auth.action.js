@@ -1,9 +1,5 @@
 import {Config} from '../config';
-import {
-    sign_in,
-    sign_in_success,
-    sign_in_error,
-} from '../constants/common';
+import {sign_in, sign_in_success, sign_in_error} from '../constants/common';
 import api from '../services/api';
 
 export const SignIn = () => {
@@ -25,13 +21,13 @@ export const SignInError = error => {
   };
 };
 
-export const SignInRequest = (data,success, failed) => {
+export const SignInRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(SignIn());
     api
       .multipostRequest({
         needAuth: false,
-        data:data,
+        data: data,
         url: `${Config.LoginAPI}`,
       })
       .then(response => {
@@ -45,4 +41,3 @@ export const SignInRequest = (data,success, failed) => {
       });
   };
 };
-

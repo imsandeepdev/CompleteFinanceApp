@@ -4,7 +4,7 @@ import {
   save_customer_error,
   save_customer_document,
   save_customer_document_success,
-  save_customer_document_error
+  save_customer_document_error,
 } from '../constants/common';
 
 const initial_state = {

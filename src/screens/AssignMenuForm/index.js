@@ -11,16 +11,11 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import {
-  Header,
-  StoryScreen,
-} from '../../components';
+import {Header, StoryScreen} from '../../components';
 import R from '../../res/R';
 const screenHeight = Dimensions.get('screen').height;
 
-
 const AssignMenuForm = props => {
-  
   return (
     <StoryScreen>
       <SafeAreaView style={{flex: 1}}>
@@ -30,10 +25,7 @@ const AssignMenuForm = props => {
           title={'Assign Menu'}
         />
 
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
+        <ScrollView>
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text>{'Work On Progress'}</Text>
@@ -44,5 +36,4 @@ const AssignMenuForm = props => {
   );
 };
 
-
-export default AssignMenuForm
+export default AssignMenuForm;

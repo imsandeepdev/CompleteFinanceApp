@@ -1,15 +1,12 @@
 import * as React from 'react';
-import {useState,createRef} from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {createRef} from 'react';
+import {View, Pressable, Text} from 'react-native';
 import R from '../../res/R';
-import {AppButton, AppCardPress, AppTextInput, ListViewModal} from '../../components';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
-import AppContent from '../../utils/AppContent';
+import {AppButton, AppTextInput} from '../../components';
+import style from './style';
 
 const AddressDetail = props => {
-
-  const houseNoRef = createRef()
+  const houseNoRef = createRef();
   const addressAreaRef = createRef();
   const streetNameRef = createRef();
   const landmarkRef = createRef();
@@ -26,29 +23,11 @@ const AddressDetail = props => {
   const percountryNameRef = createRef();
   const perpinCodeRef = createRef();
 
-
-  const [sameResidentStatus, setSameResidentStatus] = useState(false)
- 
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, paddingVertical: R.fontSize.Size20}}>
-        <View
-          style={{
-            paddingVertical: R.fontSize.Size10,
-            borderBottomWidth: 2,
-            borderColor: R.colors.placeholderTextColor,
-            marginBottom: R.fontSize.Size20,
-          }}>
-          <Text
-            style={{
-              fontFamily: R.fonts.regular,
-              fontSize: R.fontSize.Size15,
-              fontWeight: '600',
-              color: R.colors.textPriColor,
-            }}>
-            {'Residential Address'}
-          </Text>
+    <View style={style.mainView}>
+      <View style={style.screenMainView}>
+        <View style={style.addTopView}>
+          <Text style={style.residentialText}>{'Residential Address'}</Text>
         </View>
         <AppTextInput
           ref={houseNoRef}
@@ -166,50 +145,23 @@ const AddressDetail = props => {
           style={{
             marginBottom: R.fontSize.Size20,
           }}>
-          <View
-            style={{
-              paddingVertical: R.fontSize.Size10,
-              borderBottomWidth: 2,
-              borderColor: R.colors.placeholderTextColor,
-              marginBottom: R.fontSize.Size10,
-            }}>
-            <Text
-              style={{
-                fontFamily: R.fonts.regular,
-                fontSize: R.fontSize.Size15,
-                fontWeight: '600',
-                color: R.colors.textPriColor,
-              }}>
-              {'Permanent Address'}
-            </Text>
+          <View style={style.addTopView}>
+            <Text style={style.residentialText}>{'Permanent Address'}</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={style.addRowView}>
             <Pressable
               onPress={props.onPressSameAddress}
-              style={{
-                height: R.fontSize.Size25,
-                width: R.fontSize.Size25,
-                borderRadius: R.fontSize.Size4,
-                borderWidth: 1,
-                padding: R.fontSize.Size2,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+              style={style.addPressCheck}>
               <View
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  backgroundColor: props.sameAddressBackgrounColor,
-                }}
+                style={[
+                  style.pressCheck,
+                  {
+                    backgroundColor: props.sameAddressBackgrounColor,
+                  },
+                ]}
               />
             </Pressable>
-            <Text
-              style={{
-                marginHorizontal: R.fontSize.Size10,
-                fontFamily: R.fonts.regular,
-                fontWeight: '600',
-                fontSize: R.fontSize.Size14,
-              }}>
+            <Text style={style.addSameAsResText}>
               {'Same as residential address'}
             </Text>
           </View>
@@ -327,11 +279,7 @@ const AddressDetail = props => {
           returnKeyType={'done'}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}>
+      <View style={style.rowFlexEnd}>
         <AppButton
           onPress={props.backOnPress}
           title={'Back'}

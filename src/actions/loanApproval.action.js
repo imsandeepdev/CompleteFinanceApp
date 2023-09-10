@@ -1,14 +1,14 @@
 import {Config} from '../config';
 import {
-    loan_proposal_detail,
-    loan_proposal_detail_success,
-    loan_proposal_detail_error,
-    approved_Status_DropDown,
-    approved_Status_DropDown_success,
-    approved_Status_DropDown_error,
-    update_loan_approval,
-    update_loan_approval_success,
-    update_loan_approval_error
+  loan_proposal_detail,
+  loan_proposal_detail_success,
+  loan_proposal_detail_error,
+  approved_Status_DropDown,
+  approved_Status_DropDown_success,
+  approved_Status_DropDown_error,
+  update_loan_approval,
+  update_loan_approval_success,
+  update_loan_approval_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -86,14 +86,12 @@ export const LoanProposalDetailRequest = (pid, success, failed) => {
   };
 };
 
-
-
 export const ApprovedStatusDropDownRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(ApprovedStatusDropDown());
     api
       .multipostRequest({
-        needAuth:false,
+        needAuth: false,
         url: `${Config.loanProposalDropdownAPI}${data.mode}&filterId=${data.filterId}`,
       })
       .then(response => {
@@ -107,14 +105,13 @@ export const ApprovedStatusDropDownRequest = (data, success, failed) => {
   };
 };
 
-
 export const UpdateLoanApprovalRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(UpdateLoanApproval());
     api
       .multipostRequest({
         needAuth: false,
-        data:data,
+        data: data,
         url: `${Config.updateLoanApprovalAPI}`,
       })
       .then(response => {

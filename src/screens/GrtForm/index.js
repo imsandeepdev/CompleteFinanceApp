@@ -3,37 +3,34 @@ import {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  Dimensions,
   ScrollView,
   SafeAreaView,
-  FlatList,
   Pressable,
 } from 'react-native';
 import {
   AppButton,
   AppCardPress,
   AppTextInput,
-  CustomTextInput,
   DocumentViewModal,
   GroupDropDownModal,
   Header,
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
-const screenHeight = Dimensions.get('screen').height;
-import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {connect,useDispatch} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import Toast from 'react-native-simple-toast';
-import { GetGroupDropDownRequest, GetGroupWiseCustomerDropDownRequest } from '../../actions/dropdown.action';
+import {
+  GetGroupDropDownRequest,
+  GetGroupWiseCustomerDropDownRequest,
+} from '../../actions/dropdown.action';
 import Styles from './style';
 import AppContent from '../../utils/AppContent';
 import CommonFunctions from '../../utils/CommonFunctions';
-import { RegGRTRequest } from '../../actions/regGRT.action';
+import {RegGRTRequest} from '../../actions/regGRT.action';
 
-const CustomCardView = (props) => {
+const CustomCardView = props => {
   return (
     <View style={Styles.headMainView}>
       <View style={Styles.headView}>
@@ -62,7 +59,7 @@ const CustomCardView = (props) => {
               uri: props.udidURI,
             }}
             resizeMode={'cover'}
-            style={{height: '100%', width: '100%'}}
+            style={Styles.image100}
           />
         ) : (
           <Text style={Styles.modelHeadText}>{'UDID'}</Text>
@@ -85,7 +82,7 @@ const CustomCardView = (props) => {
               uri: props.bankURI,
             }}
             resizeMode={'cover'}
-            style={{height: '100%', width: '100%'}}
+            style={Styles.image100}
           />
         ) : (
           <Text style={Styles.modelHeadText}>{'BANK'}</Text>
@@ -93,12 +90,10 @@ const CustomCardView = (props) => {
       </Pressable>
     </View>
   );
-}
-
+};
 
 const GrtForm = props => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [profileDetail, setProfileDetail] = useState('');
   const [branchName, setBranchName] = useState('');
   const [staffName, setStaffName] = useState('');
@@ -106,116 +101,102 @@ const GrtForm = props => {
   const [centerName, setCenterName] = useState('');
   const [approvalReason, setApprovalReason] = useState('');
   const [approvalStatus, setApprovalStatus] = useState('');
-  const [approvalBy, setApprovalBy] = useState('');
-  const [grtDropDownModal,setGrtDropDownModal] = useState(false)
-  const [grtDropDownList, setGrtDropDownList] = useState([])
+  const [grtDropDownModal, setGrtDropDownModal] = useState(false);
+  const [grtDropDownList, setGrtDropDownList] = useState([]);
   const [grtDropDownType, setGrtDropDownType] = useState('');
-  const [documentModal,setDocumentModal] = useState(false)
-  const [selectDocument,setSelectDocument] = useState()
+  const [documentModal, setDocumentModal] = useState(false);
+  const [selectDocument, setSelectDocument] = useState();
 
+  const [groupCustomerList, setGroupCustomerList] = useState([]);
 
-  const [groupCustomerList, setGroupCustomerList] = useState([])
+  useEffect(() => {
+    handleProfile();
+  }, [props.navigation]);
 
+  const handleProfile = () => {
+    setProfileDetail(props.profile.entity[0]);
+  };
 
-  useEffect(()=>{
-    handleProfile()
-  },[props.navigation])
+  const handleGrtDropDown = mode => {
+    setGrtDropDownType(mode);
+    dispatch(
+      GetGroupDropDownRequest(mode, response => {
+        console.log('Group drop down res=>', response);
+        setGrtDropDownList(response.entity.entity);
+      }),
+    );
+    setGrtDropDownModal(true);
+  };
 
-    const handleProfile = () => {
-      setProfileDetail(props.profile.entity[0]);
-    };
+  const handleApprovedStatusDropDown = mode => {
+    setGrtDropDownType(mode);
+    setGrtDropDownList(AppContent.ApprovedStatusGrt);
+    setGrtDropDownModal(true);
+  };
 
- const handleGrtDropDown = mode => {
-   setGrtDropDownType(mode);
-   dispatch(
-     GetGroupDropDownRequest(mode, response => {
-       console.log('Group drop down res=>', response);
-       setGrtDropDownList(response.entity.entity);
-     }),
-   );
-   setGrtDropDownModal(true);
- };
-
- const handleApprovedStatusDropDown = (mode) => {
-  setGrtDropDownType(mode);
-  setGrtDropDownList(AppContent.ApprovedStatusGrt)
-   setGrtDropDownModal(true);
-
- }
-
-  const handleGrtDropDownSelect = (item) =>{
+  const handleGrtDropDownSelect = item => {
     console.log('ITEM SELECT', item);
-    grtDropDownType == 'Staff' && setStaffName(item);
-    grtDropDownType == 'Branch' && setBranchName(item);
-    grtDropDownType == 'Center' && setCenterName(item);
-    grtDropDownType == 'MeetingDay' && setFirstMeetDate(item);
-    grtDropDownType == 'Group' &&
+    grtDropDownType === 'Staff' && setStaffName(item);
+    grtDropDownType === 'Branch' && setBranchName(item);
+    grtDropDownType === 'Center' && setCenterName(item);
+    // eslint-disable-next-line no-undef
+    grtDropDownType === 'MeetingDay' && setFirstMeetDate(item);
+    grtDropDownType === 'Group' &&
       (setGroupName(item), handleGroupNamePicker('Customer', item.GroupId));
-    grtDropDownType == 'ApprovedStatus' && setApprovalStatus(item)
+    grtDropDownType === 'ApprovedStatus' && setApprovalStatus(item);
     setGrtDropDownModal(false);
-
-  }
+  };
 
   const handleGroupNamePickerValidation = () => {
-    if(centerName!='')
-    {
+    if (centerName !== '') {
       handleGroupNamePicker('Group', centerName.CenterId);
+    } else {
+      Toast.show('Please firstly select center name', Toast.SHORT);
     }
-    else
-    {
-      Toast.show('Please firstly select center name',Toast.SHORT)
-    }
-  }
+  };
 
-  const handleGroupNamePicker = (modeName,idNo) => {
-   
-    let data ={
-      mode:modeName,
-      id:idNo
-    }
-    dispatch(GetGroupWiseCustomerDropDownRequest(data,response=>{
-      console.log("GROUP WISE RES=>",response)
-      if (response.statusCode==200)
-      {
-        if (modeName == 'Group') {
-          setGrtDropDownType(modeName);
-          setGrtDropDownList(response.entity.entity);
-          setGrtDropDownModal(true);
-        } else {
-          setGroupCustomerList(response.entity.entity);
+  const handleGroupNamePicker = (modeName, idNo) => {
+    let data = {
+      mode: modeName,
+      id: idNo,
+    };
+    dispatch(
+      GetGroupWiseCustomerDropDownRequest(data, response => {
+        console.log('GROUP WISE RES=>', response);
+        if (response.statusCode === 200) {
+          if (modeName === 'Group') {
+            setGrtDropDownType(modeName);
+            setGrtDropDownList(response.entity.entity);
+            setGrtDropDownModal(true);
+          } else {
+            setGroupCustomerList(response.entity.entity);
+          }
         }
-      }
-    }))
-  }
+      }),
+    );
+  };
 
-  const handleValidationOnSubmit = () =>{
+  const handleValidationOnSubmit = () => {
     return (
       CommonFunctions.isBlank(branchName, 'Please select branch name') &&
       CommonFunctions.isBlank(centerName, 'Please select center name') &&
       CommonFunctions.isBlank(groupName, 'Please select group name') &&
-      CommonFunctions.isBlank(approvalStatus, 'Please select approved status') &&
-      CommonFunctions.isBlank(approvalReason.trim(),'Please enter reason')
+      CommonFunctions.isBlank(
+        approvalStatus,
+        'Please select approved status',
+      ) &&
+      CommonFunctions.isBlank(approvalReason.trim(), 'Please enter reason')
     );
-  } 
+  };
 
-  const handleOnSubmit = () =>{
-    if(handleValidationOnSubmit())
-    {
-      handleOnSubmitAPI()
+  const handleOnSubmit = () => {
+    if (handleValidationOnSubmit()) {
+      handleOnSubmitAPI();
     }
-  }
+  };
 
   const handleOnSubmitAPI = () => {
-
     let data = {
-      // staff: profileDetail.StaffID,
-      // branchId: branchName.BoId,
-      // centerId: centerName.CenterId,
-      // groupId: groupName.GroupId,
-      // approvedStatus: approvalStatus.id,
-      // approvalDate: moment().format('DD-MM-YYYY'),
-      // approvedBy: profileDetail.StaffID,
-
       groupId: groupName.GroupId,
       staffid: profileDetail.StaffID,
       approveStatus: `${approvalStatus.id}`,
@@ -225,51 +206,43 @@ const GrtForm = props => {
       firstMeetingDate: 1,
       remarks: 'string',
       updatedDate: `${moment().format()}`,
-
     };
 
-    console.log("DATA==>",data)
+    console.log('DATA==>', data);
 
-    dispatch(RegGRTRequest(data,response=>{
-      console.log("GRT RES=>",response)
-      if (response.statusCode==200)
-      {
-        Toast.show('Successfully! save grt form details', Toast.SHORT);
-        props.navigation.goBack();
-      }
-    }))
-  }
+    dispatch(
+      RegGRTRequest(data, response => {
+        console.log('GRT RES=>', response);
+        if (response.statusCode === 200) {
+          Toast.show('Successfully! save grt form details', Toast.SHORT);
+          props.navigation.goBack();
+        }
+      }),
+    );
+  };
 
-  const handleOpenDocumentModal = (item) => {
-    console.log("ITEM",item)
-    setSelectDocument(item)
-    setDocumentModal(true)
-  }
-  
+  const handleOpenDocumentModal = item => {
+    console.log('ITEM', item);
+    setSelectDocument(item);
+    setDocumentModal(true);
+  };
+
   return (
     <StoryScreen loading={props.loading}>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={Styles.flexView}>
         <Header
           onPress={() => props.navigation.goBack()}
           leftSource={R.images.backIcon}
           title={'GRT'}
         />
 
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: R.fontSize.Size24,
-                paddingTop: R.fontSize.Size50,
-              }}>
+        <ScrollView contentContainerStyle={Styles.scrollFlexGrow}>
+          <View style={Styles.flexView}>
+            <View style={Styles.mainView}>
               <AppCardPress
                 onPress={() => handleGrtDropDown('Staff')}
                 headTitle={'Staff Name'}
-                title={staffName != '' ? staffName.BoCode : 'Staff Name'}
+                title={staffName !== '' ? staffName.BoCode : 'Staff Name'}
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
                 rightIcon={R.images.dropdownIcon}
@@ -277,14 +250,14 @@ const GrtForm = props => {
               <AppCardPress
                 onPress={() => handleGrtDropDown('Branch')}
                 headTitle={'Branch Name *'}
-                title={branchName != '' ? branchName.BoCode : 'Branch Name'}
+                title={branchName !== '' ? branchName.BoCode : 'Branch Name'}
                 TextColor={
-                  branchName != ''
+                  branchName !== ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  branchName != ''
+                  branchName !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -294,54 +267,55 @@ const GrtForm = props => {
               <AppCardPress
                 onPress={() => handleGrtDropDown('Center')}
                 headTitle={'Center name *'}
-                title={centerName != '' ? centerName.CenterName : 'Center name'}
+                title={
+                  centerName !== '' ? centerName.CenterName : 'Center name'
+                }
                 TextColor={
-                  centerName != ''
+                  centerName !== ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  centerName != ''
+                  centerName !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
                 rightIcon={R.images.dropdownIcon}
               />
-              {
-              centerName != ''&&
-              <AppCardPress
-                onPress={() => handleGroupNamePickerValidation()}
-                headTitle={'Group Name *'}
-                title={groupName != '' ? groupName.GroupName : 'Group Name'}
-                TextColor={
-                  groupName != ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  groupName != ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-              />
-              }
+              {centerName !== '' && (
+                <AppCardPress
+                  onPress={() => handleGroupNamePickerValidation()}
+                  headTitle={'Group Name *'}
+                  title={groupName !== '' ? groupName.GroupName : 'Group Name'}
+                  TextColor={
+                    groupName !== ''
+                      ? R.colors.secAppColor
+                      : R.colors.placeholderTextColor
+                  }
+                  headTitleColor={
+                    groupName !== ''
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  rightIcon={R.images.dropdownIcon}
+                />
+              )}
 
               <AppCardPress
                 onPress={() => handleApprovedStatusDropDown('ApprovedStatus')}
                 headTitle={'Approved Status *'}
                 title={
-                  approvalStatus != ''
+                  approvalStatus !== ''
                     ? approvalStatus.approvedTitile
                     : 'Approved Status'
                 }
                 TextColor={
-                  approvalStatus != ''
+                  approvalStatus !== ''
                     ? R.colors.secAppColor
                     : R.colors.placeholderTextColor
                 }
                 headTitleColor={
-                  approvalStatus != ''
+                  approvalStatus !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -350,17 +324,17 @@ const GrtForm = props => {
 
               <AppTextInput
                 placeholder={
-                  approvalStatus != ''
+                  approvalStatus !== ''
                     ? `${approvalStatus.approvedTitile} Reason`
-                    : `Approved Reason`
+                    : 'Approved Reason'
                 }
                 headTitle={
-                  approvalStatus != ''
+                  approvalStatus !== ''
                     ? `${approvalStatus.approvedTitile} Reason *`
-                    : `Approved Reason *`
+                    : 'Approved Reason *'
                 }
                 headTitleColor={
-                  approvalReason != ''
+                  approvalReason !== ''
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
@@ -379,13 +353,13 @@ const GrtForm = props => {
                 disabled={true}
                 headTitle={'Approved By'}
                 title={
-                  profileDetail != '' ? profileDetail.StaffName : 'Approved By'
+                  profileDetail !== '' ? profileDetail.StaffName : 'Approved By'
                 }
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
               />
 
-              {groupCustomerList.length != 0 && (
+              {groupCustomerList.length !== 0 && (
                 <View style={{marginBottom: R.fontSize.Size20}}>
                   <CustomCardView
                     title={'Applicant'}

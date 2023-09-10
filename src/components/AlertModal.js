@@ -1,21 +1,9 @@
 import * as React from 'react';
-import {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Pressable,
-  Text,
-  Modal,
-  StyleSheet,
-  Image,
-  TextInput,
-  Platform,
-} from 'react-native';
+import {View, Text, Modal, StyleSheet} from 'react-native';
 import R from '../res/R';
 import AppButton from './AppButton';
 
 const AlertModal = props => {
-
-
   return (
     <Modal
       visible={props.visible}
@@ -23,20 +11,9 @@ const AlertModal = props => {
       transparent={true}>
       <View style={styles.mainView}>
         <View style={styles.modalView}>
-          
-          <View
-            style={{
-              marginVertical: R.fontSize.Size5,
-              minHeight:R.fontSize.Size90,
-              alignItems:'center',
-              justifyContent:'center',
-              marginHorizontal:R.fontSize.Size15
-            }}>
-            <Text style={[styles.otpTitle]}>
-              {props.title}
-            </Text>
+          <View style={styles.alartView}>
+            <Text style={[styles.otpTitle]}>{props.title}</Text>
           </View>
-         
 
           <View style={{marginVertical: R.fontSize.Size6}}>
             <AppButton
@@ -45,9 +22,9 @@ const AlertModal = props => {
               title={'OK'}
               buttonHeight={R.fontSize.Size40}
               titleFontSize={R.fontSize.Size16}
-            //   backgroundColor={R.colors.lightWhite}
+              //   backgroundColor={R.colors.lightWhite}
               borderWidth={1}
-            //   borderColor={R.colors.appColor}
+              //   borderColor={R.colors.appColor}
             />
           </View>
         </View>
@@ -64,6 +41,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: R.colors.modelBackground,
     justifyContent: 'center',
+  },
+  alartView: {
+    marginVertical: R.fontSize.Size5,
+    minHeight: R.fontSize.Size90,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: R.fontSize.Size15,
   },
   modalView: {
     // height: 200,
@@ -96,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   otpTitle: {
-    fontFamily:R.fonts.regular,
+    fontFamily: R.fonts.regular,
     fontSize: R.fontSize.Size15,
     color: R.colors.secAppColor,
     fontWeight: '500',

@@ -1,98 +1,78 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import {AppButton, CustomCardPress, CustomTextInput, ListViewModal, StoryScreen} from '../../components';
+import {View, Text, Image} from 'react-native';
+import {
+  AppButton,
+  CustomCardPress,
+  ListViewModal,
+  StoryScreen,
+} from '../../components';
 import R from '../../res/R';
-import AppContent from '../../utils/AppContent';
-const screenHeight = Dimensions.get('screen').height;
 import Toast from 'react-native-simple-toast';
-import {useDispatch, connect} from 'react-redux';
-import { GetRoleRequest } from '../../actions/role.action';
+import {useDispatch} from 'react-redux';
+import {GetRoleRequest} from '../../actions/role.action';
+import style from './style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RoleSelectionScreen = (props) => {
+const RoleSelectionScreen = props => {
+  const dispatch = useDispatch();
+  const [roleModal, setRoleModal] = useState(false);
+  const [roleList, setRoleList] = useState([]);
+  const [selectedRole, setSelectedRole] = useState('');
 
-const dispatch = useDispatch();
-const [roleModal, setRoleModal] = useState(false)
-const [roleList, setRoleList] = useState([]);
-const [selectedRole, setSelectedRole] = useState('');
-const [userId, setUserId] = useState('');
+  useEffect(() => {
+    console.log('User Id==>', props.route.params?.user_id);
+    handleRoleList(props.route.params?.user_id);
+  }, [props.navigation]);
 
+  const handleRoleList = user_id => {
+    dispatch(
+      GetRoleRequest(user_id, response => {
+        console.log('Role List Response==>', response);
+        setRoleList(response.entity);
+      }),
+    );
+  };
 
-useEffect(()=>{
- console.log('User Id==>', props.route.params?.user_id);
- setUserId(props.route.params?.user_id);
- handleRoleList(props.route.params?.user_id);
-},[props.navigation])
+  const handleRoleSelect = item => {
+    console.log('select Role==>', item);
+    // AsyncStorage.setItem('userid', `${item.RoleId}`);
 
-const handleRoleList = (user_id) => {
-
-    dispatch(GetRoleRequest(user_id, response => {
-      console.log("Role List Response==>", response)
-      setRoleList(response.entity);
-    }))
-}
-
-
-const handleRoleSelect = (item) => {
-    console.log("select Role==>",item)
     setSelectedRole(item.RoleName);
-    setRoleModal(false)
-}
+    setRoleModal(false);
+  };
 
-const handleContinueValidation = () => {
-    selectedRole != ''
+  const handleContinueValidation = () => {
+    selectedRole !== ''
       ? props.navigation.replace('HomeMenu')
       : Toast.show('Please select your role type', Toast.SHORT);
-
-}
-
+  };
 
   return (
     <StoryScreen>
-      <View style={{flex: 1, paddingHorizontal: R.fontSize.Size20}}>
-        <View
-          style={{
-            height: screenHeight / 4,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+      <View style={style.mainView}>
+        <View style={style.topImageView}>
           <Image
             source={R.images.appLogo}
             resizeMode={'contain'}
-            style={{
-              height: R.fontSize.Size160,
-              width: R.fontSize.Size160,
-            }}
+            style={style.appLogoIcon}
           />
           <View>
-            <Text
-              style={{
-                fontFamily:R.fonts.extraBold,
-                fontSize: R.fontSize.Size16,
-                color: R.colors.secAppColor,
-                textAlign: 'center',
-              }}>
+            <Text style={style.titleText}>
               {`Welcome to \nComplete Finance Solution`}
             </Text>
           </View>
         </View>
-        <Text
-          style={{
-            fontFamily:R.fonts.regular,
-            fontSize: R.fontSize.Size16,
-            color: R.colors.placeHolderColor,
-            fontWeight: '500',
-            textAlign: 'center',
-          }}>
-          {`Please select your role type to continue`}
+        <Text style={style.subTitleText}>
+          {'Please select your role type to continue'}
         </Text>
-        <View style={{flex: 1, paddingTop: R.fontSize.Size50}}>
+        <View style={style.bodyView}>
           <CustomCardPress
             onPress={() => setRoleModal(true)}
             leftIcon={R.images.userIcon}
-            title={selectedRole != '' ? selectedRole : 'Select your role'}
+            title={selectedRole !== '' ? selectedRole : 'Select your role'}
             TextColor={
-              selectedRole != ''
+              selectedRole !== ''
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }

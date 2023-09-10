@@ -1,9 +1,5 @@
 import {Config} from '../config';
-import {
-  add_cart,
-  add_cart_success,
-  add_cart_error
-} from '../constants/common';
+import {add_cart, add_cart_success, add_cart_error} from '../constants/common';
 
 export const AddCart = () => {
   return {
@@ -11,7 +7,7 @@ export const AddCart = () => {
   };
 };
 export const AddCartSuccess = payload => {
-    console.log("PAYLOAD==>",payload)
+  console.log('PAYLOAD==>', payload);
   return {
     type: add_cart_success,
     payload,
@@ -23,4 +19,3 @@ export const AddCartError = error => {
     payload: error,
   };
 };
-

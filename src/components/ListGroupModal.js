@@ -1,21 +1,17 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   Modal,
   View,
   Pressable,
   Text,
-  Image,
-  ScrollView,
   Dimensions,
   StyleSheet,
   FlatList,
 } from 'react-native';
 import R from '../res/R';
-import AppContent from '../utils/AppContent';
 import AppButton from './AppButton';
-import style from '../screens/HomeScreen/style';
 const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
 import moment from 'moment';
 
 const ListGroupModal = props => {
@@ -130,13 +126,7 @@ const ListGroupModal = props => {
                 );
               }}
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderTopWidth: 1,
-              }}>
+            <View style={Styles.bottomButtonView}>
               <AppButton
                 flex={1}
                 onPress={props.onPressClose}
@@ -282,5 +272,11 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     borderRightWidth: 1,
+  },
+  bottomButtonView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopWidth: 1,
   },
 });

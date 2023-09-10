@@ -1,13 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import {View, SafeAreaView, ScrollView} from 'react-native';
 import StoryScreen from '../../components/StoryScreen';
 import style from './style';
 import {
@@ -21,119 +15,135 @@ import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
-import { GetAllCustomerRequest } from '../../actions/role.action';
-import { ApprovedStatusDropDownRequest, LoanProposalDetailRequest, UpdateLoanApprovalRequest } from '../../actions/loanApproval.action';
+import {GetAllCustomerRequest} from '../../actions/role.action';
+import {LoanProposalDetailRequest} from '../../actions/loanApproval.action';
+import {UpdateDisbursementRequest} from '../../actions/disbursement.action';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import {PaymentModeListRequest} from '../../actions/dropdown.action';
+const payment_Date = 'paymentDate';
+const disbursement_Date = 'disbursementDate';
 
 const DisbursementScreen = props => {
-  
-const dispatch = useDispatch();
-const [approvalDetail, setApprovalDetail] = useState('');
-const [approvalStatus, setApprovalStatus] = useState(false);
-const [listModalData, setListModalData] = useState([]);
-const [selectedApproval, setSelectedApproval] = useState('');
-const [profileDetail, setProfileDetail] = useState('');
-const [customerListModal, setCustomerListModal] = useState(true);
-const [customerList, setCustomerList] = useState([]);
+  const dispatch = useDispatch();
+  const [approvalDetail, setApprovalDetail] = useState('');
+  const [approvalStatus, setApprovalStatus] = useState(false);
+  const [listModalData, setListModalData] = useState([]);
+  const [profileDetail, setProfileDetail] = useState('');
+  const [customerListModal, setCustomerListModal] = useState(true);
+  const [customerList, setCustomerList] = useState([]);
+  const [isDisplayDate, setIsDisplayDate] = useState(false);
+  const [dateType, setDateType] = useState('');
+  const [onSelectCustomer, setOnSelectCustomer] = useState('');
 
-const [paymentMode, setPaymentMode] = useState('')
-const [disbursementDate, setDisbursementDate] = useState('');
-const [firstPaymentDate, setFirstPaymentDate] = useState('');
+  const [paymentMode, setPaymentMode] = useState('');
+  const [disbursementDate, setDisbursementDate] = useState('');
+  const [firstPaymentDate, setFirstPaymentDate] = useState('');
 
+  useEffect(() => {
+    handleApprovalDetail();
+    handleProfile();
+    handleGetAllCustomer(props.profile.entity[0].StaffID);
+    setProfileDetail(props.profile.entity[0]);
+  }, [props.navigation]);
 
+  const handleGetAllCustomer = staffId => {
+    console.log('STAFFID', staffId);
+    let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+    dispatch(
+      GetAllCustomerRequest(tempUrl, response => {
+        console.log('Get All Customer Response=>', response.entity.entity);
+        let tempList = response.entity.entity;
+        setCustomerList(tempList);
+      }),
+    );
+  };
 
-    useEffect(() => {
-      handleApprovalDetail();
-      handleProfile();
-      handleGetAllCustomer(props.profile.entity[0].StaffID);
-    }, [props.navigation]);
+  const handleProfile = () => {
+    console.log('PROPS PROFILE', props.profile.entity[0]);
+    setProfileDetail(props.profile.entity[0]);
+  };
 
-    const handleGetAllCustomer = staffId => {
-      console.log('STAFFID', staffId);
-      let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
-      dispatch(
-        GetAllCustomerRequest(tempUrl, response => {
-          console.log('Get All Customer Response=>', response.entity.entity);
-          let tempList = response.entity.entity;
-          setCustomerList(tempList);
-        }),
-      );
+  const handleApprovalDetail = () => {
+    let proposalId = '13';
+    dispatch(
+      LoanProposalDetailRequest(proposalId, response => {
+        console.log('Loan Proposal Detail', response.entity.entity[0]);
+        setApprovalDetail(response.entity.entity[0]);
+      }),
+    );
+  };
+
+  const handlePaymentModeDropDown = () => {
+    dispatch(
+      PaymentModeListRequest(response => {
+        console.log('PaymentMode respones=>', response);
+        setApprovalStatus(true);
+        setListModalData(response.entity.entity);
+      }),
+    );
+  };
+
+  const handleRoleSelect = item => {
+    setPaymentMode(item);
+    setApprovalStatus(false);
+  };
+
+  const handleValidation = () => {
+    return (
+      CommonFunctions.isBlank(paymentMode, 'please select payment Mode') &&
+      CommonFunctions.isBlank(
+        disbursementDate,
+        'please select disbursement date',
+      ) &&
+      CommonFunctions.isBlank(
+        firstPaymentDate,
+        'please select first payment date',
+      )
+    );
+  };
+
+  const handleUpdateDisbursement = () => {
+    if (handleValidation()) {
+      handleUpdateDisbursementAPI();
+    }
+  };
+
+  const handleUpdateDisbursementAPI = () => {
+    let data = {
+      mode: 'Update',
+      branchId: 1,
+      proposalId: onSelectCustomer.ProposalId,
+      customerInfoId: onSelectCustomer.CenterId,
+      staffId: profileDetail.StaffID,
+      disbursementDate: disbursementDate,
+      firstInstallmentDate: firstPaymentDate,
+      payMode: paymentMode.RuleID,
     };
+    console.log('DATA=>', data);
+    dispatch(
+      UpdateDisbursementRequest(data, response => {
+        console.log('Update disbursement status=>', response);
+        if (response.statusCode === 200) {
+          Toast.show('Successfully! Submitted pre disbursement', Toast.SHORT);
+          props.navigation.goBack();
+        }
+      }),
+    );
 
-    const handleProfile = () => {
-      console.log('PROPS PROFILE', props.profile.entity[0]);
-      setProfileDetail(props.profile.entity[0]);
-    };
+    console.log('success');
+  };
 
-    const handleApprovalDetail = () => {
-      let proposalId = '13';
-      dispatch(
-        LoanProposalDetailRequest(proposalId, response => {
-          console.log('Loan Proposal Detail', response.entity.entity[0]);
-          setApprovalDetail(response.entity.entity[0]);
-        }),
-      );
-    };
+  const handleProceed = item => {
+    console.log('ITEM=>', item);
+    setOnSelectCustomer(item);
+    setCustomerListModal(false);
+  };
 
-    const handleApprovedStatusDropDown = () => {
-      let data = {
-        mode: 'Status',
-        filterId: '0',
-      };
-      dispatch(
-        ApprovedStatusDropDownRequest(data, response => {
-          console.log('approved status respones=>', response);
-          setApprovalStatus(true);
-          setListModalData(response.entity.entity);
-        }),
-      );
-    };
-
-    const handleRoleSelect = item => {
-      setSelectedApproval(item);
-      setApprovalStatus(false);
-      console.log('ITEM', item);
-    };
-
-    const handleValidation = () => {
-      return CommonFunctions.isBlank(
-        selectedApproval,
-        'please select approval status',
-      );
-    };
-
-    const handleLoanSubmit = () => {
-      if (handleValidation()) {
-        handleLoanSubmitAPI();
-      }
-    };
-
-    const handleLoanSubmitAPI = () => {
-      let data = {
-        mode: 'Update',
-        proposalId: approvalDetail.ProposalId,
-        customerInfoId: approvalDetail.ClientInfoId,
-        staffId: profileDetail.StaffID,
-        approvalStatus: selectedApproval.RuleID,
-      };
-      console.log('DATA=>', data);
-      dispatch(
-        UpdateLoanApprovalRequest(data, response => {
-          console.log('Update loan status=>', response);
-          if (response.statusCode == 200) {
-            Toast.show('Successfully! Submitted Loan Approval', Toast.SHORT);
-            props.navigation.goBack();
-          }
-        }),
-      );
-
-      console.log('success');
-    };
-
-    const handleProceed = item => {
-      console.log('ITEM=>', item);
-      setCustomerListModal(false);
-    };
-
+  const handleDateDisplay = type => {
+    setDateType(type);
+    setIsDisplayDate(true);
+  };
 
   return (
     <StoryScreen loading={props.loading}>
@@ -149,7 +159,7 @@ const [firstPaymentDate, setFirstPaymentDate] = useState('');
             paddingHorizontal: R.fontSize.Size20,
             paddingVertical: R.fontSize.Size20,
           }}>
-          <View style={{flex: 1}}>
+          <View style={style.mainView}>
             <AppCardPress
               disabled={true}
               headTitle={'Group Name'}
@@ -193,69 +203,84 @@ const [firstPaymentDate, setFirstPaymentDate] = useState('');
               headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
-              onPress={() => handleApprovedStatusDropDown()}
+              onPress={() => handlePaymentModeDropDown()}
               headTitle={'Payment Mode *'}
               title={
-                selectedApproval != ''
-                  ? selectedApproval.RoleName
-                  : 'Payment Mode'
+                paymentMode !== '' ? paymentMode.ComponentName : 'Payment Mode'
               }
               TextColor={
-                selectedApproval != ''
+                paymentMode !== ''
                   ? R.colors.secAppColor
                   : R.colors.placeholderTextColor
               }
               headTitleColor={
-                selectedApproval != ''
+                paymentMode !== ''
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
               rightIcon={R.images.dropdownIcon}
             />
             <AppCardPress
-              onPress={() => handleApprovedStatusDropDown()}
+              onPress={() => handleDateDisplay(disbursement_Date)}
               headTitle={'Disbursement Date *'}
               title={
-                selectedApproval != ''
-                  ? selectedApproval.RoleName
-                  : 'Disbursement Date'
+                disbursementDate !== '' ? disbursementDate : 'Disbursement Date'
               }
               TextColor={
-                selectedApproval != ''
+                disbursementDate !== ''
                   ? R.colors.secAppColor
                   : R.colors.placeholderTextColor
               }
               headTitleColor={
-                selectedApproval != ''
+                disbursementDate !== ''
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
               rightIcon={R.images.dropdownIcon}
             />
             <AppCardPress
-              onPress={() => handleApprovedStatusDropDown()}
+              onPress={() => handleDateDisplay(payment_Date)}
               headTitle={'First Payment Date *'}
               title={
-                selectedApproval != ''
-                  ? selectedApproval.RoleName
+                firstPaymentDate !== ''
+                  ? firstPaymentDate
                   : 'First Payment Date'
               }
               TextColor={
-                selectedApproval != ''
+                firstPaymentDate !== ''
                   ? R.colors.secAppColor
                   : R.colors.placeholderTextColor
               }
               headTitleColor={
-                selectedApproval != ''
+                firstPaymentDate !== ''
                   ? R.colors.darkGreenColor
                   : R.colors.textPriColor
               }
               rightIcon={R.images.dropdownIcon}
+            />
+            <DatePicker
+              modal
+              // maximumDate={new Date()}
+              minimumDate={new Date()}
+              open={isDisplayDate}
+              date={new Date()}
+              mode="date"
+              onConfirm={date => {
+                console.log('DATE', date);
+                dateType === payment_Date
+                  ? setFirstPaymentDate(moment(date).format('YYYY-MM-DD'))
+                  : setDisbursementDate(moment(date).format('YYYY-MM-DD'));
+
+                setIsDisplayDate(false);
+              }}
+              onCancel={() => {
+                setIsDisplayDate(false);
+              }}
             />
           </View>
           <View>
             <AppButton
-              onPress={() => handleLoanSubmit()}
+              onPress={() => handleUpdateDisbursement()}
               marginHorizontal={R.fontSize.Size30}
               title={'Submit'}
             />
@@ -269,8 +294,8 @@ const [firstPaymentDate, setFirstPaymentDate] = useState('');
         dataList={listModalData}
       />
       <CustomerListModal
-        // visible={customerListModal}
-        visible={false}
+        backOnPress={() => props.navigation.goBack()}
+        visible={customerListModal}
         data={customerList}
         onPress={item => handleProceed(item)}
       />

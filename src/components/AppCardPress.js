@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, Pressable, Text, Image} from 'react-native';
+import {View, Pressable, Text, Image, StyleSheet} from 'react-native';
 import R from '../res/R';
 
 const AppCardPress = props => {
@@ -45,11 +46,7 @@ const AppCardPress = props => {
             />
           </View>
         )}
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-          }}>
+        <View style={styles.titleView}>
           <Text
             style={{
               fontSize: props.fontSize ?? R.fontSize.Size14,
@@ -73,13 +70,10 @@ const AppCardPress = props => {
         )}
       </Pressable>
       <View
-        style={{
-          position: 'absolute',
-          top: -R.fontSize.Size10,
-          left: R.fontSize.Size10,
-          paddingHorizontal: props.headTitle ? R.fontSize.Size5 : 0,
-          backgroundColor: R.colors.white,
-        }}>
+        style={[
+          {paddingHorizontal: props.headTitle ? R.fontSize.Size5 : 0},
+          styles.viewHeadTitle,
+        ]}>
         <Text
           style={{
             fontFamily: R.fonts.regular,
@@ -93,55 +87,22 @@ const AppCardPress = props => {
         </Text>
       </View>
       {props.selectedDoc && (
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
+        <View style={styles.wrapView}>
           {props.selectedDoc.map((item, index) => {
             return (
-              <View
-                key={index}
-                style={{
-                  height: R.fontSize.Size70,
-                  width: R.fontSize.Size90,
-                  marginTop: R.fontSize.Size2,
-                  borderRadius: R.fontSize.Size4,
-                  overflow: 'hidden',
-                  marginHorizontal: R.fontSize.Size5,
-                  borderWidth: 1,
-                }}>
+              <View key={index} style={styles.mapView}>
                 <Image
                   source={{uri: item}}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                  }}
+                  style={styles.cancelIcon}
                   resizeMode={'cover'}
                 />
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: R.fontSize.Size2,
-                    right: R.fontSize.Size2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
+                <View style={styles.viewCancel}>
                   <Pressable
                     onPress={() => props.handleRemove(index)}
-                    style={{
-                      height: R.fontSize.Size18,
-                      width: R.fontSize.Size18,
-                      borderWidth: 1,
-                      backgroundColor: R.colors.lightWhite,
-                      padding: R.fontSize.Size2,
-                    }}>
+                    style={styles.pressCancel}>
                     <Image
                       source={R.images.cancelIcon}
-                      style={{
-                        height: '100%',
-                        width: '100%',
-                      }}
+                      style={styles.cancelIcon}
                       resizeMode={'contain'}
                     />
                   </Pressable>
@@ -152,18 +113,60 @@ const AppCardPress = props => {
         </View>
       )}
       {props.messageText && (
-        <Text
-          style={{
-            fontFamily: R.fonts.regular,
-            fontSize: R.fontSize.Size12,
-            color: R.colors.lightBlack,
-            marginVertical: R.fontSize.Size2,
-          }}>
-          {props.messageText}
-        </Text>
+        <Text style={styles.messageText}>{props.messageText}</Text>
       )}
     </View>
   );
 };
 
 export default AppCardPress;
+
+const styles = StyleSheet.create({
+  viewHeadTitle: {
+    position: 'absolute',
+    top: -R.fontSize.Size10,
+    left: R.fontSize.Size10,
+    backgroundColor: R.colors.white,
+  },
+  titleView: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  wrapView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  mapView: {
+    height: R.fontSize.Size70,
+    width: R.fontSize.Size90,
+    marginTop: R.fontSize.Size2,
+    borderRadius: R.fontSize.Size4,
+    overflow: 'hidden',
+    marginHorizontal: R.fontSize.Size5,
+    borderWidth: 1,
+  },
+  viewCancel: {
+    position: 'absolute',
+    top: R.fontSize.Size2,
+    right: R.fontSize.Size2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pressCancel: {
+    height: R.fontSize.Size18,
+    width: R.fontSize.Size18,
+    borderWidth: 1,
+    backgroundColor: R.colors.lightWhite,
+    padding: R.fontSize.Size2,
+  },
+  cancelIcon: {
+    height: '100%',
+    width: '100%',
+  },
+  messageText: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size12,
+    color: R.colors.lightBlack,
+    marginVertical: R.fontSize.Size2,
+  },
+});

@@ -2,7 +2,7 @@ import {Config} from '../config';
 import {
   reg_center,
   reg_center_success,
-  reg_center_error
+  reg_center_error,
 } from '../constants/common';
 import api from '../services/api';
 

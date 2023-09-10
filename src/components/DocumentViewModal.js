@@ -21,28 +21,19 @@ const DocumentViewModal = props => {
       onRequestClose={props.onRequestClose}>
       <View style={style.mainModalView}>
         <TouchableWithoutFeedback onPress={props.feedBackOnPress}>
-          <View style={{flex: 1}}></View>
+          <View style={style.flexView} />
         </TouchableWithoutFeedback>
         <View style={style.modalView}>
           <View style={style.topHeaderView}>
             <View style={style.topHeaderLine} />
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: R.fontSize.Size10,
-              right: R.fontSize.Size10,
-            }}>
+          <View style={style.cancelIconView}>
             <Pressable
               onPress={props.onPressClose}
-              style={{
-                padding: 2,
-                borderWidth: 1,
-                borderColor: R.colors.placeHolderColor,
-              }}>
+              style={style.cancelPressable}>
               <Image
                 source={R.images.cancelIcon}
-                style={{height: R.fontSize.Size12, width: R.fontSize.Size12}}
+                style={style.cancelIcon}
                 resizeMode={'contain'}
               />
             </Pressable>
@@ -51,7 +42,7 @@ const DocumentViewModal = props => {
             <Image
               source={{uri: props.sourceURL}}
               resizeMode={'contain'}
-              style={{height: '100%', width: '100%'}}
+              style={style.bodyIcon}
             />
           </View>
 
@@ -59,14 +50,7 @@ const DocumentViewModal = props => {
             <Pressable
               onPress={props.onPressClose}
               style={style.bottomButtonView}>
-              <Text
-                style={{
-                  fontSize: R.fontSize.Size14,
-                  fontWeight: '600',
-                  color: R.colors.textPriColor,
-                }}>
-                {'Close'}
-              </Text>
+              <Text style={style.closeText}>{'Close'}</Text>
             </Pressable>
           </View>
         </View>
@@ -78,6 +62,9 @@ const DocumentViewModal = props => {
 export default DocumentViewModal;
 
 const style = StyleSheet.create({
+  flexView: {
+    flex: 1,
+  },
   mainModalView: {
     flex: 1,
     backgroundColor: R.colors.modelBackground,
@@ -93,9 +80,9 @@ const style = StyleSheet.create({
     marginHorizontal: R.fontSize.Size20,
     marginVertical: R.fontSize.Size10,
     flex: 1,
-    borderWidth:1,
-    borderRadius:R.fontSize.Size8,
-    borderColor:R.colors.placeholderTextColor
+    borderWidth: 1,
+    borderRadius: R.fontSize.Size8,
+    borderColor: R.colors.placeholderTextColor,
   },
   topHeaderView: {
     alignItems: 'center',
@@ -190,11 +177,34 @@ const style = StyleSheet.create({
     borderRadius: R.fontSize.Size10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth:1.5
+    borderWidth: 1.5,
   },
   bottomButton: {
     marginVertical: R.fontSize.Size10,
     marginHorizontal: R.fontSize.Size150,
     marginBottom: R.fontSize.Size20,
+  },
+  cancelIconView: {
+    position: 'absolute',
+    top: R.fontSize.Size10,
+    right: R.fontSize.Size10,
+  },
+  cancelPressable: {
+    padding: 2,
+    borderWidth: 1,
+    borderColor: R.colors.placeHolderColor,
+  },
+  cancelIcon: {
+    height: R.fontSize.Size12,
+    width: R.fontSize.Size12,
+  },
+  bodyIcon: {
+    height: '100%',
+    width: '100%',
+  },
+  closeText: {
+    fontSize: R.fontSize.Size14,
+    fontWeight: '600',
+    color: R.colors.textPriColor,
   },
 });

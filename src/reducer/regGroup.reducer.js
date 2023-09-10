@@ -1,7 +1,7 @@
 import {
   reg_group,
   reg_group_success,
-  reg_group_error
+  reg_group_error,
 } from '../constants/common';
 
 const initial_state = {

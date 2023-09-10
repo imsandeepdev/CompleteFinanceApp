@@ -4,18 +4,12 @@ import {
   View,
   Pressable,
   Text,
-  Image,
-  ScrollView,
-  Dimensions,
   StyleSheet,
   FlatList,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import R from '../res/R';
-import AppContent from '../utils/AppContent';
-import Header from './Header';
-const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
 
 const CardLayout = props => {
   return (
@@ -28,12 +22,7 @@ const CardLayout = props => {
         <Text style={Styles.titleText}>{props.center}</Text>
       </View>
       <View style={Styles.customerLineWhite} />
-      <View
-        style={{
-          width: R.fontSize.Size70,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      <View style={Styles.proceedView}>
         <Text style={Styles.titleText}>{props.proceed}</Text>
       </View>
     </View>
@@ -71,7 +60,7 @@ const CustomerListModal = props => {
       transparent={true}
       onRequestClose={props.onRequestClose}>
       <View style={Styles.modalMainView}>
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={Styles.flexView}>
           <View style={Styles.modalView}>
             <View>
               <CardLayout
@@ -80,10 +69,28 @@ const CustomerListModal = props => {
                 proceed={'Proceed'}
               />
             </View>
+            <View style={Styles.backIconView}>
+              <Pressable
+                onPress={props.backOnPress}
+                style={({pressed}) => [
+                  {
+                    opacity: pressed ? 0.5 : 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                  },
+                ]}>
+                <Image
+                  source={R.images.whiteBack}
+                  style={Styles.backIcon}
+                  resizeMode={'contain'}
+                />
+              </Pressable>
+            </View>
 
-            <View style={{flex: 1}}>
+            <View style={Styles.flexView}>
               <FlatList
-                style={{flex: 1}}
+                style={Styles.flexView}
                 data={props.data}
                 renderItem={({item, index}) => {
                   return (
@@ -96,20 +103,8 @@ const CustomerListModal = props => {
                   );
                 }}
                 ListEmptyComponent={
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginTop: R.fontSize.Size100,
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: R.fonts.regular,
-                        fontWeight: '600',
-                        fontSize: R.fontSize.Size14,
-                        color: R.colors.placeHolderColor,
-                      }}>
+                  <View style={Styles.listEmptyView}>
+                    <Text style={Styles.listEmptyText}>
                       {'No found customer list'}
                     </Text>
                   </View>
@@ -126,13 +121,27 @@ const CustomerListModal = props => {
 export default CustomerListModal;
 
 const Styles = StyleSheet.create({
+  backIconView: {
+    height: R.fontSize.Size40,
+    position: 'absolute',
+    top: 0,
+    width: R.fontSize.Size40,
+    left: 0,
+  },
+  backIcon: {
+    height: R.fontSize.Size30,
+    width: R.fontSize.Size30,
+  },
+  flexView: {
+    flex: 1,
+  },
   modalMainView: {
     flex: 1,
     backgroundColor: R.colors.modelBackground,
     justifyContent: 'flex-end',
   },
   modalView: {
-    flex:1,
+    flex: 1,
     backgroundColor: R.colors.white,
   },
   modalViewReverse: {
@@ -271,5 +280,22 @@ const Styles = StyleSheet.create({
     color: R.colors.lightWhite,
     fontSize: R.fontSize.Size12,
     fontWeight: '600',
-  }
+  },
+  proceedView: {
+    width: R.fontSize.Size70,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  listEmptyView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: R.fontSize.Size100,
+  },
+  listEmptyText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '600',
+    fontSize: R.fontSize.Size14,
+    color: R.colors.placeHolderColor,
+  },
 });

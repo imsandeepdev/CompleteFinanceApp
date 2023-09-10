@@ -1,8 +1,14 @@
 import * as React from 'react';
-import {StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native';
 import R from '../../res/R';
 
 const Styles = StyleSheet.create({
+  flexView: {
+    flex: 1,
+  },
+  scrollFlexGrow: {
+    flexGrow: 1,
+  },
   mainView: {
     flex: 1,
     paddingHorizontal: R.fontSize.Size24,
@@ -38,4 +44,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default Styles
+export default Styles;

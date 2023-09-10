@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {View, Pressable, Image, Text} from 'react-native';
+import {View, Pressable, Text, StyleSheet} from 'react-native';
 import R from '../res/R';
 
 const AppButton = props => {
   return (
     <View
       style={{
-        flex:props.flex,
+        flex: props.flex,
         borderRadius: R.fontSize.Size8,
         backgroundColor: props.backgroundColor ?? R.colors.appColor,
         marginHorizontal: props.marginHorizontal ?? R.fontSize.Size20,
@@ -14,7 +14,7 @@ const AppButton = props => {
         borderWidth: props.borderWidth,
         borderColor: props.borderColor,
         marginTop: props.marginTop,
-        marginVertical: props.marginVertical
+        marginVertical: props.marginVertical,
       }}>
       <Pressable
         disabled={props.disabled}
@@ -28,12 +28,15 @@ const AppButton = props => {
           },
         ]}>
         <Text
-          style={{
-            
-            fontSize: props.titleFontSize ? props.titleFontSize : R.fontSize.Size18,
-            color: props.textColor ?? R.colors.secAppColor,
-            fontWeight: '700',
-          }}>
+          style={[
+            {
+              fontSize: props.titleFontSize
+                ? props.titleFontSize
+                : R.fontSize.Size18,
+              color: props.textColor ?? R.colors.secAppColor,
+            },
+            styles.titleText,
+          ]}>
           {props.title}
         </Text>
       </Pressable>
@@ -41,3 +44,9 @@ const AppButton = props => {
   );
 };
 export default AppButton;
+
+const styles = StyleSheet.create({
+  titleText: {
+    fontWeight: '700',
+  },
+});

@@ -1,8 +1,4 @@
-import {
-  reg_grt,
-  reg_grt_success,
-  reg_grt_error
-} from '../constants/common';
+import {reg_grt, reg_grt_success, reg_grt_error} from '../constants/common';
 
 const initial_state = {
   loading: false,

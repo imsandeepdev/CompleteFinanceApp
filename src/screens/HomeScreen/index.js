@@ -1,31 +1,19 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {useState, useEffect,useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  Dimensions,
   SafeAreaView,
-  FlatList,
   Pressable,
   Animated,
   ScrollView,
 } from 'react-native';
-import {
-  AppButton,
-  CustomCardPress,
-  CustomTextInput,
-  Header,
-  ListViewModal,
-  StoryScreen,
-} from '../../components';
+import {Header, StoryScreen} from '../../components';
 import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
-const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
 
-import Toast from 'react-native-simple-toast';
 import style from './style';
 import {GetMenuListRequest} from '../../actions/role.action';
 
@@ -104,15 +92,22 @@ const ListOne = [
     For: 'LoanProposal',
   },
   {
-    id: 4,
+    id: 5,
     Title: 'Loan Approval',
     icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
     icon1: R.images.applicantFormIcon,
     Url: 'LoanApproval',
     For: 'LoanApproval',
   },
+  {
+    id: 6,
+    Title: 'Pre Disbursement',
+    icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'DisbursementScreen',
+    For: 'DisbursementScreen',
+  },
 ];
-
 
 const CustomCard = props => {
   return (
@@ -120,55 +115,21 @@ const CustomCard = props => {
       <View style={style.customCardView}>
         <Text style={style.customCardHead}>{props.heading}</Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginHorizontal:R.fontSize.Size4
-        }}>
+      <View style={style.customCardBottomView}>
         {props.data.map((item, index) => {
           return (
-            // <Pressable
-            //   key={index}
-            //   onPress={() => props.onPress(item.Url)}
-            //   style={{marginVertical: R.fontSize.Size5}}>
-            //   <View style={style.customCardFlatView}>
-            //     <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-            //       <Image
-            //         source={item.icon1}
-            //         resizeMode={'contain'}
-            //         style={{
-            //           height: R.fontSize.Size100,
-            //           width: R.fontSize.Size100,
-            //         }}
-            //       />
-            //     </View>
-            //     <View style={{marginHorizontal:R.fontSize.Size10,borderWidth:0.6,width:'100%',borderColor:R.colors.darkBlueColor}}/>
-            //     <Text style={style.customCardTitleText} numberOfLines={2}>
-            //       {`${item.Title}`}
-            //     </Text>
-            //   </View>
-            // </Pressable>
             <Pressable
               key={index}
-              onPress={() => props.onPress(item)} style={style.flatMainView}>
+              onPress={() => props.onPress(item)}
+              style={style.flatMainView}>
               <Image
                 source={{uri: item.icon}}
-                style={{height: '100%', width: '100%'}}
+                style={style.customCardBottomIcon100}
                 resizeMode={'cover'}
               />
               <View style={style.flatTitleMainView}>
                 <View style={style.flatTitleView}>
-                  <Text
-                  style={{
-                    fontFamily:R.fonts.regular,
-                    fontWeight:'700',
-                    color:R.colors.textPriColor,
-                    fontSize:R.fontSize.Size14
-                  }}
-                  >{item.Title}</Text>
+                  <Text style={style.customCardBottomTitle}>{item.Title}</Text>
                 </View>
               </View>
             </Pressable>
@@ -192,7 +153,6 @@ const HomeScreen = props => {
     return unsubscribe;
   }, [props.navigation]);
 
-
   const screenFocus = () => {
     handleMenuListAPI();
   };
@@ -202,8 +162,8 @@ const HomeScreen = props => {
     dispatch(
       GetMenuListRequest(response => {
         console.log('Menu List Res==>', response);
+        // eslint-disable-next-line no-undef
         setMenuList(response.entity.entity);
-        
       }),
     );
     setLoading(false);
@@ -215,10 +175,8 @@ const HomeScreen = props => {
       duration: 300, // Animation duration in milliseconds
       useNativeDriver: false, // Set to true if you want to use the native driver (Android only)
     }).start();
-      setShowMore(!showMore);
-
+    setShowMore(!showMore);
   };
-
 
   return (
     <StoryScreen loading={loading}>

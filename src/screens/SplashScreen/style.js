@@ -7,8 +7,14 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  iconStyle: {
-    
+  appLogoIcon: {
+    height: R.fontSize.Size200,
+    width: R.fontSize.Size200,
+  },
+  titleText: {
+    fontSize: R.fontSize.Size16,
+    fontWeight: '600',
+    color: R.colors.appColor,
   },
 });
 
