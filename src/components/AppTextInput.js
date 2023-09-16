@@ -53,6 +53,7 @@ const AppTextInput = React.forwardRef((props, ref) => {
               multiline={props.multiline}
               onPressOut={props.onPressOut}
               onBlur={props.onBlur}
+              editable={props.editable}
             />
             {props.messageText && (
               <Text

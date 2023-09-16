@@ -24,4 +24,5 @@ export const Config = {
   getBankNameAPI: '/GeneralMaster/GetBankMaster',
   disbursementAPI: '/Disbursement/UpdatePredisbursement',
   payMethodListAPI: '/Disbursement/GetPayMethodList',
+  getGroupInfoAPI: '/Group/GetgroupInformation',
 };

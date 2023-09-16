@@ -21,6 +21,9 @@ import {
   payment_Mode_List,
   payment_Mode_List_success,
   payment_Mode_List_error,
+  get_Group_Detail,
+  get_Group_Detail_success,
+  get_Group_Detail_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -150,6 +153,24 @@ export const PaymentModeListError = error => {
   };
 };
 
+export const GetGroupDetail = () => {
+  return {
+    type: get_Group_Detail,
+  };
+};
+export const GetGroupDetailSuccess = payload => {
+  return {
+    type: get_Group_Detail_success,
+    payload,
+  };
+};
+export const GetGroupDetailError = error => {
+  return {
+    type: get_Group_Detail_error,
+    payload: error,
+  };
+};
+
 export const GenderListRequest = (modeType, success, failed) => {
   return dispatch => {
     dispatch(GenderList());
@@ -168,12 +189,12 @@ export const GenderListRequest = (modeType, success, failed) => {
   };
 };
 
-export const GetGroupDropDownRequest = (modeType, success, failed) => {
+export const GetGroupDropDownRequest = (modeType, userId, success, failed) => {
   return dispatch => {
     dispatch(GetGroupDropDown());
     api
       .multipostRequest({
-        url: `${Config.getGroupDropDown}?mode=${modeType}`,
+        url: `${Config.getGroupDropDown}?mode=${modeType}&loginId=${userId}`,
       })
       .then(response => {
         dispatch(GetGroupDropDownSuccess(response));
@@ -278,6 +299,24 @@ export const PaymentModeListRequest = (success, failed) => {
         dispatch(PaymentModeListError(error));
         failed?.(error);
         console.log('Error: ', error);
+      });
+  };
+};
+
+export const GetGroupDetailRequest = (modeType, success, failed) => {
+  return dispatch => {
+    dispatch(GetGroupDetail());
+    api
+      .multipostRequest({
+        url: `${Config.getGroupInfoAPI}?mode=${modeType.mode}&GroupId=${modeType.group_id}&loginId=${modeType.login_id}`,
+      })
+      .then(response => {
+        dispatch(GetGroupDetailSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(GetGroupDetailError(error));
+        failed?.(error);
       });
   };
 };

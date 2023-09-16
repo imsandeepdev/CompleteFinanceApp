@@ -9,6 +9,10 @@ const Styles = StyleSheet.create({
   scrollFlexGrow: {
     flexGrow: 1,
   },
+  flexWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   mainView: {
     flex: 1,
     paddingHorizontal: R.fontSize.Size24,

@@ -13,9 +13,10 @@ import {
 import {Header, StoryScreen} from '../../components';
 import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import style from './style';
 import {GetMenuListRequest} from '../../actions/role.action';
+import {UserProfileRequest} from '../../actions/profile.action';
 
 const HeaderList = [
   {
@@ -142,6 +143,7 @@ const CustomCard = props => {
 
 const HomeScreen = props => {
   const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -153,8 +155,19 @@ const HomeScreen = props => {
     return unsubscribe;
   }, [props.navigation]);
 
-  const screenFocus = () => {
+  const screenFocus = async () => {
     handleMenuListAPI();
+    let user_id = await AsyncStorage.getItem('userid');
+    handleProfile(Number(user_id));
+  };
+
+  const handleProfile = userid => {
+    dispatch(
+      UserProfileRequest(userid, response => {
+        console.log('user Profile res==>', response);
+        setUserDetail(response.entity[0]);
+      }),
+    );
   };
 
   const handleMenuListAPI = () => {
@@ -191,7 +204,9 @@ const HomeScreen = props => {
             <View>
               <View style={style.topHeaderView}>
                 <View>
-                  <Text style={style.topHeaderText}>{'Shyam Yadav'}</Text>
+                  <Text style={style.topHeaderText}>
+                    {`${userDetail.StaffName}`}
+                  </Text>
                   <Text
                     style={[
                       style.topHeaderText,

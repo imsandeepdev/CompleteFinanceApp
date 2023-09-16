@@ -10,6 +10,7 @@ import {
   Header,
   ListGroupModal,
   StoryScreen,
+  SwiperButtonComp,
 } from '../../components';
 import R from '../../res/R';
 import moment from 'moment';
@@ -19,13 +20,17 @@ import {RegGroupRequest} from '../../actions/regGroup.action';
 import Toast from 'react-native-simple-toast';
 import {GetAllCustomerRequest} from '../../actions/role.action';
 import Styles from './style';
-import {GetGroupDropDownRequest} from '../../actions/dropdown.action';
+import {
+  GetGroupDetailRequest,
+  GetGroupDropDownRequest,
+} from '../../actions/dropdown.action';
 
 const GroupForm = props => {
   const dispatch = useDispatch();
   const [profileDetail, setProfileDetail] = useState('');
   const [groupName, setGroupName] = useState('');
   const [groupAddress, setGroupAddress] = useState('');
+  const [existingGroupName, setExistingGroupName] = useState('');
   const [branchManager, setBranchManager] = useState('');
   const [centerName, setCenterName] = useState('');
   const [postalCode, setPostalCode] = useState('');
@@ -38,6 +43,7 @@ const GroupForm = props => {
   const [groupDropDownModal, setGroupDropDownModal] = useState(false);
   const [groupDropDownList, setGroupDropDownList] = useState([]);
   const [groupDropDownType, setGroupDropDownType] = useState('');
+  const [swiperValue, setSwiperValue] = useState(true);
 
   useEffect(() => {
     handleGetAllCustomer(props.profile.entity[0].StaffID);
@@ -87,7 +93,9 @@ const GroupForm = props => {
     if (selectedEmpList.length == 0) {
       Toast.show('please select customer details', Toast.SHORT);
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   };
 
   const handleGroupSubAPI = () => {
@@ -152,7 +160,7 @@ const GroupForm = props => {
   };
 
   const handleConfirmOnPress = () => {
-    let tempFilter = empList.filter(item => item.selected == true);
+    let tempFilter = empList.filter(item => item.selected === true);
     setSelectedEmpList(tempFilter);
     console.log('FILTER', tempFilter);
     let tempIdList = [];
@@ -169,7 +177,7 @@ const GroupForm = props => {
   const handleGroupDropDown = mode => {
     setGroupDropDownType(mode);
     dispatch(
-      GetGroupDropDownRequest(mode, response => {
+      GetGroupDropDownRequest(mode, profileDetail.StaffID, response => {
         console.log('Group drop down res=>', response);
         setGroupDropDownList(response.entity.entity);
       }),
@@ -182,7 +190,29 @@ const GroupForm = props => {
     groupDropDownType === 'Branch' && setBranchManager(item);
     groupDropDownType === 'Center' && setCenterName(item);
     groupDropDownType === 'MeetingDay' && setFirstMeetDate(item);
+    groupDropDownType === 'Getgroup' && handleGroupDetailAPI(item);
     setGroupDropDownModal(false);
+  };
+
+  const handleGroupDetailAPI = item => {
+    setExistingGroupName(item);
+    let data = {
+      mode: 'GetgroupInfo',
+      group_id: item.GroupId,
+      login_id: profileDetail.StaffID,
+    };
+    dispatch(
+      GetGroupDetailRequest(data, response => {
+        console.log('RESPONSE GROUP ', response);
+        if (response.statusCode === 200) {
+          let resValue = response.entity.entity[0];
+          setGroupAddress(resValue.G_Address);
+          setPostalCode(resValue.G_PostalCode);
+          setLandMark(resValue.G_LandMark);
+        }
+      }),
+    );
+    console.log('GROUP INFO==>', item);
   };
 
   return (
@@ -192,6 +222,13 @@ const GroupForm = props => {
           onPress={() => props.navigation.goBack()}
           leftSource={R.images.backIcon}
           title={'Group Form'}
+        />
+
+        <SwiperButtonComp
+          buttonStatus={swiperValue}
+          onPressButton={() => setSwiperValue(!swiperValue)}
+          activeTitleText={!swiperValue ? 'Existing Group' : 'New Group'}
+          disableTitleText={!swiperValue ? 'New Group' : 'Existing Group'}
         />
 
         <ScrollView contentContainerStyle={Styles.scrollFlexGrow}>
@@ -208,9 +245,9 @@ const GroupForm = props => {
               />
               <AppCardPress
                 onPress={() => handleGroupDropDown('Branch')}
-                headTitle={'Branch Manager *'}
+                headTitle={'Branch Name *'}
                 title={
-                  branchManager !== '' ? branchManager.BoCode : 'Branch Manager'
+                  branchManager !== '' ? branchManager.BoCode : 'Branch Name'
                 }
                 TextColor={
                   branchManager !== ''
@@ -262,20 +299,44 @@ const GroupForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
+              {swiperValue ? (
+                <AppTextInput
+                  placeholder={'Create Group Name'}
+                  headTitle={'Create Group Name *'}
+                  headTitleColor={
+                    groupName !== ''
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  value={groupName}
+                  onChangeText={text => setGroupName(text)}
+                  returnKeyType={'next'}
+                  onSubmitEditing={() => mnameRef.current?.focus()}
+                />
+              ) : (
+                <AppCardPress
+                  onPress={() => handleGroupDropDown('Getgroup')}
+                  headTitle={'Group Name *'}
+                  title={
+                    existingGroupName !== ''
+                      ? existingGroupName.GroupName
+                      : 'Group Name'
+                  }
+                  TextColor={
+                    existingGroupName !== ''
+                      ? R.colors.secAppColor
+                      : R.colors.placeholderTextColor
+                  }
+                  headTitleColor={
+                    existingGroupName !== ''
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  rightIcon={R.images.dropdownIcon}
+                />
+              )}
               <AppTextInput
-                placeholder={'Group Name'}
-                headTitle={'Group Name *'}
-                headTitleColor={
-                  groupName !== ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                value={groupName}
-                onChangeText={text => setGroupName(text)}
-                returnKeyType={'next'}
-                onSubmitEditing={() => mnameRef.current?.focus()}
-              />
-              <AppTextInput
+                editable={swiperValue ? true : false}
                 placeholder={'Address'}
                 headTitle={'Address *'}
                 headTitleColor={
@@ -289,6 +350,7 @@ const GroupForm = props => {
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
               <AppTextInput
+                editable={swiperValue ? true : false}
                 placeholder={'Postal Code'}
                 headTitle={'Postal Code *'}
                 headTitleColor={
@@ -302,6 +364,7 @@ const GroupForm = props => {
                 returnKeyType={'next'}
               />
               <AppTextInput
+                editable={swiperValue ? true : false}
                 placeholder={'Landmark'}
                 headTitle={'Landmark'}
                 headTitleColor={

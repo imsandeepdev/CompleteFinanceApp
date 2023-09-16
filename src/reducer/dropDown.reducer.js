@@ -20,6 +20,9 @@ import {
   payment_Mode_List,
   payment_Mode_List_success,
   payment_Mode_List_error,
+  get_Group_Detail,
+  get_Group_Detail_success,
+  get_Group_Detail_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -31,6 +34,7 @@ const initial_state = {
   proposeAmountInit: {},
   bankNameInit: {},
   paymentModeInit: {},
+  groupDetailInit: {},
   error: '',
 };
 
@@ -140,6 +144,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         paymentModeInit: payload,
       };
     case payment_Mode_List_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case get_Group_Detail:
+      return {
+        ...state,
+        loading: true,
+      };
+    case get_Group_Detail_success:
+      return {
+        loading: false,
+        groupDetailInit: payload,
+      };
+    case get_Group_Detail_error:
       return {
         loading: false,
         error: payload,

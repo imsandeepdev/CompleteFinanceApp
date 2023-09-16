@@ -68,6 +68,11 @@ export const get_Group_DropDown = 'get_Group_DropDown';
 export const get_Group_DropDown_success = 'get_Group_DropDown_success';
 export const get_Group_DropDown_error = 'get_Group_DropDown_error';
 
+//getGroupDetails
+export const get_Group_Detail = 'get_Group_Detail';
+export const get_Group_Detail_success = 'get_Group_Detail_success';
+export const get_Group_Detail_error = 'get_Group_Detail_error';
+
 //getGroupWiseCustomerDropDown
 export const get_Group_Wise_Customer_DropDown =
   'get_Group_Wise_Customer_DropDown';

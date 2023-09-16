@@ -181,7 +181,7 @@ const ApplicantForm = props => {
 
   const onSelectPicker = params => {
     if (params === 'camera') {
-      ImagePicker.openCamera({
+      ImagePicker.openPicker({
         width: 400,
         height: 400,
         cropping: true,
@@ -191,7 +191,7 @@ const ApplicantForm = props => {
         setGalleryModalVisible(false);
       });
     } else if (params === 'gallery') {
-      ImagePicker.openCamera({
+      ImagePicker.openPicker({
         width: 400,
         height: 400,
         cropping: true,
@@ -202,7 +202,7 @@ const ApplicantForm = props => {
   };
 
   const onHandleCameraPicker = () => {
-    ImagePicker.openCamera({
+    ImagePicker.openPicker({
       width: 400,
       height: 400,
       cropping: true,
@@ -318,7 +318,7 @@ const ApplicantForm = props => {
   };
 
   const handleNomaniDocPicker = type => {
-    ImagePicker.openCamera({
+    ImagePicker.openPicker({
       width: 400,
       height: 400,
       cropping: true,
@@ -521,13 +521,13 @@ const ApplicantForm = props => {
           }
         : '',
     );
-    applicantKYCDocList1.forEach((item, index) => {
-      formData.append('Applicant_ProfilePic', {
-        uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
-        type: 'image/png',
-        name: `image${index}.png`,
-      });
-    });
+    // applicantKYCDocList1.forEach((item, index) => {
+    //   formData.append('Applicant_ProfilePic', {
+    //     uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+    //     type: 'image/png',
+    //     name: `image${index}.png`,
+    //   });
+    // });
     formData.append('Applicant_DocType1', applicantDocType1.RuleID);
     formData.append('Applicant_DocNo1', applicantKYCNo1);
     applicantKYCDocList1.forEach((item, index) => {
@@ -592,7 +592,7 @@ const ApplicantForm = props => {
 
     dispatch(
       SaveCustomerDocumentRequest(formData, response => {
-        console.log('Response=>', response);
+        console.log('Response With Photo=>', response);
         if (response.message === 'Success') {
           Toast.show('Successfully! save customer details', Toast.SHORT);
           props.navigation.goBack();

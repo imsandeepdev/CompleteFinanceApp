@@ -120,7 +120,7 @@ const GrtForm = props => {
   const handleGrtDropDown = mode => {
     setGrtDropDownType(mode);
     dispatch(
-      GetGroupDropDownRequest(mode, response => {
+      GetGroupDropDownRequest(mode, profileDetail.StaffID, response => {
         console.log('Group drop down res=>', response);
         setGrtDropDownList(response.entity.entity);
       }),

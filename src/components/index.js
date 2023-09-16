@@ -15,6 +15,7 @@ import GroupDropDownModal from './GroupDropDownModal';
 import DocumentViewModal from './DocumentViewModal';
 import AlertModal from './AlertModal';
 import CustomerListModal from './CustomerListModal';
+import {SwiperButtonComp} from './SwiperButton';
 
 export {
   CustomTextInput,
@@ -34,4 +35,5 @@ export {
   DocumentViewModal,
   AlertModal,
   CustomerListModal,
+  SwiperButtonComp,
 };

@@ -1,21 +1,11 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {
-  Pressable,
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {Pressable, View, Text, Image, ScrollView, Alert} from 'react-native';
 import R from '../../res/R';
 import style from './style';
 import {useDispatch} from 'react-redux';
-import {AppButton} from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserProfileRequest} from '../../actions/profile.action';
-import {GetMenuListRequest} from '../../actions/role.action';
 
 const CustomDrawerButton = props => {
   return (
