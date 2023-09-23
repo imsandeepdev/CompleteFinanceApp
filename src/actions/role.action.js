@@ -9,6 +9,9 @@ import {
   get_allCustomer,
   get_allCustomer_success,
   get_allCustomer_error,
+  get_LoanProposal_CustomerList,
+  get_LoanProposal_CustomerList_success,
+  get_LoanProposal_CustomerList_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -66,6 +69,24 @@ export const GetAllCustomerError = error => {
   };
 };
 
+export const GetLoanProposalCustomerList = () => {
+  return {
+    type: get_LoanProposal_CustomerList,
+  };
+};
+export const GetLoanProposalCustomerListSuccess = payload => {
+  return {
+    type: get_LoanProposal_CustomerList_success,
+    payload,
+  };
+};
+export const GetLoanProposalCustomerListError = error => {
+  return {
+    type: get_LoanProposal_CustomerList_error,
+    payload: error,
+  };
+};
+
 export const GetRoleRequest = (user_id, success, failed) => {
   return dispatch => {
     dispatch(GetRole());
@@ -115,6 +136,28 @@ export const GetAllCustomerRequest = (staffId, success, failed) => {
       })
       .catch(error => {
         dispatch(GetAllCustomerError(error));
+        failed?.(error);
+      });
+  };
+};
+
+export const GetLoanProposalCustomerListRequest = (
+  staffId,
+  success,
+  failed,
+) => {
+  return dispatch => {
+    dispatch(GetLoanProposalCustomerList());
+    api
+      .multipostRequest({
+        url: `${Config.getLoanProposalCustomerListAPI}${staffId}`,
+      })
+      .then(response => {
+        dispatch(GetLoanProposalCustomerListSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(GetLoanProposalCustomerListError(error));
         failed?.(error);
       });
   };

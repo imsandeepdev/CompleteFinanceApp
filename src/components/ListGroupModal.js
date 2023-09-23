@@ -8,6 +8,7 @@ import {
   Dimensions,
   StyleSheet,
   FlatList,
+  Image,
 } from 'react-native';
 import R from '../res/R';
 import AppButton from './AppButton';
@@ -50,8 +51,10 @@ const ListGroupModal = props => {
               data={props.dataList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
+                let tempStatus = Number(item?.Groupstatus) === 1 ? true : false;
                 return (
                   <Pressable
+                    disabled={tempStatus ? true : false}
                     key={index}
                     onPress={() => props.onPress(item, index)}
                     style={({pressed}) => [
@@ -61,9 +64,10 @@ const ListGroupModal = props => {
                         paddingHorizontal: R.fontSize.Size5,
                         marginVertical: R.fontSize.Size2,
                         backgroundColor: R.colors.white,
-                        borderColor: item.selected
-                          ? R.colors.darkGreenColor
-                          : R.colors.lightBlack,
+                        borderColor:
+                          item.selected || tempStatus
+                            ? R.colors.darkGreenColor
+                            : R.colors.lightBlack,
                       },
                     ]}>
                     <View
@@ -76,8 +80,17 @@ const ListGroupModal = props => {
                           ? R.colors.appColor
                           : R.colors.lightWhite,
                         borderWidth: 1,
-                      }}
-                    />
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      {tempStatus && (
+                        <Image
+                          source={R.images.greenLockIcon}
+                          style={{height: 18, width: 18}}
+                          resizeMode={'contain'}
+                        />
+                      )}
+                    </View>
                     <View
                       style={[
                         Styles.headView,

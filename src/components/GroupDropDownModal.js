@@ -50,7 +50,9 @@ const GroupDropDownModal = props => {
                   item.RoleName ||
                   item.BoCode ||
                   item.GroupName ||
-                  item.approvedTitile;
+                  item.approvedTitile ||
+                  item.ApplicantName ||
+                  item.StaffName;
                 console.log('TITLE==>', title);
                 return (
                   <Pressable
@@ -69,6 +71,15 @@ const GroupDropDownModal = props => {
                     ]}>
                     <Text style={Styles.titleText}>{title}</Text>
                   </Pressable>
+                );
+              }}
+              ListEmptyComponent={() => {
+                return (
+                  <View style={Styles.emptyView}>
+                    <Text style={Styles.emptyText}>
+                      {'Oops!\nData not found'}
+                    </Text>
+                  </View>
                 );
               }}
             />
@@ -175,5 +186,16 @@ const Styles = StyleSheet.create({
     fontWeight: '700',
     color: R.colors.white,
     marginLeft: R.fontSize.Size8,
+  },
+  emptyView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '500',
+    color: R.colors.placeHolderColor,
+    fontSize: R.fontSize.Size14,
+    textAlign: 'center',
   },
 });

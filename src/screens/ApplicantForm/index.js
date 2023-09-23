@@ -181,7 +181,7 @@ const ApplicantForm = props => {
 
   const onSelectPicker = params => {
     if (params === 'camera') {
-      ImagePicker.openPicker({
+      ImagePicker.openCamera({
         width: 400,
         height: 400,
         cropping: true,
@@ -191,7 +191,7 @@ const ApplicantForm = props => {
         setGalleryModalVisible(false);
       });
     } else if (params === 'gallery') {
-      ImagePicker.openPicker({
+      ImagePicker.openCamera({
         width: 400,
         height: 400,
         cropping: true,
@@ -202,7 +202,7 @@ const ApplicantForm = props => {
   };
 
   const onHandleCameraPicker = () => {
-    ImagePicker.openPicker({
+    ImagePicker.openCamera({
       width: 400,
       height: 400,
       cropping: true,
@@ -318,7 +318,7 @@ const ApplicantForm = props => {
   };
 
   const handleNomaniDocPicker = type => {
-    ImagePicker.openPicker({
+    ImagePicker.openCamera({
       width: 400,
       height: 400,
       cropping: true,
@@ -517,7 +517,7 @@ const ApplicantForm = props => {
                 ? applicantPic?.path
                 : (applicantPic?.path).replace('file://', ''),
             type: 'image/png',
-            name: 'image.png',
+            name: 'image.jpeg',
           }
         : '',
     );
@@ -525,7 +525,7 @@ const ApplicantForm = props => {
     //   formData.append('Applicant_ProfilePic', {
     //     uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
     //     type: 'image/png',
-    //     name: `image${index}.png`,
+    //     name: `image${index}.jpeg`,
     //   });
     // });
     formData.append('Applicant_DocType1', applicantDocType1.RuleID);
@@ -534,7 +534,7 @@ const ApplicantForm = props => {
       formData.append('Applicant_Doc1', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 
@@ -544,7 +544,7 @@ const ApplicantForm = props => {
       formData.append('Applicant_Doc2', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 
@@ -554,7 +554,7 @@ const ApplicantForm = props => {
       formData.append('Nomanee_Doc1', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 
@@ -564,7 +564,7 @@ const ApplicantForm = props => {
       formData.append('Nomanee_Doc2', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 
@@ -574,7 +574,7 @@ const ApplicantForm = props => {
       formData.append('CoApplicant_Doc1', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 
@@ -584,7 +584,7 @@ const ApplicantForm = props => {
       formData.append('CoApplicant_Doc2', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
         type: 'image/png',
-        name: `image${index}.png`,
+        name: `image${index}.jpeg`,
       });
     });
 

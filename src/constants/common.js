@@ -68,6 +68,18 @@ export const get_Group_DropDown = 'get_Group_DropDown';
 export const get_Group_DropDown_success = 'get_Group_DropDown_success';
 export const get_Group_DropDown_error = 'get_Group_DropDown_error';
 
+//getLoanProposalCustomerList
+export const get_LoanProposal_CustomerList = 'get_LoanProposal_CustomerList';
+export const get_LoanProposal_CustomerList_success =
+  'get_LoanProposal_CustomerList_success';
+export const get_LoanProposal_CustomerList_error =
+  'get_LoanProposal_CustomerList_error';
+
+//getGrtStaffDropDown
+export const get_Grt_Staff_DropDown = 'get_Grt_Staff_DropDown';
+export const get_Grt_Staff_DropDown_success = 'get_Grt_Staff_DropDown_success';
+export const get_Grt_Staff_DropDown_error = 'get_Grt_Staff_DropDown_error';
+
 //getGroupDetails
 export const get_Group_Detail = 'get_Group_Detail';
 export const get_Group_Detail_success = 'get_Group_Detail_success';

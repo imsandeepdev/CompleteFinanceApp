@@ -8,7 +8,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
   topImageView: {
-    height: screenHeight / 4,
+    paddingVertical: R.fontSize.Size20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -23,6 +23,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
   subTitleText: {
+    marginTop: R.fontSize.Size20,
     fontFamily: R.fonts.regular,
     fontSize: R.fontSize.Size16,
     color: R.colors.placeHolderColor,

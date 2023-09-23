@@ -44,6 +44,7 @@ const GroupForm = props => {
   const [groupDropDownList, setGroupDropDownList] = useState([]);
   const [groupDropDownType, setGroupDropDownType] = useState('');
   const [swiperValue, setSwiperValue] = useState(true);
+  const [exitEmpList, setExitEmpList] = useState();
 
   useEffect(() => {
     handleGetAllCustomer(props.profile.entity[0].StaffID);
@@ -69,6 +70,7 @@ const GroupForm = props => {
             ApplicantName: tempList[i].ApplicantName,
             ApplicantId: tempList[i].ApplicantId,
             ApplicantDateofbirth: tempList[i].ApplicantDateofbirth,
+            Groupstatus: 0,
             selected: false,
           });
         }
@@ -82,15 +84,33 @@ const GroupForm = props => {
       CommonFunctions.isBlank(branchManager, 'Please select branch manager') &&
       CommonFunctions.isBlank(centerName, 'Please select center name') &&
       CommonFunctions.isBlank(firstMeetDate, 'Please select meeting day') &&
-      CommonFunctions.isBlank(groupName.trim(), 'please enter group name') &&
+      handleGroupValidation() &&
       CommonFunctions.isBlank(groupAddress.trim(), 'please enter address') &&
       CommonFunctions.isBlank(postalCode.trim(), 'please enter postal code') &&
       handleCustomerList()
     );
   };
 
+  const handleGroupValidation = () => {
+    if (swiperValue) {
+      if (groupName.trim() === '') {
+        Toast.show('please enter group name', Toast.SHORT);
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      if (existingGroupName === '') {
+        Toast.show('please select group name', Toast.SHORT);
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
   const handleCustomerList = () => {
-    if (selectedEmpList.length == 0) {
+    if (selectedEmpList.length === 0 && swiperValue) {
       Toast.show('please select customer details', Toast.SHORT);
       return false;
     } else {
@@ -176,8 +196,9 @@ const GroupForm = props => {
 
   const handleGroupDropDown = mode => {
     setGroupDropDownType(mode);
+    let data = `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}`;
     dispatch(
-      GetGroupDropDownRequest(mode, profileDetail.StaffID, response => {
+      GetGroupDropDownRequest(data, response => {
         console.log('Group drop down res=>', response);
         setGroupDropDownList(response.entity.entity);
       }),
@@ -188,7 +209,7 @@ const GroupForm = props => {
   const handleGroupDropDownSelect = item => {
     console.log('ITEM SELECT', item);
     groupDropDownType === 'Branch' && setBranchManager(item);
-    groupDropDownType === 'Center' && setCenterName(item);
+    groupDropDownType === 'GroupCenter' && setCenterName(item);
     groupDropDownType === 'MeetingDay' && setFirstMeetDate(item);
     groupDropDownType === 'Getgroup' && handleGroupDetailAPI(item);
     setGroupDropDownModal(false);
@@ -196,6 +217,7 @@ const GroupForm = props => {
 
   const handleGroupDetailAPI = item => {
     setExistingGroupName(item);
+    handleGroupCustomerList(item);
     let data = {
       mode: 'GetgroupInfo',
       group_id: item.GroupId,
@@ -209,10 +231,51 @@ const GroupForm = props => {
           setGroupAddress(resValue.G_Address);
           setPostalCode(resValue.G_PostalCode);
           setLandMark(resValue.G_LandMark);
+          let data = {
+            RoleName: resValue.FirstMeetingText,
+            RuleID: resValue.FirstMeetingDate,
+          };
+          setFirstMeetDate(data);
         }
       }),
     );
     console.log('GROUP INFO==>', item);
+  };
+
+  const handleGroupCustomerList = item => {
+    let data = {
+      mode: 'Groupcustomer',
+      group_id: item.GroupId,
+      login_id: profileDetail.StaffID,
+    };
+    dispatch(
+      GetGroupDetailRequest(data, response => {
+        console.log('GROUP CUStomer List ', response);
+        let tempList = response.entity.entity;
+        let tempSelectedList = [];
+        for (let i = 0; i < tempList.length; i++) {
+          console.log('ITEM=>', tempList[i].ApplicantName);
+          tempSelectedList.push({
+            ApplicantName: tempList[i].ApplicantName,
+            ApplicantId: tempList[i].ApplicantId,
+            ApplicantDateofbirth: tempList[i].ApplicantDateofbirth,
+            Groupstatus: tempList[i].Groupstatus,
+            selected: false,
+          });
+        }
+        setEmpList(tempSelectedList);
+      }),
+    );
+  };
+
+  const handleSwiperOnPress = () => {
+    setGroupName('');
+    setExistingGroupName('');
+    setGroupAddress('');
+    setPostalCode('');
+    setLandMark('');
+    setSwiperValue(!swiperValue);
+    !swiperValue && handleGetAllCustomer(props.profile.entity[0].StaffID);
   };
 
   return (
@@ -226,7 +289,7 @@ const GroupForm = props => {
 
         <SwiperButtonComp
           buttonStatus={swiperValue}
-          onPressButton={() => setSwiperValue(!swiperValue)}
+          onPressButton={() => handleSwiperOnPress()}
           activeTitleText={!swiperValue ? 'Existing Group' : 'New Group'}
           disableTitleText={!swiperValue ? 'New Group' : 'Existing Group'}
         />
@@ -262,7 +325,7 @@ const GroupForm = props => {
                 rightIcon={R.images.dropdownIcon}
               />
               <AppCardPress
-                onPress={() => handleGroupDropDown('Center')}
+                onPress={() => handleGroupDropDown('GroupCenter')}
                 headTitle={'Center Name *'}
                 title={
                   centerName !== '' ? centerName.CenterName : 'Center Name'
@@ -279,26 +342,7 @@ const GroupForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
-              <AppCardPress
-                onPress={() => handleGroupDropDown('MeetingDay')}
-                headTitle={'First Meeting Day *'}
-                title={
-                  firstMeetDate !== ''
-                    ? firstMeetDate.RoleName
-                    : 'First Meeting Day'
-                }
-                TextColor={
-                  firstMeetDate !== ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  firstMeetDate !== ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-              />
+
               {swiperValue ? (
                 <AppTextInput
                   placeholder={'Create Group Name'}
@@ -335,6 +379,27 @@ const GroupForm = props => {
                   rightIcon={R.images.dropdownIcon}
                 />
               )}
+              <AppCardPress
+                disabled={swiperValue ? false : true}
+                onPress={() => handleGroupDropDown('MeetingDay')}
+                headTitle={'First Meeting Day *'}
+                title={
+                  firstMeetDate !== ''
+                    ? firstMeetDate.RoleName
+                    : 'First Meeting Day'
+                }
+                TextColor={
+                  firstMeetDate !== ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  firstMeetDate !== ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={swiperValue ? R.images.dropdownIcon : null}
+              />
               <AppTextInput
                 editable={swiperValue ? true : false}
                 placeholder={'Address'}
@@ -376,24 +441,46 @@ const GroupForm = props => {
                 onChangeText={text => setLandMark(text)}
                 returnKeyType={'next'}
               />
-              <AppCardPress
-                onPress={() => {
-                  setEmpModal(true);
-                }}
-                title={'Select Customer Detail *'}
-                TextColor={
-                  selectedEmpList.length !== 0
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  selectedEmpList.length !== 0
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-                marginBottom={R.fontSize.Size2}
-              />
+              {swiperValue && (
+                <AppCardPress
+                  onPress={() => {
+                    setEmpModal(true);
+                  }}
+                  title={'Select Customer Detail *'}
+                  TextColor={
+                    selectedEmpList.length !== 0
+                      ? R.colors.secAppColor
+                      : R.colors.placeholderTextColor
+                  }
+                  headTitleColor={
+                    selectedEmpList.length !== 0
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  rightIcon={R.images.dropdownIcon}
+                  marginBottom={R.fontSize.Size2}
+                />
+              )}
+              {!swiperValue && existingGroupName !== '' && (
+                <AppCardPress
+                  onPress={() => {
+                    setEmpModal(true);
+                  }}
+                  title={'Select Customer Detail'}
+                  TextColor={
+                    selectedEmpList.length !== 0
+                      ? R.colors.secAppColor
+                      : R.colors.placeholderTextColor
+                  }
+                  headTitleColor={
+                    selectedEmpList.length !== 0
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  rightIcon={R.images.dropdownIcon}
+                  marginBottom={R.fontSize.Size2}
+                />
+              )}
               {selectedEmpList.length !== 0 &&
                 selectedEmpList.map((item, index) => {
                   return (

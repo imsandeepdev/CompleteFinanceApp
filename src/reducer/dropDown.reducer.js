@@ -23,6 +23,9 @@ import {
   get_Group_Detail,
   get_Group_Detail_success,
   get_Group_Detail_error,
+  get_Grt_Staff_DropDown,
+  get_Grt_Staff_DropDown_success,
+  get_Grt_Staff_DropDown_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -35,6 +38,7 @@ const initial_state = {
   bankNameInit: {},
   paymentModeInit: {},
   groupDetailInit: {},
+  grtStaffDropDownInit: {},
   error: '',
 };
 
@@ -159,6 +163,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         groupDetailInit: payload,
       };
     case get_Group_Detail_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case get_Grt_Staff_DropDown:
+      return {
+        ...state,
+        loading: true,
+      };
+    case get_Grt_Staff_DropDown_success:
+      return {
+        loading: false,
+        grtStaffDropDownInit: payload,
+      };
+    case get_Grt_Staff_DropDown_error:
       return {
         loading: false,
         error: payload,

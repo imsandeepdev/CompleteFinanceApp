@@ -25,4 +25,5 @@ export const Config = {
   disbursementAPI: '/Disbursement/UpdatePredisbursement',
   payMethodListAPI: '/Disbursement/GetPayMethodList',
   getGroupInfoAPI: '/Group/GetgroupInformation',
+  getLoanProposalCustomerListAPI: '/Loan/GetApplicantForLoanPurposal',
 };

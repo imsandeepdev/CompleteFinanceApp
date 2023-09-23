@@ -22,6 +22,7 @@ import moment from 'moment';
 import {connect, useDispatch} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import {
+  GetGRTStaffDropDownRequest,
   GetGroupDropDownRequest,
   GetGroupWiseCustomerDropDownRequest,
 } from '../../actions/dropdown.action';
@@ -119,9 +120,29 @@ const GrtForm = props => {
 
   const handleGrtDropDown = mode => {
     setGrtDropDownType(mode);
+    let data =
+      mode !== 'GRTCenter'
+        ? `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}`
+        : `?mode=${mode}&StaffId=${staffName.StaffId}&BranchId=${profileDetail.BoId}`;
     dispatch(
-      GetGroupDropDownRequest(mode, profileDetail.StaffID, response => {
+      GetGroupDropDownRequest(data, response => {
         console.log('Group drop down res=>', response);
+        setGrtDropDownList(response.entity.entity);
+      }),
+    );
+    setGrtDropDownModal(true);
+  };
+
+  const handleStaffDropDown = mode => {
+    setGrtDropDownType(mode);
+    let data = {
+      mode: mode,
+      userId: profileDetail.StaffID,
+      branchId: branchName.BoId,
+    };
+    dispatch(
+      GetGRTStaffDropDownRequest(data, response => {
+        console.log('Staff RESPONSE==>', response);
         setGrtDropDownList(response.entity.entity);
       }),
     );
@@ -136,9 +157,9 @@ const GrtForm = props => {
 
   const handleGrtDropDownSelect = item => {
     console.log('ITEM SELECT', item);
-    grtDropDownType === 'Staff' && setStaffName(item);
+    grtDropDownType === 'GRTStaff' && setStaffName(item);
     grtDropDownType === 'Branch' && setBranchName(item);
-    grtDropDownType === 'Center' && setCenterName(item);
+    grtDropDownType === 'GRTCenter' && setCenterName(item);
     // eslint-disable-next-line no-undef
     grtDropDownType === 'MeetingDay' && setFirstMeetDate(item);
     grtDropDownType === 'Group' &&
@@ -179,6 +200,7 @@ const GrtForm = props => {
   const handleValidationOnSubmit = () => {
     return (
       CommonFunctions.isBlank(branchName, 'Please select branch name') &&
+      CommonFunctions.isBlank(staffName, 'Please select staff name') &&
       CommonFunctions.isBlank(centerName, 'Please select center name') &&
       CommonFunctions.isBlank(groupName, 'Please select group name') &&
       CommonFunctions.isBlank(
@@ -202,7 +224,7 @@ const GrtForm = props => {
       approveStatus: `${approvalStatus.id}`,
       approvedBy: profileDetail.StaffID,
       approveDate: `${moment().format()}`,
-      approvalReason: 'string',
+      approvalReason: approvalReason,
       firstMeetingDate: 1,
       remarks: 'string',
       updatedDate: `${moment().format()}`,
@@ -240,14 +262,6 @@ const GrtForm = props => {
           <View style={Styles.flexView}>
             <View style={Styles.mainView}>
               <AppCardPress
-                onPress={() => handleGrtDropDown('Staff')}
-                headTitle={'Staff Name'}
-                title={staffName !== '' ? staffName.BoCode : 'Staff Name'}
-                TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
-                rightIcon={R.images.dropdownIcon}
-              />
-              <AppCardPress
                 onPress={() => handleGrtDropDown('Branch')}
                 headTitle={'Branch Name *'}
                 title={branchName !== '' ? branchName.BoCode : 'Branch Name'}
@@ -263,25 +277,40 @@ const GrtForm = props => {
                 }
                 rightIcon={R.images.dropdownIcon}
               />
+              {branchName !== '' && (
+                <AppCardPress
+                  // onPress={() => handleGrtDropDown('Staff')}
+                  onPress={() => handleStaffDropDown('GRTStaff')}
+                  headTitle={'Staff Name *'}
+                  title={
+                    staffName !== '' ? staffName.StaffName : 'Select Staff Name'
+                  }
+                  TextColor={R.colors.secAppColor}
+                  headTitleColor={R.colors.darkGreenColor}
+                  rightIcon={R.images.dropdownIcon}
+                />
+              )}
 
-              <AppCardPress
-                onPress={() => handleGrtDropDown('Center')}
-                headTitle={'Center name *'}
-                title={
-                  centerName !== '' ? centerName.CenterName : 'Center name'
-                }
-                TextColor={
-                  centerName !== ''
-                    ? R.colors.secAppColor
-                    : R.colors.placeholderTextColor
-                }
-                headTitleColor={
-                  centerName !== ''
-                    ? R.colors.darkGreenColor
-                    : R.colors.textPriColor
-                }
-                rightIcon={R.images.dropdownIcon}
-              />
+              {staffName !== '' && (
+                <AppCardPress
+                  onPress={() => handleGrtDropDown('GRTCenter')}
+                  headTitle={'Center name *'}
+                  title={
+                    centerName !== '' ? centerName.CenterName : 'Center name'
+                  }
+                  TextColor={
+                    centerName !== ''
+                      ? R.colors.secAppColor
+                      : R.colors.placeholderTextColor
+                  }
+                  headTitleColor={
+                    centerName !== ''
+                      ? R.colors.darkGreenColor
+                      : R.colors.textPriColor
+                  }
+                  rightIcon={R.images.dropdownIcon}
+                />
+              )}
               {centerName !== '' && (
                 <AppCardPress
                   onPress={() => handleGroupNamePickerValidation()}

@@ -32,7 +32,10 @@ import moment from 'moment';
 import {SaveLoanProposalRequest} from '../../actions/loanProposal.action';
 import Toast from 'react-native-simple-toast';
 import CommonFunctions from '../../utils/CommonFunctions';
-import {GetAllCustomerRequest} from '../../actions/role.action';
+import {
+  GetAllCustomerRequest,
+  GetLoanProposalCustomerListRequest,
+} from '../../actions/role.action';
 
 const LoanProposal = props => {
   const dispatch = useDispatch();
@@ -85,20 +88,38 @@ const LoanProposal = props => {
   const [listModalData, setListModalData] = useState([]);
 
   useEffect(() => {
-    handleGetAllCustomer(props.profile.entity[0].StaffID);
+    handleGetAllCustomer(
+      props.profile.entity[0].StaffID,
+      props.profile.entity[0].BoId,
+    );
   }, [props.navigation]);
 
-  const handleGetAllCustomer = staffId => {
+  const handleGetAllCustomer = (staffId, BoId) => {
     console.log('STAFFID', staffId);
-    let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+    let tempUrl = `?mode=CustomerLoanPurposal&loginId=${staffId}&BranchId=${BoId}`;
     dispatch(
-      GetAllCustomerRequest(tempUrl, response => {
-        console.log('Get All Customer Response=>', response.entity.entity);
+      GetLoanProposalCustomerListRequest(tempUrl, response => {
+        console.log(
+          'Get Loan Proposal Customer Response=>',
+          response.entity.entity,
+        );
         let tempList = response.entity.entity;
         setCustomerList(tempList);
       }),
     );
   };
+
+  // const handleGetAllCustomer = staffId => {
+  //   console.log('STAFFID', staffId);
+  //   let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+  //   dispatch(
+  //     GetAllCustomerRequest(tempUrl, response => {
+  //       console.log('Get All Customer Response=>', response.entity.entity);
+  //       let tempList = response.entity.entity;
+  //       setCustomerList(tempList);
+  //     }),
+  //   );
+  // };
 
   const handleOpenListModal = (type, catType) => {
     dispatch(

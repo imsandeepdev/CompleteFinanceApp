@@ -61,11 +61,12 @@ const RoleSelectionScreen = props => {
             <Text style={style.titleText}>
               {`Welcome to \nComplete Finance Solution`}
             </Text>
+            <Text style={style.subTitleText}>
+              {'Please select your role type to continue'}
+            </Text>
           </View>
         </View>
-        <Text style={style.subTitleText}>
-          {'Please select your role type to continue'}
-        </Text>
+
         <View style={style.bodyView}>
           <CustomCardPress
             onPress={() => setRoleModal(true)}

@@ -24,6 +24,9 @@ import {
   get_Group_Detail,
   get_Group_Detail_success,
   get_Group_Detail_error,
+  get_Grt_Staff_DropDown,
+  get_Grt_Staff_DropDown_success,
+  get_Grt_Staff_DropDown_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -171,6 +174,24 @@ export const GetGroupDetailError = error => {
   };
 };
 
+export const GetGrtStaffDropDown = () => {
+  return {
+    type: get_Grt_Staff_DropDown,
+  };
+};
+export const GetGrtStaffDropDownSuccess = payload => {
+  return {
+    type: get_Grt_Staff_DropDown_success,
+    payload,
+  };
+};
+export const GetGrtStaffDropDownError = error => {
+  return {
+    type: get_Grt_Staff_DropDown_error,
+    payload: error,
+  };
+};
+
 export const GenderListRequest = (modeType, success, failed) => {
   return dispatch => {
     dispatch(GenderList());
@@ -189,12 +210,12 @@ export const GenderListRequest = (modeType, success, failed) => {
   };
 };
 
-export const GetGroupDropDownRequest = (modeType, userId, success, failed) => {
+export const GetGroupDropDownRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(GetGroupDropDown());
     api
       .multipostRequest({
-        url: `${Config.getGroupDropDown}?mode=${modeType}&loginId=${userId}`,
+        url: `${Config.getGroupDropDown}${data}`,
       })
       .then(response => {
         dispatch(GetGroupDropDownSuccess(response));
@@ -202,6 +223,24 @@ export const GetGroupDropDownRequest = (modeType, userId, success, failed) => {
       })
       .catch(error => {
         dispatch(GetGroupDropDownError(error));
+        failed?.(error);
+      });
+  };
+};
+
+export const GetGRTStaffDropDownRequest = (type, success, failed) => {
+  return dispatch => {
+    dispatch(GetGrtStaffDropDown());
+    api
+      .multipostRequest({
+        url: `${Config.getGroupDropDown}?mode=${type.mode}&StaffId=${type.userId}&BranchId=${type.branchId}`,
+      })
+      .then(response => {
+        dispatch(GetGrtStaffDropDownSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(GetGrtStaffDropDownError(error));
         failed?.(error);
       });
   };

@@ -8,6 +8,9 @@ import {
   get_allCustomer,
   get_allCustomer_success,
   get_allCustomer_error,
+  get_LoanProposal_CustomerList,
+  get_LoanProposal_CustomerList_success,
+  get_LoanProposal_CustomerList_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -15,6 +18,7 @@ const initial_state = {
   roleInit: {},
   getMenuInit: {},
   getAllCustomerInit: {},
+  getLoanProposalCustomerInit: {},
   error: '',
 };
 
@@ -61,6 +65,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         getAllCustomerInit: payload,
       };
     case get_allCustomer_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case get_LoanProposal_CustomerList:
+      return {
+        ...state,
+        loading: true,
+      };
+    case get_LoanProposal_CustomerList_success:
+      return {
+        loading: false,
+        getLoanProposalCustomerInit: payload,
+      };
+    case get_LoanProposal_CustomerList_error:
       return {
         loading: false,
         error: payload,

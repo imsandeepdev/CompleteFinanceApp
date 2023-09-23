@@ -15,7 +15,10 @@ import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
-import {GetAllCustomerRequest} from '../../actions/role.action';
+import {
+  GetAllCustomerRequest,
+  GetLoanProposalCustomerListRequest,
+} from '../../actions/role.action';
 import {LoanProposalDetailRequest} from '../../actions/loanApproval.action';
 import {UpdateDisbursementRequest} from '../../actions/disbursement.action';
 import DatePicker from 'react-native-date-picker';
@@ -35,7 +38,6 @@ const DisbursementScreen = props => {
   const [isDisplayDate, setIsDisplayDate] = useState(false);
   const [dateType, setDateType] = useState('');
   const [onSelectCustomer, setOnSelectCustomer] = useState('');
-
   const [paymentMode, setPaymentMode] = useState('');
   const [disbursementDate, setDisbursementDate] = useState('');
   const [firstPaymentDate, setFirstPaymentDate] = useState('');
@@ -43,16 +45,22 @@ const DisbursementScreen = props => {
   useEffect(() => {
     handleApprovalDetail();
     handleProfile();
-    handleGetAllCustomer(props.profile.entity[0].StaffID);
+    handleGetAllCustomer(
+      props.profile.entity[0].StaffID,
+      props.profile.entity[0].BoId,
+    );
     setProfileDetail(props.profile.entity[0]);
   }, [props.navigation]);
 
-  const handleGetAllCustomer = staffId => {
+  const handleGetAllCustomer = (staffId, BoId) => {
     console.log('STAFFID', staffId);
-    let tempUrl = `?mode=ApplicantForLoanProposal&LoginId=${staffId}`;
+    let tempUrl = `?mode=CustomerLoanPurposal&loginId=${staffId}&BranchId=${BoId}`;
     dispatch(
-      GetAllCustomerRequest(tempUrl, response => {
-        console.log('Get All Customer Response=>', response.entity.entity);
+      GetLoanProposalCustomerListRequest(tempUrl, response => {
+        console.log(
+          'Get Loan Proposal Customer Response=>',
+          response.entity.entity,
+        );
         let tempList = response.entity.entity;
         setCustomerList(tempList);
       }),
@@ -68,8 +76,13 @@ const DisbursementScreen = props => {
     let proposalId = '13';
     dispatch(
       LoanProposalDetailRequest(proposalId, response => {
-        console.log('Loan Proposal Detail', response.entity.entity[0]);
-        setApprovalDetail(response.entity.entity[0]);
+        console.log('Loan Proposal Detail', response.entity.entity.length);
+        if (
+          response.statusCode === 200 &&
+          response.entity.entity.length !== 0
+        ) {
+          setApprovalDetail(response.entity?.entity[0]);
+        }
       }),
     );
   };
@@ -163,21 +176,21 @@ const DisbursementScreen = props => {
             <AppCardPress
               disabled={true}
               headTitle={'Group Name'}
-              title={approvalDetail.StaffName}
+              title={approvalDetail !== '' && approvalDetail.StaffName}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Customer Name'}
-              title={approvalDetail.ApplicantName}
+              title={approvalDetail !== '' && approvalDetail.ApplicantName}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Request Amount'}
-              title={approvalDetail.LoanAmount}
+              title={approvalDetail !== '' && approvalDetail.LoanAmount}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
@@ -198,7 +211,7 @@ const DisbursementScreen = props => {
             <AppCardPress
               disabled={true}
               headTitle={'Payment Frequency'}
-              title={approvalDetail.Frequency}
+              title={approvalDetail !== '' && approvalDetail.Frequency}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
