@@ -46,7 +46,10 @@ const ListViewModal = props => {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
                 let title =
-                  item.RoleName || item.BankName || item.ComponentName;
+                  item.RoleName ||
+                  item.BankName ||
+                  item.ComponentName ||
+                  item.ProductName;
                 return (
                   <Pressable
                     key={index}
@@ -64,6 +67,15 @@ const ListViewModal = props => {
                     ]}>
                     <Text style={Styles.titleText}>{title}</Text>
                   </Pressable>
+                );
+              }}
+              ListEmptyComponent={() => {
+                return (
+                  <View style={Styles.emptyView}>
+                    <Text style={Styles.emptyText}>
+                      {'Oops!\nData not found'}
+                    </Text>
+                  </View>
                 );
               }}
             />
@@ -170,5 +182,16 @@ const Styles = StyleSheet.create({
     fontWeight: '700',
     color: R.colors.white,
     marginLeft: R.fontSize.Size8,
+  },
+  emptyView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '500',
+    color: R.colors.placeHolderColor,
+    fontSize: R.fontSize.Size14,
+    textAlign: 'center',
   },
 });

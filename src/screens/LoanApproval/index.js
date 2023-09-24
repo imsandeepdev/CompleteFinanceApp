@@ -45,7 +45,7 @@ const LoanApproval = props => {
 
   const handleGetAllCustomer = (staffId, BoId) => {
     console.log('STAFFID', staffId);
-    let tempUrl = `?mode=CustomerLoanPurposal&loginId=${staffId}&BranchId=${BoId}`;
+    let tempUrl = `?mode=CustomerLoanApproval&loginId=${staffId}&BranchId=${BoId}`;
     dispatch(
       GetLoanProposalCustomerListRequest(tempUrl, response => {
         console.log(

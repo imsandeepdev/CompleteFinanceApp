@@ -143,3 +143,8 @@ export const update_Disbursement_error = 'update_Disbursement_error';
 export const payment_Mode_List = 'payment_Mode_List';
 export const payment_Mode_List_success = 'payment_Mode_List_success';
 export const payment_Mode_List_error = 'payment_Mode_List_error';
+
+//loanProductList
+// export const loan_Product_List = 'loan_Product_List';
+// export const loan_Product_List_success = 'loan_Product_List_success';
+// export const loan_Product_List_error = 'loan_Product_List_error';

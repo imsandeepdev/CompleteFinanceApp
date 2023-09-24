@@ -27,6 +27,9 @@ import {
   get_Grt_Staff_DropDown,
   get_Grt_Staff_DropDown_success,
   get_Grt_Staff_DropDown_error,
+  // loan_Product_List,
+  // loan_Product_List_success,
+  // loan_Product_List_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -191,6 +194,24 @@ export const GetGrtStaffDropDownError = error => {
     payload: error,
   };
 };
+
+// export const LoanProductList = () => {
+//   return {
+//     type: loan_Product_List,
+//   };
+// };
+// export const LoanProductListSuccess = payload => {
+//   return {
+//     type: loan_Product_List_success,
+//     payload,
+//   };
+// };
+// export const LoanProductListError = error => {
+//   return {
+//     type: loan_Product_List_error,
+//     payload: error,
+//   };
+// };
 
 export const GenderListRequest = (modeType, success, failed) => {
   return dispatch => {

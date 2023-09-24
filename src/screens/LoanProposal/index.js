@@ -24,21 +24,16 @@ import MonthlyExpenses from './MonthlyExpenses';
 import LoanProposalForm from './LoanProposal';
 const screenWidth = Dimensions.get('screen').width;
 import {connect, useDispatch} from 'react-redux';
-import {
-  LoanProposalDropdownRequest,
-  ProposeAmountRequest,
-} from '../../actions/dropdown.action';
+import {LoanProposalDropdownRequest} from '../../actions/dropdown.action';
 import moment from 'moment';
 import {SaveLoanProposalRequest} from '../../actions/loanProposal.action';
 import Toast from 'react-native-simple-toast';
 import CommonFunctions from '../../utils/CommonFunctions';
-import {
-  GetAllCustomerRequest,
-  GetLoanProposalCustomerListRequest,
-} from '../../actions/role.action';
+import {GetLoanProposalCustomerListRequest} from '../../actions/role.action';
 
 const LoanProposal = props => {
   const dispatch = useDispatch();
+  const [profileDetail, setProfileDetail] = useState('');
   const [customerListModal, setCustomerListModal] = useState(true);
   const [customerList, setCustomerList] = useState([]);
   const [selectedHeader, setSelectedHeader] = useState(0);
@@ -77,12 +72,12 @@ const LoanProposal = props => {
   const [proposalCode, setProposalCode] = useState('');
   const [maxAmountDisbursed, setMaxAmountDisbursed] = useState('');
   const [paymentFrequency, setPaymentFrequency] = useState('');
+  const [loanProductList, setLoanProductList] = useState([]);
+  const [loanProduct, setLoanProduct] = useState('');
   const [loanRemark, setLoanRemark] = useState('');
   const [productCategory, setProductCategory] = useState('');
-  const [proposedAmount, setProposedAmount] = useState('');
   const [loanProposeGroup, setLoanProposeGroup] = useState('');
   const [loanPropose, setLoanPropose] = useState('');
-
   const [listModal, setListModal] = useState(false);
   const [listModalType, setListModalType] = useState('');
   const [listModalData, setListModalData] = useState([]);
@@ -92,6 +87,8 @@ const LoanProposal = props => {
       props.profile.entity[0].StaffID,
       props.profile.entity[0].BoId,
     );
+    console.log('Profile details', props.profile.entity[0]);
+    setProfileDetail(props.profile.entity[0]);
   }, [props.navigation]);
 
   const handleGetAllCustomer = (staffId, BoId) => {
@@ -148,6 +145,7 @@ const LoanProposal = props => {
     listModalType === 'PaymentFrequency' && handleLoanProductandFrequency(item);
     listModalType === 'LoanPurposeGroup' && setLoanProposeGroup(item);
     listModalType === 'LoanPurpose' && setLoanPropose(item);
+    listModalType === 'loanProduct' && handleLoanProductValue(item);
     // listModalType === 'ProposedAmount' && setProposedAmount(item);
     setListModal(false);
   };
@@ -159,11 +157,23 @@ const LoanProposal = props => {
 
     dispatch(
       LoanProposalDropdownRequest(tempType, response => {
-        console.log('response of product==>', response.entity.entity[0]);
+        console.log('response of product==>', response.entity.entity);
         setLoanProductDetail(response.entity.entity[0]);
+        setLoanProductList(response.entity.entity);
+
         // setLoanProductList(response.entity.entity);
       }),
     );
+  };
+
+  const handleLoanProductList = catType => {
+    setListModalData(loanProductList);
+    setListModal(true);
+    setListModalType(catType);
+  };
+
+  const handleLoanProductValue = item => {
+    setLoanProduct(item);
   };
 
   // const handleProposeAmount = catType => {
@@ -264,6 +274,7 @@ const LoanProposal = props => {
         paymentFrequency,
         'please select payment frequency',
       ) &&
+      CommonFunctions.isBlank(loanProduct, 'please select loan product') &&
       CommonFunctions.isBlank(loanPropose, 'please select loan purpose') &&
       CommonFunctions.isBlank(
         loanProposeGroup,
@@ -317,15 +328,15 @@ const LoanProposal = props => {
       proposalId: 0,
       claId: 0,
       groupId: 0,
-      branchId: 1,
+      branchId: profileDetail.BoId,
       customerInfoId: centerDetail.ApplicantId,
-      staffId: 1,
+      staffId: profileDetail.StaffID,
       centerId: 1,
       proposalDate: moment().format('YYYY-MM-DD'),
-      productID: loanProductDetail.ProductId,
+      productID: loanProduct.ProductId,
       purposeID: 1,
       loanType: 1,
-      loanAmount: loanProductDetail.receivedAmt,
+      loanAmount: loanProduct.receivedAmt,
       loanStatus: 1,
       processDate: moment().format('YYYY-MM-DD'),
       productCategory: productCategory.RuleID,
@@ -386,7 +397,7 @@ const LoanProposal = props => {
     dispatch(
       SaveLoanProposalRequest(data, response => {
         console.log('save loan response=>', response);
-        if (response.statusCode == 200) {
+        if (response.statusCode === 200) {
           Toast.show('Successfully! send loan proposal details', Toast.SHORT);
           props.navigation.goBack();
         }
@@ -651,19 +662,19 @@ const LoanProposal = props => {
                         );
                       }}
                       title_paymentFrequency={paymentFrequency.RoleName}
+                      onPress_loanProduct={() => {
+                        handleLoanProductList('loanProduct');
+                      }}
+                      title_loanProduct={loanProduct.ProductName}
                       loanProductList={loanProductDetail}
-                      title_loanProduct={loanProductDetail?.ProductName}
-                      terms={loanProductDetail?.TermPeriod}
-                      installment_amount={loanProductDetail?.TotalInstAmt}
-                      interestRate={loanProductDetail?.InterestRate}
-                      disbursedAmount={loanProductDetail?.DisbursedAmount}
-                      processFee={loanProductDetail?.ProcessFee}
-                      serviceTax={loanProductDetail?.ServiceTax}
-                      receivedAmount={loanProductDetail?.receivedAmt}
-                      // onPress_proposedAmount={() => {
-                      //   handleProposeAmount('ProposedAmount');
-                      // }}
-                      // title_proposedAmount={proposedAmount.RoleName}
+                      onSelectLoanProductValue={loanProduct}
+                      terms={loanProduct?.TermPeriod}
+                      installment_amount={loanProduct?.TotalInstAmt}
+                      interestRate={loanProduct?.InterestRate}
+                      disbursedAmount={loanProduct?.DisbursedAmount}
+                      processFee={loanProduct?.ProcessFee}
+                      serviceTax={loanProduct?.ServiceTax}
+                      receivedAmount={loanProduct?.receivedAmt}
                       onPress_loanPurposeGroup={() => {
                         handleOpenListModal('LoanPurpose', 'LoanPurposeGroup');
                       }}

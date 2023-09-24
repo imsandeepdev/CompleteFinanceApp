@@ -43,7 +43,7 @@ const DisbursementScreen = props => {
   const [firstPaymentDate, setFirstPaymentDate] = useState('');
 
   useEffect(() => {
-    handleApprovalDetail();
+    // handleApprovalDetail();
     handleProfile();
     handleGetAllCustomer(
       props.profile.entity[0].StaffID,
@@ -54,7 +54,7 @@ const DisbursementScreen = props => {
 
   const handleGetAllCustomer = (staffId, BoId) => {
     console.log('STAFFID', staffId);
-    let tempUrl = `?mode=CustomerLoanPurposal&loginId=${staffId}&BranchId=${BoId}`;
+    let tempUrl = `?mode=PredisbursementCustomer&loginId=${staffId}&BranchId=${BoId}`;
     dispatch(
       GetLoanProposalCustomerListRequest(tempUrl, response => {
         console.log(
@@ -70,21 +70,6 @@ const DisbursementScreen = props => {
   const handleProfile = () => {
     console.log('PROPS PROFILE', props.profile.entity[0]);
     setProfileDetail(props.profile.entity[0]);
-  };
-
-  const handleApprovalDetail = () => {
-    let proposalId = '13';
-    dispatch(
-      LoanProposalDetailRequest(proposalId, response => {
-        console.log('Loan Proposal Detail', response.entity.entity.length);
-        if (
-          response.statusCode === 200 &&
-          response.entity.entity.length !== 0
-        ) {
-          setApprovalDetail(response.entity?.entity[0]);
-        }
-      }),
-    );
   };
 
   const handlePaymentModeDropDown = () => {
@@ -151,6 +136,22 @@ const DisbursementScreen = props => {
     console.log('ITEM=>', item);
     setOnSelectCustomer(item);
     setCustomerListModal(false);
+    handleApprovalDetail(item.ProposalId);
+  };
+
+  const handleApprovalDetail = proposal_Id => {
+    let proposalId = '13';
+    dispatch(
+      LoanProposalDetailRequest(proposal_Id, response => {
+        console.log('Loan Proposal Detail', response.entity.entity);
+        if (
+          response.statusCode === 200 &&
+          response.entity.entity.length !== 0
+        ) {
+          setApprovalDetail(response.entity?.entity[0]);
+        }
+      }),
+    );
   };
 
   const handleDateDisplay = type => {
@@ -197,14 +198,14 @@ const DisbursementScreen = props => {
             <AppCardPress
               disabled={true}
               headTitle={'Purpose Name'}
-              title={'Purpose name'}
+              title={approvalDetail !== '' && approvalDetail.PurposeName}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'EMI Amount'}
-              title={'EMI Amount'}
+              title={approvalDetail !== '' && approvalDetail.TotalIntAmount}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />

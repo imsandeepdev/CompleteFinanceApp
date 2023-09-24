@@ -111,26 +111,33 @@ const LoanProposalForm = props => {
           }
           rightIcon={R.images.dropdownIcon}
         />
+
         {props.loanProductList !== '' && (
           <View>
-            <View style={style.onlyRow}>
-              <AppCardPress
-                flex={1}
-                disabled={true}
-                headTitle={'Loan Product'}
-                title={props.title_loanProduct}
-                TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
-              />
-              <AppCardPress
-                flex={1}
-                disabled={true}
-                headTitle={'Term Period'}
-                title={props.terms}
-                TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
-              />
-            </View>
+            <AppCardPress
+              onPress={props.onPress_loanProduct}
+              headTitle={'Loan Product *'}
+              title={
+                props.title_loanProduct != null
+                  ? props.title_loanProduct
+                  : 'Payment Frequency'
+              }
+              TextColor={
+                props.title_loanProduct != null
+                  ? R.colors.secAppColor
+                  : R.colors.placeholderTextColor
+              }
+              headTitleColor={
+                props.title_loanProduct != null
+                  ? R.colors.darkGreenColor
+                  : R.colors.textPriColor
+              }
+              rightIcon={R.images.dropdownIcon}
+            />
+          </View>
+        )}
+        {props.onSelectLoanProductValue !== '' && (
+          <View>
             <View style={style.onlyRow}>
               <AppCardPress
                 flex={1}
