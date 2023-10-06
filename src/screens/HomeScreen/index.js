@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import style from './style';
 import {GetMenuListRequest} from '../../actions/role.action';
 import {UserProfileRequest} from '../../actions/profile.action';
+import LinearGradient from 'react-native-linear-gradient';
 
 const HeaderList = [
   {
@@ -103,7 +104,7 @@ const ListOne = [
   {
     id: 6,
     Title: 'Pre Disbursement',
-    icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
+    icon: 'https://www.nextprocess.com/wp-content/uploads/secure-digital-payment-disbursement-solution-1920x1280.jpg',
     icon1: R.images.applicantFormIcon,
     Url: 'DisbursementScreen',
     For: 'DisbursementScreen',
@@ -133,6 +134,49 @@ const CustomCard = props => {
                   <Text style={style.customCardBottomTitle}>{item.Title}</Text>
                 </View>
               </View>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+};
+
+const HomeCustomCard = props => {
+  return (
+    <View style={style.customCardMainView}>
+      <View style={style.customCardView}>
+        <Text style={style.customCardHead}>{props.heading}</Text>
+      </View>
+      <View style={style.customCardBottomView}>
+        {props.data.map((item, index) => {
+          return (
+            <Pressable
+              key={index}
+              onPress={() => props.onPress(item)}
+              style={({pressed}) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}>
+              <LinearGradient
+                colors={['#329691', '#266C87', '#266C87']}
+                style={style.linearMainView}>
+                <View style={style.linearImageView}>
+                  <Image
+                    source={{uri: item.icon}}
+                    style={style.customCardBottomIcon100}
+                    resizeMode={'cover'}
+                  />
+                </View>
+                <View style={style.linearTitleMainView}>
+                  <View style={style.linearTitleView}>
+                    <Text style={style.customCardBottomTitle} numberOfLines={1}>
+                      {item.Title}
+                    </Text>
+                  </View>
+                </View>
+              </LinearGradient>
             </Pressable>
           );
         })}
@@ -293,7 +337,7 @@ const HomeScreen = props => {
             </View>
 
             <View style={{marginTop: R.fontSize.Size18}}>
-              <CustomCard
+              <HomeCustomCard
                 heading={'Loan List'}
                 data={ListOne}
                 onPress={item =>

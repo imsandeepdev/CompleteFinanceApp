@@ -135,6 +135,7 @@ const BusinessDetail = props => {
           borderWidth={2}
           borderColor={R.colors.appColor}
           marginHorizontal={R.fontSize.Size5}
+          textColor={R.colors.secAppColor}
         />
         <AppButton
           onPress={props.nextOnPress}

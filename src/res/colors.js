@@ -8,11 +8,14 @@ const colors = {
   placeholderTextColor: '#C2C2C2',
   modelBackground: '#41414166',
   iconColor: '#707070',
-  appColor: '#a2ce39',
+  // appColor: '#a2ce39',
+  appColor: '#329691',
+
   secAppColor: '#1f2021',
   textPriColor: '#1f2021',
   textSecColor: '#a2ce39',
-  darkGreenColor: '#018235',
+  // darkGreenColor: '#018235',
+  darkGreenColor: '#329691',
   darkBlueColor: '#2c0985',
 };
 

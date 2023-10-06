@@ -39,6 +39,32 @@ const style = StyleSheet.create({
     marginVertical: R.fontSize.Size6,
     marginTop: R.fontSize.Size8,
   },
+
+  linearMainView: {
+    width: screenWidth / 3.5,
+    height: screenWidth / 3,
+    marginHorizontal: R.fontSize.Size8,
+    backgroundColor: R.colors.lightWhite,
+    borderRadius: R.fontSize.Size8,
+    overflow: 'hidden',
+    borderWidth: 1,
+    marginVertical: R.fontSize.Size6,
+    marginTop: R.fontSize.Size8,
+  },
+  linearTitleMainView: {
+    position: 'absolute',
+    bottom: 5,
+    right: 2,
+    left: 2,
+  },
+  linearTitleView: {
+    backgroundColor: R.colors.lightWhite,
+    padding: R.fontSize.Size4,
+    paddingHorizontal: R.fontSize.Size8,
+    opacity: 0.9,
+    borderRadius: R.fontSize.Size2,
+    alignItems: 'center',
+  },
   flatTitleMainView: {
     position: 'absolute',
     bottom: 5,
@@ -116,17 +142,25 @@ const style = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginHorizontal: R.fontSize.Size12,
+    // marginHorizontal: R.fontSize.Size10,
   },
   customCardBottomTitle: {
     fontFamily: R.fonts.regular,
     fontWeight: '700',
     color: R.colors.textPriColor,
-    fontSize: R.fontSize.Size14,
+    fontSize: R.fontSize.Size12,
+  },
+  linearImageView: {
+    margin: 5,
+    borderRadius: 5,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   customCardBottomIcon100: {
     height: '100%',
     width: '100%',
+    borderRadius: 5,
   },
 });
 

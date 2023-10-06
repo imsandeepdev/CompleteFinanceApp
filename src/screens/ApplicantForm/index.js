@@ -904,11 +904,11 @@ const ApplicantForm = props => {
                     style={{
                       fontFamily: R.fonts.regular,
                       fontSize: R.fontSize.Size12,
-                      fontWeight: '600',
+                      fontWeight: index === selectedHeader ? '700' : '400',
                       textAlign: 'center',
                       color:
                         index === selectedHeader
-                          ? R.colors.textPriColor
+                          ? R.colors.lightWhite
                           : R.colors.lightWhite,
                     }}>
                     {item.title}

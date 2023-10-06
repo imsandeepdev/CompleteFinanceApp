@@ -33,7 +33,7 @@ const AppButton = props => {
               fontSize: props.titleFontSize
                 ? props.titleFontSize
                 : R.fontSize.Size18,
-              color: props.textColor ?? R.colors.secAppColor,
+              color: props.textColor ?? R.colors.lightWhite,
             },
             styles.titleText,
           ]}>

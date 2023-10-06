@@ -92,6 +92,7 @@ const RoleSelectionScreen = props => {
             borderWidth={R.fontSize.Size2}
             borderColor={R.colors.appColor}
             marginTop={R.fontSize.Size8}
+            textColor={R.colors.secAppColor}
           />
         </View>
       </View>

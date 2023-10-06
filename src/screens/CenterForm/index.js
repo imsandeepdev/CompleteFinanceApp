@@ -68,7 +68,7 @@ const CenterForm = props => {
   const handleCenterSubmit = () => {
     let data = {
       centerId: 0,
-      branchId: 0,
+      branchId: profileDetail.BoId,
       staffId_Org: profileDetail.StaffID,
       grtId: 0,
       staffId_Recg: profileDetail.StaffID,

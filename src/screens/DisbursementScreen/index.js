@@ -140,7 +140,6 @@ const DisbursementScreen = props => {
   };
 
   const handleApprovalDetail = proposal_Id => {
-    let proposalId = '13';
     dispatch(
       LoanProposalDetailRequest(proposal_Id, response => {
         console.log('Loan Proposal Detail', response.entity.entity);
