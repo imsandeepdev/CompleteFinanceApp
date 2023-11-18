@@ -1,34 +1,27 @@
 import * as React from 'react';
 import {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, SafeAreaView, ScrollView} from 'react-native';
 import {
   AppButton,
+  CustomAlert,
   CustomTextInput,
   OtpModal,
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
 import CommonFunctions from '../../utils/CommonFunctions';
-const screenHeight = Dimensions.get('screen').height;
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import {UserRegistrationRequest} from '../../actions/registration.action';
 import moment from 'moment';
+import style from './style';
 
 const SignupScreen = props => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [empId, setEmpId] = useState();
+  const [empId, setEmpId] = useState('');
   const [userMobNo, setUserMobNo] = useState('');
   const [password, setPassword] = useState('');
   const [otpModal, setOtpModal] = useState(false);
@@ -39,9 +32,11 @@ const SignupScreen = props => {
   const fourthTextInputRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
   const [deviceId, setDeviceId] = useState('');
-  const [buttonText, setButtonText] = useState('Proceed');
   const [otpIndex, setOtpIndex] = useState(0);
   const todayDate = moment(new Date());
+  const [toastMassage, setToastMassage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [regStatus, setRegStatus] = useState(false);
 
   useEffect(() => {
     handleDeviceInfo();
@@ -61,53 +56,56 @@ const SignupScreen = props => {
     setDeviceId(tempDeviceId);
   };
 
-  const onOtpChange = index => {
-    return value => {
-      if (isNaN(Number(value))) {
-        return;
-      }
-      const otpArrayCopy = otpArray.concat();
-      otpArrayCopy[index] = value;
-      setOtpArray(otpArrayCopy);
+  // const onOtpChange = index => {
+  //   return value => {
+  //     if (isNaN(Number(value))) {
+  //       return;
+  //     }
+  //     const otpArrayCopy = otpArray.concat();
+  //     otpArrayCopy[index] = value;
+  //     setOtpArray(otpArrayCopy);
 
-      if (value !== '') {
-        index === 0 && secondTextInputRef.current.focus(),
-          index === 1 && thirdTextInputRef.current.focus(),
-          index === 2 && fourthTextInputRef.current.focus();
-      }
-    };
-  };
+  //     if (value !== '') {
+  //       index === 0 && secondTextInputRef.current.focus(),
+  //         index === 1 && thirdTextInputRef.current.focus(),
+  //         index === 2 && fourthTextInputRef.current.focus();
+  //     }
+  //   };
+  // };
 
-  const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
-    console.log(keyValue);
-    console.log('Index', index);
-    setOtpIndex(index);
-    if (keyValue == 'Backspace') {
-      index === 3 && thirdTextInputRef.current.focus(),
-        index === 2 && secondTextInputRef.current.focus(),
-        index === 1 && firstTextInputRef.current.focus();
-    } else {
-      index === 0 && secondTextInputRef.current.focus(),
-        index === 1 && thirdTextInputRef.current.focus(),
-        index === 2 && fourthTextInputRef.current.focus();
-    }
-  };
+  // const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
+  //   console.log(keyValue);
+  //   console.log('Index', index);
+  //   setOtpIndex(index);
+  //   if (keyValue === 'Backspace') {
+  //     index === 3 && thirdTextInputRef.current.focus(),
+  //       index === 2 && secondTextInputRef.current.focus(),
+  //       index === 1 && firstTextInputRef.current.focus();
+  //   } else {
+  //     index === 0 && secondTextInputRef.current.focus(),
+  //       index === 1 && thirdTextInputRef.current.focus(),
+  //       index === 2 && fourthTextInputRef.current.focus();
+  //   }
+  // };
 
-  const handleVerify = () => {
-    console.log('L==>', otpArray);
-    if (otpIndex == 3) {
+  const handleVerify = item => {
+    console.log('OTP ITEM=>', item.join(''));
+    console.log('NUMBER SLICE=>', userMobNo.slice(6));
+    let otpValue = item.join('');
+    let varifyOtp = userMobNo.slice(6);
+    if (otpValue === varifyOtp) {
       handleRegisterAPI();
     } else {
-      Toast.show('Please enter verification code', Toast.SHORT);
+      Toast.show('Please enter valid OTP', Toast.SHORT);
     }
   };
 
   const handleRegisterAPI = () => {
     let data = {
       mode: 'insert',
-      empId: '1',
-      logincode: '1',
-      password: 'Shyam@123',
+      empId: empId,
+      logincode: userName,
+      password: password,
       deviceNo: deviceId,
       mobileNo: userMobNo,
       approvalLogin: 1,
@@ -122,18 +120,19 @@ const SignupScreen = props => {
     dispatch(
       UserRegistrationRequest(data, response => {
         console.log('Register Response==>', response);
-        if (response.statusCode == 200) {
+        if (response.entity.statusCode === 200 && response.statusCode === 200) {
           let tempMsg = response.entity.entity[0].Msg;
-          if (response.entity.entity[0].status == 'Success') {
+          if (response.entity.entity[0].status === 'Success') {
             setOtpModal(false);
             props.navigation.replace('LoginScreen');
             Toast.show(tempMsg, Toast.SHORT);
-            setOtpIndex(0);
-          } else {
-            setOtpModal(false);
-            Toast.show(tempMsg, Toast.SHORT);
-            setOtpIndex(0);
+            setRegStatus(true);
           }
+        } else {
+          setRegStatus(false);
+          setOtpModal(false);
+          setToastMassage(response.entity.message);
+          setModalVisible(true);
         }
       }),
     );
@@ -145,6 +144,11 @@ const SignupScreen = props => {
       CommonFunctions.isBlank(userEmail.trim(), 'Please enter email id') &&
       CommonFunctions.isEmailValid(userEmail, 'Please enter valid email id') &&
       CommonFunctions.isBlank(userMobNo.trim(), 'Please enter mobile number') &&
+      CommonFunctions.isCheckValidLength(
+        userMobNo.trim(),
+        10,
+        'mobile number 10 digit required',
+      ) &&
       CommonFunctions.isBlank(password.trim(), 'Please enter password')
     );
   };
@@ -159,20 +163,16 @@ const SignupScreen = props => {
     setOtpModal(true);
   };
 
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
   return (
     <StoryScreen>
-      <SafeAreaView style={{flex: 1}}>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                height: screenHeight / 4,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+      <SafeAreaView style={style.flexView}>
+        <ScrollView contentContainerStyle={style.scrollFlow}>
+          <View style={style.flexView}>
+            <View style={style.topView}>
               <Image
                 source={R.images.appLogo}
                 resizeMode={'contain'}
@@ -193,14 +193,14 @@ const SignupScreen = props => {
               </View>
             </View>
 
-            <View style={{flex: 1, paddingHorizontal: R.fontSize.Size24}}>
-              {/* <CustomTextInput
-                placeholder={'Create user name'}
+            <View style={style.bodyView}>
+              <CustomTextInput
+                placeholder={'Enter user name'}
                 value={userName}
                 onChangeText={text => setUserName(text)}
                 marginBottom={R.fontSize.Size10}
                 leftIcon={R.images.userIcon}
-              /> */}
+              />
               <CustomTextInput
                 placeholder={'Enter employee id'}
                 value={empId}
@@ -223,6 +223,7 @@ const SignupScreen = props => {
                 marginBottom={R.fontSize.Size10}
                 leftIcon={R.images.phoneIcon}
                 keyboardType={'number-pad'}
+                maxLength={10}
               />
               <CustomTextInput
                 placeholder={'Password'}
@@ -247,28 +248,15 @@ const SignupScreen = props => {
                 marginHorizontal={R.fontSize.Size30}
                 title={'Proceed'}
               />
-              <View
-                style={{
-                  marginTop: R.fontSize.Size10,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.placeHolderColor,
-                  }}>
-                  {`Already have an account? `}
+              <View style={style.bottomBody}>
+                <Text style={style.alreadyText}>
+                  {'Already have an account? '}
                 </Text>
                 <Text
                   onPress={() => {
                     props.navigation.replace('LoginScreen');
                   }}
-                  style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.appColor,
-                    fontWeight: '700',
-                  }}>
+                  style={style.loginText}>
                   {'Login'}
                 </Text>
               </View>
@@ -288,10 +276,15 @@ const SignupScreen = props => {
           fourthTextInputRef,
         ]}
         otpTitle={`We will send OTP for verification \non ${userMobNo}`}
-        value={otpArray}
-        onChangeText={onOtpChange}
-        onKeyPress={handleKeyPress}
-        onPress={() => handleVerify()}
+        onPress={handleVerify}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={regStatus ? R.images.successIcon : R.images.cancelRedIcon}
+        modalColor={regStatus ? R.colors.appColor : R.colors.redColor}
+        title={regStatus ? 'Registration Success' : 'Registration faild'}
+        subTitle={toastMassage}
+        onPress={() => handleModalClose()}
       />
     </StoryScreen>
   );

@@ -21,6 +21,7 @@ import AssignMenuForm from '../screens/AssignMenuForm';
 import CustomerList from '../screens/CustomerList';
 import LoanApproval from '../screens/LoanApproval';
 import DisbursementScreen from '../screens/DisbursementScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -109,6 +110,11 @@ const AppNavigator = props => {
         <Stack.Screen
           name="DisbursementScreen"
           component={DisbursementScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PaymentScreen"
+          component={PaymentScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -16,6 +16,7 @@ import DocumentViewModal from './DocumentViewModal';
 import AlertModal from './AlertModal';
 import CustomerListModal from './CustomerListModal';
 import {SwiperButtonComp} from './SwiperButton';
+import CustomAlert from './CustomAlert';
 
 export {
   CustomTextInput,
@@ -36,4 +37,5 @@ export {
   AlertModal,
   CustomerListModal,
   SwiperButtonComp,
+  CustomAlert,
 };

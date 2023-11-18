@@ -18,6 +18,7 @@ import style from './style';
 import {GetMenuListRequest} from '../../actions/role.action';
 import {UserProfileRequest} from '../../actions/profile.action';
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
 const HeaderList = [
   {
@@ -109,6 +110,14 @@ const ListOne = [
     Url: 'DisbursementScreen',
     For: 'DisbursementScreen',
   },
+  {
+    id: 6,
+    Title: 'Payment Screen',
+    icon: 'https://www.chaserhq.com/hubfs/03%20BLOG/5benefits-of-payment-portals-for-smal-businesses.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'PaymentScreen',
+    For: 'PaymentScreen',
+  },
 ];
 
 const CustomCard = props => {
@@ -191,6 +200,7 @@ const HomeScreen = props => {
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const [selectedUser, setSelectedUser] = useState({});
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -201,8 +211,11 @@ const HomeScreen = props => {
 
   const screenFocus = async () => {
     handleMenuListAPI();
-    let user_id = await AsyncStorage.getItem('userid');
-    handleProfile(Number(user_id));
+    let user_Data = await AsyncStorage.getItem('userData');
+    console.log('Selected User List==>', JSON.parse(user_Data));
+    let tempUser = JSON.parse(user_Data);
+    setSelectedUser(tempUser);
+    handleProfile(Number(tempUser.EmpID));
   };
 
   const handleProfile = userid => {
@@ -256,12 +269,15 @@ const HomeScreen = props => {
                       style.topHeaderText,
                       {fontSize: R.fontSize.Size12, color: R.colors.lightBlack},
                     ]}>
-                    {'Master'}
+                    {`${selectedUser.RoleName}`}
                   </Text>
                 </View>
                 <View>
                   <View>
-                    <Text style={style.topHeaderText}>{'Lucknow Branch'}</Text>
+                    <Text
+                      style={
+                        style.topHeaderText
+                      }>{`${userDetail.businessofficeName}`}</Text>
                     <Text
                       style={[
                         style.topHeaderText,
@@ -270,7 +286,9 @@ const HomeScreen = props => {
                           color: R.colors.lightBlack,
                         },
                       ]}>
-                      {'23rd June 2023'}
+                      {moment(userDetail.businessofficeJoinDate).format(
+                        'Do MMM YY',
+                      )}
                     </Text>
                   </View>
                 </View>

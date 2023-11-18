@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState, useRef} from 'react';
 import {
   View,
   Pressable,
@@ -7,11 +8,63 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  Platform,
 } from 'react-native';
 import R from '../res/R';
 import AppButton from './AppButton';
 
 const OtpModal = props => {
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const otpInputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+  const [resendButtonDisabledTime, setResendButtonDisabledTime] = useState(45);
+  let resendOtpTimerInterval = 1000;
+  const [visibleButton, setVisibleButton] = useState(false);
+
+  const handleOtpChange = (val, indexVal) => {
+    const newOtp = [...otp];
+    newOtp[indexVal] = val;
+    setOtp(newOtp);
+    console.log('NEW OTP=>', newOtp.join('').length);
+    if (val !== '' && indexVal < 3) {
+      otpInputRefs[indexVal + 1].current.focus();
+    }
+    let tempNewOtp = newOtp.join('');
+    tempNewOtp.length === 4 ? setVisibleButton(true) : setVisibleButton(false);
+  };
+
+  const handleKeyPress = ({nativeEvent: {key: keyValue}}, index) => {
+    console.log(keyValue);
+    console.log('Index', index);
+
+    if (index !== undefined && index !== 3) {
+      if (keyValue === 'Backspace') {
+        otpInputRefs[index - 1].current.focus();
+      } else {
+        otpInputRefs[index + 1].current.focus();
+      }
+    } else if (index === 3 && keyValue === 'Backspace') {
+      otpInputRefs[index - 1].current.focus();
+    }
+  };
+
+  const handleOnFocus = ({nativeEvent: {key: keyValue}}, index) => {
+    if (index !== undefined && otp[index] !== '') {
+      const newOtp = [...otp];
+      for (let i = index; i <= otp.length - 1; i++) {
+        newOtp[i] = '';
+      }
+      console.log('N==>', newOtp);
+      setOtp(newOtp);
+      newOtp.join('').length === 4
+        ? setVisibleButton(true)
+        : setVisibleButton(false);
+    }
+  };
+
+  const handleOnSubmitOtp = () => {
+    props.onPress(otp);
+  };
+
   return (
     <Modal
       visible={props.visible}
@@ -47,33 +100,52 @@ const OtpModal = props => {
             }}>
             <Text style={styles.otpTitle}>{props.otpTitle}</Text>
             <Text style={[styles.otpTitle, {marginTop: R.fontSize.Size5}]}>
-              {`Enter OTP code below`}
+              {'Enter OTP code below'}
             </Text>
           </View>
           <View style={styles.viewRow}>
-            {props.mapTextInput.map((textInputRef, index) => (
-              <View key={index} style={styles.texInputView}>
-                <TextInput
-                  value={props.value[index]}
-                  style={styles.textInputStyle}
-                  maxLength={1}
-                  autoFocus={index === 0 ? true : undefined}
-                  onChangeText={props.onChangeText[index]}
-                  ref={textInputRef}
-                  keyboardType={'numeric'}
-                  onKeyPress={e => props.onKeyPress(e, index)}
-                />
-              </View>
-            ))}
+            {otp?.length !== undefined &&
+              otp.map((digit, index) => (
+                <View key={`otp_${index}`} style={styles.optContainer}>
+                  <TextInput
+                    value={digit}
+                    style={[
+                      styles.otpTextInput,
+                      // eslint-disable-next-line react-native/no-inline-styles
+                      {
+                        marginTop:
+                          Platform.OS === 'android' ? R.fontSize.Size5 : 0,
+                      },
+                    ]}
+                    maxLength={1}
+                    onChangeText={value => {
+                      handleOtpChange(value, index);
+                    }}
+                    ref={otpInputRefs[index]}
+                    keyboardType={'numeric'}
+                    onKeyPress={e => handleKeyPress(e, index)}
+                    onFocus={e => handleOnFocus(e, index)}
+                  />
+                </View>
+              ))}
           </View>
 
-          <View style={{marginVertical: R.fontSize.Size14}}>
+          <View style={{marginTop: R.fontSize.Size20}}>
             <AppButton
-              onPress={props.onPress}
+              disabled={!visibleButton}
+              onPress={() => handleOnSubmitOtp()}
               marginHorizontal={R.fontSize.Size100}
               title={'Register'}
               buttonHeight={R.fontSize.Size45}
               titleFontSize={R.fontSize.Size16}
+              backgroundColor={
+                visibleButton
+                  ? R.colors.appColor
+                  : R.colors.placeholderTextColor
+              }
+              textColor={
+                visibleButton ? R.colors.lightWhite : R.colors.placeHolderColor
+              }
             />
           </View>
         </View>
@@ -135,5 +207,29 @@ const styles = StyleSheet.create({
     color: R.colors.secAppColor,
     fontWeight: '500',
     textAlign: 'center',
+  },
+  flexWithCenter: {
+    paddingVertical: 20,
+    justifyContent: 'center',
+  },
+  optContainer: {
+    marginHorizontal: R.fontSize.Size10,
+    width: R.fontSize.Size60,
+    borderWidth: 1,
+    borderColor: R.colors.lightBlack,
+    height: R.fontSize.Size50,
+    borderRadius: R.fontSize.Size6,
+    backgroundColor: R.colors.lightWhite,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  otpTextInput: {
+    textAlign: 'center',
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.large,
+    height: R.fontSize.Size55,
+    width: R.fontSize.Size50,
+    color: R.colors.darkAppColor,
+    fontWeight: '700',
   },
 });

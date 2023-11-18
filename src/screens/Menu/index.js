@@ -44,8 +44,9 @@ const Menu = props => {
   }, [props.navigation]);
 
   const screenFocus = async () => {
-    let user_id = await AsyncStorage.getItem('userid');
-    handleProfile(Number(user_id));
+    let user_Data = await AsyncStorage.getItem('userData');
+    let tempUser = JSON.parse(user_Data);
+    handleProfile(Number(tempUser.EmpID));
   };
 
   const handleProfile = userid => {

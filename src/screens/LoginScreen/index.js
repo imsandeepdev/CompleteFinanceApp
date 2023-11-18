@@ -1,7 +1,12 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
-import {AppButton, CustomTextInput, StoryScreen} from '../../components';
+import {
+  AppButton,
+  CustomAlert,
+  CustomTextInput,
+  StoryScreen,
+} from '../../components';
 import R from '../../res/R';
 import {connect, useDispatch} from 'react-redux';
 import {SignInRequest} from '../../actions/Auth.action';
@@ -9,6 +14,7 @@ import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import style from './style';
+import DeviceInfo from 'react-native-device-info';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -16,6 +22,8 @@ const LoginScreen = props => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [toastMassage, setToastMassage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onHandleValidation = () => {
     return (
@@ -31,33 +39,67 @@ const LoginScreen = props => {
 
   const onCheckValid = () => {
     if (onHandleValidation()) {
-      onHandleLogin();
+      handleDeviceInfo();
     }
   };
 
-  const onHandleLogin = () => {
+  const handleDeviceInfo = async () => {
+    let deviceId = await DeviceInfo.getDeviceId();
+    let deviceManufacturer = await DeviceInfo.getManufacturer();
+    let deviceModal = await DeviceInfo.getModel();
+    let deviceUniqueId = await DeviceInfo.getUniqueId();
+
+    console.log('DeviceId==>', deviceId);
+    console.log('DeviceId==>', deviceManufacturer);
+    console.log('DeviceId==>', deviceModal);
+    console.log('DeviceId==>', deviceUniqueId);
+    let tempDeviceId = `${deviceManufacturer}-${deviceModal}-${deviceUniqueId}`;
+    onHandleLogin(tempDeviceId);
+  };
+
+  const onHandleLogin = tempDeviceId => {
     setLoading(true);
     let data = {
       Logincode: userName,
       password: password,
+      deviceNo: tempDeviceId,
     };
+
+    // let data = {
+    //   Logincode: userName,
+    //   password: password,
+    //   deviceNo: 'samsung-SM-A207F-54db0b386597847e',
+    // };
+
+    console.log('Data=>', data);
     dispatch(
       SignInRequest(data, response => {
         console.log('SignIn response==>', response);
-        if (response.entity.entity[0].Result === 1) {
+        if (response.entity.statusCode === 200) {
           setLoading(false);
 
           props.navigation.navigate('RoleSelectionScreen', {
             user_id: response.entity.entity[0].EmpID,
           });
-          AsyncStorage.setItem('userid', `${response.entity.entity[0].EmpID}`);
+          console.log('LOGINDETAIL=>', response.entity.entity[0]);
+          AsyncStorage.setItem(
+            'userData',
+            JSON.stringify(response.entity.entity[0]),
+          );
         } else {
           setLoading(false);
-
-          Toast.show('Please enter valid username and password', Toast.SHORT);
+          setToastMassage(response.entity.message);
+          setModalVisible(true);
+          // Toast.show('Please enter valid username and password', Toast.SHORT);
         }
       }),
     );
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setUserName('');
+    setPassword('');
   };
 
   return (
@@ -120,6 +162,14 @@ const LoginScreen = props => {
           </View>
         </View>
       </ScrollView>
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={R.images.cancelRedIcon}
+        modalColor={R.colors.redColor}
+        title={'Login faild'}
+        subTitle={toastMassage}
+        onPress={() => handleModalClose()}
+      />
     </StoryScreen>
   );
 };

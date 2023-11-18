@@ -12,6 +12,7 @@ import {
   AppButton,
   AppCardPress,
   AppTextInput,
+  CustomAlert,
   DocumentViewModal,
   GroupDropDownModal,
   Header,
@@ -107,8 +108,10 @@ const GrtForm = props => {
   const [grtDropDownType, setGrtDropDownType] = useState('');
   const [documentModal, setDocumentModal] = useState(false);
   const [selectDocument, setSelectDocument] = useState();
-
   const [groupCustomerList, setGroupCustomerList] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [messageStatus, setMessageStatus] = useState('');
 
   useEffect(() => {
     handleProfile();
@@ -236,11 +239,24 @@ const GrtForm = props => {
       RegGRTRequest(data, response => {
         console.log('GRT RES=>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! save grt form details', Toast.SHORT);
-          props.navigation.goBack();
+          setMessageStatus('success');
+          setToastMessage('Successfully! save grt form details');
+          setModalVisible(true);
+
+          // Toast.show('Successfully! save grt form details', Toast.SHORT);
+          // props.navigation.goBack();
+        } else {
+          setMessageStatus('faild');
+          setToastMessage('some error occrued');
+          setModalVisible(true);
         }
       }),
     );
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    props.navigation.goBack();
   };
 
   const handleOpenDocumentModal = item => {
@@ -441,6 +457,21 @@ const GrtForm = props => {
         onPressClose={() => setDocumentModal(false)}
         feedBackOnPress={() => setDocumentModal(false)}
         sourceURL={selectDocument}
+      />
+
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          messageStatus === 'success'
+            ? R.images.successIcon
+            : R.images.cancelRedIcon
+        }
+        modalColor={
+          messageStatus === 'success' ? R.colors.appColor : R.colors.redColor
+        }
+        title={messageStatus === 'success' ? 'Success!' : 'Error'}
+        subTitle={toastMessage}
+        onPress={() => handleModalClose()}
       />
     </StoryScreen>
   );

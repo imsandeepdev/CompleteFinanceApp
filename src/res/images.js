@@ -26,6 +26,8 @@ const images = {
   applicantScreen: require('./images/loanScreen.png'),
   grtScreen: require('./images/grtScreen.png'),
   whiteBack: require('./images/white_Back.png'),
+  successIcon: require('./images/successIcon.png'),
+  cancelRedIcon: require('./images/cancelIcon.png'),
 };
 
 export {images};

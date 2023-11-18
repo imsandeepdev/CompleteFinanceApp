@@ -141,7 +141,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     // marginHorizontal: R.fontSize.Size10,
   },
   customCardBottomTitle: {

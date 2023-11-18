@@ -148,3 +148,13 @@ export const payment_Mode_List_error = 'payment_Mode_List_error';
 // export const loan_Product_List = 'loan_Product_List';
 // export const loan_Product_List_success = 'loan_Product_List_success';
 // export const loan_Product_List_error = 'loan_Product_List_error';
+
+// loanCollectionList
+export const loan_Collection_List = 'loan_Collection_List';
+export const loan_Collection_List_success = 'loan_Collection_List_success';
+export const loan_Collection_List_error = 'loan_Collection_List_error';
+
+// centerCollectionList
+export const center_Collection_List = 'center_Collection_List';
+export const center_Collection_List_success = 'center_Collection_List_success';
+export const center_Collection_List_error = 'center_Collection_List_error';

@@ -26,4 +26,6 @@ export const Config = {
   payMethodListAPI: '/Disbursement/GetPayMethodList',
   getGroupInfoAPI: '/Group/GetgroupInformation',
   getLoanProposalCustomerListAPI: '/Loan/GetApplicantForLoanPurposal',
+  loanCollectionListAPI: '/Loan/GetLoanCollectionList',
+  centerCollectionAPI: '/Loan/GetCenterCollection',
 };

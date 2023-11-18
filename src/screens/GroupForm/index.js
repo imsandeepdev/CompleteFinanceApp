@@ -6,6 +6,7 @@ import {
   AppButton,
   AppCardPress,
   AppTextInput,
+  CustomAlert,
   GroupDropDownModal,
   Header,
   ListGroupModal,
@@ -45,6 +46,9 @@ const GroupForm = props => {
   const [groupDropDownType, setGroupDropDownType] = useState('');
   const [swiperValue, setSwiperValue] = useState(true);
   const [exitEmpList, setExitEmpList] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [messageStatus, setMessageStatus] = useState('');
 
   useEffect(() => {
     handleGetAllCustomer(props.profile.entity[0].StaffID);
@@ -159,12 +163,24 @@ const GroupForm = props => {
     dispatch(
       RegGroupRequest(data, response => {
         console.log('response =>', response);
-        if (response.statusCode == 200) {
+        if (response.statusCode === 200) {
           Toast.show('Successfully! save group form details', Toast.SHORT);
-          props.navigation.goBack();
+          // props.navigation.goBack();
+          setMessageStatus('success');
+          setToastMessage('Successfully! save group form details');
+          setModalVisible(true);
+        } else {
+          setMessageStatus('faild');
+          setToastMessage('some error occrued');
+          setModalVisible(true);
         }
       }),
     );
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    props.navigation.goBack();
   };
 
   const handleRoleSelect = (item, index) => {
@@ -531,6 +547,20 @@ const GroupForm = props => {
         cancelOnPress={() => setGroupDropDownModal(false)}
         onPress={item => handleGroupDropDownSelect(item)}
         dataList={groupDropDownList}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          messageStatus === 'success'
+            ? R.images.successIcon
+            : R.images.cancelRedIcon
+        }
+        modalColor={
+          messageStatus === 'success' ? R.colors.appColor : R.colors.redColor
+        }
+        title={messageStatus === 'success' ? 'Success!' : 'Error'}
+        subTitle={toastMessage}
+        onPress={() => handleModalClose()}
       />
     </StoryScreen>
   );
