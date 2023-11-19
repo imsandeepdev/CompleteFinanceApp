@@ -160,7 +160,7 @@ const LoanProposalForm = props => {
               <AppCardPress
                 flex={1}
                 disabled={true}
-                headTitle={'Proposed Amount'}
+                headTitle={'Received Amount'}
                 title={props.disbursedAmount}
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
@@ -186,8 +186,8 @@ const LoanProposalForm = props => {
               <AppCardPress
                 flex={1}
                 disabled={true}
-                headTitle={'Received Amount'}
-                title={props.receivedAmount}
+                headTitle={'Proposed Amount'}
+                title={props.proposedAmount}
                 TextColor={R.colors.secAppColor}
                 headTitleColor={R.colors.darkGreenColor}
               />

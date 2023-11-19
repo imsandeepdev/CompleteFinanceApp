@@ -460,24 +460,24 @@ const LoanProposal = props => {
                     height: R.fontSize.Size40,
                     width: screenWidth / 3,
                     backgroundColor:
-                      index == selectedHeader
+                      index === selectedHeader
                         ? R.colors.appColor
                         : R.colors.placeHolderColor,
                     alignItems: 'center',
                     justifyContent: 'center',
                     paddingHorizontal: R.fontSize.Size4,
-                    borderLeftWidth: index != 0 ? 1.2 : 0,
+                    borderLeftWidth: index !== 0 ? 1.2 : 0,
                     borderColor: R.colors.lightWhite,
                   }}>
                   <Text
                     style={{
                       fontFamily: R.fonts.regular,
                       fontSize: R.fontSize.Size12,
-                      fontWeight: '600',
+                      fontWeight: index === selectedHeader ? '700' : '500',
                       textAlign: 'center',
                       color:
-                        index == selectedHeader
-                          ? R.colors.textPriColor
+                        index === selectedHeader
+                          ? R.colors.white
                           : R.colors.lightWhite,
                     }}>
                     {item.title}
@@ -674,7 +674,7 @@ const LoanProposal = props => {
                       disbursedAmount={loanProduct?.DisbursedAmount}
                       processFee={loanProduct?.ProcessFee}
                       serviceTax={loanProduct?.ServiceTax}
-                      receivedAmount={loanProduct?.receivedAmt}
+                      proposedAmount={loanProduct?.receivedAmt}
                       onPress_loanPurposeGroup={() => {
                         handleOpenListModal('LoanPurpose', 'LoanPurposeGroup');
                       }}

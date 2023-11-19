@@ -7,7 +7,9 @@ const AppButton = props => {
     <View
       style={{
         flex: props.flex,
-        borderRadius: R.fontSize.Size8,
+        borderRadius: props.buttonBorderRadius
+          ? props.buttonBorderRadius
+          : R.fontSize.Size8,
         backgroundColor: props.backgroundColor ?? R.colors.appColor,
         marginHorizontal: props.marginHorizontal ?? R.fontSize.Size20,
         paddingHorizontal: props.paddingHorizontal,

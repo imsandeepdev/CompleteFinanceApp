@@ -95,7 +95,7 @@ const GenralDetail = props => {
         <AppTextInput
           ref={altContactNoRef}
           placeholder={'Alternate Contact No'}
-          headTitle={'Alternate Contact No *'}
+          headTitle={'Alternate Contact No'}
           headTitleColor={
             props.value_altContactNo !== ''
               ? R.colors.darkGreenColor

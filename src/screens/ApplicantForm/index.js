@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {
+  CustomAlert,
   GalleryModal,
   Header,
   ListViewModal,
@@ -68,6 +69,9 @@ const ApplicantForm = props => {
   const [listModalData, setListModalData] = useState([]);
   const [listModalType, setListModalType] = useState('');
   const [profileDetail, setProfileDetail] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [applicantStatus, setApplicantStatus] = useState(false);
+  const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
 
   // Genral Detail
 
@@ -412,7 +416,7 @@ const ApplicantForm = props => {
       districtId: 1,
       contactNo: contactNo,
       aContactNo: altContactNo,
-      email: '',
+      email: 'sandeep@gmail.com',
       p_ApplicantAddress: 'ghjk',
       pHouseNo: perHouseNo,
       pStreet: perStreetName,
@@ -420,7 +424,7 @@ const ApplicantForm = props => {
       pDistrictId: 'gjhk',
       contactNo2: contactNo,
       acontactNo2: altContactNo,
-      emailID: '',
+      emailID: 'sandeep@gmail.com',
       birthPlace: birthPlace,
       photo: 'ghjk',
       gender: gender.RuleID,
@@ -465,9 +469,9 @@ const ApplicantForm = props => {
       documenttype: 'ghjk',
       imagedocument: 'ghjk',
       caste: memberCaste.RoleName,
-      noOfMembers: noOfFamilyMember.RoleName,
-      dAgeabove18: noOfDaughter.RoleName,
-      sAgeabove18: noOfSon.RoleName,
+      noOfMembers: noOfFamilyMember,
+      dAgeabove18: noOfDaughter,
+      sAgeabove18: noOfSon,
       totalArea: landArea,
       assetDetail: assetDetail,
       assetValue: assetValue,
@@ -494,12 +498,12 @@ const ApplicantForm = props => {
     console.log('DATA=>', data);
     dispatch(
       SaveCustomerRequest(data, response => {
-        console.log(
-          'Save Customer Response ID==>',
-          response.entity.entity[0].IDENT_CURRENT,
-        );
-        if (response.message === 'Success') {
-          handleApplicantDocument(response.entity.entity[0].IDENT_CURRENT);
+        console.log('Save Customer Response ID==>', response.entity);
+        if (response.entity.statusCode === 200) {
+          handleApplicantDocument(response.entity.customerId);
+        } else {
+          setApplicantStatusMsg(response.entity.message);
+          setModalVisible(true);
         }
       }),
     );
@@ -510,7 +514,7 @@ const ApplicantForm = props => {
     formData.append('customerId', customer_id);
     formData.append(
       'Applicant_ProfilePic',
-      applicantPic?.path != null || applicantPic?.path != undefined
+      applicantPic?.path != null || applicantPic?.path !== undefined
         ? {
             uri:
               Platform.OS === 'android'
@@ -593,11 +597,13 @@ const ApplicantForm = props => {
     dispatch(
       SaveCustomerDocumentRequest(formData, response => {
         console.log('Response With Photo=>', response);
-        if (response.message === 'Success') {
-          Toast.show('Successfully! save customer details', Toast.SHORT);
-          props.navigation.goBack();
+        if (response.statusCode === 200) {
+          setApplicantStatus(true);
+          setApplicantStatusMsg('Successfully! save customer details');
+          setModalVisible(true);
         } else {
-          Toast.show(response.message, Toast.SHORT);
+          setApplicantStatusMsg(response.message);
+          setModalVisible(true);
         }
       }),
     );
@@ -664,20 +670,6 @@ const ApplicantForm = props => {
         10,
         'please enter valid mob no',
       ) &&
-      CommonFunctions.isBlank(
-        altContactNo.trim(),
-        'please enter alternate contact no',
-      ) &&
-      CommonFunctions.isCheckValidLength(
-        altContactNo.trim(),
-        10,
-        'please enter valid alternate contact no',
-      ) &&
-      // CommonFunctions.isBlank(email.trim(), 'please enter email id') &&
-      // CommonFunctions.isEmailValid(
-      //   email.trim(),
-      //   'please enter valid email id',
-      // ) &&
       CommonFunctions.isBlank(birthPlace.trim(), 'please enter birth place') &&
       CommonFunctions.isBlank(birthDate, 'please select date of birth') &&
       CommonFunctions.isBlank(gender, 'please select user gender') &&
@@ -869,6 +861,16 @@ const ApplicantForm = props => {
         'please select second KYC documents',
       )
     );
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setModalVisible(false);
+    setApplicantStatus(false);
+    props.navigation.goBack();
   };
 
   return (
@@ -1268,6 +1270,18 @@ const ApplicantForm = props => {
         cancelOnPress={() => setListModal(false)}
         onPress={item => handleRoleSelect(item)}
         dataList={listModalData}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          applicantStatus ? R.images.successIcon : R.images.cancelRedIcon
+        }
+        modalColor={applicantStatus ? R.colors.appColor : R.colors.redColor}
+        title={applicantStatus ? 'Success' : 'Failed'}
+        subTitle={applicantStatusMsg}
+        onPress={() => {
+          applicantStatus ? handleSuccessModalClose() : handleModalClose();
+        }}
       />
     </StoryScreen>
   );

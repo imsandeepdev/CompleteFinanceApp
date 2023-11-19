@@ -49,7 +49,8 @@ const ListViewModal = props => {
                   item.RoleName ||
                   item.BankName ||
                   item.ComponentName ||
-                  item.ProductName;
+                  item.ProductName ||
+                  item.centerName;
                 return (
                   <Pressable
                     key={index}
