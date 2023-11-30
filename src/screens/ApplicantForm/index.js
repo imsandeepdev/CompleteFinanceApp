@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {
+  AppCalender,
   CustomAlert,
   GalleryModal,
   Header,
@@ -978,7 +979,7 @@ const ApplicantForm = props => {
                     title_noOfSon={noOfSon}
                     onPress_noOfSon={() => handleListModal('noOfSon')}
                   />
-                  <DatePicker
+                  {/* <DatePicker
                     modal
                     maximumDate={new Date()}
                     minimumDate={new Date('1940-01-01')}
@@ -993,7 +994,7 @@ const ApplicantForm = props => {
                     onCancel={() => {
                       setIsDisplayDate(false);
                     }}
-                  />
+                  /> */}
                 </View>
               )}
               {selectedHeader === 1 && (
@@ -1281,6 +1282,14 @@ const ApplicantForm = props => {
         subTitle={applicantStatusMsg}
         onPress={() => {
           applicantStatus ? handleSuccessModalClose() : handleModalClose();
+        }}
+      />
+      <AppCalender
+        visible={isDisplayDate}
+        onDayPress={day => {
+          console.log('ONDDDD', day.dateString);
+          setIsDisplayDate(false);
+          setBirthDate(moment(day.dateString).format('YYYY-MM-DD'));
         }}
       />
     </StoryScreen>

@@ -142,6 +142,8 @@ const GrtForm = props => {
       mode: mode,
       userId: profileDetail.StaffID,
       branchId: branchName.BoId,
+      centerId: centerName.CenterId !== undefined ? centerName.CenterId : 0,
+      groupId: groupName.GroupId !== undefined ? groupName.GroupId : 0,
     };
     dispatch(
       GetGRTStaffDropDownRequest(data, response => {
@@ -183,6 +185,7 @@ const GrtForm = props => {
     let data = {
       mode: modeName,
       id: idNo,
+      centerId: centerName.CenterId,
     };
     dispatch(
       GetGroupWiseCustomerDropDownRequest(data, response => {

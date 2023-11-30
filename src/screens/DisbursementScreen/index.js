@@ -6,6 +6,7 @@ import StoryScreen from '../../components/StoryScreen';
 import style from './style';
 import {
   AppButton,
+  AppCalender,
   AppCardPress,
   CustomerListModal,
   Header,
@@ -140,8 +141,12 @@ const DisbursementScreen = props => {
   };
 
   const handleApprovalDetail = proposal_Id => {
+    let data = {
+      proposalId: proposal_Id,
+      boID: profileDetail.BoId,
+    };
     dispatch(
-      LoanProposalDetailRequest(proposal_Id, response => {
+      LoanProposalDetailRequest(data, response => {
         console.log('Loan Proposal Detail', response.entity.entity);
         if (
           response.statusCode === 200 &&
@@ -274,7 +279,7 @@ const DisbursementScreen = props => {
             <DatePicker
               modal
               // maximumDate={new Date()}
-              minimumDate={new Date()}
+              // minimumDate={new Date()}
               open={isDisplayDate}
               date={new Date()}
               mode="date"
@@ -309,8 +314,13 @@ const DisbursementScreen = props => {
       <CustomerListModal
         backOnPress={() => props.navigation.goBack()}
         visible={customerListModal}
+        // visible={false}
         data={customerList}
         onPress={item => handleProceed(item)}
+      />
+      <AppCalender
+        visible={false}
+        onDayPress={day => console.log('ONDDDD', day)}
       />
     </StoryScreen>
   );

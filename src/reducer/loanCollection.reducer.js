@@ -5,12 +5,16 @@ import {
   center_Collection_List,
   center_Collection_List_success,
   center_Collection_List_error,
+  loanRepayment_Collection,
+  loanRepayment_Collection_success,
+  loanRepayment_Collection_error,
 } from '../constants/common';
 
 const initial_state = {
   loading: false,
   loanCollectionInit: {},
   centerCollectionInit: {},
+  loanRepaymentInit: {},
   error: '',
 };
 
@@ -42,6 +46,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         centerCollectionInit: payload,
       };
     case center_Collection_List_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case loanRepayment_Collection:
+      return {
+        ...state,
+        loading: true,
+      };
+    case loanRepayment_Collection_success:
+      return {
+        loading: false,
+        loanRepaymentInit: payload,
+      };
+    case loanRepayment_Collection_error:
       return {
         loading: false,
         error: payload,

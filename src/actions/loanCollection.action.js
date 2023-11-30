@@ -6,6 +6,9 @@ import {
   center_Collection_List,
   center_Collection_List_success,
   center_Collection_List_error,
+  loanRepayment_Collection,
+  loanRepayment_Collection_success,
+  loanRepayment_Collection_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -41,6 +44,24 @@ export const CenterCollectionSuccess = payload => {
 export const CenterCollectionError = error => {
   return {
     type: center_Collection_List_error,
+    payload: error,
+  };
+};
+
+export const LoanRepaymentCollection = () => {
+  return {
+    type: loanRepayment_Collection,
+  };
+};
+export const LoanRepaymentCollectionSuccess = payload => {
+  return {
+    type: loanRepayment_Collection_success,
+    payload,
+  };
+};
+export const LoanRepaymentCollectionError = error => {
+  return {
+    type: loanRepayment_Collection_error,
     payload: error,
   };
 };
@@ -81,6 +102,27 @@ export const CenterCollectionRequest = (data, success, failed) => {
       })
       .catch(error => {
         dispatch(CenterCollectionError(error));
+        failed?.(error);
+        console.log('Error: ', error);
+      });
+  };
+};
+
+export const LoanRepaymentCollectionRequest = (data, success, failed) => {
+  return dispatch => {
+    dispatch(LoanRepaymentCollection());
+    api
+      .multipostRequest({
+        needAuth: false,
+        data: data,
+        url: `${Config.loanRepaymentCollectionAPI}`,
+      })
+      .then(response => {
+        dispatch(LoanRepaymentCollectionSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(LoanRepaymentCollectionError(error));
         failed?.(error);
         console.log('Error: ', error);
       });

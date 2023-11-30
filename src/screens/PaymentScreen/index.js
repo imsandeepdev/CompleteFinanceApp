@@ -7,26 +7,17 @@ import {
   ScrollView,
   Pressable,
   Image,
-  FlatList,
-  Dimensions,
-  TextInput,
 } from 'react-native';
-import {
-  AppButton,
-  AppCardPress,
-  AppTextInput,
-  Header,
-  ListViewModal,
-  StoryScreen,
-} from '../../components';
+import {AppButton, Header, ListViewModal, StoryScreen} from '../../components';
 import Styles from './style';
 import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
 import {
   CenterCollectionRequest,
   LoanCollectionRequest,
+  LoanRepaymentCollectionRequest,
 } from '../../actions/loanCollection.action';
-const screenWidth = Dimensions.get('screen').width;
+import Toast from 'react-native-simple-toast';
 
 const CollectionTitle = [
   'LoanId',
@@ -44,6 +35,10 @@ const PaymentScreen = props => {
   const [selectCollected, setSelectCollected] = useState([]);
   const [listModal, setListModal] = useState(false);
   const [overAllCollectAmount, setOverAllCollectAmount] = useState('');
+  const [selectedCenter, setSelectedCenter] = useState();
+  const [totalPrincipleAmount, setTotalPrincipleAmount] = useState('');
+  const [totalInterestAmount, setTotalInterestAmount] = useState('');
+  const [buttonVisibleStatus, setButtonVisibleStatus] = useState(false);
 
   useEffect(() => {
     console.log('Profile Details on Payment Screen=>', props.profile.entity[0]);
@@ -71,9 +66,10 @@ const PaymentScreen = props => {
     setListModal(true);
   };
 
-  const handleCollectionListAPI = center_id => {
+  const handleCollectionListAPI = item => {
+    setSelectedCenter(item);
     let data = {
-      centerId: center_id,
+      centerId: item.centerId,
       date: '2023-11-18T06:32:11.089Z',
       boId: profileDetail.BoId,
     };
@@ -81,6 +77,10 @@ const PaymentScreen = props => {
       LoanCollectionRequest(data, response => {
         console.log('Loan Collection Res==>', response);
         handleCollectionListState(response.entity.entity);
+        let tempArray = [];
+        tempArray = response.entity.entity;
+        setButtonVisibleStatus(tempArray.length > 0 ? true : false);
+
         // setSelectCollected(response.entity.entity);
       }),
     );
@@ -118,7 +118,28 @@ const PaymentScreen = props => {
       let tempAmount = Number(item.principleAmt) + Number(item.interestAmt);
       console.log('temp Amount', tempAmount);
       setOverAllCollectAmount(tempAmount);
+      setTotalPrincipleAmount(item.principleAmt);
+      setTotalInterestAmount(item.interestAmt);
     });
+  };
+
+  const handleLoanRepaymentCollection = () => {
+    let data = {
+      tempId: selectedCenter.tempId,
+      loginId: profileDetail.StaffID,
+      branhId: profileDetail.BranchId,
+      principleCollection: totalPrincipleAmount,
+      intertestCollection: totalInterestAmount,
+      applicantId: selectedCenter.applicantId,
+      centerId: selectedCenter.centerId,
+      loanId: selectedCenter.loanId,
+    };
+    console.log('Loan Repayment Data', data);
+    dispatch(
+      LoanRepaymentCollectionRequest(data, response => {
+        console.log('loan Repayment collection response=>', response);
+      }),
+    );
   };
 
   return (
@@ -187,12 +208,17 @@ const PaymentScreen = props => {
                             style={({pressed}) => [
                               {
                                 opacity: pressed ? 0.5 : 1,
-                                backgroundColor: item.selected
-                                  ? R.colors.lightAppColor
-                                  : R.colors.placeholderTextColor,
                               },
                             ]}>
-                            <View style={Styles.wrapViewStyle}>
+                            <View
+                              style={[
+                                Styles.wrapViewStyle,
+                                {
+                                  backgroundColor: item.selected
+                                    ? R.colors.lightAppColor
+                                    : R.colors.placeholderTextColor,
+                                },
+                              ]}>
                               <View style={Styles.valueHeadView}>
                                 <Text
                                   style={Styles.valueHeadTitle}
@@ -264,11 +290,17 @@ const PaymentScreen = props => {
           }}>
           <AppButton
             onPress={() => {
-              console.log('press');
+              handleLoanRepaymentCollection();
             }}
             marginHorizontal={R.fontSize.Size30}
             buttonBorderRadius={R.fontSize.Size4}
             buttonHeight={R.fontSize.Size45}
+            disabled={buttonVisibleStatus ? false : true}
+            backgroundColor={
+              buttonVisibleStatus
+                ? R.colors.appColor
+                : R.colors.placeholderTextColor
+            }
             title={'Save'}
           />
         </View>
@@ -276,7 +308,7 @@ const PaymentScreen = props => {
       <ListViewModal
         visible={listModal}
         cancelOnPress={() => setListModal(false)}
-        onPress={item => handleCollectionListAPI(item.centerId)}
+        onPress={item => handleCollectionListAPI(item)}
         dataList={centerCollectionList}
       />
     </StoryScreen>

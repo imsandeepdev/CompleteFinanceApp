@@ -158,3 +158,9 @@ export const loan_Collection_List_error = 'loan_Collection_List_error';
 export const center_Collection_List = 'center_Collection_List';
 export const center_Collection_List_success = 'center_Collection_List_success';
 export const center_Collection_List_error = 'center_Collection_List_error';
+
+// loanRepaymentCollection
+export const loanRepayment_Collection = 'loanRepayment_Collection';
+export const loanRepayment_Collection_success =
+  'loanRepayment_Collection_success';
+export const loanRepayment_Collection_error = 'loanRepayment_Collection_error';

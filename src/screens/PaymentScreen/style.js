@@ -22,6 +22,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     width: (screenWidth - R.fontSize.Size22) / 6,
     borderWidth: 1,
+    backgroundColor: R.colors.appColor,
   },
   headTitle: {
     fontFamily: R.fonts.regular,
@@ -54,7 +55,6 @@ const Styles = StyleSheet.create({
     color: R.colors.black,
   },
   wrapView: {
-    backgroundColor: R.colors.appColor,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -73,6 +73,12 @@ const Styles = StyleSheet.create({
     borderColor: R.colors.appColor,
     marginTop: R.fontSize.Size10,
     paddingHorizontal: R.fontSize.Size5,
+  },
+  overAllText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '700',
+    color: R.colors.appColor,
+    fontSize: R.fontSize.Size14,
   },
 });
 

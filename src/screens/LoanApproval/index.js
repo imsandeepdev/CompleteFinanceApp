@@ -6,6 +6,7 @@ import style from './style';
 import {
   AppButton,
   AppCardPress,
+  CustomAlert,
   CustomerListModal,
   Header,
   ListViewModal,
@@ -34,6 +35,9 @@ const LoanApproval = props => {
   const [customerListModal, setCustomerListModal] = useState(true);
   const [customerList, setCustomerList] = useState([]);
   const [onSelectCustomer, setOnSelectCustomer] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [applicantStatus, setApplicantStatus] = useState(false);
+  const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
 
   useEffect(() => {
     handleGetAllCustomer(
@@ -54,6 +58,7 @@ const LoanApproval = props => {
         );
         let tempList = response.entity.entity;
         setCustomerList(tempList);
+        setCustomerListModal(true);
       }),
     );
   };
@@ -115,14 +120,23 @@ const LoanApproval = props => {
       customerInfoId: approvalDetail.ClientInfoId,
       staffId: profileDetail.StaffID,
       approvalStatus: selectedApproval.RuleID,
+      BranchId: profileDetail.BoId,
     };
     console.log('DATA=>', data);
     dispatch(
       UpdateLoanApprovalRequest(data, response => {
         console.log('Update loan status=>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! Submitted Loan Approval', Toast.SHORT);
-          props.navigation.goBack();
+          setModalVisible(true);
+          setApplicantStatus(true);
+          setApplicantStatusMsg('Successfully! Submitted Loan Approval');
+
+          // Toast.show('Successfully! Submitted Loan Approval', Toast.SHORT);
+          // props.navigation.goBack();
+        } else {
+          setModalVisible(true);
+          setApplicantStatus(false);
+          setApplicantStatusMsg('Faild! Loan Approval. Try Again ');
         }
       }),
     );
@@ -138,13 +152,26 @@ const LoanApproval = props => {
   };
 
   const handleApprovalDetail = proposal_Id => {
-    let proposalId = proposal_Id;
+    let data = {
+      proposalId: proposal_Id,
+      boID: profileDetail.BoId,
+    };
+    // let proposalId = proposal_Id;
     dispatch(
-      LoanProposalDetailRequest(proposalId, response => {
+      LoanProposalDetailRequest(data, response => {
         console.log('Loan Proposal Detail', response.entity.entity[0]);
         setApprovalDetail(response.entity.entity[0]);
       }),
     );
+  };
+
+  const handleSuccessModalClose = () => {
+    setModalVisible(false);
+    handleGetAllCustomer(profileDetail.StaffID, profileDetail.BoId);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -240,6 +267,18 @@ const LoanApproval = props => {
         visible={customerListModal}
         data={customerList}
         onPress={item => handleProceed(item)}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          applicantStatus ? R.images.successIcon : R.images.cancelRedIcon
+        }
+        modalColor={applicantStatus ? R.colors.appColor : R.colors.redColor}
+        title={applicantStatus ? 'Success' : 'Failed'}
+        subTitle={applicantStatusMsg}
+        onPress={() => {
+          applicantStatus ? handleSuccessModalClose() : handleModalClose();
+        }}
       />
     </StoryScreen>
   );

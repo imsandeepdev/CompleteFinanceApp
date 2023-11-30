@@ -254,7 +254,7 @@ export const GetGRTStaffDropDownRequest = (type, success, failed) => {
     dispatch(GetGrtStaffDropDown());
     api
       .multipostRequest({
-        url: `${Config.getGroupDropDown}?mode=${type.mode}&StaffId=${type.userId}&BranchId=${type.branchId}`,
+        url: `${Config.getGroupDropDown}?mode=${type.mode}&StaffId=${type.userId}&BranchId=${type.branchId}&CenterId=${type.centerId}&GroupId=${type.groupId}`,
       })
       .then(response => {
         dispatch(GetGrtStaffDropDownSuccess(response));
@@ -272,7 +272,7 @@ export const GetGroupWiseCustomerDropDownRequest = (type, success, failed) => {
     dispatch(GetGroupWiseCustomerDropDown());
     api
       .multipostRequest({
-        url: `${Config.getGroupWiseCustomerAPI}?mode=${type.mode}&GroupId=${type.id}`,
+        url: `${Config.getGroupWiseCustomerAPI}?mode=${type.mode}&GroupId=${type.id}&CenterId=${type.centerId}`,
       })
       .then(response => {
         dispatch(GetGroupWiseCustomerDropDownSuccess(response));

@@ -66,13 +66,13 @@ export const UpdateLoanApprovalError = error => {
   };
 };
 
-export const LoanProposalDetailRequest = (pid, success, failed) => {
+export const LoanProposalDetailRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(LoanProposalDetail());
     api
       .multipostRequest({
         needAuth: false,
-        url: `${Config.loanProposalDetailAPI}?ProposalId=${pid}`,
+        url: `${Config.loanProposalDetailAPI}?ProposalId=${data.proposalId}&BOId=${data.boID}`,
       })
       .then(response => {
         dispatch(LoanProposalDetailSuccess(response));

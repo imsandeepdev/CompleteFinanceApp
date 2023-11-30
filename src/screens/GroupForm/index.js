@@ -211,8 +211,10 @@ const GroupForm = props => {
   };
 
   const handleGroupDropDown = mode => {
+    let tempCenter =
+      centerName.CenterId !== undefined ? centerName.CenterId : 0;
     setGroupDropDownType(mode);
-    let data = `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}`;
+    let data = `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}&CenterId=${tempCenter}&GroupId=0`;
     dispatch(
       GetGroupDropDownRequest(data, response => {
         console.log('Group drop down res=>', response);
