@@ -27,6 +27,7 @@ const fontSize = {
   Size26: normalize(26),
   Size28: normalize(28),
   Size30: normalize(30),
+  Size35: normalize(35),
 
   extraSmall: normalize(10),
   small: normalize(12),

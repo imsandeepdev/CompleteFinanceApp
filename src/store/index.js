@@ -1,9 +1,8 @@
-
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from './root.reducer';
 import createSagaMiddleware from 'redux-saga';
 import {composeWithDevTools} from '@redux-devtools/extension';
-import {helloSaga} from '../services/sagas'
+import {helloSaga} from '../services/sagas';
 import {applyMiddleware} from 'redux';
 import {legacy_createStore as createStore} from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';

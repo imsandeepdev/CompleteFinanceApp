@@ -1,8 +1,8 @@
 import {Config} from '../config';
 import {
-    user_profile,
-    user_profile_success,
-    user_profile_error
+  user_profile,
+  user_profile_success,
+  user_profile_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -24,13 +24,13 @@ export const UserProfileError = error => {
   };
 };
 
-export const UserProfileRequest = (user_id,success, failed) => {
+export const UserProfileRequest = (user_id, success, failed) => {
   return dispatch => {
     dispatch(UserProfile());
     api
       .multiGetRequest({
         needAuth: false,
-        url: `${Config.ProfileAPI}${user_id}`
+        url: `${Config.ProfileAPI}${user_id}`,
       })
       .then(response => {
         dispatch(UserProfileSuccess(response));

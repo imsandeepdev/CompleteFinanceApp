@@ -1,18 +1,10 @@
 import * as React from 'react';
-import {View, Text, Image, Pressable} from 'react-native';
+import {View, Text, Image, Pressable, StyleSheet} from 'react-native';
 import R from '../res/R';
 
 const Header = props => {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        height: R.fontSize.Size50,
-        alignItems: 'center',
-        paddingHorizontal: R.fontSize.Size2,
-        borderBottomWidth: 1,
-        borderColor: R.colors.placeholderTextColor,
-      }}>
+    <View style={Styles.mainView}>
       <Pressable
         onPress={props.onPress}
         style={({pressed}) => [
@@ -22,7 +14,7 @@ const Header = props => {
             alignItems: 'center',
             justifyContent: 'center',
             opacity: pressed ? 0.5 : 1,
-            marginHorizontal:R.fontSize.Size10
+            marginHorizontal: R.fontSize.Size10,
           },
         ]}>
         <Image
@@ -32,26 +24,39 @@ const Header = props => {
         />
       </Pressable>
       <View
-        style={{
-          flex: 1,
-          marginHorizontal: R.fontSize.Size5,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: props.title_justifyContent,
-          marginRight: props.title_marginRight,
-        }}>
+        style={[
+          Styles.headView,
+          {
+            justifyContent: props.title_justifyContent,
+            marginRight: props.title_marginRight,
+          },
+        ]}>
         {props.headIcon}
-        <Text
-          style={{
-            color: R.colors.secAppColor,
-            fontSize: R.fontSize.Size18,
-            fontWeight: '700',
-          }}>
-          {props.title}
-        </Text>
+        <Text style={Styles.titleText}>{props.title}</Text>
       </View>
     </View>
   );
 };
 
 export default Header;
+
+const Styles = StyleSheet.create({
+  mainView: {
+    flexDirection: 'row',
+    height: R.fontSize.Size50,
+    alignItems: 'center',
+    paddingHorizontal: R.fontSize.Size2,
+    borderBottomWidth: 2,
+    borderColor: R.colors.appColor,
+  },
+  headView: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  titleText: {
+    color: R.colors.secAppColor,
+    fontSize: R.fontSize.Size18,
+    fontWeight: '700',
+  },
+});

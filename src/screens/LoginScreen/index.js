@@ -1,176 +1,181 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+import {View, Text, Image, ScrollView} from 'react-native';
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    Dimensions,
-    ScrollView
-} from 'react-native';
-import { AppButton, CustomTextInput, StoryScreen } from '../../components';
+  AppButton,
+  CustomAlert,
+  CustomTextInput,
+  StoryScreen,
+} from '../../components';
 import R from '../../res/R';
-const screenHeight = Dimensions.get('screen').height
-import {useDispatch} from 'react-redux';
-import { AddCartSuccess } from '../../actions/addcart.action';
-import { SignInRequest } from '../../actions/Auth.action';
+import {connect, useDispatch} from 'react-redux';
+import {SignInRequest} from '../../actions/Auth.action';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import style from './style';
+import DeviceInfo from 'react-native-device-info';
 
+const LoginScreen = props => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [toastMassage, setToastMassage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const onHandleValidation = () => {
+    return (
+      CommonFunctions.isBlank(userName.trim(), 'Please enter username') &&
+      CommonFunctions.isBlank(password.trim(), 'Please enter password') &&
+      CommonFunctions.isCheckValidLength(
+        password.trim(),
+        8,
+        'Password atleast 8 char required',
+      )
+    );
+  };
 
-const LoginScreen = (props) => {
-
-    const dispatch = useDispatch()
-    const [userName, setUserName] = useState('')
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-
-
-
-    const product = {
-      name: 'IPhone',
-      category: '12',
-      price:'12222',
-      color:'white'
+  const onCheckValid = () => {
+    if (onHandleValidation()) {
+      handleDeviceInfo();
     }
+  };
 
-    const onHandleValidation = () => {
-      return (
-        CommonFunctions.isBlank(userName.trim(), 'Please enter username') &&
-        CommonFunctions.isBlank(password.trim(), 'Please enter password') &&
-        CommonFunctions.isCheckValidLength(password.trim(),8,'Password atleast 8 char required')
-      );
-    }
+  const handleDeviceInfo = async () => {
+    let deviceId = await DeviceInfo.getDeviceId();
+    let deviceManufacturer = await DeviceInfo.getManufacturer();
+    let deviceModal = await DeviceInfo.getModel();
+    let deviceUniqueId = await DeviceInfo.getUniqueId();
 
-    const onCheckValid = () => {
-      if(onHandleValidation())
-      {
-        onHandleLogin()
-      }
-    }
+    console.log('DeviceId==>', deviceId);
+    console.log('DeviceId==>', deviceManufacturer);
+    console.log('DeviceId==>', deviceModal);
+    console.log('DeviceId==>', deviceUniqueId);
+    let tempDeviceId = `${deviceManufacturer}-${deviceModal}-${deviceUniqueId}`;
+    onHandleLogin(tempDeviceId);
+  };
 
-    const onHandleLogin = () => {
-      let data={
-        user_name: userName,
-        user_pass: password
-      }
-      dispatch(
-        SignInRequest(data,response => {
-          console.log('SignIn response==>', response);
-          if (response.message == 'Success') {
-            props.navigation.navigate('RoleSelectionScreen', {
-              user_id: response.entity[0].LoginId,
-            });
-            AsyncStorage.setItem('userid', response.entity[0].LoginId);
-          }
-          else
-          {
-            Toast.show('Please enter valid username and password', Toast.SHORT)
-          }
-        }),
-      );
+  const onHandleLogin = tempDeviceId => {
+    setLoading(true);
+    let data = {
+      Logincode: userName,
+      password: password,
+      deviceNo: tempDeviceId,
     };
 
-    return (
-      <StoryScreen>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                height: screenHeight / 3,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={R.images.appLogo}
-                resizeMode={'contain'}
-                style={{
-                  height: R.fontSize.Size200,
-                  width: R.fontSize.Size200,
-                }}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontFamily:R.fonts.extraBold,
-                    fontSize: R.fontSize.Size18,
-                    color: R.colors.secAppColor,
-                    // fontWeight: '700',
-                    //   textTransform: 'uppercase',
-                  }}>
-                  {'Complete Finance Solution'}
-                </Text>
-              </View>
-            </View>
+    // let data = {
+    //   Logincode: userName,
+    //   password: password,
+    //   deviceNo: 'GIONEE-GIONEE MAX-7002a3236d358257',
+    // };
 
-            <View style={{flex: 1, paddingHorizontal: R.fontSize.Size24}}>
-              <CustomTextInput
-                placeholder={'Username'}
-                value={userName}
-                onChangeText={text => setUserName(text)}
-                marginBottom={R.fontSize.Size10}
-                leftIcon={R.images.userIcon}
-                maxLength={20}
-              />
-              <CustomTextInput
-                placeholder={'Password'}
-                value={password}
-                onChangeText={text => setPassword(text)}
-                marginBottom={R.fontSize.Size10}
-                secureTextEntry={showPassword ? false : true}
-                leftIcon={R.images.greenLockIcon}
-                rightIcon={
-                  showPassword ? R.images.eyeIcon : R.images.closeEyeIcon
-                }
-                rightOnPress={() => setShowPassword(!showPassword)}
-                maxLength={25}
-              />
-            </View>
-            <View
-              style={{
-                marginVertical: R.fontSize.Size10,
-              }}>
-              <AppButton
-                // onPress={() => props.navigation.navigate('RoleSelectionScreen')}
-                onPress={() => onCheckValid()}
-                marginHorizontal={R.fontSize.Size30}
-                title={'Login'}
-              />
-              <View
-                style={{
-                  marginTop: R.fontSize.Size10,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.placeHolderColor,
-                  }}>
-                  {`Don't have an account? `}
-                </Text>
-                <Text
-                  onPress={() => {
-                    props.navigation.replace('SignupScreen');
-                  }}
-                  style={{
-                    fontSize: R.fontSize.Size14,
-                    color: R.colors.appColor,
-                    fontWeight: '700',
-                  }}>
-                  {'Register Now'}
-                </Text>
-              </View>
+    console.log('Data=>', data);
+    dispatch(
+      SignInRequest(data, response => {
+        console.log('SignIn response==>', response);
+        if (response.entity.statusCode === 200) {
+          setLoading(false);
+
+          props.navigation.navigate('RoleSelectionScreen', {
+            user_id: response.entity.entity[0].EmpID,
+          });
+          console.log('LOGINDETAIL=>', response.entity.entity[0]);
+          AsyncStorage.setItem(
+            'userData',
+            JSON.stringify(response.entity.entity[0]),
+          );
+        } else {
+          setLoading(false);
+          setToastMassage(response.entity.message);
+          setModalVisible(true);
+          // Toast.show('Please enter valid username and password', Toast.SHORT);
+        }
+      }),
+    );
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setUserName('');
+    setPassword('');
+  };
+
+  return (
+    <StoryScreen loading={loading}>
+      <ScrollView contentContainerStyle={style.scrollView}>
+        <View style={style.flexView}>
+          <View style={style.topView}>
+            <Image
+              source={R.images.appLogo}
+              resizeMode={'contain'}
+              style={style.appLogoIcon}
+            />
+            <View>
+              <Text style={style.titleText}>{'Complete Finance Solution'}</Text>
             </View>
           </View>
-        </ScrollView>
-      </StoryScreen>
-    );
-}
 
-export default LoginScreen
+          <View style={style.bodyView}>
+            <CustomTextInput
+              placeholder={'Username'}
+              value={userName}
+              onChangeText={text => setUserName(text)}
+              marginBottom={R.fontSize.Size10}
+              leftIcon={R.images.userIcon}
+              maxLength={20}
+            />
+            <CustomTextInput
+              placeholder={'Password'}
+              value={password}
+              onChangeText={text => setPassword(text)}
+              marginBottom={R.fontSize.Size10}
+              secureTextEntry={showPassword ? false : true}
+              leftIcon={R.images.greenLockIcon}
+              rightIcon={
+                showPassword ? R.images.eyeIcon : R.images.closeEyeIcon
+              }
+              rightOnPress={() => setShowPassword(!showPassword)}
+              maxLength={25}
+            />
+          </View>
+          <View
+            style={{
+              marginVertical: R.fontSize.Size10,
+            }}>
+            <AppButton
+              onPress={() => onCheckValid()}
+              marginHorizontal={R.fontSize.Size30}
+              title={'Login'}
+            />
+            <View style={style.bottomView}>
+              <Text style={style.accountText}>{`Don't have an account? `}</Text>
+              <Text
+                onPress={() => {
+                  props.navigation.replace('SignupScreen');
+                }}
+                style={style.registerText}>
+                {'Register Now'}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={R.images.cancelRedIcon}
+        modalColor={R.colors.redColor}
+        title={'Login faild'}
+        subTitle={toastMassage}
+        onPress={() => handleModalClose()}
+      />
+    </StoryScreen>
+  );
+};
+
+const mapStateToProps = (state, props) => ({
+  loading: state.auth.loading,
+});
+
+export default connect(mapStateToProps)(LoginScreen);

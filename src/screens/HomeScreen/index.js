@@ -1,19 +1,24 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions,SafeAreaView,FlatList, Pressable} from 'react-native';
+import {useState, useEffect, useRef} from 'react';
 import {
-  AppButton,
-  CustomCardPress,
-  CustomTextInput,
-  Header,
-  ListViewModal,
-  StoryScreen,
-} from '../../components';
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  Pressable,
+  Animated,
+  ScrollView,
+} from 'react-native';
+import {Header, StoryScreen} from '../../components';
 import R from '../../res/R';
-const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
-
-import Toast from 'react-native-simple-toast';
+import {useDispatch, connect} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import style from './style';
+import {GetMenuListRequest} from '../../actions/role.action';
+import {UserProfileRequest} from '../../actions/profile.action';
+import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
 const HeaderList = [
   {
@@ -36,243 +41,332 @@ const HeaderList = [
     title: 'Family Plan',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
   },
+  {
+    id: '5',
+    title: 'Home Loan',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
+  },
+  {
+    id: '6',
+    title: 'Family Plan',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
+  },
 ];
 
 const ListOne = [
   {
-    id: '1',
-    title: 'Saving Plan',
-    url: 'https://cdn-icons-png.flaticon.com/512/2721/2721091.png',
+    id: 0,
+    Title: 'Loan Application',
+    icon: 'https://poonawallafincorp.com/pfca/assets/og_image/og_image-what-is-loan-account-number-og.jpg',
+    icon1: R.images.applicantScreen,
+    Url: 'ApplicantForm',
+    For: 'LoanApplication',
   },
   {
-    id: '2',
-    title: 'Money Tree',
-    url: 'https://cdn.iconscout.com/icon/free/png-256/free-agriculture-loan-1795547-1522752.png',
+    id: 1,
+    Title: 'Group Formation',
+    icon: 'https://www.rhythmsystems.com/hubfs/16_RS_For_Blogs/iStock-504635632.jpg',
+    icon1: R.images.groupIcon,
+    Url: 'GroupForm',
+    For: 'GroupForm',
   },
   {
-    id: '3',
-    title: 'Home Loan',
-    url: 'https://www.iconbunny.com/icons/media/catalog/product/cache/2/thumbnail/600x/1b89f2fc96fc819c2a7e15c7e545e8a9/1/0/106.9-home-loan-icon-iconbunny.jpg',
+    id: 2,
+    Title: 'Center Formation',
+    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
+    icon1: R.images.applicantFormIcon,
+    Url: 'CenterForm',
+    For: 'CenterForm',
   },
   {
-    id: '4',
-    title: 'Family Plan',
-    url: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
+    id: 3,
+    Title: 'GRT',
+    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
+    icon1: R.images.grtScreen,
+    Url: 'GrtForm',
+    For: 'Grt',
+  },
+  {
+    id: 4,
+    Title: 'Loan Proposal',
+    icon: 'https://www.firstib.com/wp-content/uploads/2022/04/iStock-1322517295.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'LoanProposal',
+    For: 'LoanProposal',
+  },
+  {
+    id: 5,
+    Title: 'Loan Approval',
+    icon: 'https://img.freepik.com/free-photo/corporate-business-handshake-partners_53876-102581.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'LoanApproval',
+    For: 'LoanApproval',
+  },
+  {
+    id: 6,
+    Title: 'Pre Disbursement',
+    icon: 'https://www.nextprocess.com/wp-content/uploads/secure-digital-payment-disbursement-solution-1920x1280.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'DisbursementScreen',
+    For: 'DisbursementScreen',
+  },
+  {
+    id: 6,
+    Title: 'Payment Screen',
+    icon: 'https://www.chaserhq.com/hubfs/03%20BLOG/5benefits-of-payment-portals-for-smal-businesses.jpg',
+    icon1: R.images.applicantFormIcon,
+    Url: 'PaymentScreen',
+    For: 'PaymentScreen',
   },
 ];
 
-const ListTwo = [
-  {
-    id: '1',
-    title: 'Corporate Finance',
-    url: 'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-corporate-finance-icon-design-image_1170929.jpg',
-  },
-  {
-    id: '2',
-    title: 'Muntual fund',
-    url: 'https://www.pngitem.com/pimgs/m/34-349175_mutual-fund-investment-icon-hd-png-download.png',
-  },
-  {
-    id: '3',
-    title: 'Public finance',
-    url: 'https://img.freepik.com/premium-vector/ppp-public-private-partnership-online-market-safe-finance-investment-vector-stock-illustration_100456-9766.jpg?w=2000',
-  },
-  {
-    id: '4',
-    title: 'Family Plan',
-    url: 'https://www.clipartmax.com/png/middle/455-4557434_areas-of-practice-logo-family-planning.png',
-  },
-];
-
-const CustomCard = (props) => {
+const CustomCard = props => {
   return (
-    <View style={{marginTop: R.fontSize.Size14}}>
-      <View
-        style={{
-          marginVertical: R.fontSize.Size10,
-          marginHorizontal: R.fontSize.Size20,
-        }}>
-        <Text
-          style={{
-            fontSize: R.fontSize.Size16,
-            fontWeight: '500',
-            color: R.colors.secAppColor,
-          }}>
-          {props.heading}
-        </Text>
+    <View style={style.customCardMainView}>
+      <View style={style.customCardView}>
+        <Text style={style.customCardHead}>{props.heading}</Text>
       </View>
-      <View>
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          data={props.data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                key={index}
-                style={{paddingLeft: index == 0 ? R.fontSize.Size14 : 0}}>
-                <View
-                  style={{
-                    marginHorizontal: R.fontSize.Size6,
-                    borderWidth: 1,
-                    padding: R.fontSize.Size5,
-                    width: R.fontSize.Size120,
-                    height: R.fontSize.Size90,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: R.fontSize.Size4,
-                    borderColor: R.colors.placeHolderColor,
-                    backgroundColor: R.colors.white,
-                    shadowColor: R.colors.lightBlack,
-                    shadowOffset: {
-                      width: 0,
-                      height: 3,
-                    },
-                    shadowOpacity: 0.27,
-                    shadowRadius: 4.65,
-
-                    elevation: 6,
-                  }}>
-                  <Image
-                    source={{uri: item.url}}
-                    resizeMode={'contain'}
-                    style={{
-                      height: R.fontSize.Size40,
-                      width: R.fontSize.Size40,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      fontSize: R.fontSize.Size14,
-                      fontWeight: '500',
-                      color: R.colors.secAppColor,
-                      textAlign: 'center',
-                      marginTop: R.fontSize.Size5,
-                    }}
-                    numberOfLines={1}>{`${item.title}`}</Text>
+      <View style={style.customCardBottomView}>
+        {props.data.map((item, index) => {
+          return (
+            <Pressable
+              key={index}
+              onPress={() => props.onPress(item)}
+              style={style.flatMainView}>
+              <Image
+                source={{uri: item.icon}}
+                style={style.customCardBottomIcon100}
+                resizeMode={'cover'}
+              />
+              <View style={style.flatTitleMainView}>
+                <View style={style.flatTitleView}>
+                  <Text style={style.customCardBottomTitle}>{item.Title}</Text>
                 </View>
               </View>
-            );
-          }}
-        />
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );
-}
+};
 
+const HomeCustomCard = props => {
+  return (
+    <View style={style.customCardMainView}>
+      <View style={style.customCardView}>
+        <Text style={style.customCardHead}>{props.heading}</Text>
+      </View>
+      <View style={style.customCardBottomView}>
+        {props.data.map((item, index) => {
+          return (
+            <Pressable
+              key={index}
+              onPress={() => props.onPress(item)}
+              style={({pressed}) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}>
+              <LinearGradient
+                colors={['#329691', '#266C87', '#266C87']}
+                style={style.linearMainView}>
+                <View style={style.linearImageView}>
+                  <Image
+                    source={{uri: item.icon}}
+                    style={style.customCardBottomIcon100}
+                    resizeMode={'cover'}
+                  />
+                </View>
+                <View style={style.linearTitleMainView}>
+                  <View style={style.linearTitleView}>
+                    <Text style={style.customCardBottomTitle} numberOfLines={1}>
+                      {item.Title}
+                    </Text>
+                  </View>
+                </View>
+              </LinearGradient>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+};
 
 const HomeScreen = props => {
+  const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const [selectedUser, setSelectedUser] = useState({});
 
-  const [showMore, setShowMore] = useState(false)
- 
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      screenFocus();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+
+  const screenFocus = async () => {
+    handleMenuListAPI();
+    let user_Data = await AsyncStorage.getItem('userData');
+    console.log('Selected User List==>', JSON.parse(user_Data));
+    let tempUser = JSON.parse(user_Data);
+    setSelectedUser(tempUser);
+    handleProfile(Number(tempUser.EmpID));
+  };
+
+  const handleProfile = userid => {
+    dispatch(
+      UserProfileRequest(userid, response => {
+        console.log('user Profile res==>', response);
+        setUserDetail(response.entity[0]);
+      }),
+    );
+  };
+
+  const handleMenuListAPI = () => {
+    setLoading(true);
+    dispatch(
+      GetMenuListRequest(response => {
+        console.log('Menu List Res==>', response);
+        // eslint-disable-next-line no-undef
+        setMenuList(response.entity.entity);
+      }),
+    );
+    setLoading(false);
+  };
+
+  const toggleCard = () => {
+    Animated.timing(animatedValue, {
+      toValue: animatedValue._value === 0 ? 1 : 0, // Toggle between 0 and 1
+      duration: 300, // Animation duration in milliseconds
+      useNativeDriver: false, // Set to true if you want to use the native driver (Android only)
+    }).start();
+    setShowMore(!showMore);
+  };
 
   return (
-    <StoryScreen>
-      <SafeAreaView style={{flex: 1}}>
+    <StoryScreen loading={loading}>
+      <SafeAreaView style={style.mainView}>
         <Header
           onPress={() => props.navigation.toggleDrawer()}
           leftSource={R.images.menuIcon}
           title={'Complete Finance Solution'}
         />
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View style={style.mainView}>
+            <View>
+              <View style={style.topHeaderView}>
+                <View>
+                  <Text style={style.topHeaderText}>
+                    {`${userDetail.StaffName}`}
+                  </Text>
+                  <Text
+                    style={[
+                      style.topHeaderText,
+                      {fontSize: R.fontSize.Size12, color: R.colors.lightBlack},
+                    ]}>
+                    {`${selectedUser.RoleName}`}
+                  </Text>
+                </View>
+                <View>
+                  <View>
+                    <Text
+                      style={
+                        style.topHeaderText
+                      }>{`${userDetail.businessofficeName}`}</Text>
+                    <Text
+                      style={[
+                        style.topHeaderText,
+                        {
+                          fontSize: R.fontSize.Size12,
+                          color: R.colors.lightBlack,
+                        },
+                      ]}>
+                      {moment(userDetail.businessofficeJoinDate).format(
+                        'Do MMM YY',
+                      )}
+                    </Text>
+                  </View>
+                </View>
+              </View>
 
-        <View style={{flex: 1}}>
-          <View>
-            <View
-              style={{
-                height: !showMore ? R.fontSize.Size160 : null,
-                marginHorizontal: R.fontSize.Size10,
-                marginTop: R.fontSize.Size10,
-                borderRadius: R.fontSize.Size5,
-                backgroundColor: R.colors.lightWhite,
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}>
-              <FlatList
-                style={{
-                  flex:1,
-                }}
-                numColumns={2}
-                data={HeaderList}
-                keyExtractor={(item, index) => index}
-                renderItem={({item, index}) => {
-                  return (
-                    <View
-                      key={index}
-                      style={{
-                        width: screenWidth / 2.4,
-                        height: screenWidth / 3,
-                        marginHorizontal: R.fontSize.Size12,
-                        backgroundColor: R.colors.lightWhite,
-                        borderRadius: R.fontSize.Size8,
-                        overflow: 'hidden',
-                        borderWidth: 1,
-                        marginVertical: R.fontSize.Size6,
-                        marginTop: R.fontSize.Size8,
-                      }}>
-                      <Image
-                        source={{uri: item.url}}
-                        style={{
-                          height: '100%',
-                          width: '100%',
-                        }}
-                        resizeMode={'cover'}
-                      />
-                      <View
-                        style={{
-                          position: 'absolute',
-                          bottom: 5,
-                          right: 0,
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: R.colors.lightWhite,
-                            padding: R.fontSize.Size4,
-                            paddingHorizontal: R.fontSize.Size8,
-                            opacity: 0.8,
-                            borderRadius: R.fontSize.Size4,
-                          }}>
-                          <Text>{item.title}</Text>
-                        </View>
-                      </View>
-                    </View>
-                  );
-                }}
-              />
-            </View>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Pressable
-                onPress={() => {
-                  setShowMore(!showMore);
-                }}
-                style={({pressed}) => [
+              <Animated.View
+                style={[
+                  style.flatUpperView,
                   {
-                    padding: R.fontSize.Size10,
-                    paddingHorizontal: R.fontSize.Size50,
-                    borderBottomWidth: 1,
-                    borderColor: R.colors.placeholderTextColor,
-                    opacity: pressed ? 0.5 : 1,
+                    opacity: animatedValue,
+                    height: !showMore ? 0 : null,
+                    transform: [
+                      {
+                        translateY: animatedValue.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [-10, -5], // 0 : 150, 0.5 : 75, 1 : 0
+                        }),
+                      },
+                    ],
                   },
                 ]}>
-                <Image
-                  source={R.images.dropdownIcon}
-                  resizeMode={'contain'}
-                  style={{
-                    height: R.fontSize.Size10,
-                    width: R.fontSize.Size10,
-                    transform: [{rotate: showMore ? '180deg' : '0deg'}],
-                  }}
-                />
-              </Pressable>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  {HeaderList.map((item, index) => {
+                    return (
+                      <View key={index} style={style.flatMainView}>
+                        <Image
+                          source={{uri: item.url}}
+                          style={{height: '100%', width: '100%'}}
+                          resizeMode={'cover'}
+                        />
+                        <View style={style.flatTitleMainView}>
+                          <View style={style.flatTitleView}>
+                            <Text>{item.title}</Text>
+                          </View>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              </Animated.View>
+              <View
+                style={[
+                  style.dropDownMainView,
+                  {
+                    position: !showMore ? 'absolute' : 'relative',
+                  },
+                ]}>
+                <Pressable
+                  onPress={toggleCard}
+                  style={({pressed}) => [
+                    style.dropDownPress,
+                    {opacity: pressed ? 0.5 : 1},
+                  ]}>
+                  <Image
+                    source={R.images.dropdownIcon}
+                    resizeMode={'contain'}
+                    style={[
+                      style.dropDownIcon,
+                      {transform: [{rotate: showMore ? '180deg' : '0deg'}]},
+                    ]}
+                  />
+                </Pressable>
+              </View>
+            </View>
+
+            <View style={{marginTop: R.fontSize.Size18}}>
+              <HomeCustomCard
+                heading={'Loan List'}
+                data={ListOne}
+                onPress={item =>
+                  props.navigation.navigate(item.Url, {
+                    item,
+                  })
+                }
+              />
             </View>
           </View>
-          <CustomCard heading={'Loan List'} data={ListOne} />
-          <CustomCard heading={'Finance List'} data={ListTwo} />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </StoryScreen>
   );

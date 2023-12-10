@@ -5,7 +5,6 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   Platform,
-  View,
 } from 'react-native';
 import R from '../res/R';
 

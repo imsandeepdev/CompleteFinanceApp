@@ -1,21 +1,11 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {
-  Pressable,
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {Pressable, View, Text, Image, ScrollView, Alert} from 'react-native';
 import R from '../../res/R';
 import style from './style';
 import {useDispatch} from 'react-redux';
-import { AppButton } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserProfileRequest } from '../../actions/profile.action';
-
+import {UserProfileRequest} from '../../actions/profile.action';
 
 const CustomDrawerButton = props => {
   return (
@@ -29,7 +19,7 @@ const CustomDrawerButton = props => {
           source={props.image}
           resizeMode={'cover'}
           style={{
-            height: R.fontSize.Size22,
+            height: R.fontSize.Size20,
             width: R.fontSize.Size20,
           }}
         />
@@ -42,49 +32,50 @@ const CustomDrawerButton = props => {
 };
 
 const Menu = props => {
-  
+  const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState({});
+  const [menuList, setMenuList] = useState([]);
 
-    const dispatch = useDispatch()
-    const [userDetail, setUserDetail] = useState({})
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      screenFocus();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
 
-    useEffect(()=>{
-        const unsubscribe = props.navigation.addListener('focus', () => {
-          screenFocus();
-        });
-        return unsubscribe;
-    },[props.navigation])
+  const screenFocus = async () => {
+    let user_Data = await AsyncStorage.getItem('userData');
+    let tempUser = JSON.parse(user_Data);
+    handleProfile(Number(tempUser.EmpID));
+  };
 
-    const screenFocus = async() => {
-      let user_id = await AsyncStorage.getItem('userid')
-      handleProfile(user_id)
-    }
-
-    const handleProfile = (userid) => {
-
-      dispatch(UserProfileRequest(userid, response =>{
-        console.log("user Profile res==>",response)
+  const handleProfile = userid => {
+    dispatch(
+      UserProfileRequest(userid, response => {
+        console.log('user Profile res==>', response);
         setUserDetail(response.entity[0]);
-      }))
-    }
+      }),
+    );
+  };
 
-     const onLogout = () => {
-       Alert.alert(
-         'Logout!',
-         'Are you sure you want to logout?',
-         [
-           {
-             text: 'LOGOUT',
-             onPress: () => onCalllogOutAPI(),
-           },
-           {text: 'CANCEL'},
-         ],
-         {cancelable: true},
-       );
-     };
+  const onLogout = () => {
+    Alert.alert(
+      'Logout!',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'LOGOUT',
+          onPress: () => onCalllogOutAPI(),
+        },
+        {text: 'CANCEL'},
+      ],
+      {cancelable: true},
+    );
+  };
 
-     const onCalllogOutAPI = () => {
-        props.navigation.replace('LoginScreen')
-     }
+  const onCalllogOutAPI = () => {
+    props.navigation.replace('LoginScreen');
+  };
 
   return (
     <View style={style.safeAreaStyle}>
@@ -99,9 +90,9 @@ const Menu = props => {
               resizeMode={'cover'}
             />
             <View>
-              <Text style={style.textStyle}>{`${userDetail.StaffName}`}</Text>
+              <Text style={style.textStyle}>{`${userDetail?.StaffName}`}</Text>
               <Text
-                style={style.subtextStyle}>{`${userDetail.ContactNo}`}</Text>
+                style={style.subtextStyle}>{`${userDetail?.ContactNo}`}</Text>
             </View>
           </View>
         </Pressable>
@@ -111,23 +102,28 @@ const Menu = props => {
           }}>
           <CustomDrawerButton
             title={'Dashboard'}
-            image={R.images.userIcon}
+            image={R.images.dashboardIcon}
             onPress={() => props.navigation.navigate('HomeScreen')}
           />
           <CustomDrawerButton
-            title={'Profile'}
-            image={R.images.userIcon}
-            onPress={() => props.navigation.navigate('HomeScreen')}
+            title={'Loan Proposal'}
+            image={R.images.aboutIcon}
+            onPress={() => props.navigation.navigate('LoanProposal')}
+          />
+          <CustomDrawerButton
+            title={'Pre Disbursement'}
+            image={R.images.aboutIcon}
+            onPress={() => props.navigation.navigate('DisbursementScreen')}
           />
           <CustomDrawerButton
             title={'About us'}
-            image={R.images.userIcon}
-            onPress={() => props.navigation.navigate('HomeScreen')}
+            image={R.images.aboutIcon}
+            onPress={() => console.log('onpress')}
           />
           <CustomDrawerButton
             title={'Setting'}
-            image={R.images.userIcon}
-            onPress={() => props.navigation.navigate('HomeScreen')}
+            image={R.images.settingIcon}
+            onPress={() => console.log('onpress')}
           />
         </ScrollView>
         <View
@@ -136,17 +132,6 @@ const Menu = props => {
             borderTopWidth: 1,
             borderColor: R.colors.lightWhite,
           }}>
-          {/* <AppButton
-            onPress={() => onLogout()}
-            title={'Sign Out'}
-            backgroundColor={R.colors.black}
-            borderWidth={R.fontSize.Size2}
-            borderColor={R.colors.appColor}
-            textColor={R.colors.appColor}
-            marginTop={R.fontSize.Size8}
-            buttonHeight={R.fontSize.Size40}
-            marginHorizontal={R.fontSize.Size40}
-          /> */}
           <CustomDrawerButton onPress={() => onLogout()} title="Sign Out" />
         </View>
       </View>

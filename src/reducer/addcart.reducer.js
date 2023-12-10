@@ -1,12 +1,8 @@
-import {
-  add_cart,
-  add_cart_success,
-  add_cart_error
-} from '../constants/common';
+import {add_cart, add_cart_success, add_cart_error} from '../constants/common';
 
 const initial_state = {
   loading: false,
-  addCartInit:{},     
+  addCartInit: {},
   error: '',
 };
 
@@ -27,7 +23,7 @@ const reducer = (state = initial_state, {type, payload}) => {
         loading: false,
         error: payload,
       };
-  
+
     default:
       return state;
   }

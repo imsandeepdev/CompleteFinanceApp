@@ -1,7 +1,7 @@
 import {
-    user_profile,
-    user_profile_success,
-    user_profile_error
+  user_profile,
+  user_profile_success,
+  user_profile_error,
 } from '../constants/common';
 
 const initial_state = {

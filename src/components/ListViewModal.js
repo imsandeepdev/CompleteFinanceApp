@@ -5,15 +5,12 @@ import {
   Pressable,
   Text,
   Image,
-  ScrollView,
   Dimensions,
   StyleSheet,
-  FlatList
+  FlatList,
 } from 'react-native';
 import R from '../res/R';
-import AppContent from '../utils/AppContent';
 const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
 
 const ListViewModal = props => {
   return (
@@ -28,9 +25,9 @@ const ListViewModal = props => {
               onPress={props.cancelOnPress}
               style={({pressed}) => [
                 {
-                 borderWidth:2,
-                 borderRadius:R.fontSize.Size4,
-                 borderColor:R.colors.appColor,
+                  borderWidth: 2,
+                  borderRadius: R.fontSize.Size4,
+                  borderColor: R.colors.appColor,
                   padding: R.fontSize.Size6,
                   opacity: pressed ? 0.5 : 1,
                 },
@@ -43,44 +40,47 @@ const ListViewModal = props => {
             </Pressable>
           </View>
 
-            <View
-              style={{
-                flex: 1,
-                marginHorizontal: R.fontSize.Size20,
-              }}>
+          <View style={Styles.flatView}>
             <FlatList
-                data={props.dataList}
-                keyExtractor={(item,index)=>index.toString()}
-                renderItem={({item,index})=>{
-                    return (
-                      <Pressable
-                        key={index}
-                        onPress={() => props.onPress(item)}
-                        style={({pressed}) => [
-                          {
-                            height: R.fontSize.Size45,
-                            borderBottomWidth: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginHorizontal: R.fontSize.Size10,
-                            borderColor: R.colors.lightWhite,
-                            opacity: pressed ? 0.5 : 1,
-                          },
-                        ]}>
-                        <Text
-                          style={{
-                            fontSize: R.fontSize.Size16,
-                            color: R.colors.secAppColor,
-                            fontWeight: '500',
-                          }}>
-                          {item.RoleName}
-                        </Text>
-                      </Pressable>
-                    );
-                }}
+              data={props.dataList}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item, index}) => {
+                let title =
+                  item.RoleName ||
+                  item.BankName ||
+                  item.ComponentName ||
+                  item.ProductName ||
+                  item.centerName;
+                return (
+                  <Pressable
+                    key={index}
+                    onPress={() => props.onPress(item)}
+                    style={({pressed}) => [
+                      {
+                        height: R.fontSize.Size45,
+                        borderBottomWidth: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginHorizontal: R.fontSize.Size10,
+                        borderColor: R.colors.lightWhite,
+                        opacity: pressed ? 0.5 : 1,
+                      },
+                    ]}>
+                    <Text style={Styles.titleText}>{title}</Text>
+                  </Pressable>
+                );
+              }}
+              ListEmptyComponent={() => {
+                return (
+                  <View style={Styles.emptyView}>
+                    <Text style={Styles.emptyText}>
+                      {'Oops!\nData not found'}
+                    </Text>
+                  </View>
+                );
+              }}
             />
-              
-            </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -90,6 +90,15 @@ const ListViewModal = props => {
 export default ListViewModal;
 
 const Styles = StyleSheet.create({
+  titleText: {
+    fontSize: R.fontSize.Size16,
+    color: R.colors.secAppColor,
+    fontWeight: '500',
+  },
+  flatView: {
+    flex: 1,
+    marginHorizontal: R.fontSize.Size20,
+  },
   modalMainView: {
     flex: 1,
     backgroundColor: R.colors.modelBackground,
@@ -174,5 +183,16 @@ const Styles = StyleSheet.create({
     fontWeight: '700',
     color: R.colors.white,
     marginLeft: R.fontSize.Size8,
+  },
+  emptyView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontFamily: R.fonts.regular,
+    fontWeight: '500',
+    color: R.colors.placeHolderColor,
+    fontSize: R.fontSize.Size14,
+    textAlign: 'center',
   },
 });
