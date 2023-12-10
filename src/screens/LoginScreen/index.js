@@ -59,17 +59,17 @@ const LoginScreen = props => {
 
   const onHandleLogin = tempDeviceId => {
     setLoading(true);
-    // let data = {
-    //   Logincode: userName,
-    //   password: password,
-    //   deviceNo: tempDeviceId,
-    // };
-
     let data = {
       Logincode: userName,
       password: password,
-      deviceNo: 'GIONEE-GIONEE MAX-7002a3236d358257',
+      deviceNo: tempDeviceId,
     };
+
+    // let data = {
+    //   Logincode: userName,
+    //   password: password,
+    //   deviceNo: 'GIONEE-GIONEE MAX-7002a3236d358257',
+    // };
 
     console.log('Data=>', data);
     dispatch(

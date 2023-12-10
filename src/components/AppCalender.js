@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, Modal, StyleSheet} from 'react-native';
+import {View, Text, Modal, StyleSheet, Pressable, Image} from 'react-native';
 import R from '../res/R';
 
 import {Calendar} from 'react-native-calendars';
@@ -12,6 +12,29 @@ const AppCalender = props => {
       transparent={true}>
       <View style={styles.mainView}>
         <View style={styles.modalView}>
+          <View
+            style={{
+              alignItems: 'flex-end',
+            }}>
+            <Pressable
+              onPress={props.cancelOnPress}
+              style={({pressed}) => [
+                {
+                  borderWidth: 1,
+                  padding: R.fontSize.Size4,
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}>
+              <Image
+                source={R.images.cancelIcon}
+                resizeMode={'contain'}
+                style={{
+                  height: R.fontSize.Size14,
+                  width: R.fontSize.Size14,
+                }}
+              />
+            </Pressable>
+          </View>
           <View>
             <Calendar
               onDayPress={props.onDayPress}
@@ -25,6 +48,7 @@ const AppCalender = props => {
                 console.log('onPressArrowRight');
                 goToNextMonth();
               }}
+              minDate={props.minDate}
             />
           </View>
         </View>
@@ -50,8 +74,8 @@ const styles = StyleSheet.create({
     marginHorizontal: R.fontSize.Size15,
   },
   modalView: {
-    // height: 200,
-    backgroundColor: R.colors.lightWhite,
+    // height: R.fontSize.Size500,
+    backgroundColor: R.colors.white,
     marginHorizontal: R.fontSize.Size20,
     borderRadius: R.fontSize.Size8,
     padding: R.fontSize.Size8,

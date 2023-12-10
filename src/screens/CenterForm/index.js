@@ -6,6 +6,8 @@ import {
   AppButton,
   AppCardPress,
   AppTextInput,
+  CustomAlert,
+  GroupDropDownModal,
   Header,
   StoryScreen,
 } from '../../components';
@@ -17,6 +19,7 @@ import {RegCenterRequest} from '../../actions/regCenter.action';
 import CommonFunctions from '../../utils/CommonFunctions';
 import Toast from 'react-native-simple-toast';
 import style from './style';
+import {GetGroupDropDownRequest} from '../../actions/dropdown.action';
 
 const CenterForm = props => {
   const dispatch = useDispatch();
@@ -29,6 +32,11 @@ const CenterForm = props => {
   const [centerLandmark, setCenterLandmark] = useState('');
   const [isDisplayDate, setIsDisplayDate] = useState(false);
   const [meetingDay, setMeetingDay] = useState('meetingDay');
+  const [groupDropDownModal, setGroupDropDownModal] = useState(false);
+  const [groupDropDownList, setGroupDropDownList] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [applicantStatus, setApplicantStatus] = useState(false);
+  const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
 
   useEffect(() => {
     handleProfile();
@@ -76,7 +84,7 @@ const CenterForm = props => {
       centerName: centerName,
       areaName: 'string',
       formationDate: '2023-06-24T16:43:24.770Z',
-      centerMeetingDay: 2,
+      centerMeetingDay: centerMeetingDay.RuleID,
       centerMeetingTime: '2023-06-24T16:43:24.770Z',
       reportingDay: 0,
       address: centerAddress,
@@ -97,12 +105,46 @@ const CenterForm = props => {
     dispatch(
       RegCenterRequest(data, response => {
         console.log('Response Center=>', response);
-        if (response.message === 'Success') {
-          Toast.show('Successfully! save center form details', Toast.SHORT);
-          props.navigation.goBack();
+        if (response.statusCode === 200) {
+          setModalVisible(true);
+          setApplicantStatus(true);
+          setApplicantStatusMsg('Successfully! save center form details');
+        } else {
+          setModalVisible(true);
+          setApplicantStatus(false);
+          setApplicantStatusMsg('Faild! Try Again ');
         }
       }),
     );
+  };
+
+  const handleGroupDropDown = mode => {
+    let tempCenter =
+      centerName.CenterId !== undefined ? centerName.CenterId : 0;
+
+    let data = `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}&CenterId=${tempCenter}&GroupId=0`;
+    dispatch(
+      GetGroupDropDownRequest(data, response => {
+        console.log('Group drop down res=>', response);
+        setGroupDropDownList(response.entity.entity);
+      }),
+    );
+    setGroupDropDownModal(true);
+  };
+
+  const handleGroupDropDownSelect = item => {
+    console.log('ITEM SELECT', item);
+    setCenterMeetingDay(item);
+    setGroupDropDownModal(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setModalVisible(false);
+    props.navigation.goBack();
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -140,13 +182,14 @@ const CenterForm = props => {
                 onSubmitEditing={() => mnameRef.current?.focus()}
               />
               <AppCardPress
-                onPress={() => (
-                  setIsDisplayDate(true), setMeetingDay('meetingDay')
-                )}
+                // onPress={() => (
+                //   setIsDisplayDate(true), setMeetingDay('meetingDay')
+                // )}
+                onPress={() => handleGroupDropDown('MeetingDay')}
                 headTitle={'Center Meeting Day *'}
                 title={
                   centerMeetingDay !== ''
-                    ? centerMeetingDay
+                    ? centerMeetingDay.RoleName
                     : 'Center Meeting Day'
                 }
                 TextColor={
@@ -262,6 +305,24 @@ const CenterForm = props => {
           />
         </View>
       </SafeAreaView>
+      <GroupDropDownModal
+        visible={groupDropDownModal}
+        cancelOnPress={() => setGroupDropDownModal(false)}
+        onPress={item => handleGroupDropDownSelect(item)}
+        dataList={groupDropDownList}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          applicantStatus ? R.images.successIcon : R.images.cancelRedIcon
+        }
+        modalColor={applicantStatus ? R.colors.appColor : R.colors.redColor}
+        title={applicantStatus ? 'Success' : 'Failed'}
+        subTitle={applicantStatusMsg}
+        onPress={() => {
+          applicantStatus ? handleSuccessModalClose() : handleModalClose();
+        }}
+      />
     </StoryScreen>
   );
 };

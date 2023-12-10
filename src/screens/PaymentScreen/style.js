@@ -20,22 +20,25 @@ const Styles = StyleSheet.create({
   headView: {
     paddingVertical: R.fontSize.Size5,
     alignItems: 'center',
-    width: (screenWidth - R.fontSize.Size22) / 6,
-    borderWidth: 1,
-    backgroundColor: R.colors.appColor,
+    width: (screenWidth - R.fontSize.Size22) / 8,
+    borderWidth: 0.4,
+    padding: R.fontSize.Size4,
   },
   headTitle: {
     fontFamily: R.fonts.regular,
     fontSize: R.fontSize.Size12,
-    color: R.colors.lightWhite,
+    color: R.colors.white,
     fontWeight: '500',
     textAlign: 'center',
   },
   valueHeadView: {
     paddingVertical: R.fontSize.Size5,
     alignItems: 'center',
-    width: (screenWidth - R.fontSize.Size22) / 6,
-    borderWidth: 1,
+    width: (screenWidth - R.fontSize.Size22) / 8,
+    borderWidth: 0.4,
+  },
+  valueTextInputHeadView: {
+    width: (screenWidth - R.fontSize.Size22) / 8,
   },
   valueHeadTitle: {
     fontFamily: R.fonts.regular,
@@ -57,10 +60,14 @@ const Styles = StyleSheet.create({
   wrapView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    backgroundColor: R.colors.appColor,
+    borderWidth: 1.5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   selectedView: {
-    borderBottomWidth: 1,
-    marginTop: R.fontSize.Size2,
+    // borderBottomWidth: 1,
+    marginTop: R.fontSize.Size4,
   },
   wrapViewStyle: {
     flexDirection: 'row',

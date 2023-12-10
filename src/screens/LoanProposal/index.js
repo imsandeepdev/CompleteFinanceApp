@@ -258,10 +258,12 @@ const LoanProposal = props => {
     if (tempMonthExp >= tempTotalIncome) {
       setAlertModal(true);
       setAlertMessage(
-        `Monthly total expenses is not a valid\nMonthly total expenses amount not be greater then Total Income`,
+        'Monthly total expenses is not a valid\nMonthly total expenses amount not be greater then Total Income',
       );
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   };
 
   const handleLoanProposalValidation = () => {
@@ -292,10 +294,12 @@ const LoanProposal = props => {
     ) {
       setAlertModal(true);
       setAlertMessage(
-        `Please enter valid total loan installment amount\nLoan Installment amount not be greater then Total Income`,
+        'Please enter valid total loan installment amount\nLoan Installment amount not be greater then Total Income',
       );
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   };
 
   const handleMonthlyIncomeValidation = () => {
@@ -306,10 +310,12 @@ const LoanProposal = props => {
       25000
     ) {
       setAlertModal(true);
-      setAlertMessage(`Total income should be required less then 25,000`);
+      setAlertMessage('Total income should be required less then 25,000');
 
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   };
 
   const handleSaveLoanProposal = () => {
@@ -417,10 +423,12 @@ const LoanProposal = props => {
     if (customerMonthlyIncome < 5000 || customerMonthlyIncome > 25000) {
       setAlertModal(true);
       setAlertMessage(
-        `monthly income amount accepted between 5,000/- to 25,000/- `,
+        'monthly income amount accepted between 5,000/- to 25,000/- ',
       );
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   };
 
   const handleNextIncome = () => {

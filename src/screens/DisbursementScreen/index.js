@@ -8,6 +8,7 @@ import {
   AppButton,
   AppCalender,
   AppCardPress,
+  CustomAlert,
   CustomerListModal,
   Header,
   ListViewModal,
@@ -15,16 +16,12 @@ import {
 import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
 import CommonFunctions from '../../utils/CommonFunctions';
-import Toast from 'react-native-simple-toast';
-import {
-  GetAllCustomerRequest,
-  GetLoanProposalCustomerListRequest,
-} from '../../actions/role.action';
-import {LoanProposalDetailRequest} from '../../actions/loanApproval.action';
+import {GetLoanProposalCustomerListRequest} from '../../actions/role.action';
+import {LoanPreDisbursementListRequest} from '../../actions/loanApproval.action';
 import {UpdateDisbursementRequest} from '../../actions/disbursement.action';
-import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {PaymentModeListRequest} from '../../actions/dropdown.action';
+import Toast from 'react-native-simple-toast';
 const payment_Date = 'paymentDate';
 const disbursement_Date = 'disbursementDate';
 
@@ -42,6 +39,9 @@ const DisbursementScreen = props => {
   const [paymentMode, setPaymentMode] = useState('');
   const [disbursementDate, setDisbursementDate] = useState('');
   const [firstPaymentDate, setFirstPaymentDate] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [applicantStatus, setApplicantStatus] = useState(false);
+  const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
 
   useEffect(() => {
     // handleApprovalDetail();
@@ -64,6 +64,10 @@ const DisbursementScreen = props => {
         );
         let tempList = response.entity.entity;
         setCustomerList(tempList);
+        setCustomerListModal(true);
+        setPaymentMode('');
+        setDisbursementDate('');
+        setFirstPaymentDate('');
       }),
     );
   };
@@ -98,8 +102,23 @@ const DisbursementScreen = props => {
       CommonFunctions.isBlank(
         firstPaymentDate,
         'please select first payment date',
-      )
+      ) &&
+      handleDateVerification()
     );
+  };
+
+  const handleDateVerification = () => {
+    if (disbursementDate <= firstPaymentDate) {
+      return true;
+    } else {
+      return (
+        false,
+        Toast.show(
+          'Disbursement date must be required less then First Payment Date',
+          Toast.LONG,
+        )
+      );
+    }
   };
 
   const handleUpdateDisbursement = () => {
@@ -124,8 +143,13 @@ const DisbursementScreen = props => {
       UpdateDisbursementRequest(data, response => {
         console.log('Update disbursement status=>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! Submitted pre disbursement', Toast.SHORT);
-          props.navigation.goBack();
+          setModalVisible(true);
+          setApplicantStatus(true);
+          setApplicantStatusMsg('Successfully! Submitted pre disbursement');
+        } else {
+          setModalVisible(true);
+          setApplicantStatus(false);
+          setApplicantStatusMsg('Faild! Loan Approval. Try Again ');
         }
       }),
     );
@@ -146,7 +170,7 @@ const DisbursementScreen = props => {
       boID: profileDetail.BoId,
     };
     dispatch(
-      LoanProposalDetailRequest(data, response => {
+      LoanPreDisbursementListRequest(data, response => {
         console.log('Loan Proposal Detail', response.entity.entity);
         if (
           response.statusCode === 200 &&
@@ -161,6 +185,15 @@ const DisbursementScreen = props => {
   const handleDateDisplay = type => {
     setDateType(type);
     setIsDisplayDate(true);
+  };
+
+  const handleSuccessModalClose = () => {
+    setModalVisible(false);
+    handleGetAllCustomer(profileDetail.StaffID, profileDetail.BoId);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -256,30 +289,31 @@ const DisbursementScreen = props => {
               }
               rightIcon={R.images.dropdownIcon}
             />
-            <AppCardPress
-              onPress={() => handleDateDisplay(payment_Date)}
-              headTitle={'First Payment Date *'}
-              title={
-                firstPaymentDate !== ''
-                  ? firstPaymentDate
-                  : 'First Payment Date'
-              }
-              TextColor={
-                firstPaymentDate !== ''
-                  ? R.colors.secAppColor
-                  : R.colors.placeholderTextColor
-              }
-              headTitleColor={
-                firstPaymentDate !== ''
-                  ? R.colors.darkGreenColor
-                  : R.colors.textPriColor
-              }
-              rightIcon={R.images.dropdownIcon}
-            />
-            <DatePicker
+
+            {disbursementDate !== '' && (
+              <AppCardPress
+                onPress={() => handleDateDisplay(payment_Date)}
+                headTitle={'First Payment Date *'}
+                title={
+                  firstPaymentDate !== ''
+                    ? firstPaymentDate
+                    : 'First Payment Date'
+                }
+                TextColor={
+                  firstPaymentDate !== ''
+                    ? R.colors.secAppColor
+                    : R.colors.placeholderTextColor
+                }
+                headTitleColor={
+                  firstPaymentDate !== ''
+                    ? R.colors.darkGreenColor
+                    : R.colors.textPriColor
+                }
+                rightIcon={R.images.dropdownIcon}
+              />
+            )}
+            {/* <DatePicker
               modal
-              // maximumDate={new Date()}
-              // minimumDate={new Date()}
               open={isDisplayDate}
               date={new Date()}
               mode="date"
@@ -294,7 +328,7 @@ const DisbursementScreen = props => {
               onCancel={() => {
                 setIsDisplayDate(false);
               }}
-            />
+            /> */}
           </View>
           <View>
             <AppButton
@@ -318,9 +352,33 @@ const DisbursementScreen = props => {
         data={customerList}
         onPress={item => handleProceed(item)}
       />
+
       <AppCalender
-        visible={false}
-        onDayPress={day => console.log('ONDDDD', day)}
+        visible={isDisplayDate}
+        cancelOnPress={() => {
+          setIsDisplayDate(false);
+        }}
+        onDayPress={day => {
+          console.log('ONDDDD', day.dateString);
+          dateType === payment_Date
+            ? setFirstPaymentDate(moment(day.dateString).format('YYYY-MM-DD'))
+            : setDisbursementDate(moment(day.dateString).format('YYYY-MM-DD'));
+
+          setIsDisplayDate(false);
+        }}
+        minDate={disbursementDate}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          applicantStatus ? R.images.successIcon : R.images.cancelRedIcon
+        }
+        modalColor={applicantStatus ? R.colors.appColor : R.colors.redColor}
+        title={applicantStatus ? 'Success' : 'Failed'}
+        subTitle={applicantStatusMsg}
+        onPress={() => {
+          applicantStatus ? handleSuccessModalClose() : handleModalClose();
+        }}
       />
     </StoryScreen>
   );

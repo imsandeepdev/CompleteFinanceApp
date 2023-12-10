@@ -9,6 +9,9 @@ import {
   update_loan_approval,
   update_loan_approval_success,
   update_loan_approval_error,
+  loan_PreDisbursment_List,
+  loan_PreDisbursment_List_success,
+  loan_PreDisbursment_List_error,
 } from '../constants/common';
 import api from '../services/api';
 
@@ -63,6 +66,44 @@ export const UpdateLoanApprovalError = error => {
   return {
     type: update_loan_approval_error,
     payload: error,
+  };
+};
+
+export const LoanPreDisbursementList = () => {
+  return {
+    type: loan_PreDisbursment_List,
+  };
+};
+export const LoanPreDisbursementListSuccess = payload => {
+  return {
+    type: loan_PreDisbursment_List_success,
+    payload,
+  };
+};
+export const LoanPreDisbursementListError = error => {
+  return {
+    type: loan_PreDisbursment_List_error,
+    payload: error,
+  };
+};
+
+export const LoanPreDisbursementListRequest = (data, success, failed) => {
+  return dispatch => {
+    dispatch(LoanPreDisbursementList());
+    api
+      .multipostRequest({
+        needAuth: false,
+        url: `${Config.loanPreDisbursementDetailAPI}?ProposalId=${data.proposalId}&BOId=${data.boID}`,
+      })
+      .then(response => {
+        dispatch(LoanPreDisbursementListSuccess(response));
+        success?.(response);
+      })
+      .catch(error => {
+        dispatch(LoanPreDisbursementListError(error));
+        failed?.(error);
+        console.log('Error: ', error);
+      });
   };
 };
 

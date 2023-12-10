@@ -979,7 +979,7 @@ const ApplicantForm = props => {
                     title_noOfSon={noOfSon}
                     onPress_noOfSon={() => handleListModal('noOfSon')}
                   />
-                  {/* <DatePicker
+                  <DatePicker
                     modal
                     maximumDate={new Date()}
                     minimumDate={new Date('1940-01-01')}
@@ -994,7 +994,7 @@ const ApplicantForm = props => {
                     onCancel={() => {
                       setIsDisplayDate(false);
                     }}
-                  /> */}
+                  />
                 </View>
               )}
               {selectedHeader === 1 && (
@@ -1284,14 +1284,30 @@ const ApplicantForm = props => {
           applicantStatus ? handleSuccessModalClose() : handleModalClose();
         }}
       />
-      <AppCalender
+      {/* <AppCalender
         visible={isDisplayDate}
         onDayPress={day => {
           console.log('ONDDDD', day.dateString);
           setIsDisplayDate(false);
           setBirthDate(moment(day.dateString).format('YYYY-MM-DD'));
         }}
+      /> */}
+      {/* <AppCalender
+        visible={nomaniDisplayDate}
+        onDayPress={day => {
+          console.log('ONDDDD', day.dateString);
+          setNomaniDisplayDate(false);
+          setNomaniDob(moment(day.dateString).format('Do-MMM-YYYY'));
+        }}
       />
+      <AppCalender
+        visible={coApplicantDisplayDate}
+        onDayPress={day => {
+          console.log('ONDDDD', day.dateString);
+          setCoApplicantDisplayDate(false);
+          setCoApplicantDob(moment(day.dateString).format('Do-MMM-YYYY'));
+        }}
+      /> */}
     </StoryScreen>
   );
 };

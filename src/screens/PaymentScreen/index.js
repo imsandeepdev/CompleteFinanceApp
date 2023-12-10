@@ -7,6 +7,7 @@ import {
   ScrollView,
   Pressable,
   Image,
+  TextInput,
 } from 'react-native';
 import {AppButton, Header, ListViewModal, StoryScreen} from '../../components';
 import Styles from './style';
@@ -25,6 +26,8 @@ const CollectionTitle = [
   'Husband Name',
   'Collected Amount',
   'Due Amount',
+  'Principle Collection',
+  'Interested Collection',
   'Outstanding Amount',
 ];
 
@@ -39,6 +42,7 @@ const PaymentScreen = props => {
   const [totalPrincipleAmount, setTotalPrincipleAmount] = useState('');
   const [totalInterestAmount, setTotalInterestAmount] = useState('');
   const [buttonVisibleStatus, setButtonVisibleStatus] = useState(false);
+  const [prevCollectAmount, setPrevCollectAmount] = useState(0);
 
   useEffect(() => {
     console.log('Profile Details on Payment Screen=>', props.profile.entity[0]);
@@ -73,6 +77,7 @@ const PaymentScreen = props => {
       date: '2023-11-18T06:32:11.089Z',
       boId: profileDetail.BoId,
     };
+    console.log('payment data=>', data);
     dispatch(
       LoanCollectionRequest(data, response => {
         console.log('Loan Collection Res==>', response);
@@ -80,8 +85,6 @@ const PaymentScreen = props => {
         let tempArray = [];
         tempArray = response.entity.entity;
         setButtonVisibleStatus(tempArray.length > 0 ? true : false);
-
-        // setSelectCollected(response.entity.entity);
       }),
     );
   };
@@ -109,37 +112,115 @@ const PaymentScreen = props => {
     });
     setSelectCollected(tempData);
     handleOverAllCollected(tempData);
+    let tempFilter = selectCollected.filter(item => item.selected === true);
+    if (tempFilter.length <= 0) {
+      setButtonVisibleStatus(false);
+    } else {
+      setButtonVisibleStatus(true);
+    }
+    console.log('TempFilter', tempFilter);
+  };
+
+  const handleOnChangeAmount = (text, index1) => {
+    if (prevCollectAmount < Number(text)) {
+      Toast.show(
+        'Collected amount should be required less then due amount',
+        Toast.SHORT,
+      );
+    }
+    console.log('INDEXX=>', index1), console.log('AMOUNT=>', text);
+    let tempData = selectCollected.map((item, index) => {
+      if (index === index1) {
+        item.sumCollected = text;
+      }
+      return {...item};
+    });
+    setSelectCollected(tempData);
+    handleOverAllCollected(tempData);
+    // console.log('UPDATED TEMP DATA=>', tempData);
   };
 
   const handleOverAllCollected = tempData => {
     let tempFilter = tempData.filter(item => item.selected === true);
     console.log('tempFilter=>', tempFilter);
-    tempFilter.forEach(item => {
-      let tempAmount = Number(item.principleAmt) + Number(item.interestAmt);
-      console.log('temp Amount', tempAmount);
-      setOverAllCollectAmount(tempAmount);
-      setTotalPrincipleAmount(item.principleAmt);
-      setTotalInterestAmount(item.interestAmt);
-    });
+    const totalSum = tempFilter.reduce((accumulator, currentItem) => {
+      return Number(accumulator) + Number(currentItem.sumCollected);
+    }, 0);
+    console.log('temp Amount==>', totalSum);
+    setOverAllCollectAmount(totalSum);
   };
 
-  const handleLoanRepaymentCollection = () => {
-    let data = {
-      tempId: selectedCenter.tempId,
-      loginId: profileDetail.StaffID,
-      branhId: profileDetail.BranchId,
-      principleCollection: totalPrincipleAmount,
-      intertestCollection: totalInterestAmount,
-      applicantId: selectedCenter.applicantId,
-      centerId: selectedCenter.centerId,
-      loanId: selectedCenter.loanId,
-    };
-    console.log('Loan Repayment Data', data);
+  const handleCollectedVerification = () => {
+    let tempData = selectCollected.map((item, index) => {
+      console.log('PRINCIPE AMOUNT=>', item.principleCollected);
+      let tempAmount =
+        Number(item.sumCollected).length <= 0 ? 0 : Number(item.sumCollected);
+      console.log('CURRENT TEMP AMOUNT=>', tempAmount);
+
+      if (item.selected === true && item.principleCollected >= tempAmount) {
+        item.principleCollected = item.principleCollected - tempAmount;
+      } else if (
+        item.selected === true &&
+        item.principleCollected < tempAmount
+      ) {
+        let tempDifferenceValue = tempAmount - item.principleCollected;
+        item.principleCollected = 0;
+        item.interestCollected = item.interestCollected - tempDifferenceValue;
+      }
+
+      return {...item};
+    });
+    setSelectCollected(tempData);
+    console.log('UPDATED TEMP DATA=>', tempData);
+    handleLoanRepaymentCollection(tempData);
+  };
+
+  const handleLoanRepaymentCollection = tempData => {
+    let tempFilter = tempData.filter(item => item.selected === true);
+    console.log('TEP FILTERR=>', tempFilter);
+
+    let tempArray = [];
+    tempFilter.forEach(item => {
+      tempArray.push({
+        tempId: item.tempId,
+        loginId: profileDetail.StaffID,
+        branhId: profileDetail.BranchId,
+        principleCollection: item.principleCollected,
+        intertestCollection: item.interestCollected,
+        applicantId: item.applicantId,
+        centerId: item.centerId,
+        loanId: item.loanId,
+      });
+    });
+
+    console.log('Temppupdatedd==>', tempArray);
+
+    // let data = {
+    //   tempId: selectedCenter.tempId,
+    //   loginId: profileDetail.StaffID,
+    //   branhId: profileDetail.BranchId,
+    //   principleCollection: totalPrincipleAmount,
+    //   intertestCollection: totalInterestAmount,
+    //   applicantId: selectedCenter.applicantId,
+    //   centerId: selectedCenter.centerId,
+    //   loanId: selectedCenter.loanId,
+    // };
+    // console.log('Loan Repayment Data', data);
+
     dispatch(
-      LoanRepaymentCollectionRequest(data, response => {
+      LoanRepaymentCollectionRequest(tempArray, response => {
         console.log('loan Repayment collection response=>', response);
+        if (response.statusCode === 200) {
+          Toast.show('Successfully! Saved Payment', Toast.SHORT);
+          props.navigation.goBack();
+        }
       }),
     );
+  };
+
+  const handleOnPressIn = item => {
+    console.log('handle on Press in', item.sumCollected);
+    setPrevCollectAmount(Number(item.sumCollected));
   };
 
   return (
@@ -188,85 +269,120 @@ const PaymentScreen = props => {
                   style={{
                     marginTop: R.fontSize.Size5,
                   }}>
-                  <View style={Styles.wrapView}>
-                    {CollectionTitle.map((item, index) => {
-                      return (
-                        <View key={index} style={Styles.headView}>
-                          <Text style={Styles.headTitle} numberOfLines={2}>
-                            {item}
-                          </Text>
-                        </View>
-                      );
-                    })}
-                  </View>
-                  <View style={Styles.selectedView}>
-                    {selectCollected.map((item, index) => {
-                      return (
-                        <View key={index}>
-                          <Pressable
-                            onPress={() => handleSelectedCollected(item, index)}
-                            style={({pressed}) => [
-                              {
-                                opacity: pressed ? 0.5 : 1,
-                              },
-                            ]}>
-                            <View
-                              style={[
-                                Styles.wrapViewStyle,
+                  <View>
+                    <View style={Styles.wrapView}>
+                      {CollectionTitle.map((item, index) => {
+                        return (
+                          <View key={index} style={Styles.headView}>
+                            <Text style={Styles.headTitle} numberOfLines={4}>
+                              {item}
+                            </Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                    <View style={Styles.selectedView}>
+                      {selectCollected.map((item, index) => {
+                        return (
+                          <View key={index}>
+                            <Pressable
+                              onPress={() =>
+                                handleSelectedCollected(item, index)
+                              }
+                              style={({pressed}) => [
                                 {
+                                  opacity: pressed ? 0.5 : 1,
+                                  borderWidth: 1.5,
+                                  borderColor: item.selected
+                                    ? R.colors.appColor
+                                    : R.colors.placeHolderColor,
+                                  borderRadius: 4,
+                                  overflow: 'hidden',
+                                  marginTop: R.fontSize.Size4,
                                   backgroundColor: item.selected
-                                    ? R.colors.lightAppColor
+                                    ? R.colors.appColor
                                     : R.colors.placeholderTextColor,
                                 },
                               ]}>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {item.loanId}
-                                </Text>
+                              <View style={[Styles.wrapViewStyle]}>
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.loanId}
+                                  </Text>
+                                </View>
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.applicantName}
+                                  </Text>
+                                </View>
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.husbandName}
+                                  </Text>
+                                </View>
+
+                                <View style={Styles.valueTextInputHeadView}>
+                                  <TextInput
+                                    style={{
+                                      flex: 1,
+                                      borderWidth: 0.4,
+                                      fontSize: R.fontSize.Size12,
+                                      color: R.colors.black,
+                                      textAlign: 'center',
+                                    }}
+                                    value={`${item.sumCollected}`}
+                                    onChangeText={text =>
+                                      handleOnChangeAmount(text, index)
+                                    }
+                                    maxLength={8}
+                                    onPressIn={({nativeEvent: PressEvent}) =>
+                                      handleOnPressIn(item)
+                                    }
+                                  />
+                                </View>
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {Number(item.principleCollected) +
+                                      Number(item.interestCollected)}
+                                  </Text>
+                                </View>
+
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.principleCollected}
+                                  </Text>
+                                </View>
+
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.interestCollected}
+                                  </Text>
+                                </View>
+                                <View style={Styles.valueHeadView}>
+                                  <Text
+                                    style={Styles.valueHeadTitle}
+                                    numberOfLines={2}>
+                                    {item.totalOS}
+                                  </Text>
+                                </View>
                               </View>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {item.applicantName}
-                                </Text>
-                              </View>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {item.husbandName}
-                                </Text>
-                              </View>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {Number(item.principleAmt) +
-                                    Number(item.interestAmt)}
-                                </Text>
-                              </View>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {item.principleAmt}
-                                </Text>
-                              </View>
-                              <View style={Styles.valueHeadView}>
-                                <Text
-                                  style={Styles.valueHeadTitle}
-                                  numberOfLines={2}>
-                                  {item.totalOS}
-                                </Text>
-                              </View>
-                            </View>
-                          </Pressable>
-                        </View>
-                      );
-                    })}
+                            </Pressable>
+                          </View>
+                        );
+                      })}
+                    </View>
                   </View>
                   <View style={Styles.overAllView}>
                     <Text style={Styles.overAllText}>
@@ -283,6 +399,168 @@ const PaymentScreen = props => {
               )}
             </View>
           </View>
+
+          {/* TEST LAYOUT */}
+
+          <View
+            style={{
+              borderWidth: 2,
+              // padding: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                borderColor: R.colors.placeholderTextColor,
+                paddingVertical: 4,
+                backgroundColor: R.colors.appColor,
+                alignItems: 'center',
+              }}>
+              <Pressable
+                style={({pressed}) => [
+                  {
+                    opacity: pressed ? 0.5 : 1,
+                    paddingHorizontal: 10,
+                  },
+                ]}>
+                <Image
+                  source={R.images.menuIcon}
+                  resizeMode={'contain'}
+                  style={{height: 20, width: 20}}
+                />
+              </Pressable>
+              <View style={{flex: 1, marginHorizontal: 5}}>
+                <Text
+                  style={{
+                    color: R.colors.white,
+                    fontSize: R.fontSize.Size14,
+                    fontWeight: '600',
+                  }}>
+                  {'Shyam Yadav'}
+                </Text>
+                <Text
+                  style={{
+                    color: R.colors.white,
+                    fontSize: R.fontSize.Size12,
+                    fontWeight: '400',
+                  }}>
+                  {'W/O: Reema Yadav'}
+                </Text>
+              </View>
+              <View style={{marginRight: 10}}>
+                <Text
+                  style={{
+                    color: R.colors.white,
+                    fontSize: R.fontSize.Size14,
+                    fontWeight: '600',
+                  }}>
+                  {'LoanId: 123'}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 4,
+                borderBottomWidth: 1,
+                borderColor: R.colors.placeholderTextColor,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  marginHorizontal: 5,
+                  borderRightWidth: 1,
+                  alignItems: 'center',
+                  borderColor: R.colors.placeholderTextColor,
+                }}>
+                <View style={{flex: 1}}>
+                  <Text>{'Principle Amount'}</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>{'₹ 333'}</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  marginHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                <View style={{flex: 1}}>
+                  <Text>{'Interest Amount'}</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>{'₹ 333'}</Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 4,
+                borderBottomWidth: 1,
+                borderColor: R.colors.placeholderTextColor,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  marginHorizontal: 5,
+                  borderRightWidth: 1,
+                  alignItems: 'center',
+                  borderColor: R.colors.placeholderTextColor,
+                }}>
+                <View style={{flex: 1}}>
+                  <Text>{'Due Amount'}</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>{'₹ 333'}</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  marginHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                <View style={{flex: 1}}>
+                  <Text>{'Outstanding Amount'}</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>{'₹ 333'}</Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 4,
+                alignItems: 'center',
+              }}>
+              <View style={{flex: 1}}>
+                <Text>{'Collected Amount'}</Text>
+              </View>
+              <View style={{flex: 1}}>
+                <TextInput
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: R.colors.placeholderTextColor,
+
+                    fontSize: R.fontSize.Size12,
+                    color: R.colors.black,
+                    textAlign: 'center',
+                    paddingVertical: 8,
+                  }}
+                  value={`665`}
+                  maxLength={8}
+                />
+              </View>
+            </View>
+          </View>
         </ScrollView>
         <View
           style={{
@@ -290,7 +568,7 @@ const PaymentScreen = props => {
           }}>
           <AppButton
             onPress={() => {
-              handleLoanRepaymentCollection();
+              handleCollectedVerification();
             }}
             marginHorizontal={R.fontSize.Size30}
             buttonBorderRadius={R.fontSize.Size4}

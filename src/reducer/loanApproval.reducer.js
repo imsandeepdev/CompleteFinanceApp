@@ -8,6 +8,9 @@ import {
   update_loan_approval,
   update_loan_approval_success,
   update_loan_approval_error,
+  loan_PreDisbursment_List,
+  loan_PreDisbursment_List_success,
+  loan_PreDisbursment_List_error,
 } from '../constants/common';
 
 const initial_state = {
@@ -15,6 +18,7 @@ const initial_state = {
   loanProposalDetailInit: {},
   approvedStatusInit: {},
   updateLoanApproveInit: {},
+  LoanPreDisbursementInit: {},
   error: '',
 };
 
@@ -62,6 +66,21 @@ const reducer = (state = initial_state, {type, payload}) => {
         updateLoanApproveInit: payload,
       };
     case update_loan_approval_error:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case loan_PreDisbursment_List:
+      return {
+        ...state,
+        loading: true,
+      };
+    case loan_PreDisbursment_List_success:
+      return {
+        loading: false,
+        LoanPreDisbursementInit: payload,
+      };
+    case loan_PreDisbursment_List_error:
       return {
         loading: false,
         error: payload,

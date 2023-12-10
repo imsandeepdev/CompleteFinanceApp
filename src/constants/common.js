@@ -164,3 +164,9 @@ export const loanRepayment_Collection = 'loanRepayment_Collection';
 export const loanRepayment_Collection_success =
   'loanRepayment_Collection_success';
 export const loanRepayment_Collection_error = 'loanRepayment_Collection_error';
+
+// loanPreDisbursmentList
+export const loan_PreDisbursment_List = 'loan_PreDisbursment_List';
+export const loan_PreDisbursment_List_success =
+  'loan_PreDisbursment_List_success';
+export const loan_PreDisbursment_List_error = 'loan_PreDisbursment_List_error';
