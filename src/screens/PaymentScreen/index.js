@@ -9,7 +9,13 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import {AppButton, Header, ListViewModal, StoryScreen} from '../../components';
+import {
+  AppButton,
+  CustomAlert,
+  Header,
+  ListViewModal,
+  StoryScreen,
+} from '../../components';
 import Styles from './style';
 import R from '../../res/R';
 import {useDispatch, connect} from 'react-redux';
@@ -43,6 +49,9 @@ const PaymentScreen = props => {
   const [totalInterestAmount, setTotalInterestAmount] = useState('');
   const [buttonVisibleStatus, setButtonVisibleStatus] = useState(false);
   const [prevCollectAmount, setPrevCollectAmount] = useState(0);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastAlertVisible, setToastAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState('');
 
   useEffect(() => {
     console.log('Profile Details on Payment Screen=>', props.profile.entity[0]);
@@ -94,12 +103,12 @@ const PaymentScreen = props => {
     tempList = list;
     let temp = tempList.map(item => {
       item.selected = true;
+      item.principle = item.principleCollected;
+      item.interest = item.interestCollected;
       return {...item};
     });
-
     setSelectCollected(temp);
     handleOverAllCollected(temp);
-
     setListModal(false);
   };
 
@@ -122,21 +131,42 @@ const PaymentScreen = props => {
   };
 
   const handleOnChangeAmount = (text, index1) => {
-    if (prevCollectAmount < Number(text)) {
-      Toast.show(
-        'Collected amount should be required less then due amount',
-        Toast.SHORT,
-      );
-    }
-    console.log('INDEXX=>', index1), console.log('AMOUNT=>', text);
     let tempData = selectCollected.map((item, index) => {
       if (index === index1) {
-        item.sumCollected = text;
+        if (item.interestCollected + item.principleCollected < Number(text)) {
+          setToastAlertVisible(true);
+          setAlertType('Error');
+          setToastMessage(
+            'Collected amount should be required less then due amount',
+          );
+          item.sumCollected = item.interestCollected + item.principleCollected;
+
+          // Toast.show(
+          //   'Collected amount should be required less then due amount',
+          //   Toast.SHORT,
+          // );
+        } else {
+          let tempData = selectCollected.map((item, index) => {
+            if (index === index1) {
+              item.sumCollected = text;
+              if (Number(text) >= item.principleCollected) {
+                let tempDiff = Number(text) - item.principleCollected;
+                item.interest = item.interestCollected - tempDiff;
+                item.principle = 0;
+              } else {
+                item.principle = item.principleCollected - Number(text);
+              }
+            }
+            return {...item};
+          });
+          setSelectCollected(tempData);
+          handleOverAllCollected(tempData);
+        }
       }
       return {...item};
     });
     setSelectCollected(tempData);
-    handleOverAllCollected(tempData);
+
     // console.log('UPDATED TEMP DATA=>', tempData);
   };
 
@@ -167,7 +197,6 @@ const PaymentScreen = props => {
         item.principleCollected = 0;
         item.interestCollected = item.interestCollected - tempDifferenceValue;
       }
-
       return {...item};
     });
     setSelectCollected(tempData);
@@ -211,16 +240,28 @@ const PaymentScreen = props => {
       LoanRepaymentCollectionRequest(tempArray, response => {
         console.log('loan Repayment collection response=>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! Saved Payment', Toast.SHORT);
-          props.navigation.goBack();
+          setToastAlertVisible(true);
+          setAlertType('Success');
+          setToastMessage('Successfully! Saved Payment');
+          // Toast.show('Successfully! Saved Payment', Toast.SHORT);
+          // props.navigation.goBack();
         }
       }),
     );
   };
 
   const handleOnPressIn = item => {
-    console.log('handle on Press in', item.sumCollected);
-    setPrevCollectAmount(Number(item.sumCollected));
+    console.log('handle on Press in', item);
+    // setPrevCollectAmount(Number(item.sumCollected));
+    // setTotalPrincipleAmount(item.principleCollected);
+    // setTotalInterestAmount(item.interestCollected);
+  };
+
+  const handleClosedAlert = () => {
+    setToastAlertVisible(false);
+    if (alertType === 'Success') {
+      props.navigation.goBack();
+    }
   };
 
   return (
@@ -238,7 +279,7 @@ const PaymentScreen = props => {
                 onPress={() => handleCollectionModal()}
                 style={({pressed}) => [
                   {
-                    paddingVertical: 10,
+                    paddingVertical: 12,
                     borderBottomWidth: 2,
                     borderColor: R.colors.appColor,
                     flexDirection: 'row',
@@ -270,72 +311,143 @@ const PaymentScreen = props => {
                     marginTop: R.fontSize.Size5,
                   }}>
                   <View>
-                    <View style={Styles.wrapView}>
-                      {CollectionTitle.map((item, index) => {
-                        return (
-                          <View key={index} style={Styles.headView}>
-                            <Text style={Styles.headTitle} numberOfLines={4}>
-                              {item}
-                            </Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                    <View style={Styles.selectedView}>
+                    <View>
                       {selectCollected.map((item, index) => {
+                        let checkTextColor = item.selected
+                          ? R.colors.white
+                          : R.colors.black;
                         return (
                           <View key={index}>
                             <Pressable
-                              onPress={() =>
-                                handleSelectedCollected(item, index)
-                              }
+                              onPress={() => {
+                                handleSelectedCollected(item, index);
+                              }}
                               style={({pressed}) => [
+                                Styles.cardMainView,
                                 {
                                   opacity: pressed ? 0.5 : 1,
-                                  borderWidth: 1.5,
                                   borderColor: item.selected
                                     ? R.colors.appColor
                                     : R.colors.placeHolderColor,
-                                  borderRadius: 4,
-                                  overflow: 'hidden',
-                                  marginTop: R.fontSize.Size4,
-                                  backgroundColor: item.selected
-                                    ? R.colors.appColor
-                                    : R.colors.placeholderTextColor,
                                 },
                               ]}>
-                              <View style={[Styles.wrapViewStyle]}>
-                                <View style={Styles.valueHeadView}>
-                                  <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {item.loanId}
-                                  </Text>
+                              <View
+                                style={[
+                                  Styles.cardRowTopView,
+                                  {
+                                    backgroundColor: item.selected
+                                      ? R.colors.appColor
+                                      : R.colors.placeholderTextColor,
+                                  },
+                                ]}>
+                                <View
+                                  style={{
+                                    paddingHorizontal: R.fontSize.Size4,
+                                  }}>
+                                  {item.selected ? (
+                                    <Image
+                                      source={R.images.successIcon}
+                                      resizeMode={'contain'}
+                                      style={Styles.checkIcon}
+                                    />
+                                  ) : (
+                                    <View style={Styles.unCheckView} />
+                                  )}
                                 </View>
-                                <View style={Styles.valueHeadView}>
+                                <View style={Styles.cardTopTitleView}>
                                   <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
+                                    style={[
+                                      Styles.cardTitleText,
+                                      {color: checkTextColor},
+                                    ]}>
                                     {item.applicantName}
                                   </Text>
-                                </View>
-                                <View style={Styles.valueHeadView}>
                                   <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {item.husbandName}
+                                    style={[
+                                      Styles.cardSubTitleText,
+                                      {
+                                        color: checkTextColor,
+                                      },
+                                    ]}>
+                                    {`W/O: ${item.husbandName}`}
                                   </Text>
                                 </View>
-
-                                <View style={Styles.valueTextInputHeadView}>
+                                <View style={{marginRight: R.fontSize.Size10}}>
+                                  <Text
+                                    style={[
+                                      Styles.cardTitleText,
+                                      {color: checkTextColor},
+                                    ]}>
+                                    {`LoanId: ${item.loanId}`}
+                                  </Text>
+                                </View>
+                              </View>
+                              <View style={Styles.cardBodyRowView}>
+                                <View style={Styles.cardBodyLeftView}>
+                                  <View style={Styles.cardFlex}>
+                                    <Text style={Styles.cardBodyTitleText}>
+                                      {'Principle '}
+                                    </Text>
+                                  </View>
+                                  <View style={Styles.cardFlex}>
+                                    <Text
+                                      style={
+                                        Styles.cardBodyAmountText
+                                      }>{`₹ ${item.principle} `}</Text>
+                                  </View>
+                                </View>
+                                <View style={Styles.cardBodyRightView}>
+                                  <View style={Styles.cardFlex}>
+                                    <Text style={Styles.cardBodyTitleText}>
+                                      {'Interest Amount'}
+                                    </Text>
+                                  </View>
+                                  <View style={Styles.cardFlex}>
+                                    <Text
+                                      style={
+                                        Styles.cardBodyAmountText
+                                      }>{`₹ ${item.interest} `}</Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={Styles.cardBodyRowView}>
+                                <View style={Styles.cardBodyLeftView}>
+                                  <View style={Styles.cardFlex}>
+                                    <Text style={Styles.cardBodyTitleText}>
+                                      {'Due Amount'}
+                                    </Text>
+                                  </View>
+                                  <View style={Styles.cardFlex}>
+                                    <Text
+                                      style={Styles.cardBodyAmountText}>{`₹ ${
+                                      Number(item.principleCollected) +
+                                      Number(item.interestCollected)
+                                    }`}</Text>
+                                  </View>
+                                </View>
+                                <View style={Styles.cardBodyRightView}>
+                                  <View style={Styles.cardFlex}>
+                                    <Text style={Styles.cardBodyTitleText}>
+                                      {'Outstanding Amount'}
+                                    </Text>
+                                  </View>
+                                  <View style={Styles.cardFlex}>
+                                    <Text
+                                      style={
+                                        Styles.cardBodyAmountText
+                                      }>{`₹ ${item.totalOS}`}</Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={Styles.cardBodyRowView}>
+                                <View style={Styles.cardFlex}>
+                                  <Text style={Styles.cardBodyTitleText}>
+                                    {'Collected Amount ( ₹ )'}
+                                  </Text>
+                                </View>
+                                <View style={Styles.cardFlex}>
                                   <TextInput
-                                    style={{
-                                      flex: 1,
-                                      borderWidth: 0.4,
-                                      fontSize: R.fontSize.Size12,
-                                      color: R.colors.black,
-                                      textAlign: 'center',
-                                    }}
+                                    style={Styles.cardTextInput}
                                     value={`${item.sumCollected}`}
                                     onChangeText={text =>
                                       handleOnChangeAmount(text, index)
@@ -346,37 +458,6 @@ const PaymentScreen = props => {
                                     }
                                   />
                                 </View>
-                                <View style={Styles.valueHeadView}>
-                                  <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {Number(item.principleCollected) +
-                                      Number(item.interestCollected)}
-                                  </Text>
-                                </View>
-
-                                <View style={Styles.valueHeadView}>
-                                  <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {item.principleCollected}
-                                  </Text>
-                                </View>
-
-                                <View style={Styles.valueHeadView}>
-                                  <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {item.interestCollected}
-                                  </Text>
-                                </View>
-                                <View style={Styles.valueHeadView}>
-                                  <Text
-                                    style={Styles.valueHeadTitle}
-                                    numberOfLines={2}>
-                                    {item.totalOS}
-                                  </Text>
-                                </View>
                               </View>
                             </Pressable>
                           </View>
@@ -384,7 +465,7 @@ const PaymentScreen = props => {
                       })}
                     </View>
                   </View>
-                  <View style={Styles.overAllView}>
+                  {/* <View style={Styles.overAllView}>
                     <Text style={Styles.overAllText}>
                       {'Overall Collected Amount :  '}
                       <Text
@@ -394,200 +475,57 @@ const PaymentScreen = props => {
                         {overAllCollectAmount}
                       </Text>
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
               )}
             </View>
           </View>
-
-          {/* TEST LAYOUT */}
-
-          <View
-            style={{
-              borderWidth: 2,
-              // padding: 5,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                borderBottomWidth: 1,
-                borderColor: R.colors.placeholderTextColor,
-                paddingVertical: 4,
-                backgroundColor: R.colors.appColor,
-                alignItems: 'center',
-              }}>
-              <Pressable
-                style={({pressed}) => [
-                  {
-                    opacity: pressed ? 0.5 : 1,
-                    paddingHorizontal: 10,
-                  },
-                ]}>
-                <Image
-                  source={R.images.menuIcon}
-                  resizeMode={'contain'}
-                  style={{height: 20, width: 20}}
-                />
-              </Pressable>
-              <View style={{flex: 1, marginHorizontal: 5}}>
-                <Text
-                  style={{
-                    color: R.colors.white,
-                    fontSize: R.fontSize.Size14,
-                    fontWeight: '600',
-                  }}>
-                  {'Shyam Yadav'}
-                </Text>
-                <Text
-                  style={{
-                    color: R.colors.white,
-                    fontSize: R.fontSize.Size12,
-                    fontWeight: '400',
-                  }}>
-                  {'W/O: Reema Yadav'}
-                </Text>
-              </View>
-              <View style={{marginRight: 10}}>
-                <Text
-                  style={{
-                    color: R.colors.white,
-                    fontSize: R.fontSize.Size14,
-                    fontWeight: '600',
-                  }}>
-                  {'LoanId: 123'}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 4,
-                borderBottomWidth: 1,
-                borderColor: R.colors.placeholderTextColor,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  marginHorizontal: 5,
-                  borderRightWidth: 1,
-                  alignItems: 'center',
-                  borderColor: R.colors.placeholderTextColor,
-                }}>
-                <View style={{flex: 1}}>
-                  <Text>{'Principle Amount'}</Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text>{'₹ 333'}</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  marginHorizontal: 5,
-                  alignItems: 'center',
-                }}>
-                <View style={{flex: 1}}>
-                  <Text>{'Interest Amount'}</Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text>{'₹ 333'}</Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 4,
-                borderBottomWidth: 1,
-                borderColor: R.colors.placeholderTextColor,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  marginHorizontal: 5,
-                  borderRightWidth: 1,
-                  alignItems: 'center',
-                  borderColor: R.colors.placeholderTextColor,
-                }}>
-                <View style={{flex: 1}}>
-                  <Text>{'Due Amount'}</Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text>{'₹ 333'}</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  marginHorizontal: 5,
-                  alignItems: 'center',
-                }}>
-                <View style={{flex: 1}}>
-                  <Text>{'Outstanding Amount'}</Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text>{'₹ 333'}</Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 4,
-                alignItems: 'center',
-              }}>
-              <View style={{flex: 1}}>
-                <Text>{'Collected Amount'}</Text>
-              </View>
-              <View style={{flex: 1}}>
-                <TextInput
-                  style={{
-                    flex: 1,
-                    borderWidth: 1,
-                    borderColor: R.colors.placeholderTextColor,
-
-                    fontSize: R.fontSize.Size12,
-                    color: R.colors.black,
-                    textAlign: 'center',
-                    paddingVertical: 8,
-                  }}
-                  value={`665`}
-                  maxLength={8}
-                />
-              </View>
-            </View>
-          </View>
         </ScrollView>
-        <View
-          style={{
-            marginVertical: R.fontSize.Size10,
-          }}>
-          <AppButton
-            onPress={() => {
-              handleCollectedVerification();
-            }}
-            marginHorizontal={R.fontSize.Size30}
-            buttonBorderRadius={R.fontSize.Size4}
-            buttonHeight={R.fontSize.Size45}
-            disabled={buttonVisibleStatus ? false : true}
-            backgroundColor={
-              buttonVisibleStatus
-                ? R.colors.appColor
-                : R.colors.placeholderTextColor
-            }
-            title={'Save'}
-          />
-        </View>
+        {selectCollected.length > 0 && (
+          <View style={Styles.bottomMainView}>
+            <View style={Styles.overAllView}>
+              <Text style={Styles.overAllText}>
+                {'Overall Collected Amount :  '}
+                <Text style={Styles.overAllText}>{overAllCollectAmount}</Text>
+              </Text>
+            </View>
+            <AppButton
+              onPress={() => {
+                handleCollectedVerification();
+              }}
+              marginHorizontal={R.fontSize.Size30}
+              buttonBorderRadius={R.fontSize.Size4}
+              buttonHeight={R.fontSize.Size45}
+              disabled={buttonVisibleStatus ? false : true}
+              backgroundColor={
+                buttonVisibleStatus
+                  ? R.colors.appColor
+                  : R.colors.placeholderTextColor
+              }
+              title={'Save'}
+            />
+          </View>
+        )}
       </SafeAreaView>
       <ListViewModal
         visible={listModal}
         cancelOnPress={() => setListModal(false)}
         onPress={item => handleCollectionListAPI(item)}
         dataList={centerCollectionList}
+      />
+      <CustomAlert
+        visible={toastAlertVisible}
+        topIcon={
+          alertType === 'Success'
+            ? R.images.successIcon
+            : R.images.cancelRedIcon
+        }
+        modalColor={
+          alertType === 'Success' ? R.colors.appColor : R.colors.redColor
+        }
+        title={alertType === 'Success' ? 'Success' : 'Invalid Collected Amount'}
+        subTitle={toastMessage}
+        onPress={() => handleClosedAlert()}
       />
     </StoryScreen>
   );

@@ -39,6 +39,7 @@ const DisbursementScreen = props => {
   const [paymentMode, setPaymentMode] = useState('');
   const [disbursementDate, setDisbursementDate] = useState('');
   const [firstPaymentDate, setFirstPaymentDate] = useState('');
+  const [firstMinDate, setFirstMinDate] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [applicantStatus, setApplicantStatus] = useState(false);
   const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
@@ -103,8 +104,32 @@ const DisbursementScreen = props => {
         firstPaymentDate,
         'please select first payment date',
       ) &&
-      handleDateVerification()
+      handleDateVerification() &&
+      handleDiffDate()
     );
+  };
+
+  const handleDiffDate = () => {
+    console.log('TEMP DIFF', firstPaymentDate);
+    console.log('TEMP DIFF', disbursementDate);
+    let startDate = moment(disbursementDate);
+    let endDate = moment(firstPaymentDate);
+
+    // Find the difference in days
+    let differenceInDays = endDate.diff(startDate, 'days');
+
+    console.log('Difference in days:', differenceInDays);
+    if (approvalDetail.minDistanceDate <= differenceInDays) {
+      return true;
+    } else {
+      false,
+        Toast.show(
+          'Disbursement date must be required ' +
+            approvalDetail.minDistanceDate +
+            ' days less then First Payment Date',
+          Toast.LONG,
+        );
+    }
   };
 
   const handleDateVerification = () => {
@@ -194,6 +219,20 @@ const DisbursementScreen = props => {
 
   const handleModalClose = () => {
     setModalVisible(false);
+  };
+
+  const handleDisbursementDate = selectDate => {
+    let tempDisbursement = moment(selectDate).format('YYYY-MM-DD');
+    console.log('TEMP DISBURSEMENT==>', tempDisbursement);
+    setDisbursementDate(moment(selectDate).format('YYYY-MM-DD'));
+    let tempSelectDate = moment(selectDate).format('YYYY-MM-DD');
+    let tempMinDiff = approvalDetail.minDistanceDate;
+    let tempMinDate = moment(tempSelectDate, 'YYYY-MM-DD').add(
+      tempMinDiff,
+      'days',
+    );
+    console.log('MinDate==>', moment(tempMinDate).format('YYYY-MM-DD'));
+    setFirstMinDate(moment(tempMinDate).format('YYYY-MM-DD'));
   };
 
   return (
@@ -362,11 +401,11 @@ const DisbursementScreen = props => {
           console.log('ONDDDD', day.dateString);
           dateType === payment_Date
             ? setFirstPaymentDate(moment(day.dateString).format('YYYY-MM-DD'))
-            : setDisbursementDate(moment(day.dateString).format('YYYY-MM-DD'));
+            : handleDisbursementDate(day.dateString);
 
           setIsDisplayDate(false);
         }}
-        minDate={disbursementDate}
+        minDate={firstMinDate}
       />
       <CustomAlert
         visible={modalVisible}

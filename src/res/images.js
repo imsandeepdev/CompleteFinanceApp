@@ -28,6 +28,7 @@ const images = {
   whiteBack: require('./images/white_Back.png'),
   successIcon: require('./images/successIcon.png'),
   cancelRedIcon: require('./images/cancelIcon.png'),
+  checkBoxIcon: require('./images/checkBox.png'),
 };
 
 export {images};
