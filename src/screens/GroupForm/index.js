@@ -133,7 +133,7 @@ const GroupForm = props => {
       groupId: 0,
       groupCode: 'test',
       branchId: branchManager.BoId,
-      groupName: groupName,
+      groupName: swiperValue ? groupName : existingGroupName.GroupName,
       bmId: 0,
       testerId: 0,
       staffid: profileDetail.StaffID,
@@ -164,7 +164,7 @@ const GroupForm = props => {
       RegGroupRequest(data, response => {
         console.log('response =>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! save group form details', Toast.SHORT);
+          // Toast.show('Successfully! save group form details', Toast.SHORT);
           // props.navigation.goBack();
           setMessageStatus('success');
           setToastMessage('Successfully! save group form details');
@@ -243,7 +243,7 @@ const GroupForm = props => {
     };
     dispatch(
       GetGroupDetailRequest(data, response => {
-        console.log('RESPONSE GROUP ', response);
+        console.log('RESPONSE GROUP==> ', response);
         if (response.statusCode === 200) {
           let resValue = response.entity.entity[0];
           setGroupAddress(resValue.G_Address);

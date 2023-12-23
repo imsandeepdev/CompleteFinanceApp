@@ -34,6 +34,7 @@ const DisbursementScreen = props => {
   const [customerListModal, setCustomerListModal] = useState(true);
   const [customerList, setCustomerList] = useState([]);
   const [isDisplayDate, setIsDisplayDate] = useState(false);
+  const [isDisplayFirstDate, setIsDisplayFirstDate] = useState(false);
   const [dateType, setDateType] = useState('');
   const [onSelectCustomer, setOnSelectCustomer] = useState('');
   const [paymentMode, setPaymentMode] = useState('');
@@ -155,7 +156,7 @@ const DisbursementScreen = props => {
   const handleUpdateDisbursementAPI = () => {
     let data = {
       mode: 'Update',
-      branchId: 1,
+      branchId: profileDetail.BranchId,
       proposalId: onSelectCustomer.ProposalId,
       customerInfoId: onSelectCustomer.CenterId,
       staffId: profileDetail.StaffID,
@@ -311,7 +312,8 @@ const DisbursementScreen = props => {
               rightIcon={R.images.dropdownIcon}
             />
             <AppCardPress
-              onPress={() => handleDateDisplay(disbursement_Date)}
+              // onPress={() => handleDateDisplay(disbursement_Date)}
+              onPress={() => setIsDisplayDate(true)}
               headTitle={'Disbursement Date *'}
               title={
                 disbursementDate !== '' ? disbursementDate : 'Disbursement Date'
@@ -331,7 +333,7 @@ const DisbursementScreen = props => {
 
             {disbursementDate !== '' && (
               <AppCardPress
-                onPress={() => handleDateDisplay(payment_Date)}
+                onPress={() => setIsDisplayFirstDate(true)}
                 headTitle={'First Payment Date *'}
                 title={
                   firstPaymentDate !== ''
@@ -351,23 +353,6 @@ const DisbursementScreen = props => {
                 rightIcon={R.images.dropdownIcon}
               />
             )}
-            {/* <DatePicker
-              modal
-              open={isDisplayDate}
-              date={new Date()}
-              mode="date"
-              onConfirm={date => {
-                console.log('DATE', date);
-                dateType === payment_Date
-                  ? setFirstPaymentDate(moment(date).format('YYYY-MM-DD'))
-                  : setDisbursementDate(moment(date).format('YYYY-MM-DD'));
-
-                setIsDisplayDate(false);
-              }}
-              onCancel={() => {
-                setIsDisplayDate(false);
-              }}
-            /> */}
           </View>
           <View>
             <AppButton
@@ -387,7 +372,6 @@ const DisbursementScreen = props => {
       <CustomerListModal
         backOnPress={() => props.navigation.goBack()}
         visible={customerListModal}
-        // visible={false}
         data={customerList}
         onPress={item => handleProceed(item)}
       />
@@ -399,11 +383,21 @@ const DisbursementScreen = props => {
         }}
         onDayPress={day => {
           console.log('ONDDDD', day.dateString);
-          dateType === payment_Date
-            ? setFirstPaymentDate(moment(day.dateString).format('YYYY-MM-DD'))
-            : handleDisbursementDate(day.dateString);
+          handleDisbursementDate(day.dateString);
 
           setIsDisplayDate(false);
+        }}
+      />
+      <AppCalender
+        visible={isDisplayFirstDate}
+        cancelOnPress={() => {
+          setIsDisplayFirstDate(false);
+        }}
+        onDayPress={day => {
+          console.log('ONDDDD', day.dateString);
+          setFirstPaymentDate(moment(day.dateString).format('YYYY-MM-DD'));
+
+          setIsDisplayFirstDate(false);
         }}
         minDate={firstMinDate}
       />

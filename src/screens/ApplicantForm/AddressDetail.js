@@ -34,7 +34,7 @@ const AddressDetail = props => {
           placeholder={'House no'}
           headTitle={'House no *'}
           headTitleColor={
-            props.value_houseNo != ''
+            props.value_houseNo !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -42,6 +42,7 @@ const AddressDetail = props => {
           onChangeText={props.onChange_houseNo}
           returnKeyType={'next'}
           onSubmitEditing={() => addressAreaRef.current?.focus()}
+          keyboardType={'numeric'}
         />
         <AppTextInput
           ref={addressAreaRef}
@@ -62,7 +63,7 @@ const AddressDetail = props => {
           placeholder={'Street name'}
           headTitle={'Street name *'}
           headTitleColor={
-            props.value_streetName != ''
+            props.value_streetName !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -76,7 +77,7 @@ const AddressDetail = props => {
           placeholder={'landMark'}
           headTitle={'landMark'}
           headTitleColor={
-            props.value_landmark != ''
+            props.value_landmark !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -90,7 +91,7 @@ const AddressDetail = props => {
           placeholder={'City'}
           headTitle={'City *'}
           headTitleColor={
-            props.value_cityName != ''
+            props.value_cityName !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -104,7 +105,7 @@ const AddressDetail = props => {
           placeholder={'State'}
           headTitle={'State *'}
           headTitleColor={
-            props.value_stateName != ''
+            props.value_stateName !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -118,7 +119,7 @@ const AddressDetail = props => {
           placeholder={'Country'}
           headTitle={'Country *'}
           headTitleColor={
-            props.value_countryName != ''
+            props.value_countryName !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -132,13 +133,15 @@ const AddressDetail = props => {
           placeholder={'Pin code'}
           headTitle={'Pin code *'}
           headTitleColor={
-            props.value_pinCode != ''
+            props.value_pinCode !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
           value={props.value_pinCode}
           onChangeText={props.onChange_pinCode}
+          keyboardType={'numeric'}
           returnKeyType={'done'}
+          maxLength={6}
         />
 
         <View
@@ -172,7 +175,7 @@ const AddressDetail = props => {
           placeholder={'House no'}
           headTitle={'House no *'}
           headTitleColor={
-            props.value_perhouseNo != ''
+            props.value_perhouseNo !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
@@ -180,6 +183,7 @@ const AddressDetail = props => {
           onChangeText={props.onChange_perhouseNo}
           returnKeyType={'next'}
           onSubmitEditing={() => peraddressAreaRef.current?.focus()}
+          keyboardType={'numeric'}
         />
         <AppTextInput
           ref={peraddressAreaRef}
@@ -270,13 +274,15 @@ const AddressDetail = props => {
           placeholder={'Pin code'}
           headTitle={'Pin code *'}
           headTitleColor={
-            props.value_perpinCode != ''
+            props.value_perpinCode !== ''
               ? R.colors.darkGreenColor
               : R.colors.textPriColor
           }
           value={props.value_perpinCode}
           onChangeText={props.onChange_perpinCode}
           returnKeyType={'done'}
+          keyboardType={'numeric'}
+          maxLength={6}
         />
       </View>
       <View style={style.rowFlexEnd}>

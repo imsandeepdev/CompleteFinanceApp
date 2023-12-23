@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {
   AlertModal,
+  CustomAlert,
   CustomerListModal,
   Header,
   ListViewModal,
@@ -81,6 +82,10 @@ const LoanProposal = props => {
   const [listModal, setListModal] = useState(false);
   const [listModalType, setListModalType] = useState('');
   const [listModalData, setListModalData] = useState([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [applicantStatus, setApplicantStatus] = useState(false);
+  const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
 
   useEffect(() => {
     handleGetAllCustomer(
@@ -404,11 +409,20 @@ const LoanProposal = props => {
       SaveLoanProposalRequest(data, response => {
         console.log('save loan response=>', response);
         if (response.statusCode === 200) {
-          Toast.show('Successfully! send loan proposal details', Toast.SHORT);
-          props.navigation.goBack();
+          setModalVisible(true);
+          setApplicantStatus(true);
+          setApplicantStatusMsg('Successfully! send loan proposal details');
+
+          // Toast.show('Successfully! send loan proposal details', Toast.SHORT);
+          // props.navigation.goBack();
         }
       }),
     );
+  };
+
+  const handleClosedModal = () => {
+    setModalVisible(false);
+    props.navigation.goBack();
   };
 
   // const handleTotalIncome = () => {
@@ -715,6 +729,18 @@ const LoanProposal = props => {
         visible={customerListModal}
         data={customerList}
         onPress={item => handleProceed(item)}
+      />
+      <CustomAlert
+        visible={modalVisible}
+        topIcon={
+          applicantStatus ? R.images.successIcon : R.images.cancelRedIcon
+        }
+        modalColor={applicantStatus ? R.colors.appColor : R.colors.redColor}
+        title={applicantStatus ? 'Success' : 'Failed'}
+        subTitle={applicantStatusMsg}
+        onPress={() => {
+          handleClosedModal();
+        }}
       />
     </StoryScreen>
   );

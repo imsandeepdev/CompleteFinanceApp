@@ -276,7 +276,7 @@ const GenralDetail = props => {
             onChangeText={props.onChange_motherName}
           />*/}
         <AppTextInput
-          placeholder={'Husband/Wife Name'}
+          placeholder={'Husband/Wife Name*'}
           headTitle={'Husband/Wife Name'}
           headTitleColor={
             props.value_husbandName !== ''
@@ -288,7 +288,7 @@ const GenralDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_husbandQualification}
-          headTitle={'Husband/Wife Qualification'}
+          headTitle={'Husband/Wife Qualification*'}
           title={
             props.title_husbandQualification != null
               ? props.title_husbandQualification
@@ -308,7 +308,7 @@ const GenralDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_noOfFamilyMember}
-          headTitle={'Number of family member'}
+          headTitle={'Number of family member*'}
           title={
             props.title_noOfFamilyMember !== ''
               ? props.title_noOfFamilyMember
@@ -330,7 +330,7 @@ const GenralDetail = props => {
           <AppCardPress
             flex={1}
             onPress={props.onPress_noOfDaughter}
-            headTitle={'No of daughter(age > 18)'}
+            headTitle={'No of daughter(age > 18)*'}
             title={
               props.title_noOfDaughter !== ''
                 ? props.title_noOfDaughter
@@ -351,7 +351,7 @@ const GenralDetail = props => {
           <AppCardPress
             flex={1}
             onPress={props.onPress_noOfSon}
-            headTitle={'No of son(age > 18)'}
+            headTitle={'No of son(age > 18)*'}
             title={
               props.title_noOfSon !== ''
                 ? props.title_noOfSon

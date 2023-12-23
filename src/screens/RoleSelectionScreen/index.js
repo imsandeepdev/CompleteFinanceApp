@@ -36,7 +36,7 @@ const RoleSelectionScreen = props => {
 
   const handleRoleSelect = item => {
     console.log('select Role==>', item);
-    // AsyncStorage.setItem('userData', JSON.stringify(item));
+    AsyncStorage.setItem('userTypeDetail', JSON.stringify(item));
 
     setSelectedRole(item.RoleName);
     setRoleModal(false);

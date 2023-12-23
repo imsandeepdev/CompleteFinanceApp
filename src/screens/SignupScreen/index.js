@@ -120,12 +120,13 @@ const SignupScreen = props => {
     dispatch(
       UserRegistrationRequest(data, response => {
         console.log('Register Response==>', response);
-        if (response.entity.statusCode === 200 && response.statusCode === 200) {
+        if (response.entity.statusCode === 200) {
           let tempMsg = response.entity.entity[0].Msg;
           if (response.entity.entity[0].status === 'Success') {
             setOtpModal(false);
-            props.navigation.replace('LoginScreen');
-            Toast.show(tempMsg, Toast.SHORT);
+            // props.navigation.replace('LoginScreen');
+            setModalVisible(true);
+            setToastMassage(tempMsg);
             setRegStatus(true);
           }
         } else {
@@ -165,6 +166,11 @@ const SignupScreen = props => {
 
   const handleModalClose = () => {
     setModalVisible(false);
+  };
+
+  const handleSuccessModal = () => {
+    setModalVisible(false);
+    props.navigation.replace('LoginScreen');
   };
 
   return (
@@ -284,7 +290,9 @@ const SignupScreen = props => {
         modalColor={regStatus ? R.colors.appColor : R.colors.redColor}
         title={regStatus ? 'Registration Success' : 'Registration faild'}
         subTitle={toastMassage}
-        onPress={() => handleModalClose()}
+        onPress={() => {
+          regStatus ? handleSuccessModal() : handleModalClose();
+        }}
       />
     </StoryScreen>
   );

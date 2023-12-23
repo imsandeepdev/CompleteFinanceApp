@@ -58,7 +58,7 @@ const LoginScreen = props => {
   };
 
   const onHandleLogin = tempDeviceId => {
-    setLoading(true);
+    // setLoading(true);
     let data = {
       Logincode: userName,
       password: password,
@@ -103,7 +103,7 @@ const LoginScreen = props => {
   };
 
   return (
-    <StoryScreen loading={loading}>
+    <StoryScreen loading={props.loading}>
       <ScrollView contentContainerStyle={style.scrollView}>
         <View style={style.flexView}>
           <View style={style.topView}>

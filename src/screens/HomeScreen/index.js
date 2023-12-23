@@ -23,32 +23,22 @@ import moment from 'moment';
 const HeaderList = [
   {
     id: '1',
-    title: 'Saving Plan',
+    title: 'Collection Report',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmXA-Cn-ufWMIkgZrae82xfyQYfDdeGP2D0p9FF4oDsQ&usqp=CAU&ec=48665699',
   },
   {
     id: '2',
-    title: 'Money Tree',
+    title: 'Branch Report',
     url: 'https://s40424.pcdn.co/in/wp-content/uploads/2022/03/What-is-Financial-Management.jpg.optimal.jpg',
   },
   {
     id: '3',
-    title: 'Home Loan',
+    title: 'Arrear Report',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
   },
   {
     id: '4',
-    title: 'Family Plan',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
-  },
-  {
-    id: '5',
-    title: 'Home Loan',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyoazwee-uSof7t911AQvvCtr_VUZFN0i3QUlPrtI0k29UzygLYgsBE4IqA_E8w049LrlhRdQlH0&usqp=CAU&ec=48665699',
-  },
-  {
-    id: '6',
-    title: 'Family Plan',
+    title: 'Performance Report',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAdkXIuTb4aWlhWnAcTlikoXebE_77Dm1tKQvF1nhKxg&usqp=CAU&ec=48665699',
   },
 ];
@@ -201,6 +191,7 @@ const HomeScreen = props => {
   const [showMore, setShowMore] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const [selectedUser, setSelectedUser] = useState({});
+  const [selectedUserType, setSelectedUserType] = useState({});
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -214,7 +205,10 @@ const HomeScreen = props => {
     let user_Data = await AsyncStorage.getItem('userData');
     console.log('Selected User List==>', JSON.parse(user_Data));
     let tempUser = JSON.parse(user_Data);
-    setSelectedUser(tempUser);
+    let user_Type = await AsyncStorage.getItem('userTypeDetail');
+    console.log('Selected User List==>', JSON.parse(user_Type));
+    let tempUserType = JSON.parse(user_Type);
+    setSelectedUserType(tempUserType);
     handleProfile(Number(tempUser.EmpID));
   };
 
@@ -269,7 +263,7 @@ const HomeScreen = props => {
                       style.topHeaderText,
                       {fontSize: R.fontSize.Size12, color: R.colors.lightBlack},
                     ]}>
-                    {`${selectedUser.RoleName}`}
+                    {`${selectedUserType.RoleName}`}
                   </Text>
                 </View>
                 <View>

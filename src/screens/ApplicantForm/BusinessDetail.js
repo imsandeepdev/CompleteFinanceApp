@@ -83,6 +83,7 @@ const BusinessDetail = props => {
           value={props.value_assetValue}
           onChangeText={props.onChange_assetValue}
           returnKeyType={'done'}
+          keyboardType={'numeric'}
         />
         <AppCardPress
           onPress={props.onPress_houseStatus}

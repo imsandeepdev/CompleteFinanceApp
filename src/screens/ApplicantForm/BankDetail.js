@@ -58,6 +58,7 @@ const BankDetail = props => {
           value={props.value_accountNo}
           onChangeText={props.onChange_accountNo}
           returnKeyType={'next'}
+          keyboardType={'numeric'}
           onSubmitEditing={() => ifscCodeRef.current?.focus()}
         />
         <AppTextInput

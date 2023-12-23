@@ -51,6 +51,8 @@ const multipartRequest = ({url, needAuth, formData, hideLoader = false}) =>
       .post(requestUrl, formData, {headers})
       .then(response => {
         console.log('AXIOS RESPONSE ON API', response);
+        console.log('AXIOS RESPONSE ON API==>', response.data.statusCode);
+
         if (response.status == '200') {
           resolve(response.data);
         } else if (response.status == 401) {

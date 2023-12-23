@@ -291,7 +291,7 @@ const ApplicantForm = props => {
     dispatch(
       GetBankNameRequest(response => {
         console.log('response==>', response);
-        if (response.statusCode == 200) {
+        if (response.statusCode === 200) {
           setListModalData(response.entity.entity);
           setListModal(true);
         }
