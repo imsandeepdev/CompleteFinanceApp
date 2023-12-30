@@ -29,6 +29,7 @@ const images = {
   successIcon: require('./images/successIcon.png'),
   cancelRedIcon: require('./images/cancelIcon.png'),
   checkBoxIcon: require('./images/checkBox.png'),
+  loanIcon: require('./images/loanApp.png'),
 };
 
 export {images};

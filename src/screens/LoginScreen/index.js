@@ -68,7 +68,7 @@ const LoginScreen = props => {
     // let data = {
     //   Logincode: userName,
     //   password: password,
-    //   deviceNo: 'GIONEE-GIONEE MAX-7002a3236d358257',
+    //   deviceNo: 'vivo-V2225-6c1734d6e38e2b46',
     // };
 
     console.log('Data=>', data);

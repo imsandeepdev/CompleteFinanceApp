@@ -42,6 +42,8 @@ const PaymentScreen = props => {
   const [profileDetail, setProfileDetail] = useState();
   const [centerCollectionList, setCenterCollectionList] = useState([]);
   const [selectCollected, setSelectCollected] = useState([]);
+  const [collectedStatus, setCollectedStatus] = useState(false);
+
   const [listModal, setListModal] = useState(false);
   const [overAllCollectAmount, setOverAllCollectAmount] = useState('');
   const [selectedCenter, setSelectedCenter] = useState();
@@ -76,6 +78,7 @@ const PaymentScreen = props => {
   };
 
   const handleCollectionModal = () => {
+    setCollectedStatus(false);
     setListModal(true);
   };
 
@@ -90,10 +93,17 @@ const PaymentScreen = props => {
     dispatch(
       LoanCollectionRequest(data, response => {
         console.log('Loan Collection Res==>', response);
-        handleCollectionListState(response.entity.entity);
-        let tempArray = [];
-        tempArray = response.entity.entity;
-        setButtonVisibleStatus(tempArray.length > 0 ? true : false);
+        let tempLength = [];
+        tempLength = response.entity.entity;
+        if (tempLength <= 0) {
+          setCollectedStatus(true);
+          setListModal(false);
+        } else {
+          handleCollectionListState(response.entity.entity);
+          let tempArray = [];
+          tempArray = response.entity.entity;
+          setButtonVisibleStatus(tempArray.length > 0 ? true : false);
+        }
       }),
     );
   };
@@ -305,6 +315,19 @@ const PaymentScreen = props => {
                   }}
                 />
               </Pressable>
+              {collectedStatus && (
+                <View
+                  style={{
+                    marginTop: R.fontSize.Size20,
+                    alignItems: 'center',
+                  }}>
+                  <Text style={Styles.noRecordText}>
+                    {
+                      'No record found on this center\nPlease select another center'
+                    }
+                  </Text>
+                </View>
+              )}
               {selectCollected.length > 0 && (
                 <View
                   style={{

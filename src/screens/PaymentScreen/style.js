@@ -121,6 +121,14 @@ const Styles = StyleSheet.create({
     fontSize: R.fontSize.Size12,
     fontWeight: '400',
   },
+  noRecordText: {
+    fontFamily: R.fonts.regular,
+    color: R.colors.lightBlack,
+    fontSize: R.fontSize.Size12,
+    fontWeight: '400',
+    textAlign: 'center',
+    lineHeight: 15,
+  },
   cardBodyRowView: {
     flexDirection: 'row',
     paddingVertical: R.fontSize.Size4,

@@ -112,11 +112,11 @@ const BankDetail = props => {
 
         <AppCardPress
           onPress={props.onPress_applicantKycType}
-          headTitle={'Applicant KYC Type *'}
+          headTitle={'Bank Document Type *'}
           title={
             props.title_applicantKycType != null
               ? props.title_applicantKycType
-              : 'Applicant KYC Type'
+              : 'Bank Document Type'
           }
           TextColor={
             props.title_applicantKycType != null
@@ -132,8 +132,8 @@ const BankDetail = props => {
         />
 
         <AppTextInput
-          placeholder={'Applicant KYC No'}
-          headTitle={'Applicant KYC No *'}
+          placeholder={'Bank Document No'}
+          headTitle={'Bank Document No *'}
           headTitleColor={
             props.value_applicantKYCNo !== ''
               ? R.colors.darkGreenColor
@@ -144,11 +144,11 @@ const BankDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_applicantKYCDoc}
-          headTitle={'Applicant KYC Document *'}
+          headTitle={'Bank Document *'}
           title={
             props.applicantKYCList >= 1
               ? 'Selected documents'
-              : 'Select applicant KYC document'
+              : 'Select bank document'
           }
           TextColor={
             props.applicantKYCList >= 1
@@ -166,11 +166,11 @@ const BankDetail = props => {
 
         <AppCardPress
           onPress={props.onPress_applicantKycType2}
-          headTitle={'Applicant KYC Type2 *'}
+          headTitle={'Bank Document Type2 *'}
           title={
             props.title_applicantKycType2 != null
               ? props.title_applicantKycType2
-              : 'Applicant KYC Type'
+              : 'Bank Document Type'
           }
           TextColor={
             props.title_applicantKycType2 != null
@@ -186,8 +186,8 @@ const BankDetail = props => {
         />
 
         <AppTextInput
-          placeholder={'Applicant KYC No 2'}
-          headTitle={'Applicant KYC No 2 *'}
+          placeholder={'Bank Document No 2'}
+          headTitle={'Bank Document No 2 *'}
           headTitleColor={
             props.value_applicantKYCNo2 !== ''
               ? R.colors.darkGreenColor
@@ -198,11 +198,11 @@ const BankDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_applicantKYCDoc2}
-          headTitle={'Applicant KYC Document 2 *'}
+          headTitle={'Bank Document 2 *'}
           title={
             props.applicantKYCList2 >= 1
               ? 'Selected documents'
-              : 'Select applicant KYC document 2'
+              : 'Select bank document 2'
           }
           TextColor={
             props.applicantKYCList2 >= 1
