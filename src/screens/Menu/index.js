@@ -6,26 +6,24 @@ import style from './style';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserProfileRequest} from '../../actions/profile.action';
+import LinearGradient from 'react-native-linear-gradient';
+import AppContent from '../../utils/AppContent';
 
 const CustomDrawerButton = props => {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        paddingVertical: R.fontSize.Size14,
-      }}>
+    <View style={style.customDrawerView}>
       {props.image && (
         <Image
-          source={props.image}
+          source={{uri: props.image}}
           resizeMode={'cover'}
           style={{
-            height: R.fontSize.Size20,
-            width: R.fontSize.Size20,
+            height: R.fontSize.Size22,
+            width: R.fontSize.Size22,
           }}
         />
       )}
       <Pressable onPress={props.onPress} style={style.pressableStyle}>
-        <Text style={style.tabNameStyle}>{props.title}</Text>
+        <Text style={[style.tabNameStyle, props.titleStye]}>{props.title}</Text>
       </Pressable>
     </View>
   );
@@ -80,59 +78,51 @@ const Menu = props => {
   return (
     <View style={style.safeAreaStyle}>
       <View style={style.mainView}>
-        <Pressable>
+        <LinearGradient
+          colors={['#329691', '#266C87', '#266C87']}
+          start={{x: 0, y: 1}}
+          end={{x: 0, y: 0}}
+          style={style.topLinearView}>
           <View style={style.userDataView}>
             <Image
               source={{
-                uri: 'https://img.freepik.com/free-photo/portrait-successful-man-having-stubble-posing-with-broad-smile-keeping-arms-folded_171337-1267.jpg',
+                uri: 'https://cdn-icons-png.flaticon.com/128/2202/2202112.png',
               }}
               style={style.imageStyle}
               resizeMode={'cover'}
             />
             <View>
-              <Text style={style.textStyle}>{`${userDetail?.StaffName}`}</Text>
+              <Text
+                style={style.textStyle}
+                numberOfLines={1}>{`${userDetail?.StaffName}`}</Text>
               <Text
                 style={style.subtextStyle}>{`${userDetail?.ContactNo}`}</Text>
             </View>
           </View>
-        </Pressable>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <CustomDrawerButton
-            title={'Dashboard'}
-            image={R.images.dashboardIcon}
-            onPress={() => props.navigation.navigate('HomeScreen')}
-          />
-          <CustomDrawerButton
-            title={'Loan Proposal'}
-            image={R.images.aboutIcon}
-            onPress={() => props.navigation.navigate('LoanProposal')}
-          />
-          <CustomDrawerButton
-            title={'Pre Disbursement'}
-            image={R.images.aboutIcon}
-            onPress={() => props.navigation.navigate('DisbursementScreen')}
-          />
-          <CustomDrawerButton
-            title={'About us'}
-            image={R.images.aboutIcon}
-            onPress={() => console.log('onpress')}
-          />
-          <CustomDrawerButton
-            title={'Setting'}
-            image={R.images.settingIcon}
-            onPress={() => console.log('onpress')}
-          />
+        </LinearGradient>
+        <ScrollView contentContainerStyle={style.scrollContainer}>
+          {AppContent.LoanCardList.map((item, index) => {
+            return (
+              <View key={index} style={style.bodyView}>
+                <CustomDrawerButton
+                  title={`${item.Title} ${item.subTitle}`}
+                  image={item.icon}
+                  onPress={() => props.navigation.navigate(item.Url)}
+                />
+              </View>
+            );
+          })}
         </ScrollView>
-        <View
-          style={{
-            paddingVertical: R.fontSize.Size10,
-            borderTopWidth: 1,
-            borderColor: R.colors.lightWhite,
-          }}>
-          <CustomDrawerButton onPress={() => onLogout()} title="Sign Out" />
+        <View style={style.logoutView}>
+          <CustomDrawerButton
+            image={'https://cdn-icons-png.flaticon.com/128/4436/4436954.png'}
+            onPress={() => onLogout()}
+            title="SIGN OUT"
+            titleStye={{
+              color: R.colors.redColor,
+              fontWeight: '800',
+            }}
+          />
         </View>
       </View>
     </View>
