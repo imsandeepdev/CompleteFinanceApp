@@ -55,7 +55,7 @@ const Styles = StyleSheet.create({
     fontFamily: R.fonts.regular,
     fontSize: R.fontSize.Size14,
     fontWeight: '700',
-    color: R.colors.black,
+    color: R.colors.lightWhite,
   },
   wrapView: {
     flexDirection: 'row',

@@ -398,7 +398,7 @@ const GroupForm = props => {
                 />
               )}
               <AppCardPress
-                disabled={swiperValue ? false : true}
+                // disabled={swiperValue ? false : true}
                 onPress={() => handleGroupDropDown('MeetingDay')}
                 headTitle={'First Meeting Day *'}
                 title={
@@ -416,7 +416,7 @@ const GroupForm = props => {
                     ? R.colors.darkGreenColor
                     : R.colors.textPriColor
                 }
-                rightIcon={swiperValue ? R.images.dropdownIcon : null}
+                rightIcon={R.images.dropdownIcon}
               />
               <AppTextInput
                 editable={swiperValue ? true : false}

@@ -80,6 +80,7 @@ const PaymentScreen = props => {
   const handleCollectionModal = () => {
     setCollectedStatus(false);
     setListModal(true);
+    // setButtonVisibleStatus(false);
   };
 
   const handleCollectionListAPI = item => {
@@ -100,9 +101,9 @@ const PaymentScreen = props => {
           setListModal(false);
         } else {
           handleCollectionListState(response.entity.entity);
-          let tempArray = [];
-          tempArray = response.entity.entity;
-          setButtonVisibleStatus(tempArray.length > 0 ? true : false);
+          // let tempArray = [];
+          // tempArray = response.entity.entity;
+          setButtonVisibleStatus(false);
         }
       }),
     );
@@ -112,7 +113,7 @@ const PaymentScreen = props => {
     let tempList = [];
     tempList = list;
     let temp = tempList.map(item => {
-      item.selected = true;
+      item.selected = false;
       item.principle = item.principleCollected;
       item.interest = item.interestCollected;
       return {...item};
@@ -159,12 +160,13 @@ const PaymentScreen = props => {
           let tempData = selectCollected.map((item, index) => {
             if (index === index1) {
               item.sumCollected = text;
-              if (Number(text) >= item.principleCollected) {
-                let tempDiff = Number(text) - item.principleCollected;
-                item.interest = item.interestCollected - tempDiff;
-                item.principle = 0;
+              if (Number(text) >= item.interestCollected) {
+                let tempDiff = Number(text) - item.interestCollected;
+                item.interest = item.interestCollected;
+                item.principle = tempDiff;
               } else {
-                item.principle = item.principleCollected - Number(text);
+                item.principle = 0;
+                item.interest = Number(text);
               }
             }
             return {...item};
@@ -197,15 +199,26 @@ const PaymentScreen = props => {
         Number(item.sumCollected).length <= 0 ? 0 : Number(item.sumCollected);
       console.log('CURRENT TEMP AMOUNT=>', tempAmount);
 
-      if (item.selected === true && item.principleCollected >= tempAmount) {
-        item.principleCollected = item.principleCollected - tempAmount;
+      // if (item.selected === true && item.principleCollected >= tempAmount) {
+      //   item.principleCollected = item.principleCollected - tempAmount;
+      // } else if (
+      //   item.selected === true &&
+      //   item.principleCollected < tempAmount
+      // ) {
+      //   let tempDifferenceValue = tempAmount - item.principleCollected;
+      //   item.principleCollected = 0;
+      //   item.interestCollected = item.interestCollected - tempDifferenceValue;
+      // }
+      if (item.selected === true && item.interestCollected >= tempAmount) {
+        item.interestCollected = tempAmount;
+        item.principleCollected = 0;
       } else if (
         item.selected === true &&
-        item.principleCollected < tempAmount
+        item.interestCollected < tempAmount
       ) {
-        let tempDifferenceValue = tempAmount - item.principleCollected;
-        item.principleCollected = 0;
-        item.interestCollected = item.interestCollected - tempDifferenceValue;
+        let tempDifferenceValue = tempAmount - item.interestCollected;
+        item.principleCollected = tempDifferenceValue;
+        item.interestCollected = item.interestCollected;
       }
       return {...item};
     });
@@ -224,8 +237,8 @@ const PaymentScreen = props => {
         tempId: item.tempId,
         loginId: profileDetail.StaffID,
         branhId: profileDetail.BranchId,
-        principleCollection: item.principleCollected,
-        intertestCollection: item.interestCollected,
+        principleCollection: item.principle,
+        intertestCollection: item.interest,
         applicantId: item.applicantId,
         centerId: item.centerId,
         loanId: item.loanId,
@@ -253,8 +266,6 @@ const PaymentScreen = props => {
           setToastAlertVisible(true);
           setAlertType('Success');
           setToastMessage('Successfully! Saved Payment');
-          // Toast.show('Successfully! Saved Payment', Toast.SHORT);
-          // props.navigation.goBack();
         }
       }),
     );

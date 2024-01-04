@@ -59,17 +59,17 @@ const LoginScreen = props => {
 
   const onHandleLogin = tempDeviceId => {
     // setLoading(true);
-    let data = {
-      Logincode: userName,
-      password: password,
-      deviceNo: tempDeviceId,
-    };
-
     // let data = {
     //   Logincode: userName,
     //   password: password,
-    //   deviceNo: 'vivo-V2225-6c1734d6e38e2b46',
+    //   deviceNo: tempDeviceId,
     // };
+
+    let data = {
+      Logincode: userName,
+      password: password,
+      deviceNo: 'samsung-SM-A207F-54db0b386597847e',
+    };
 
     console.log('Data=>', data);
     dispatch(
@@ -102,6 +102,16 @@ const LoginScreen = props => {
     setPassword('');
   };
 
+  const handleUserName = text => {
+    let tempText = text.replace(/^\s+|\s+$/gm, '');
+    setUserName(tempText);
+  };
+
+  const handlePassword = text => {
+    let tempText = text.replace(/^\s+|\s+$/gm, '');
+    setPassword(tempText);
+  };
+
   return (
     <StoryScreen loading={props.loading}>
       <ScrollView contentContainerStyle={style.scrollView}>
@@ -121,7 +131,7 @@ const LoginScreen = props => {
             <CustomTextInput
               placeholder={'Username'}
               value={userName}
-              onChangeText={text => setUserName(text)}
+              onChangeText={text => handleUserName(text)}
               marginBottom={R.fontSize.Size10}
               leftIcon={R.images.userIcon}
               maxLength={20}
@@ -129,7 +139,7 @@ const LoginScreen = props => {
             <CustomTextInput
               placeholder={'Password'}
               value={password}
-              onChangeText={text => setPassword(text)}
+              onChangeText={text => handlePassword(text)}
               marginBottom={R.fontSize.Size10}
               secureTextEntry={showPassword ? false : true}
               leftIcon={R.images.greenLockIcon}
