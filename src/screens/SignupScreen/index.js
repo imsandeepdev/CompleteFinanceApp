@@ -2,9 +2,9 @@ import * as React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import {View, Text, Image, SafeAreaView, ScrollView} from 'react-native';
 import {
-  AppButton,
   CustomAlert,
   CustomTextInput,
+  GradientButton,
   OtpModal,
   StoryScreen,
 } from '../../components';
@@ -249,7 +249,7 @@ const SignupScreen = props => {
               style={{
                 marginVertical: R.fontSize.Size10,
               }}>
-              <AppButton
+              <GradientButton
                 onPress={() => handleProceedVerify()}
                 marginHorizontal={R.fontSize.Size30}
                 title={'Proceed'}

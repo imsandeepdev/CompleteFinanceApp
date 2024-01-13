@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {showNavigationBar} from 'react-native-navigation-bar-color';
 import R from '../res/R';
+import AlertModal from './AlertModal';
 
 const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
@@ -22,7 +23,7 @@ const StoryScreen = props => {
     <React.Fragment>
       <StatusBar
         barStyle={props.statusBarStyle ?? R.colors.barStyle}
-        backgroundColor={props.statusBarColor ?? R.colors.white}
+        backgroundColor={props.statusBarColor ?? R.colors.appColor}
         translucent={false}
       />
       <SafeAreaView style={[styles.statusBar, props.statusBarIosStyle]} />
@@ -35,10 +36,17 @@ const StoryScreen = props => {
         </KeyboardAvoidingView>
       </SafeAreaView>
       {props.loading && (
-        <ActivityIndicator
-          size="large"
-          color={props.loaderColor ?? R.colors.appColor}
-          style={styles.loader}
+        // <ActivityIndicator
+        //   size="large"
+        //   color={props.loaderColor ?? R.colors.appColor}
+        //   style={styles.loader}
+        // />
+        <AlertModal
+          visible={true}
+          headingViewStyle={styles.headViewStyle}
+          heading={'Loading...'}
+          topTitle={'Please wait'}
+          activityIndicator={true}
         />
       )}
       <SafeAreaView style={[styles.bottomBarIos, props.bottomBarIosStyle]} />
@@ -49,7 +57,7 @@ const StoryScreen = props => {
 const styles = StyleSheet.create({
   statusBar: {
     flex: 0,
-    backgroundColor: R.colors.white,
+    backgroundColor: R.colors.darkAppColor,
   },
   mainContainer: {
     flex: 1,
@@ -70,6 +78,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  headViewStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

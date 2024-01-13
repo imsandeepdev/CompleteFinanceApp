@@ -9,11 +9,11 @@ import {
   Pressable,
 } from 'react-native';
 import {
-  AppButton,
   AppCardPress,
   AppTextInput,
   CustomAlert,
   DocumentViewModal,
+  GradientButton,
   GroupDropDownModal,
   Header,
   StoryScreen,
@@ -442,7 +442,7 @@ const GrtForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton
+          <GradientButton
             onPress={() => handleOnSubmit()}
             marginHorizontal={R.fontSize.Size30}
             title={'Submit'}

@@ -21,6 +21,11 @@ const ListViewModal = props => {
       <View style={Styles.modalMainView}>
         <View style={Styles.modalView}>
           <View style={Styles.modalViewReverse}>
+            {props.heading && (
+              <View style={Styles.headingView}>
+                <Text style={Styles.headingText}>{props.heading}</Text>
+              </View>
+            )}
             <Pressable
               onPress={props.cancelOnPress}
               style={({pressed}) => [
@@ -42,6 +47,9 @@ const ListViewModal = props => {
 
           <View style={Styles.flatView}>
             <FlatList
+              style={{
+                paddingHorizontal: R.fontSize.Size20,
+              }}
               data={props.dataList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
@@ -73,8 +81,18 @@ const ListViewModal = props => {
               ListEmptyComponent={() => {
                 return (
                   <View style={Styles.emptyView}>
+                    <Image
+                      source={{
+                        uri: 'https://cdn-icons-png.flaticon.com/128/12950/12950579.png',
+                      }}
+                      resizeMode={'contain'}
+                      style={{
+                        height: R.fontSize.Size70,
+                        width: R.fontSize.Size70,
+                      }}
+                    />
                     <Text style={Styles.emptyText}>
-                      {'Oops!\nData not found'}
+                      {'Something wrong!\nData not found'}
                     </Text>
                   </View>
                 );
@@ -97,7 +115,7 @@ const Styles = StyleSheet.create({
   },
   flatView: {
     flex: 1,
-    marginHorizontal: R.fontSize.Size20,
+    // marginHorizontal: R.fontSize.Size20,
   },
   modalMainView: {
     flex: 1,
@@ -105,88 +123,26 @@ const Styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalView: {
-    height: screenHeight / 3,
+    height: screenHeight / 2.5,
     backgroundColor: R.colors.white,
     borderTopLeftRadius: R.fontSize.Size8,
     borderTopRightRadius: R.fontSize.Size8,
     paddingVertical: R.fontSize.Size10,
   },
   modalViewReverse: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     marginHorizontal: R.fontSize.Size10,
+    justifyContent: 'flex-end',
   },
   modalFilterText: {
     fontSize: R.fontSize.Size18,
     fontWeight: '700',
     color: R.colors.primaryTextColor,
   },
-  videoModalTitleText: {
-    fontSize: R.fontSize.Size24,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    flex: 1,
-    marginHorizontal: R.fontSize.Size14,
-  },
-  videoModalDescText: {
-    fontSize: R.fontSize.Size12,
-    fontWeight: '400',
-    color: R.colors.primaryTextColor,
-  },
-  videoModalMainView: {
-    height: R.fontSize.Size60,
-    width: R.fontSize.Size60,
-    overflow: 'hidden',
-    borderRadius: R.fontSize.Size30,
-    borderWidth: 1,
-    borderColor: R.colors.placeholderTextColor,
-  },
-  videoModalMapMainView: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: R.fontSize.Size20,
-  },
-  videoModalMapView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: R.fontSize.Size14,
-  },
-  videoModalPersonalDetailView: {
-    height: R.fontSize.Size10,
-    width: R.fontSize.Size10,
-    backgroundColor: R.colors.appColor,
-    borderRadius: R.fontSize.Size10,
-  },
-  videoModalPersonalDetailText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    marginLeft: R.fontSize.Size8,
-  },
-
-  videoModalAvailableText: {
-    fontWeight: '700',
-    fontSize: R.fontSize.Size18,
-    color: R.colors.primaryTextColor,
-  },
-  videoModalAvailView: {
-    alignItems: 'center',
-    marginRight: R.fontSize.Size10,
-    justifyContent: 'center',
-    paddingHorizontal: R.fontSize.Size20,
-    paddingVertical: R.fontSize.Size6,
-    borderRadius: R.fontSize.Size8,
-    marginBottom: R.fontSize.Size6,
-  },
-  videoModalAvailItemText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.white,
-    marginLeft: R.fontSize.Size8,
-  },
   emptyView: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: R.fontSize.Size20,
   },
   emptyText: {
     fontFamily: R.fonts.regular,
@@ -194,5 +150,20 @@ const Styles = StyleSheet.create({
     color: R.colors.placeHolderColor,
     fontSize: R.fontSize.Size14,
     textAlign: 'center',
+  },
+  headingView: {
+    flex: 1,
+    paddingHorizontal: R.fontSize.Size10,
+    marginHorizontal: R.fontSize.Size5,
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    backgroundColor: R.colors.appColor,
+    borderRadius: R.fontSize.Size4,
+  },
+  headingText: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size12,
+    color: R.colors.white,
+    fontWeight: '700',
   },
 });

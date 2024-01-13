@@ -21,6 +21,11 @@ const GroupDropDownModal = props => {
       <View style={Styles.modalMainView}>
         <View style={Styles.modalView}>
           <View style={Styles.modalViewReverse}>
+            {props.heading && (
+              <View style={Styles.headingView}>
+                <Text style={Styles.headingText}>{props.heading}</Text>
+              </View>
+            )}
             <Pressable
               onPress={props.cancelOnPress}
               style={({pressed}) => [
@@ -40,50 +45,65 @@ const GroupDropDownModal = props => {
             </Pressable>
           </View>
 
-          <View style={Styles.flatView}>
-            <FlatList
-              data={props.dataList}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item, index}) => {
-                let title =
-                  item.CenterName ||
-                  item.RoleName ||
-                  item.BoCode ||
-                  item.GroupName ||
-                  item.approvedTitile ||
-                  item.ApplicantName ||
-                  item.StaffName;
-                console.log('TITLE==>', title);
-                return (
-                  <Pressable
-                    key={index}
-                    onPress={() => props.onPress(item)}
-                    style={({pressed}) => [
-                      {
-                        height: R.fontSize.Size45,
-                        borderBottomWidth: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginHorizontal: R.fontSize.Size10,
-                        borderColor: R.colors.lightWhite,
-                        opacity: pressed ? 0.5 : 1,
-                      },
-                    ]}>
-                    <Text style={Styles.titleText}>{title}</Text>
-                  </Pressable>
-                );
-              }}
-              ListEmptyComponent={() => {
-                return (
-                  <View style={Styles.emptyView}>
-                    <Text style={Styles.emptyText}>
-                      {'Oops!\nData not found'}
-                    </Text>
-                  </View>
-                );
-              }}
-            />
-          </View>
+          {props.dataList && (
+            <View style={Styles.flatView}>
+              <FlatList
+                style={{
+                  paddingHorizontal: R.fontSize.Size20,
+                }}
+                data={props.dataList}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
+                  let title =
+                    item.CenterName ||
+                    item.RoleName ||
+                    item.BoCode ||
+                    item.GroupName ||
+                    item.approvedTitile ||
+                    item.ApplicantName ||
+                    item.StaffName;
+                  console.log('TITLE==>', title);
+                  return (
+                    <Pressable
+                      key={index}
+                      onPress={() => props.onPress(item)}
+                      style={({pressed}) => [
+                        {
+                          height: R.fontSize.Size45,
+                          borderBottomWidth: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginHorizontal: R.fontSize.Size10,
+                          borderColor: R.colors.placeholderTextColor,
+                          opacity: pressed ? 0.5 : 1,
+                        },
+                      ]}>
+                      <Text style={Styles.titleText}>{title}</Text>
+                    </Pressable>
+                  );
+                }}
+                ListEmptyComponent={() => {
+                  return (
+                    <View style={Styles.emptyView}>
+                      <Image
+                        source={{
+                          uri: 'https://cdn-icons-png.flaticon.com/128/12950/12950579.png',
+                        }}
+                        resizeMode={'contain'}
+                        style={{
+                          height: R.fontSize.Size70,
+                          width: R.fontSize.Size70,
+                        }}
+                      />
+                      <Text style={Styles.emptyText}>
+                        {'Something wrong!\nData not found'}
+                      </Text>
+                    </View>
+                  );
+                }}
+              />
+            </View>
+          )}
         </View>
       </View>
     </Modal>
@@ -95,12 +115,12 @@ export default GroupDropDownModal;
 const Styles = StyleSheet.create({
   flatView: {
     flex: 1,
-    marginHorizontal: R.fontSize.Size20,
   },
   titleText: {
-    fontSize: R.fontSize.Size16,
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size14,
     color: R.colors.secAppColor,
-    fontWeight: '500',
+    fontWeight: '700',
   },
   modalMainView: {
     flex: 1,
@@ -115,81 +135,20 @@ const Styles = StyleSheet.create({
     paddingVertical: R.fontSize.Size10,
   },
   modalViewReverse: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     marginHorizontal: R.fontSize.Size10,
+    justifyContent: 'flex-end',
   },
   modalFilterText: {
     fontSize: R.fontSize.Size18,
     fontWeight: '700',
     color: R.colors.primaryTextColor,
   },
-  videoModalTitleText: {
-    fontSize: R.fontSize.Size24,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    flex: 1,
-    marginHorizontal: R.fontSize.Size14,
-  },
-  videoModalDescText: {
-    fontSize: R.fontSize.Size12,
-    fontWeight: '400',
-    color: R.colors.primaryTextColor,
-  },
-  videoModalMainView: {
-    height: R.fontSize.Size60,
-    width: R.fontSize.Size60,
-    overflow: 'hidden',
-    borderRadius: R.fontSize.Size30,
-    borderWidth: 1,
-    borderColor: R.colors.placeholderTextColor,
-  },
-  videoModalMapMainView: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: R.fontSize.Size20,
-  },
-  videoModalMapView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: R.fontSize.Size14,
-  },
-  videoModalPersonalDetailView: {
-    height: R.fontSize.Size10,
-    width: R.fontSize.Size10,
-    backgroundColor: R.colors.appColor,
-    borderRadius: R.fontSize.Size10,
-  },
-  videoModalPersonalDetailText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    marginLeft: R.fontSize.Size8,
-  },
 
-  videoModalAvailableText: {
-    fontWeight: '700',
-    fontSize: R.fontSize.Size18,
-    color: R.colors.primaryTextColor,
-  },
-  videoModalAvailView: {
-    alignItems: 'center',
-    marginRight: R.fontSize.Size10,
-    justifyContent: 'center',
-    paddingHorizontal: R.fontSize.Size20,
-    paddingVertical: R.fontSize.Size6,
-    borderRadius: R.fontSize.Size8,
-    marginBottom: R.fontSize.Size6,
-  },
-  videoModalAvailItemText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.white,
-    marginLeft: R.fontSize.Size8,
-  },
   emptyView: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: R.fontSize.Size20,
   },
   emptyText: {
     fontFamily: R.fonts.regular,
@@ -197,5 +156,20 @@ const Styles = StyleSheet.create({
     color: R.colors.placeHolderColor,
     fontSize: R.fontSize.Size14,
     textAlign: 'center',
+  },
+  headingView: {
+    flex: 1,
+    paddingHorizontal: R.fontSize.Size10,
+    marginHorizontal: R.fontSize.Size5,
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    backgroundColor: R.colors.appColor,
+    borderRadius: R.fontSize.Size4,
+  },
+  headingText: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size12,
+    color: R.colors.white,
+    fontWeight: '700',
   },
 });

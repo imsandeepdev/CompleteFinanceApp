@@ -4,7 +4,9 @@ import {View, Text, Image} from 'react-native';
 import {
   AppButton,
   CustomCardPress,
+  GradientButton,
   ListViewModal,
+  RoleSelectionModal,
   StoryScreen,
 } from '../../components';
 import R from '../../res/R';
@@ -12,16 +14,19 @@ import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import {GetRoleRequest} from '../../actions/role.action';
 import style from './style';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserProfileRequest} from '../../actions/profile.action';
 
 const RoleSelectionScreen = props => {
   const dispatch = useDispatch();
   const [roleModal, setRoleModal] = useState(false);
   const [roleList, setRoleList] = useState([]);
   const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRoleId, setSelectedRoleId] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState('');
 
   useEffect(() => {
     console.log('User Id==>', props.route.params?.user_id);
+    setSelectedUserId(props.route.params?.user_id);
     handleRoleList(props.route.params?.user_id);
   }, [props.navigation]);
 
@@ -36,16 +41,32 @@ const RoleSelectionScreen = props => {
 
   const handleRoleSelect = item => {
     console.log('select Role==>', item);
-    AsyncStorage.setItem('userTypeDetail', JSON.stringify(item));
-
+    setSelectedRoleId(item.RoleId);
     setSelectedRole(item.RoleName);
     setRoleModal(false);
   };
 
   const handleContinueValidation = () => {
     selectedRole !== ''
-      ? props.navigation.replace('HomeMenu')
+      ? handleRoleSelection()
       : Toast.show('Please select your role type', Toast.SHORT);
+  };
+
+  const handleRoleSelection = () => {
+    let data = {
+      userId: selectedUserId,
+      roleId: selectedRoleId,
+    };
+    dispatch(
+      UserProfileRequest(data, response => {
+        console.log('user Profile res==>', response);
+        if (response.statusCode === 200) {
+          props.navigation.replace('HomeMenu');
+        } else {
+          Toast.show('please select valid role', Toast.SHORT);
+        }
+      }),
+    );
   };
 
   return (
@@ -81,7 +102,7 @@ const RoleSelectionScreen = props => {
           />
         </View>
         <View>
-          <AppButton
+          <GradientButton
             onPress={() => handleContinueValidation()}
             title={'Continue'}
           />
@@ -97,11 +118,12 @@ const RoleSelectionScreen = props => {
         </View>
       </View>
 
-      <ListViewModal
+      <RoleSelectionModal
         visible={roleModal}
         cancelOnPress={() => setRoleModal(false)}
         onPress={item => handleRoleSelect(item)}
         dataList={roleList}
+        heading={'Select Your Role'}
       />
     </StoryScreen>
   );

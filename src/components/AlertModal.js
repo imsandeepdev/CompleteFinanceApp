@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, Modal, StyleSheet} from 'react-native';
+import {View, Text, Modal, StyleSheet, ActivityIndicator} from 'react-native';
 import R from '../res/R';
 import AppButton from './AppButton';
 
@@ -11,21 +11,47 @@ const AlertModal = props => {
       transparent={true}>
       <View style={styles.mainView}>
         <View style={styles.modalView}>
-          <View style={styles.alartView}>
-            <Text style={[styles.otpTitle]}>{props.title}</Text>
-          </View>
+          {props.heading && (
+            <View style={[styles.headingView, props.headingViewStyle]}>
+              <Text style={styles.headingText}>{props.heading}</Text>
+            </View>
+          )}
+          <View style={styles.bodyMainView}>
+            {props.topTitle && (
+              <Text style={[styles.topTitleStyle, props.topTitleStyle]}>
+                {props.topTitle}
+              </Text>
+            )}
+            <View style={styles.alartView}>
+              {props.title && (
+                <Text style={[styles.otpTitle, props.titleStyle]}>
+                  {props.title}
+                </Text>
+              )}
+              {props.activityIndicator && (
+                <View>
+                  <ActivityIndicator
+                    size="large"
+                    color={props.loaderColor ?? R.colors.appColor}
+                  />
+                </View>
+              )}
+            </View>
 
-          <View style={{marginVertical: R.fontSize.Size6}}>
-            <AppButton
-              onPress={props.onPress}
-              marginHorizontal={R.fontSize.Size100}
-              title={'OK'}
-              buttonHeight={R.fontSize.Size40}
-              titleFontSize={R.fontSize.Size16}
-              //   backgroundColor={R.colors.lightWhite}
-              borderWidth={1}
-              //   borderColor={R.colors.appColor}
-            />
+            {props.onPress && (
+              <View style={{marginVertical: R.fontSize.Size6}}>
+                <AppButton
+                  onPress={props.onPress}
+                  marginHorizontal={R.fontSize.Size100}
+                  title={props.buttonTitle ? props.buttonTitle : 'OK'}
+                  buttonHeight={R.fontSize.Size40}
+                  titleFontSize={R.fontSize.Size16}
+                  backgroundColor={props.buttonBackGroundColor}
+                  borderWidth={1}
+                  //   borderColor={R.colors.appColor}
+                />
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -54,9 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: R.colors.lightWhite,
     marginHorizontal: R.fontSize.Size20,
     borderRadius: R.fontSize.Size8,
-    padding: R.fontSize.Size8,
     borderWidth: 2,
-    paddingVertical: R.fontSize.Size14,
     borderColor: R.colors.placeHolderColor,
   },
   texInputView: {
@@ -85,5 +109,29 @@ const styles = StyleSheet.create({
     color: R.colors.secAppColor,
     fontWeight: '500',
     textAlign: 'center',
+  },
+  topTitleStyle: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size12,
+    color: R.colors.lightBlack,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  headingView: {
+    backgroundColor: R.colors.appColor,
+    padding: R.fontSize.Size8,
+    paddingVertical: R.fontSize.Size12,
+    borderTopLeftRadius: R.fontSize.Size6,
+    borderTopRightRadius: R.fontSize.Size6,
+  },
+  headingText: {
+    fontFamily: R.fonts.regular,
+    fontSize: R.fontSize.Size14,
+    fontWeight: '700',
+    color: R.colors.white,
+  },
+  bodyMainView: {
+    padding: R.fontSize.Size8,
+    paddingVertical: R.fontSize.Size10,
   },
 });

@@ -3,10 +3,10 @@ import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {View, ScrollView, SafeAreaView} from 'react-native';
 import {
-  AppButton,
   AppCardPress,
   AppTextInput,
   CustomAlert,
+  GradientButton,
   GroupDropDownModal,
   Header,
   StoryScreen,
@@ -37,6 +37,7 @@ const CenterForm = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [applicantStatus, setApplicantStatus] = useState(false);
   const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
+  const [selectedHeading, setSelectedHeading] = useState('');
 
   useEffect(() => {
     handleProfile();
@@ -119,6 +120,7 @@ const CenterForm = props => {
   };
 
   const handleGroupDropDown = mode => {
+    setSelectedHeading('Select Meeting Day');
     let tempCenter =
       centerName.CenterId !== undefined ? centerName.CenterId : 0;
 
@@ -298,7 +300,7 @@ const CenterForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton
+          <GradientButton
             onPress={() => handleCenterSumitAPI()}
             marginHorizontal={R.fontSize.Size30}
             title={'Submit'}
@@ -310,6 +312,7 @@ const CenterForm = props => {
         cancelOnPress={() => setGroupDropDownModal(false)}
         onPress={item => handleGroupDropDownSelect(item)}
         dataList={groupDropDownList}
+        heading={selectedHeading}
       />
       <CustomAlert
         visible={modalVisible}

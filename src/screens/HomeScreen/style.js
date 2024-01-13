@@ -12,7 +12,7 @@ const style = StyleSheet.create({
     paddingVertical: R.fontSize.Size5,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    backgroundColor: R.colors.darkAppColor,
+    backgroundColor: R.colors.lightWhite,
     borderBottomWidth: 2.2,
     borderLeftWidth: 1,
     borderRightWidth: 1,
@@ -21,12 +21,13 @@ const style = StyleSheet.create({
     marginHorizontal: 4,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    borderColor: R.colors.darkAppColor,
   },
   topHeaderText: {
     fontFamily: R.fonts.regular,
-    fontSize: R.fontSize.Size14,
+    fontSize: R.fontSize.Size12,
     fontWeight: '700',
-    color: R.colors.white,
+    color: R.colors.black,
     textAlign: 'center',
   },
   flatUpperView: {
@@ -91,7 +92,7 @@ const style = StyleSheet.create({
   dropDownMainView: {
     alignItems: 'center',
     justifyContent: 'center',
-    top: 15,
+    top: 25,
     left: 0,
     right: 0,
   },
@@ -182,8 +183,9 @@ const style = StyleSheet.create({
   cuctomCardRowView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginHorizontal: R.fontSize.Size8,
   },
   customCardFlatRowView: {
     borderWidth: 0.7,
@@ -228,6 +230,22 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 10,
     paddingBottom: 20,
+  },
+  managerCuctomCardRowView: {
+    justifyContent: 'flex-start',
+    marginHorizontal: R.fontSize.Size8,
+  },
+  managerCardViewLinearMainView: {
+    height: screenWidth / 4,
+    marginHorizontal: R.fontSize.Size8,
+    backgroundColor: R.colors.lightWhite,
+    borderRadius: R.fontSize.Size4,
+    overflow: 'hidden',
+    borderWidth: 1,
+    marginVertical: R.fontSize.Size6,
+    marginTop: R.fontSize.Size8,
+    flexDirection: 'row',
+    padding: 15,
   },
   headerCardContainer: {
     flexDirection: 'row',

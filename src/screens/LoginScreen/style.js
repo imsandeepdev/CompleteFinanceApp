@@ -41,6 +41,25 @@ const style = StyleSheet.create({
     color: R.colors.appColor,
     fontWeight: '700',
   },
+  bgImageView: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+  bgImage: {
+    height: '100%',
+    width: '100%',
+    opacity: 0.3,
+  },
+  alertTitleStyle: {
+    fontWeight: '500',
+    color: R.colors.black,
+  },
+  alertHeadView: {
+    backgroundColor: R.colors.redColor,
+  },
 });
 
 export default style;

@@ -170,3 +170,8 @@ export const loan_PreDisbursment_List = 'loan_PreDisbursment_List';
 export const loan_PreDisbursment_List_success =
   'loan_PreDisbursment_List_success';
 export const loan_PreDisbursment_List_error = 'loan_PreDisbursment_List_error';
+
+//getAppVersion
+export const get_App_Version = 'get_App_Version';
+export const get_App_Version_success = 'get_App_Version_success';
+export const get_App_Version_error = 'get_App_Version_error';

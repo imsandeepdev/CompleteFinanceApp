@@ -9,7 +9,6 @@ import {
   Platform,
 } from 'react-native';
 import {
-  AppCalender,
   CustomAlert,
   GalleryModal,
   Header,
@@ -36,7 +35,6 @@ import {
   SaveCustomerDocumentRequest,
   SaveCustomerRequest,
 } from '../../actions/saveCustomer.action';
-import Toast from 'react-native-simple-toast';
 import CommonFunctions from '../../utils/CommonFunctions';
 
 const headerList = [
@@ -73,6 +71,7 @@ const ApplicantForm = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [applicantStatus, setApplicantStatus] = useState(false);
   const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
+  const [selectedHeading, setSelectedHeading] = useState('');
 
   // Genral Detail
 
@@ -80,7 +79,7 @@ const ApplicantForm = props => {
   const [fname, setFname] = useState('');
   const [mname, setMname] = useState('');
   const [lname, setLname] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [contactNo, setContactNo] = useState('');
   const [altContactNo, setAltContactNo] = useState('');
@@ -246,8 +245,9 @@ const ApplicantForm = props => {
     setListModal(false);
   };
 
-  const handleListModal = type => {
+  const handleListModal = (type, headingValue) => {
     setListModalType(type);
+    setSelectedHeading(headingValue);
     type === 'Gender' && handleDropDownList('Gender');
     type === 'MaritalStatus' && handleDropDownList('Marital Status');
     type === 'MemberQualification' && handleDropDownList('Qualification');
@@ -947,19 +947,28 @@ const ApplicantForm = props => {
                     title_birthDate={birthDate}
                     onPressBirthDate={() => setIsDisplayDate(true)}
                     title_gender={gender.RoleName}
-                    onPressGender={() => handleListModal('Gender')}
+                    onPressGender={() =>
+                      handleListModal('Gender', 'Select Gender')
+                    }
                     title_maritalStatus={maritalStatus.RoleName}
                     onPressMaritalStatus={() =>
-                      handleListModal('MaritalStatus')
+                      handleListModal('MaritalStatus', 'Select Marital Status')
                     }
                     title_memberQualification={memberQualification.RoleName}
                     onPressMemberQualification={() =>
-                      handleListModal('MemberQualification')
+                      handleListModal(
+                        'MemberQualification',
+                        'Select Qualification',
+                      )
                     }
                     title_memberReligion={memberReligion.RoleName}
-                    onPressMemberReligion={() => handleListModal('Religion')}
+                    onPressMemberReligion={() =>
+                      handleListModal('Religion', 'Select Religion')
+                    }
                     title_memberCaste={memberCaste.RoleName}
-                    onPressMemberCaste={() => handleListModal('Caste')}
+                    onPressMemberCaste={() =>
+                      handleListModal('Caste', 'Select Caste')
+                    }
                     value_fatherName={fatherName}
                     onChange_fatherName={text => setFatherName(text)}
                     value_motherName={motherName}
@@ -968,16 +977,29 @@ const ApplicantForm = props => {
                     onChange_husbandName={text => setHusbandName(text)}
                     title_husbandQualification={husbandQualification.RoleName}
                     onPress_husbandQualification={() =>
-                      handleListModal('HusbandQualification')
+                      handleListModal(
+                        'HusbandQualification',
+                        'Select Qualification of Husband',
+                      )
                     }
                     title_noOfFamilyMember={noOfFamilyMember}
                     onPress_noOfFamilyMember={() =>
-                      handleListModal('noFamilyMember')
+                      handleListModal(
+                        'noFamilyMember',
+                        'Select Number of Family Member',
+                      )
                     }
                     title_noOfDaughter={noOfDaughter}
-                    onPress_noOfDaughter={() => handleListModal('noOfDaughter')}
+                    onPress_noOfDaughter={() =>
+                      handleListModal(
+                        'noOfDaughter',
+                        'Select Number of Daughter',
+                      )
+                    }
                     title_noOfSon={noOfSon}
-                    onPress_noOfSon={() => handleListModal('noOfSon')}
+                    onPress_noOfSon={() =>
+                      handleListModal('noOfSon', 'Select Number of Sons')
+                    }
                   />
                   <DatePicker
                     modal
@@ -1008,16 +1030,19 @@ const ApplicantForm = props => {
                     onPress_nomaniDob={() => setNomaniDisplayDate(true)}
                     title_nomaniRelation={nomaniRelation.RoleName}
                     onPress_nomaniRelation={() =>
-                      handleListModal('NomaniRelation')
+                      handleListModal(
+                        'NomaniRelation',
+                        'Select Relationship of Nominee',
+                      )
                     }
                     onPress_nomaniKycType={() => {
-                      handleListModal('NomaniKYCType');
+                      handleListModal('NomaniKYCType', 'Select KYC Type');
                     }}
                     title_nomaniKycType={nomaniKYPName.RoleName}
                     value_nomaniKYPMobNo={nomaniKYPMobNo}
                     onChange_nomaniKYPMobNo={text => setNomaniKYPMobNo(text)}
                     onPress_nomaniKycType2={() => {
-                      handleListModal('NomaniKYCType2');
+                      handleListModal('NomaniKYCType2', 'Select KYC Type 2');
                     }}
                     title_nomaniKycType2={nomaniKYPName2.RoleName}
                     value_nomaniKYPMobNo2={nomaniKYPMobNo2}
@@ -1054,10 +1079,16 @@ const ApplicantForm = props => {
                     }
                     title_coApplicantRelation={coApplicantRelation.RoleName}
                     onPress_coApplicantRelation={() =>
-                      handleListModal('CoApplicantRelation')
+                      handleListModal(
+                        'CoApplicantRelation',
+                        'Select Relationship of CoApplicant',
+                      )
                     }
                     onPress_coApplicantKycType={() => {
-                      handleListModal('coApplicantKycType');
+                      handleListModal(
+                        'coApplicantKycType',
+                        'Select CoApplicant KYC Type',
+                      );
                     }}
                     title_coApplicantKycType={coApplicantKYPName.RoleName}
                     value_coApplicantKYPMobNo={coApplicantKYPMobNo}
@@ -1065,7 +1096,10 @@ const ApplicantForm = props => {
                       setCoApplicantKYPMobNo(text)
                     }
                     onPress_coApplicantKycType2={() => {
-                      handleListModal('coApplicantKycType2');
+                      handleListModal(
+                        'coApplicantKycType2',
+                        'Select CoApplicant KYC Type 2',
+                      );
                     }}
                     title_coApplicantKycType2={coApplicantKYPName2.RoleName}
                     value_coApplicantKYPMobNo2={coApplicantKYPMobNo2}
@@ -1180,7 +1214,7 @@ const ApplicantForm = props => {
                   <BankDetail
                     title_bankName={bankName.BankName}
                     onPress_BankName={() => {
-                      handleListModal('BankName');
+                      handleListModal('BankName', 'Select Bank Name');
                     }}
                     value_accountHolder={accountHolder}
                     onChange_accountHolder={text => setAccountHolder(text)}
@@ -1191,9 +1225,14 @@ const ApplicantForm = props => {
                     value_branchName={branchName}
                     onChange_branchName={text => setBranchName(text)}
                     title_accountType={accountType.RoleName}
-                    onPress_AccountType={() => handleListModal('accountType')}
+                    onPress_AccountType={() =>
+                      handleListModal('accountType', 'Select Account Type')
+                    }
                     onPress_applicantKycType={() => {
-                      handleListModal('ApplicantKYCType');
+                      handleListModal(
+                        'ApplicantKYCType',
+                        'Select Applicant KYC Type',
+                      );
                     }}
                     title_applicantKycType={applicantDocType1.RoleName}
                     value_applicantKYCNo={applicantKYCNo1}
@@ -1207,7 +1246,10 @@ const ApplicantForm = props => {
                       handleRemoveNomKycDoc(index, 'applicantKYCDoc1')
                     }
                     onPress_applicantKycType2={() => {
-                      handleListModal('ApplicantKYCType2');
+                      handleListModal(
+                        'ApplicantKYCType2',
+                        'Select Applicant KYC Type 2',
+                      );
                     }}
                     title_applicantKycType2={applicantDocType2.RoleName}
                     value_applicantKYCNo2={applicantKYCNo2}
@@ -1239,10 +1281,15 @@ const ApplicantForm = props => {
                     value_assetValue={assetValue}
                     onChange_assetValue={text => setAssetValue(text)}
                     title_houseStatus={houseStatus.RoleName}
-                    onPress_houseStatus={() => handleListModal('houseStatus')}
+                    onPress_houseStatus={() =>
+                      handleListModal('houseStatus', 'Select House Status')
+                    }
                     title_natureBusiness={natureBusiness.RoleName}
                     onPress_natureBusiness={() =>
-                      handleListModal('NatureofBusiness')
+                      handleListModal(
+                        'NatureofBusiness',
+                        'Select Nature of Business',
+                      )
                     }
                     nextOnPress={() => {
                       handleNextValidation(3);
@@ -1271,6 +1318,7 @@ const ApplicantForm = props => {
         cancelOnPress={() => setListModal(false)}
         onPress={item => handleRoleSelect(item)}
         dataList={listModalData}
+        heading={selectedHeading}
       />
       <CustomAlert
         visible={modalVisible}
@@ -1284,30 +1332,6 @@ const ApplicantForm = props => {
           applicantStatus ? handleSuccessModalClose() : handleModalClose();
         }}
       />
-      {/* <AppCalender
-        visible={isDisplayDate}
-        onDayPress={day => {
-          console.log('ONDDDD', day.dateString);
-          setIsDisplayDate(false);
-          setBirthDate(moment(day.dateString).format('YYYY-MM-DD'));
-        }}
-      /> */}
-      {/* <AppCalender
-        visible={nomaniDisplayDate}
-        onDayPress={day => {
-          console.log('ONDDDD', day.dateString);
-          setNomaniDisplayDate(false);
-          setNomaniDob(moment(day.dateString).format('Do-MMM-YYYY'));
-        }}
-      />
-      <AppCalender
-        visible={coApplicantDisplayDate}
-        onDayPress={day => {
-          console.log('ONDDDD', day.dateString);
-          setCoApplicantDisplayDate(false);
-          setCoApplicantDob(moment(day.dateString).format('Do-MMM-YYYY'));
-        }}
-      /> */}
     </StoryScreen>
   );
 };

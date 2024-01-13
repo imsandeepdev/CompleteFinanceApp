@@ -47,7 +47,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: R.fontSize.Size2,
     borderBottomWidth: 1,
-    // borderColor: R.colors.darkAppColor,
+    borderColor: R.colors.darkAppColor,
   },
   headView: {
     flex: 1,

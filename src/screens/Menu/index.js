@@ -3,11 +3,10 @@ import {useState, useEffect} from 'react';
 import {Pressable, View, Text, Image, ScrollView, Alert} from 'react-native';
 import R from '../../res/R';
 import style from './style';
-import {useDispatch} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserProfileRequest} from '../../actions/profile.action';
+import {connect} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import AppContent from '../../utils/AppContent';
+import DeviceInfo from 'react-native-device-info';
 
 const CustomDrawerButton = props => {
   return (
@@ -30,9 +29,9 @@ const CustomDrawerButton = props => {
 };
 
 const Menu = props => {
-  const dispatch = useDispatch();
   const [userDetail, setUserDetail] = useState({});
   const [menuList, setMenuList] = useState([]);
+  const [appVersion, setAppVersion] = useState('');
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -42,18 +41,25 @@ const Menu = props => {
   }, [props.navigation]);
 
   const screenFocus = async () => {
-    let user_Data = await AsyncStorage.getItem('userData');
-    let tempUser = JSON.parse(user_Data);
-    handleProfile(Number(tempUser.EmpID));
+    handleProfileData();
+    checkAppVersion();
   };
 
-  const handleProfile = userid => {
-    dispatch(
-      UserProfileRequest(userid, response => {
-        console.log('user Profile res==>', response);
-        setUserDetail(response.entity[0]);
-      }),
-    );
+  const handleProfileData = () => {
+    setUserDetail(props.profile.entity[0]);
+    let tempList =
+      props.profile.entity[0].isMobile === '2'
+        ? AppContent.ManagerLoanCardList
+        : props.profile.entity[0].isMobile === '1'
+        ? AppContent.BROLoanCardList
+        : AppContent.LoanCardList;
+    setMenuList(tempList);
+  };
+
+  const checkAppVersion = async () => {
+    let appBuildVersion = await DeviceInfo.getVersion();
+    console.log('APP BUILD VERSION==>', DeviceInfo.getVersion());
+    setAppVersion(appBuildVersion);
   };
 
   const onLogout = () => {
@@ -95,38 +101,72 @@ const Menu = props => {
               <Text
                 style={style.textStyle}
                 numberOfLines={1}>{`${userDetail?.StaffName}`}</Text>
+
               <Text
-                style={style.subtextStyle}>{`${userDetail?.ContactNo}`}</Text>
+                style={
+                  style.subtextStyle
+                }>{`Role: ${userDetail?.RoleName}`}</Text>
+              <Text
+                style={
+                  style.subtextStyle
+                }>{`MobNo: ${userDetail?.ContactNo}`}</Text>
             </View>
           </View>
         </LinearGradient>
         <ScrollView contentContainerStyle={style.scrollContainer}>
-          {AppContent.LoanCardList.map((item, index) => {
-            return (
-              <View key={index} style={style.bodyView}>
-                <CustomDrawerButton
-                  title={`${item.Title} ${item.subTitle}`}
-                  image={item.icon}
-                  onPress={() => props.navigation.navigate(item.Url)}
-                />
-              </View>
-            );
-          })}
+          <View>
+            {menuList.map((item, index) => {
+              return (
+                <View key={index} style={style.bodyView}>
+                  <CustomDrawerButton
+                    title={`${item.Title} ${item.subTitle}`}
+                    image={item.icon}
+                    onPress={() => props.navigation.navigate(item.Url)}
+                  />
+                </View>
+              );
+            })}
+            <View style={style.bodyView}>
+              <CustomDrawerButton
+                title={`About Us`}
+                image={
+                  'https://cdn-icons-png.flaticon.com/128/5065/5065208.png'
+                }
+                onPress={() => props.navigation.navigate('AboutUs')}
+              />
+            </View>
+            {/* <View style={style.bodyView}>
+              <CustomDrawerButton
+                title={`Setting`}
+                image={'https://cdn-icons-png.flaticon.com/128/694/694900.png'}
+                onPress={() => console.log('aboutus')}
+              />
+            </View> */}
+          </View>
         </ScrollView>
-        <View style={style.logoutView}>
-          <CustomDrawerButton
-            image={'https://cdn-icons-png.flaticon.com/128/4436/4436954.png'}
-            onPress={() => onLogout()}
-            title="SIGN OUT"
-            titleStye={{
-              color: R.colors.redColor,
-              fontWeight: '800',
-            }}
-          />
+        <View>
+          <Text
+            style={style.appVersionText}>{`App Version: ${appVersion}`}</Text>
+          <View style={style.logoutView}>
+            <CustomDrawerButton
+              image={'https://cdn-icons-png.flaticon.com/128/4436/4436954.png'}
+              onPress={() => onLogout()}
+              title="SIGN OUT"
+              titleStye={{
+                color: R.colors.redColor,
+                fontWeight: '800',
+              }}
+            />
+          </View>
         </View>
       </View>
     </View>
   );
 };
 
-export default Menu;
+const mapStateToProps = (state, props) => ({
+  loading: state.profileRoot.loading,
+  profile: state.profileRoot.userInit,
+});
+
+export default connect(mapStateToProps)(Menu);

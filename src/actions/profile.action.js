@@ -24,13 +24,13 @@ export const UserProfileError = error => {
   };
 };
 
-export const UserProfileRequest = (user_id, success, failed) => {
+export const UserProfileRequest = (data, success, failed) => {
   return dispatch => {
     dispatch(UserProfile());
     api
       .multiGetRequest({
         needAuth: false,
-        url: `${Config.ProfileAPI}${user_id}`,
+        url: `${Config.ProfileAPI}${data.userId}&RoleId=${data.roleId}`,
       })
       .then(response => {
         dispatch(UserProfileSuccess(response));

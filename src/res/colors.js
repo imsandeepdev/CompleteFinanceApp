@@ -21,6 +21,7 @@ const colors = {
   darkAppColor: '#237874',
   darkRedColor: '#B02929',
   redColor: '#D14538',
+  barStyle: 'light-content',
 };
 
 export {colors};

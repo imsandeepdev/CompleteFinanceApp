@@ -30,4 +30,5 @@ export const Config = {
   loanCollectionListAPI: '/Loan/GetLoanCollectionList',
   centerCollectionAPI: '/Loan/GetCenterCollection',
   loanRepaymentCollectionAPI: '/Loan/UpdateLoanRepaymentCollection',
+  getAppVersionAPI: '/Account/GetappVersion',
 };

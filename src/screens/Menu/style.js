@@ -65,6 +65,14 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: R.fontSize.Size14,
   },
+  appVersionText: {
+    fontSize: R.fontSize.Size12,
+    marginBottom: R.fontSize.Size5,
+    fontFamily: R.fonts.regular,
+    color: R.colors.lightBlack,
+    textAlign: 'center',
+    fontWeight: '700',
+  },
 });
 
 export default style;

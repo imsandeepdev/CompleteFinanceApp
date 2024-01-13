@@ -7,6 +7,7 @@ import {
   AppCardPress,
   AppTextInput,
   CustomAlert,
+  GradientButton,
   GroupDropDownModal,
   Header,
   ListGroupModal,
@@ -45,10 +46,11 @@ const GroupForm = props => {
   const [groupDropDownList, setGroupDropDownList] = useState([]);
   const [groupDropDownType, setGroupDropDownType] = useState('');
   const [swiperValue, setSwiperValue] = useState(true);
-  const [exitEmpList, setExitEmpList] = useState();
+  // const [exitEmpList, setExitEmpList] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [messageStatus, setMessageStatus] = useState('');
+  const [selectedHeading, setSelectedHeading] = useState('');
 
   useEffect(() => {
     handleGetAllCustomer(props.profile.entity[0].StaffID);
@@ -210,9 +212,10 @@ const GroupForm = props => {
     setEmpModal(false);
   };
 
-  const handleGroupDropDown = mode => {
+  const handleGroupDropDown = (mode, headingTitle) => {
     let tempCenter =
       centerName.CenterId !== undefined ? centerName.CenterId : 0;
+    setSelectedHeading(headingTitle);
     setGroupDropDownType(mode);
     let data = `?mode=${mode}&StaffId=${profileDetail.StaffID}&BranchId=${profileDetail.BoId}&CenterId=${tempCenter}&GroupId=0`;
     dispatch(
@@ -325,7 +328,7 @@ const GroupForm = props => {
                 headTitleColor={R.colors.darkGreenColor}
               />
               <AppCardPress
-                onPress={() => handleGroupDropDown('Branch')}
+                onPress={() => handleGroupDropDown('Branch', 'Select Branch')}
                 headTitle={'Branch Name *'}
                 title={
                   branchManager !== '' ? branchManager.BoCode : 'Branch Name'
@@ -343,7 +346,9 @@ const GroupForm = props => {
                 rightIcon={R.images.dropdownIcon}
               />
               <AppCardPress
-                onPress={() => handleGroupDropDown('GroupCenter')}
+                onPress={() =>
+                  handleGroupDropDown('GroupCenter', 'Select Center')
+                }
                 headTitle={'Center Name *'}
                 title={
                   centerName !== '' ? centerName.CenterName : 'Center Name'
@@ -377,7 +382,9 @@ const GroupForm = props => {
                 />
               ) : (
                 <AppCardPress
-                  onPress={() => handleGroupDropDown('Getgroup')}
+                  onPress={() =>
+                    handleGroupDropDown('Getgroup', 'Select Group')
+                  }
                   headTitle={'Group Name *'}
                   title={
                     existingGroupName !== ''
@@ -399,7 +406,9 @@ const GroupForm = props => {
               )}
               <AppCardPress
                 // disabled={swiperValue ? false : true}
-                onPress={() => handleGroupDropDown('MeetingDay')}
+                onPress={() =>
+                  handleGroupDropDown('MeetingDay', 'Select First Meeting Day')
+                }
                 headTitle={'First Meeting Day *'}
                 title={
                   firstMeetDate !== ''
@@ -530,7 +539,7 @@ const GroupForm = props => {
           style={{
             marginVertical: R.fontSize.Size10,
           }}>
-          <AppButton
+          <GradientButton
             onPress={() => handleGroupSubAPI()}
             marginHorizontal={R.fontSize.Size30}
             title={'Submit'}
@@ -549,6 +558,7 @@ const GroupForm = props => {
         cancelOnPress={() => setGroupDropDownModal(false)}
         onPress={item => handleGroupDropDownSelect(item)}
         dataList={groupDropDownList}
+        heading={selectedHeading}
       />
       <CustomAlert
         visible={modalVisible}

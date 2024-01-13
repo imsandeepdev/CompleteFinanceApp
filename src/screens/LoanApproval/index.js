@@ -4,10 +4,10 @@ import {View, SafeAreaView, ScrollView} from 'react-native';
 import StoryScreen from '../../components/StoryScreen';
 import style from './style';
 import {
-  AppButton,
   AppCardPress,
   CustomAlert,
   CustomerListModal,
+  GradientButton,
   Header,
   ListViewModal,
 } from '../../components';
@@ -19,11 +19,7 @@ import {
   UpdateLoanApprovalRequest,
 } from '../../actions/loanApproval.action';
 import CommonFunctions from '../../utils/CommonFunctions';
-import Toast from 'react-native-simple-toast';
-import {
-  GetAllCustomerRequest,
-  GetLoanProposalCustomerListRequest,
-} from '../../actions/role.action';
+import {GetLoanProposalCustomerListRequest} from '../../actions/role.action';
 
 const LoanApproval = props => {
   const dispatch = useDispatch();
@@ -34,7 +30,7 @@ const LoanApproval = props => {
   const [profileDetail, setProfileDetail] = useState('');
   const [customerListModal, setCustomerListModal] = useState(true);
   const [customerList, setCustomerList] = useState([]);
-  const [onSelectCustomer, setOnSelectCustomer] = useState('');
+  // const [onSelectCustomer, setOnSelectCustomer] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [applicantStatus, setApplicantStatus] = useState(false);
   const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
@@ -147,7 +143,7 @@ const LoanApproval = props => {
   const handleProceed = item => {
     console.log('ITEM=>', item);
     handleApprovalDetail(item.ProposalId);
-    setOnSelectCustomer(item);
+    // setOnSelectCustomer(item);
     setCustomerListModal(false);
   };
 
@@ -248,7 +244,7 @@ const LoanApproval = props => {
             />
           </View>
           <View>
-            <AppButton
+            <GradientButton
               onPress={() => handleLoanSubmit()}
               marginHorizontal={R.fontSize.Size30}
               title={'Submit'}

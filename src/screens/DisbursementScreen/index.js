@@ -5,11 +5,11 @@ import {View, SafeAreaView, ScrollView} from 'react-native';
 import StoryScreen from '../../components/StoryScreen';
 import style from './style';
 import {
-  AppButton,
   AppCalender,
   AppCardPress,
   CustomAlert,
   CustomerListModal,
+  GradientButton,
   Header,
   ListViewModal,
 } from '../../components';
@@ -44,6 +44,7 @@ const DisbursementScreen = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [applicantStatus, setApplicantStatus] = useState(false);
   const [applicantStatusMsg, setApplicantStatusMsg] = useState('');
+  const [selectedHeading, setSelectedHeading] = useState('');
 
   useEffect(() => {
     // handleApprovalDetail();
@@ -80,6 +81,7 @@ const DisbursementScreen = props => {
   };
 
   const handlePaymentModeDropDown = () => {
+    setSelectedHeading('Select Payment Mode');
     dispatch(
       PaymentModeListRequest(response => {
         console.log('PaymentMode respones=>', response);
@@ -208,10 +210,10 @@ const DisbursementScreen = props => {
     );
   };
 
-  const handleDateDisplay = type => {
-    setDateType(type);
-    setIsDisplayDate(true);
-  };
+  // const handleDateDisplay = type => {
+  //   setDateType(type);
+  //   setIsDisplayDate(true);
+  // };
 
   const handleSuccessModalClose = () => {
     setModalVisible(false);
@@ -227,7 +229,9 @@ const DisbursementScreen = props => {
     console.log('TEMP DISBURSEMENT==>', tempDisbursement);
     setDisbursementDate(moment(selectDate).format('YYYY-MM-DD'));
     let tempSelectDate = moment(selectDate).format('YYYY-MM-DD');
-    let tempMinDiff = approvalDetail.minDistanceDate;
+    // let tempMinDiff = approvalDetail.minDistanceDate;
+    let tempMinDiff = 1;
+
     let tempMinDate = moment(tempSelectDate, 'YYYY-MM-DD').add(
       tempMinDiff,
       'days',
@@ -355,7 +359,7 @@ const DisbursementScreen = props => {
             )}
           </View>
           <View>
-            <AppButton
+            <GradientButton
               onPress={() => handleUpdateDisbursement()}
               marginHorizontal={R.fontSize.Size30}
               title={'Submit'}
@@ -374,6 +378,7 @@ const DisbursementScreen = props => {
         visible={customerListModal}
         data={customerList}
         onPress={item => handleProceed(item)}
+        heading={selectedHeading}
       />
 
       <AppCalender

@@ -16,12 +16,11 @@ import CenterForm from '../screens/CenterForm';
 import GroupForm from '../screens/GroupForm';
 import GrtForm from '../screens/GrtForm';
 import LoanProposal from '../screens/LoanProposal';
-import SubMasterForm from '../screens/SubMasterForm';
-import AssignMenuForm from '../screens/AssignMenuForm';
 import CustomerList from '../screens/CustomerList';
 import LoanApproval from '../screens/LoanApproval';
 import DisbursementScreen from '../screens/DisbursementScreen';
 import PaymentScreen from '../screens/PaymentScreen';
+import AboutUs from '../screens/AboutUs';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -88,16 +87,6 @@ const AppNavigator = props => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="SubMasterForm"
-          component={SubMasterForm}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AssignMenuForm"
-          component={AssignMenuForm}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="CustomerList"
           component={CustomerList}
           options={{headerShown: false}}
@@ -115,6 +104,11 @@ const AppNavigator = props => {
         <Stack.Screen
           name="PaymentScreen"
           component={PaymentScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AboutUs"
+          component={AboutUs}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

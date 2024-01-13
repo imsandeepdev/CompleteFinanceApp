@@ -18,6 +18,8 @@ import CustomerListModal from './CustomerListModal';
 import {SwiperButtonComp} from './SwiperButton';
 import CustomAlert from './CustomAlert';
 import AppCalender from './AppCalender';
+import GradientButton from './GradientButton';
+import RoleSelectionModal from './RoleSelectionModal';
 
 export {
   CustomTextInput,
@@ -40,4 +42,6 @@ export {
   SwiperButtonComp,
   CustomAlert,
   AppCalender,
+  GradientButton,
+  RoleSelectionModal,
 };
