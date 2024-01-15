@@ -204,14 +204,14 @@ const LoanApproval = props => {
             <AppCardPress
               disabled={true}
               headTitle={'Purpose Name'}
-              title={'Purpose name'}
+              title={approvalDetail.PurposeName}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'EMI Amount'}
-              title={'EMI Amount'}
+              title={approvalDetail.TotalIntAmount}
               TextColor={R.colors.secAppColor}
               headTitleColor={R.colors.darkGreenColor}
             />
@@ -257,6 +257,7 @@ const LoanApproval = props => {
         cancelOnPress={() => setApprovalStatus(false)}
         onPress={item => handleRoleSelect(item)}
         dataList={listModalData}
+        heading={'Select Approval Status'}
       />
       <CustomerListModal
         backOnPress={() => props.navigation.goBack()}

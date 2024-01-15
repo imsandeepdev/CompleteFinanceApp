@@ -112,6 +112,7 @@ const GrtForm = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [messageStatus, setMessageStatus] = useState('');
+  const [selectedHeading, setSelectedHeading] = useState('');
 
   useEffect(() => {
     handleProfile();
@@ -121,7 +122,8 @@ const GrtForm = props => {
     setProfileDetail(props.profile.entity[0]);
   };
 
-  const handleGrtDropDown = mode => {
+  const handleGrtDropDown = (mode, headingText) => {
+    setSelectedHeading(headingText);
     setGrtDropDownType(mode);
     let data =
       mode !== 'GRTCenter'
@@ -136,7 +138,8 @@ const GrtForm = props => {
     setGrtDropDownModal(true);
   };
 
-  const handleStaffDropDown = mode => {
+  const handleStaffDropDown = (mode, headingText) => {
+    setSelectedHeading(headingText);
     setGrtDropDownType(mode);
     let data = {
       mode: mode,
@@ -154,7 +157,8 @@ const GrtForm = props => {
     setGrtDropDownModal(true);
   };
 
-  const handleApprovedStatusDropDown = mode => {
+  const handleApprovedStatusDropDown = (mode, headingText) => {
+    setSelectedHeading(headingText);
     setGrtDropDownType(mode);
     setGrtDropDownList(AppContent.ApprovedStatusGrt);
     setGrtDropDownModal(true);
@@ -174,6 +178,7 @@ const GrtForm = props => {
   };
 
   const handleGroupNamePickerValidation = () => {
+    setSelectedHeading('Select Group Name');
     if (centerName !== '') {
       handleGroupNamePicker('Group', centerName.CenterId);
     } else {
@@ -281,7 +286,9 @@ const GrtForm = props => {
           <View style={Styles.flexView}>
             <View style={Styles.mainView}>
               <AppCardPress
-                onPress={() => handleGrtDropDown('Branch')}
+                onPress={() =>
+                  handleGrtDropDown('Branch', 'Select Branch Name')
+                }
                 headTitle={'Branch Name *'}
                 title={branchName !== '' ? branchName.BoCode : 'Branch Name'}
                 TextColor={
@@ -298,8 +305,9 @@ const GrtForm = props => {
               />
               {branchName !== '' && (
                 <AppCardPress
-                  // onPress={() => handleGrtDropDown('Staff')}
-                  onPress={() => handleStaffDropDown('GRTStaff')}
+                  onPress={() =>
+                    handleStaffDropDown('GRTStaff', 'Select Staff Name')
+                  }
                   headTitle={'Staff Name *'}
                   title={
                     staffName !== '' ? staffName.StaffName : 'Select Staff Name'
@@ -312,7 +320,9 @@ const GrtForm = props => {
 
               {staffName !== '' && (
                 <AppCardPress
-                  onPress={() => handleGrtDropDown('GRTCenter')}
+                  onPress={() =>
+                    handleGrtDropDown('GRTCenter', 'Select Center Name')
+                  }
                   headTitle={'Center name *'}
                   title={
                     centerName !== '' ? centerName.CenterName : 'Center name'
@@ -350,7 +360,12 @@ const GrtForm = props => {
               )}
 
               <AppCardPress
-                onPress={() => handleApprovedStatusDropDown('ApprovedStatus')}
+                onPress={() =>
+                  handleApprovedStatusDropDown(
+                    'ApprovedStatus',
+                    'Select Approval Status',
+                  )
+                }
                 headTitle={'Approved Status *'}
                 title={
                   approvalStatus !== ''
@@ -454,6 +469,7 @@ const GrtForm = props => {
         cancelOnPress={() => setGrtDropDownModal(false)}
         onPress={item => handleGrtDropDownSelect(item)}
         dataList={grtDropDownList}
+        heading={selectedHeading}
       />
       <DocumentViewModal
         visible={documentModal}

@@ -98,17 +98,17 @@ const LoginScreen = props => {
   };
 
   const onHandleLogin = tempDeviceId => {
-    // let data = {
-    //   Logincode: userName,
-    //   password: password,
-    //   deviceNo: tempDeviceId,
-    // };
-
     let data = {
       Logincode: userName,
       password: password,
-      deviceNo: 'samsung-SM-A207F-1472d92a302b13bb',
+      deviceNo: tempDeviceId,
     };
+
+    // let data = {
+    //   Logincode: userName,
+    //   password: password,
+    //   deviceNo: 'samsung-SM-A207F-1472d92a302b13bb',
+    // };
 
     console.log('Data=>', data);
     dispatch(

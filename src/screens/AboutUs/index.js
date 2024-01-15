@@ -130,7 +130,7 @@ const AboutUs = props => {
                   <Text style={style.leftText}>
                     {userDetail.StaffName !== undefined ||
                     userDetail.StaffName !== null
-                      ? 'S'
+                      ? '#'
                       : ''}
                   </Text>
                 </View>

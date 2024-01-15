@@ -24,18 +24,18 @@ import {
   LoanCollectionRequest,
   LoanRepaymentCollectionRequest,
 } from '../../actions/loanCollection.action';
-import Toast from 'react-native-simple-toast';
+// import Toast from 'react-native-simple-toast';
 
-const CollectionTitle = [
-  'LoanId',
-  'Customer Name',
-  'Husband Name',
-  'Collected Amount',
-  'Due Amount',
-  'Principle Collection',
-  'Interested Collection',
-  'Outstanding Amount',
-];
+// const CollectionTitle = [
+//   'LoanId',
+//   'Customer Name',
+//   'Husband Name',
+//   'Collected Amount',
+//   'Due Amount',
+//   'Principle Collection',
+//   'Interested Collection',
+//   'Outstanding Amount',
+// ];
 
 const PaymentScreen = props => {
   const dispatch = useDispatch();
@@ -46,11 +46,11 @@ const PaymentScreen = props => {
 
   const [listModal, setListModal] = useState(false);
   const [overAllCollectAmount, setOverAllCollectAmount] = useState('');
-  const [selectedCenter, setSelectedCenter] = useState();
-  const [totalPrincipleAmount, setTotalPrincipleAmount] = useState('');
-  const [totalInterestAmount, setTotalInterestAmount] = useState('');
+  // const [selectedCenter, setSelectedCenter] = useState();
+  // const [totalPrincipleAmount, setTotalPrincipleAmount] = useState('');
+  // const [totalInterestAmount, setTotalInterestAmount] = useState('');
   const [buttonVisibleStatus, setButtonVisibleStatus] = useState(false);
-  const [prevCollectAmount, setPrevCollectAmount] = useState(0);
+  // const [prevCollectAmount, setPrevCollectAmount] = useState(0);
   const [toastMessage, setToastMessage] = useState('');
   const [toastAlertVisible, setToastAlertVisible] = useState(false);
   const [alertType, setAlertType] = useState('');
@@ -84,7 +84,7 @@ const PaymentScreen = props => {
   };
 
   const handleCollectionListAPI = item => {
-    setSelectedCenter(item);
+    // setSelectedCenter(item);
     let data = {
       centerId: item.centerId,
       date: '2023-11-18T06:32:11.089Z',
@@ -546,6 +546,7 @@ const PaymentScreen = props => {
         cancelOnPress={() => setListModal(false)}
         onPress={item => handleCollectionListAPI(item)}
         dataList={centerCollectionList}
+        heading={'Select Any Center'}
       />
       <CustomAlert
         visible={toastAlertVisible}

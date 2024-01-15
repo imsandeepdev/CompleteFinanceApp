@@ -22,8 +22,8 @@ import {UpdateDisbursementRequest} from '../../actions/disbursement.action';
 import moment from 'moment';
 import {PaymentModeListRequest} from '../../actions/dropdown.action';
 import Toast from 'react-native-simple-toast';
-const payment_Date = 'paymentDate';
-const disbursement_Date = 'disbursementDate';
+// const payment_Date = 'paymentDate';
+// const disbursement_Date = 'disbursementDate';
 
 const DisbursementScreen = props => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const DisbursementScreen = props => {
   const [customerList, setCustomerList] = useState([]);
   const [isDisplayDate, setIsDisplayDate] = useState(false);
   const [isDisplayFirstDate, setIsDisplayFirstDate] = useState(false);
-  const [dateType, setDateType] = useState('');
+  // const [dateType, setDateType] = useState('');
   const [onSelectCustomer, setOnSelectCustomer] = useState('');
   const [paymentMode, setPaymentMode] = useState('');
   const [disbursementDate, setDisbursementDate] = useState('');
@@ -372,13 +372,13 @@ const DisbursementScreen = props => {
         cancelOnPress={() => setApprovalStatus(false)}
         onPress={item => handleRoleSelect(item)}
         dataList={listModalData}
+        heading={selectedHeading}
       />
       <CustomerListModal
         backOnPress={() => props.navigation.goBack()}
         visible={customerListModal}
         data={customerList}
         onPress={item => handleProceed(item)}
-        heading={selectedHeading}
       />
 
       <AppCalender
