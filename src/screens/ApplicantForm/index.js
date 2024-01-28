@@ -185,7 +185,7 @@ const ApplicantForm = props => {
 
   const onSelectPicker = params => {
     if (params === 'camera') {
-      ImagePicker.openCamera({
+      ImagePicker.openPicker({
         width: 400,
         height: 400,
         cropping: true,
@@ -195,7 +195,7 @@ const ApplicantForm = props => {
         setGalleryModalVisible(false);
       });
     } else if (params === 'gallery') {
-      ImagePicker.openCamera({
+      ImagePicker.openPicker({
         width: 400,
         height: 400,
         cropping: true,
@@ -206,7 +206,7 @@ const ApplicantForm = props => {
   };
 
   const onHandleCameraPicker = () => {
-    ImagePicker.openCamera({
+    ImagePicker.openPicker({
       width: 400,
       height: 400,
       cropping: true,
@@ -234,11 +234,8 @@ const ApplicantForm = props => {
     listModalType === 'NomaniRelation' && setNomaniRelation(item);
     listModalType === 'CoApplicantRelation' && setCoApplicantRelation(item);
     listModalType === 'NomaniKYCType' && setNomaniKYPName(item);
-    listModalType === 'NomaniKYCType2' && setNomaniKYPName2(item);
     listModalType === 'coApplicantKycType' && setCoApplicantKYPName(item);
-    listModalType === 'coApplicantKycType2' && setCoApplicantKYPName2(item);
     listModalType === 'ApplicantKYCType' && setApplicantDocType1(item);
-    listModalType === 'ApplicantKYCType2' && setApplicantDocType2(item);
     listModalType === 'BankName' && setBankName(item);
 
     setListModalData([]);
@@ -266,11 +263,8 @@ const ApplicantForm = props => {
     type === 'NomaniRelation' && handleDropDownList('Relation');
     type === 'CoApplicantRelation' && handleDropDownList('Relation');
     type === 'NomaniKYCType' && handleDropDownList('KYC');
-    type === 'NomaniKYCType2' && handleDropDownList('KYC');
     type === 'coApplicantKycType' && handleDropDownList('KYC');
-    type === 'coApplicantKycType2' && handleDropDownList('KYC');
-    type === 'ApplicantKYCType' && handleDropDownList('KYC');
-    type === 'ApplicantKYCType2' && handleDropDownList('KYC');
+    type === 'ApplicantKYCType' && handleDropDownList('BankKYC');
     type === 'BankName' && handleBankName();
     // setListModal(true);
   };
@@ -323,7 +317,7 @@ const ApplicantForm = props => {
   };
 
   const handleNomaniDocPicker = type => {
-    ImagePicker.openCamera({
+    ImagePicker.openPicker({
       width: 400,
       height: 400,
       cropping: true,
@@ -352,8 +346,6 @@ const ApplicantForm = props => {
         ]);
       type === 'applicantKYCDoc1' &&
         setApplicantKYCDocList1([...applicantKYCDocList1, image.path]);
-      type === 'applicantKYCDoc2' &&
-        setApplicantKYCDocList2([...applicantKYCDocList2, image.path]);
     });
   };
 
@@ -377,10 +369,7 @@ const ApplicantForm = props => {
       ]));
     type === 'applicantKYCDoc1' &&
       (applicantKYCDocList1.splice(index, 1),
-      setApplicantKYCDocList1([...applicantKYCDocList1])),
-      type === 'applicantKYCDoc2' &&
-        (applicantKYCDocList2.splice(index, 1),
-        setApplicantKYCDocList2([...applicantKYCDocList2]));
+      setApplicantKYCDocList1([...applicantKYCDocList1]));
   };
 
   const handleSaveCustomerAPI = () => {
@@ -543,15 +532,15 @@ const ApplicantForm = props => {
       });
     });
 
-    formData.append('Applicant_DocType2', applicantDocType2.RuleID);
-    formData.append('Applicant_DocNo2', applicantKYCNo2);
-    applicantKYCDocList2.forEach((item, index) => {
-      formData.append('Applicant_Doc2', {
-        uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
-        type: 'image/png',
-        name: `image${index}.jpeg`,
-      });
-    });
+    // formData.append('Applicant_DocType2', applicantDocType2.RuleID);
+    // formData.append('Applicant_DocNo2', applicantKYCNo2);
+    // applicantKYCDocList2.forEach((item, index) => {
+    //   formData.append('Applicant_Doc2', {
+    //     uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
+    //     type: 'image/png',
+    //     name: `image${index}.jpeg`,
+    //   });
+    // });
 
     formData.append('Nomanee_DocType1', nomaniKYPName.RuleID);
     formData.append('Nomanee_DocNo1', nomaniKYPMobNo);
@@ -563,8 +552,8 @@ const ApplicantForm = props => {
       });
     });
 
-    formData.append('Nomanee_DocType2', nomaniKYPName2.RuleID);
-    formData.append('Nomanee_DocNo2', nomaniKYPMobNo2);
+    formData.append('Nomanee_DocType2', nomaniKYPName.RuleID);
+    formData.append('Nomanee_DocNo2', nomaniKYPMobNo);
     selectNomaniKYCDocumentList2.forEach((item, index) => {
       formData.append('Nomanee_Doc2', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
@@ -583,8 +572,8 @@ const ApplicantForm = props => {
       });
     });
 
-    formData.append('CoApplicant_DocType2', coApplicantKYPName2.RuleID);
-    formData.append('CoApplicant_DocNo2', coApplicantKYPMobNo2);
+    formData.append('CoApplicant_DocType2', coApplicantKYPName.RuleID);
+    formData.append('CoApplicant_DocNo2', coApplicantKYPMobNo);
     selectCoApplicantKYCDocumentList2.forEach((item, index) => {
       formData.append('CoApplicant_Doc2', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
@@ -715,14 +704,6 @@ const ApplicantForm = props => {
         1,
         'please select first nominee KYC Documents',
       ) &&
-      CommonFunctions.isBlank(
-        nomaniKYPName2,
-        'please select second nominee KYC Type',
-      ) &&
-      CommonFunctions.isBlank(
-        nomaniKYPMobNo2.trim(),
-        'please enter second nominee KYC No',
-      ) &&
       CommonFunctions.isCheckValidLength(
         selectNomaniKYCDocumentList2,
         1,
@@ -839,28 +820,28 @@ const ApplicantForm = props => {
       CommonFunctions.isBlank(accountType, 'please select bank account type') &&
       CommonFunctions.isBlank(
         applicantDocType1,
-        'please select applicant fisrt KYC type',
+        'please select applicant Bank KYC type',
       ) &&
       CommonFunctions.isBlank(
         applicantKYCNo1.trim(),
-        'please enter fisrt KYC number',
+        'please enter Bank KYC number',
       ) &&
       CommonFunctions.isBlank(
         applicantKYCDocList1,
-        'please select fisrt KYC documents',
-      ) &&
-      CommonFunctions.isBlank(
-        applicantDocType2,
-        'please select applicant second KYC type',
-      ) &&
-      CommonFunctions.isBlank(
-        applicantKYCNo2.trim(),
-        'please enter second KYC number',
-      ) &&
-      CommonFunctions.isBlank(
-        applicantKYCDocList2,
-        'please select second KYC documents',
+        'please select Bank KYC documents',
       )
+      // CommonFunctions.isBlank(
+      //   applicantDocType2,
+      //   'please select applicant second KYC type',
+      // ) &&
+      // CommonFunctions.isBlank(
+      //   applicantKYCNo2.trim(),
+      //   'please enter second KYC number',
+      // ) &&
+      // CommonFunctions.isBlank(
+      //   applicantKYCDocList2,
+      //   'please select second KYC documents',
+      // )
     );
   };
 
@@ -1041,12 +1022,12 @@ const ApplicantForm = props => {
                     title_nomaniKycType={nomaniKYPName.RoleName}
                     value_nomaniKYPMobNo={nomaniKYPMobNo}
                     onChange_nomaniKYPMobNo={text => setNomaniKYPMobNo(text)}
-                    onPress_nomaniKycType2={() => {
-                      handleListModal('NomaniKYCType2', 'Select KYC Type 2');
-                    }}
-                    title_nomaniKycType2={nomaniKYPName2.RoleName}
-                    value_nomaniKYPMobNo2={nomaniKYPMobNo2}
-                    onChange_nomaniKYPMobNo2={text => setNomaniKYPMobNo2(text)}
+                    // onPress_nomaniKycType2={() => {
+                    //   handleListModal('NomaniKYCType2', 'Select KYC Type 2');
+                    // }}
+                    // title_nomaniKycType2={nomaniKYPName2.RoleName}
+                    // value_nomaniKYPMobNo2={nomaniKYPMobNo2}
+                    // onChange_nomaniKYPMobNo2={text => setNomaniKYPMobNo2(text)}
                     NomineeKYCList={selectNomaniKYCDocumentList.length}
                     onPress_nomaniKYPDocument={() =>
                       handleNomaniDocPicker('nomineeKYCDoc1')
@@ -1095,17 +1076,17 @@ const ApplicantForm = props => {
                     onChange_coApplicantKYPMobNo={text =>
                       setCoApplicantKYPMobNo(text)
                     }
-                    onPress_coApplicantKycType2={() => {
-                      handleListModal(
-                        'coApplicantKycType2',
-                        'Select CoApplicant KYC Type 2',
-                      );
-                    }}
-                    title_coApplicantKycType2={coApplicantKYPName2.RoleName}
-                    value_coApplicantKYPMobNo2={coApplicantKYPMobNo2}
-                    onChange_coApplicantKYPMobNo2={text =>
-                      setCoApplicantKYPMobNo2(text)
-                    }
+                    // onPress_coApplicantKycType2={() => {
+                    //   handleListModal(
+                    //     'coApplicantKycType2',
+                    //     'Select CoApplicant KYC Type 2',
+                    //   );
+                    // }}
+                    // title_coApplicantKycType2={coApplicantKYPName2.RoleName}
+                    // value_coApplicantKYPMobNo2={coApplicantKYPMobNo2}
+                    // onChange_coApplicantKYPMobNo2={text =>
+                    //   setCoApplicantKYPMobNo2(text)
+                    // }
                     coApplicantKYCList={selectCoApplicantKYCDocumentList.length}
                     onPress_coApplicantKYPDocument={() =>
                       handleNomaniDocPicker('coApplicantKYCDoc1')
@@ -1231,7 +1212,7 @@ const ApplicantForm = props => {
                     onPress_applicantKycType={() => {
                       handleListModal(
                         'ApplicantKYCType',
-                        'Select Applicant KYC Type',
+                        'Select Applicant Bank KYC Type',
                       );
                     }}
                     title_applicantKycType={applicantDocType1.RoleName}
@@ -1245,23 +1226,23 @@ const ApplicantForm = props => {
                     handleRemoveApplicantKYCDoc1={index =>
                       handleRemoveNomKycDoc(index, 'applicantKYCDoc1')
                     }
-                    onPress_applicantKycType2={() => {
-                      handleListModal(
-                        'ApplicantKYCType2',
-                        'Select Applicant KYC Type 2',
-                      );
-                    }}
-                    title_applicantKycType2={applicantDocType2.RoleName}
-                    value_applicantKYCNo2={applicantKYCNo2}
-                    onChange_applicantKYCNo2={text => setApplicantKYCNo2(text)}
-                    applicantKYCList2={applicantKYCDocList2.length}
-                    onPress_applicantKYCDoc2={() =>
-                      handleNomaniDocPicker('applicantKYCDoc2')
-                    }
-                    selectedApplicantKYCDoc2={applicantKYCDocList2}
-                    handleRemoveApplicantKYCDoc2={index =>
-                      handleRemoveNomKycDoc(index, 'applicantKYCDoc2')
-                    }
+                    // onPress_applicantKycType2={() => {
+                    //   handleListModal(
+                    //     'ApplicantKYCType2',
+                    //     'Select Applicant Bank KYC Type 2',
+                    //   );
+                    // }}
+                    // title_applicantKycType2={applicantDocType2.RoleName}
+                    // value_applicantKYCNo2={applicantKYCNo2}
+                    // onChange_applicantKYCNo2={text => setApplicantKYCNo2(text)}
+                    // applicantKYCList2={applicantKYCDocList2.length}
+                    // onPress_applicantKYCDoc2={() =>
+                    //   handleNomaniDocPicker('applicantKYCDoc2')
+                    // }
+                    // selectedApplicantKYCDoc2={applicantKYCDocList2}
+                    // handleRemoveApplicantKYCDoc2={index =>
+                    //   handleRemoveNomKycDoc(index, 'applicantKYCDoc2')
+                    // }
                     submitOnPress={() => handleSaveCustomerAPI()}
                     backOnPress={() => setSelectedHeader(3)}
                   />

@@ -338,11 +338,11 @@ const LoanProposal = props => {
       mode: 'Save',
       proposalId: 0,
       claId: 0,
-      groupId: 0,
+      groupId: centerDetail.GroupId,
       branchId: profileDetail.BoId,
       customerInfoId: centerDetail.ApplicantId,
       staffId: profileDetail.StaffID,
-      centerId: 1,
+      centerId: centerDetail.CenterId,
       proposalDate: moment().format('YYYY-MM-DD'),
       productID: loanProduct.ProductId,
       purposeID: 1,
@@ -458,7 +458,7 @@ const LoanProposal = props => {
   };
 
   const handleProceed = item => {
-    console.log('ITEM=>', item);
+    console.log('SELECT ITEM=>', item);
     setCenterDetail(item);
     setCustomerListModal(false);
   };

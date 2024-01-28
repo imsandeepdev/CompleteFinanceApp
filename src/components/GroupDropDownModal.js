@@ -87,7 +87,7 @@ const GroupDropDownModal = props => {
                     <View style={Styles.emptyView}>
                       <Image
                         source={{
-                          uri: 'https://cdn-icons-png.flaticon.com/128/12950/12950579.png',
+                          uri: 'https://cdn-icons-png.flaticon.com/128/7486/7486768.png',
                         }}
                         resizeMode={'contain'}
                         style={{

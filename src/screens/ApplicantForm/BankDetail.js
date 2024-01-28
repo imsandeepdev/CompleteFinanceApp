@@ -164,7 +164,7 @@ const BankDetail = props => {
           handleRemove={props.handleRemoveApplicantKYCDoc1}
         />
 
-        <AppCardPress
+        {/* <AppCardPress
           onPress={props.onPress_applicantKycType2}
           headTitle={'Bank Document Type2 *'}
           title={
@@ -216,7 +216,7 @@ const BankDetail = props => {
           Iconwidth={R.fontSize.Size22}
           selectedDoc={props.selectedApplicantKYCDoc2}
           handleRemove={props.handleRemoveApplicantKYCDoc2}
-        />
+        /> */}
       </View>
       <View style={style.rowFlexEnd}>
         <AppButton

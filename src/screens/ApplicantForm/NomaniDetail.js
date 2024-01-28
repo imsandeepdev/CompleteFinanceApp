@@ -108,11 +108,11 @@ const NomaniDetail = props => {
         />
         <AppCardPress
           onPress={props.onPress_nomaniKYPDocument}
-          headTitle={'Nominee KYC Document *'}
+          headTitle={'Nominee KYC Front Document *'}
           title={
             props.NomineeKYCList >= 1
               ? 'Selected documents'
-              : 'Select nominee KYC document'
+              : 'Select nominee KYC Front document'
           }
           TextColor={
             props.NomineeKYCList >= 1
@@ -127,7 +127,7 @@ const NomaniDetail = props => {
           selectedDoc={props.selectedNomineeKYCDoc1}
           handleRemove={props.handleRemoveNomineeKYCDoc1}
         />
-        <AppCardPress
+        {/* <AppCardPress
           onPress={props.onPress_nomaniKycType2}
           headTitle={'Nominee KYC Type 2 *'}
           title={
@@ -146,8 +146,8 @@ const NomaniDetail = props => {
               : R.colors.textPriColor
           }
           rightIcon={R.images.dropdownIcon}
-        />
-        <AppTextInput
+        /> */}
+        {/* <AppTextInput
           placeholder={'Nominee KYC No2'}
           headTitle={'Nominee KYC No2 *'}
           headTitleColor={
@@ -157,14 +157,14 @@ const NomaniDetail = props => {
           }
           value={props.value_nomaniKYPMobNo2}
           onChangeText={props.onChange_nomaniKYPMobNo2}
-        />
+        /> */}
         <AppCardPress
           onPress={props.onPress_nomaniKYPDocument2}
-          headTitle={'Nominee KYC Document2 *'}
+          headTitle={'Nominee KYC Back Document *'}
           title={
             props.NomineeKYC2List >= 1
               ? 'Selected documents'
-              : 'Select nominee KYC document2'
+              : 'Select nominee KYC Back document'
           }
           TextColor={
             props.NomineeKYC2List >= 1
@@ -305,11 +305,11 @@ const NomaniDetail = props => {
           />
           <AppCardPress
             onPress={props.onPress_coApplicantKYPDocument}
-            headTitle={'CoApplicant KYC Document *'}
+            headTitle={'CoApplicant KYC Front Document *'}
             title={
               props.coApplicantKYCList >= 1
                 ? 'Selected documents'
-                : 'Select CoApplicant KYC document'
+                : 'Select CoApplicant KYC Front document'
             }
             TextColor={
               props.coApplicantKYCList >= 1
@@ -325,7 +325,7 @@ const NomaniDetail = props => {
             handleRemove={props.handleRemoveCoApplicantKYCDoc}
           />
 
-          <AppCardPress
+          {/* <AppCardPress
             onPress={props.onPress_coApplicantKycType2}
             headTitle={'CoApplicant KYC Type2 *'}
             title={
@@ -355,14 +355,14 @@ const NomaniDetail = props => {
             }
             value={props.value_coApplicantKYPMobNo2}
             onChangeText={props.onChange_coApplicantKYPMobNo2}
-          />
+          /> */}
           <AppCardPress
             onPress={props.onPress_coApplicantKYPDocument2}
-            headTitle={'CoApplicant KYC Document 2 *'}
+            headTitle={'CoApplicant KYC Back Document*'}
             title={
               props.coApplicantKYCList2 >= 1
                 ? 'Selected documents'
-                : 'Select CoApplicant KYC document 2'
+                : 'Select CoApplicant KYC Back document'
             }
             TextColor={
               props.coApplicantKYCList2 >= 1

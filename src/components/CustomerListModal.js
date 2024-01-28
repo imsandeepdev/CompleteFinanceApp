@@ -53,6 +53,78 @@ const CardLineLayout = props => {
   );
 };
 
+const CardRowLineLayout = props => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderColor: R.colors.placeholderTextColor,
+        paddingVertical: 6,
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <View
+        style={{
+          borderWidth: 1,
+          borderRadius: 20,
+          height: 30,
+          width: 30,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: R.colors.appColor,
+        }}>
+        <Text
+          style={{
+            fontFamily: R.fonts.regular,
+            fontSize: R.fontSize.Size16,
+            color: R.colors.lightWhite,
+            fontWeight: '700',
+          }}>
+          {props.customerFirstLetter}
+        </Text>
+      </View>
+      <View style={{flex: 1, marginHorizontal: 5}}>
+        <Text style={Styles.titleLineText}>{props.customer}</Text>
+        <Text
+          style={{
+            fontFamily: R.fonts.regular,
+            fontSize: R.fontSize.Size12,
+            color: R.colors.lightBlack,
+          }}>
+          <Text>{'Center : '}</Text>
+          {`${props.center}`}
+        </Text>
+      </View>
+
+      <Pressable
+        onPress={props.onPress}
+        style={({pressed}) => [
+          {
+            borderWidth: 1.5,
+            borderColor: R.colors.darkAppColor,
+            paddingVertical: 2,
+            paddingHorizontal: 5,
+            borderRadius: 5,
+            backgroundColor: R.colors.appColor,
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}>
+        <Text
+          style={{
+            fontFamily: R.fonts.regular,
+            fontSize: R.fontSize.Size14,
+            fontWeight: '700',
+            color: R.colors.white,
+          }}>
+          {'Proceed'}
+        </Text>
+      </Pressable>
+    </View>
+  );
+};
+
 const CustomerListModal = props => {
   return (
     <Modal
@@ -62,15 +134,52 @@ const CustomerListModal = props => {
       <View style={Styles.modalMainView}>
         <SafeAreaView style={Styles.flexView}>
           <View style={Styles.modalView}>
-            <View>
+            {/* <View>
               <CardLayout
                 customer={'Center Name'}
                 center={'Customer Name'}
                 proceed={'Proceed'}
               />
-            </View>
-            <View style={Styles.backIconView}>
+            </View> */}
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 8,
+                paddingHorizontal: 15,
+                backgroundColor: R.colors.appColor,
+                alignItems: 'center',
+                borderBottomWidth: 1,
+              }}>
+              <View style={{flex: 1}}>
+                <Text
+                  style={{
+                    fontFamily: R.fonts.regular,
+                    fontSize: R.fontSize.Size16,
+                    fontWeight: '700',
+                    color: R.colors.lightWhite,
+                  }}>
+                  {'Customer List'}
+                </Text>
+              </View>
               <Pressable
+                onPress={props.backOnPress}
+                style={({pressed}) => [
+                  {
+                    borderWidth: 2,
+                    borderRadius: R.fontSize.Size4,
+                    borderColor: R.colors.lightWhite,
+                    backgroundColor: R.colors.white,
+                    padding: R.fontSize.Size6,
+                    opacity: pressed ? 0.5 : 1,
+                  },
+                ]}>
+                <Image
+                  source={R.images.cancelIcon}
+                  style={{height: R.fontSize.Size10, width: R.fontSize.Size10}}
+                  resizeMode={'contain'}
+                />
+              </Pressable>
+              {/* <Pressable
                 onPress={props.backOnPress}
                 style={({pressed}) => [
                   {
@@ -81,11 +190,11 @@ const CustomerListModal = props => {
                   },
                 ]}>
                 <Image
-                  source={R.images.whiteBack}
+                  source={R.images.cancelIcon}
                   style={Styles.backIcon}
                   resizeMode={'contain'}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
 
             <View style={Styles.flexView}>
@@ -94,16 +203,33 @@ const CustomerListModal = props => {
                 data={props.data}
                 renderItem={({item, index}) => {
                   return (
-                    <CardLineLayout
+                    <CardRowLineLayout
                       key={index}
-                      customer={item.CenterName}
-                      center={item.ApplicantName}
+                      customer={item.ApplicantName}
+                      customerFirstLetter={item.ApplicantName.charAt(0)}
+                      center={item.CenterName}
                       onPress={() => props.onPress(item)}
                     />
+                    // <CardLineLayout
+                    //   key={index}
+                    //   customer={item.CenterName}
+                    //   center={item.ApplicantName}
+                    //   onPress={() => props.onPress(item)}
+                    // />
                   );
                 }}
                 ListEmptyComponent={
                   <View style={Styles.listEmptyView}>
+                    <Image
+                      source={{
+                        uri: 'https://cdn-icons-png.flaticon.com/128/7486/7486768.png',
+                      }}
+                      resizeMode={'contain'}
+                      style={{
+                        height: R.fontSize.Size70,
+                        width: R.fontSize.Size70,
+                      }}
+                    />
                     <Text style={Styles.listEmptyText}>
                       {'No found customer list'}
                     </Text>
@@ -129,8 +255,8 @@ const Styles = StyleSheet.create({
     left: 0,
   },
   backIcon: {
-    height: R.fontSize.Size30,
-    width: R.fontSize.Size30,
+    height: R.fontSize.Size20,
+    width: R.fontSize.Size20,
   },
   flexView: {
     flex: 1,
@@ -152,70 +278,6 @@ const Styles = StyleSheet.create({
     fontSize: R.fontSize.Size18,
     fontWeight: '700',
     color: R.colors.primaryTextColor,
-  },
-  videoModalTitleText: {
-    fontSize: R.fontSize.Size24,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    flex: 1,
-    marginHorizontal: R.fontSize.Size14,
-  },
-  videoModalDescText: {
-    fontSize: R.fontSize.Size12,
-    fontWeight: '400',
-    color: R.colors.primaryTextColor,
-  },
-  videoModalMainView: {
-    height: R.fontSize.Size60,
-    width: R.fontSize.Size60,
-    overflow: 'hidden',
-    borderRadius: R.fontSize.Size30,
-    borderWidth: 1,
-    borderColor: R.colors.placeholderTextColor,
-  },
-  videoModalMapMainView: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: R.fontSize.Size20,
-  },
-  videoModalMapView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: R.fontSize.Size14,
-  },
-  videoModalPersonalDetailView: {
-    height: R.fontSize.Size10,
-    width: R.fontSize.Size10,
-    backgroundColor: R.colors.appColor,
-    borderRadius: R.fontSize.Size10,
-  },
-  videoModalPersonalDetailText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.primaryTextColor,
-    marginLeft: R.fontSize.Size8,
-  },
-
-  videoModalAvailableText: {
-    fontWeight: '700',
-    fontSize: R.fontSize.Size18,
-    color: R.colors.primaryTextColor,
-  },
-  videoModalAvailView: {
-    alignItems: 'center',
-    marginRight: R.fontSize.Size10,
-    justifyContent: 'center',
-    paddingHorizontal: R.fontSize.Size20,
-    paddingVertical: R.fontSize.Size6,
-    borderRadius: R.fontSize.Size8,
-    marginBottom: R.fontSize.Size6,
-  },
-  videoModalAvailItemText: {
-    fontSize: R.fontSize.Size14,
-    fontWeight: '700',
-    color: R.colors.white,
-    marginLeft: R.fontSize.Size8,
   },
   cardView: {
     flexDirection: 'row',

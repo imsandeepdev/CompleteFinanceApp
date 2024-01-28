@@ -161,7 +161,7 @@ const GroupForm = props => {
       g_Address: groupAddress,
     };
 
-    console.log('GROUP DATA=>', data);
+    console.log('GROUP DATA SUBMIT=>', data);
     dispatch(
       RegGroupRequest(data, response => {
         console.log('response =>', response);

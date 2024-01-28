@@ -107,33 +107,33 @@ const DisbursementScreen = props => {
         firstPaymentDate,
         'please select first payment date',
       ) &&
-      handleDateVerification() &&
-      handleDiffDate()
+      handleDateVerification()
+      // handleDiffDate()
     );
   };
 
-  const handleDiffDate = () => {
-    console.log('TEMP DIFF', firstPaymentDate);
-    console.log('TEMP DIFF', disbursementDate);
-    let startDate = moment(disbursementDate);
-    let endDate = moment(firstPaymentDate);
+  // const handleDiffDate = () => {
+  //   console.log('TEMP DIFF', firstPaymentDate);
+  //   console.log('TEMP DIFF', disbursementDate);
+  //   let startDate = moment(disbursementDate);
+  //   let endDate = moment(firstPaymentDate);
 
-    // Find the difference in days
-    let differenceInDays = endDate.diff(startDate, 'days');
+  //   // Find the difference in days
+  //   let differenceInDays = endDate.diff(startDate, 'days');
 
-    console.log('Difference in days:', differenceInDays);
-    if (approvalDetail.minDistanceDate <= differenceInDays) {
-      return true;
-    } else {
-      false,
-        Toast.show(
-          'Disbursement date must be required ' +
-            approvalDetail.minDistanceDate +
-            ' days less then First Payment Date',
-          Toast.LONG,
-        );
-    }
-  };
+  //   console.log('Difference in days:', differenceInDays);
+  //   if (approvalDetail.minDistanceDate <= differenceInDays) {
+  //     return true;
+  //   } else {
+  //     false,
+  //       Toast.show(
+  //         'Disbursement date must be required ' +
+  //           approvalDetail.minDistanceDate +
+  //           ' days less then First Payment Date',
+  //         Toast.LONG,
+  //       );
+  //   }
+  // };
 
   const handleDateVerification = () => {
     if (disbursementDate <= firstPaymentDate) {
