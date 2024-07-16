@@ -119,7 +119,7 @@ const NomaniDetail = props => {
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
-          headTitleColor={R.colors.darkGreenColor}
+          // headTitleColor={R.colors.black}
           rightIcon={R.images.cameraIcon1}
           borderStyle={'dashed'}
           Iconheight={R.fontSize.Size22}
@@ -127,37 +127,6 @@ const NomaniDetail = props => {
           selectedDoc={props.selectedNomineeKYCDoc1}
           handleRemove={props.handleRemoveNomineeKYCDoc1}
         />
-        {/* <AppCardPress
-          onPress={props.onPress_nomaniKycType2}
-          headTitle={'Nominee KYC Type 2 *'}
-          title={
-            props.title_nomaniKycType2 != null
-              ? props.title_nomaniKycType2
-              : 'Nominee KYC Type 2'
-          }
-          TextColor={
-            props.title_nomaniKycType2 != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_nomaniKycType2 != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        /> */}
-        {/* <AppTextInput
-          placeholder={'Nominee KYC No2'}
-          headTitle={'Nominee KYC No2 *'}
-          headTitleColor={
-            props.value_nomaniKYPMobNo2 !== ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.value_nomaniKYPMobNo2}
-          onChangeText={props.onChange_nomaniKYPMobNo2}
-        /> */}
         <AppCardPress
           onPress={props.onPress_nomaniKYPDocument2}
           headTitle={'Nominee KYC Back Document *'}
@@ -171,7 +140,7 @@ const NomaniDetail = props => {
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
-          headTitleColor={R.colors.darkGreenColor}
+          // headTitleColor={R.colors.darkGreenColor}
           rightIcon={R.images.cameraIcon1}
           borderStyle={'dashed'}
           Iconheight={R.fontSize.Size22}
@@ -316,7 +285,7 @@ const NomaniDetail = props => {
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
-            headTitleColor={R.colors.darkGreenColor}
+            // headTitleColor={R.colors.darkGreenColor}
             rightIcon={R.images.cameraIcon1}
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}
@@ -369,7 +338,7 @@ const NomaniDetail = props => {
                 ? R.colors.secAppColor
                 : R.colors.placeholderTextColor
             }
-            headTitleColor={R.colors.darkGreenColor}
+            // headTitleColor={R.colors.darkGreenColor}
             rightIcon={R.images.cameraIcon1}
             borderStyle={'dashed'}
             Iconheight={R.fontSize.Size22}

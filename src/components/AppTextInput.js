@@ -13,8 +13,25 @@ const AppTextInput = React.forwardRef((props, ref) => {
         borderRadius: R.fontSize.Size5,
         marginBottom: props.marginBottom
           ? props.marginBottom
-          : R.fontSize.Size14,
+          : R.fontSize.Size5,
       }}>
+      <View
+        style={{
+          left: R.fontSize.Size2,
+          paddingBottom: 4,
+        }}>
+        <Text
+          style={{
+            fontFamily: R.fonts.regular,
+            fontSize: R.fontSize.Size12,
+            fontWeight: '700',
+            color: props.headTitleColor
+              ? props.headTitleColor
+              : R.colors.textPriColor,
+          }}>
+          {props.headTitle}
+        </Text>
+      </View>
       <View
         style={{
           height: props.height ? props.height : R.fontSize.Size45,
@@ -22,7 +39,7 @@ const AppTextInput = React.forwardRef((props, ref) => {
           borderRadius: R.fontSize.Size5,
           alignItems: 'center',
           borderWidth: 1.3,
-          borderColor: R.colors.darkGreenColor,
+          borderColor: R.colors.lightBlack,
         }}>
         <View
           style={{
@@ -87,7 +104,7 @@ const AppTextInput = React.forwardRef((props, ref) => {
           )}
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           top: -R.fontSize.Size10,
@@ -106,7 +123,7 @@ const AppTextInput = React.forwardRef((props, ref) => {
           }}>
           {props.headTitle}
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 });

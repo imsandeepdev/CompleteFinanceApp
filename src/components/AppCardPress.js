@@ -14,8 +14,29 @@ const AppCardPress = props => {
         borderRadius: R.fontSize.Size5,
         marginBottom: props.marginBottom
           ? props.marginBottom
-          : R.fontSize.Size14,
+          : R.fontSize.Size5,
       }}>
+      {props.headTitle && (
+        <View
+          style={[
+            {
+              paddingHorizontal: props.headTitle ? R.fontSize.Size5 : 0,
+              paddingBottom: 5,
+            },
+          ]}>
+          <Text
+            style={{
+              fontFamily: R.fonts.regular,
+              fontSize: R.fontSize.Size12,
+              fontWeight: '700',
+              color: props.headTitleColor
+                ? props.headTitleColor
+                : R.colors.textPriColor,
+            }}>
+            {props.headTitle}
+          </Text>
+        </View>
+      )}
       <Pressable
         disabled={props.disabled}
         onPress={props.onPress}
@@ -30,7 +51,7 @@ const AppCardPress = props => {
             borderRadius: R.fontSize.Size5,
             alignItems: 'center',
             borderWidth: 1.3,
-            borderColor: R.colors.darkGreenColor,
+            borderColor: R.colors.lightBlack,
             borderStyle: props.borderStyle,
           },
         ]}>
@@ -69,7 +90,7 @@ const AppCardPress = props => {
           </View>
         )}
       </Pressable>
-      <View
+      {/* <View
         style={[
           {paddingHorizontal: props.headTitle ? R.fontSize.Size5 : 0},
           styles.viewHeadTitle,
@@ -85,7 +106,7 @@ const AppCardPress = props => {
           }}>
           {props.headTitle}
         </Text>
-      </View>
+      </View> */}
       {props.selectedDoc && (
         <View style={styles.wrapView}>
           {props.selectedDoc.map((item, index) => {

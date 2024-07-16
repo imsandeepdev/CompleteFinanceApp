@@ -325,7 +325,7 @@ const GroupForm = props => {
                   profileDetail !== '' ? profileDetail.StaffName : 'Staff Name'
                 }
                 TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
+                // headTitleColor={R.colors.darkGreenColor}
               />
               <AppCardPress
                 onPress={() => handleGroupDropDown('Branch', 'Select Branch')}

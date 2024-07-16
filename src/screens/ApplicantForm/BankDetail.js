@@ -131,7 +131,7 @@ const BankDetail = props => {
           rightIcon={R.images.dropdownIcon}
         />
 
-        <AppTextInput
+        {/* <AppTextInput
           placeholder={'Bank Document No'}
           headTitle={'Bank Document No *'}
           headTitleColor={
@@ -141,7 +141,7 @@ const BankDetail = props => {
           }
           value={props.value_applicantKYCNo}
           onChangeText={props.onChange_applicantKYCNo}
-        />
+        /> */}
         <AppCardPress
           onPress={props.onPress_applicantKYCDoc}
           headTitle={'Bank Document *'}
@@ -155,7 +155,7 @@ const BankDetail = props => {
               ? R.colors.secAppColor
               : R.colors.placeholderTextColor
           }
-          headTitleColor={R.colors.darkGreenColor}
+          // headTitleColor={R.colors.darkGreenColor}
           rightIcon={R.images.cameraIcon1}
           borderStyle={'dashed'}
           Iconheight={R.fontSize.Size22}
@@ -163,60 +163,6 @@ const BankDetail = props => {
           selectedDoc={props.selectedApplicantKYCDoc1}
           handleRemove={props.handleRemoveApplicantKYCDoc1}
         />
-
-        {/* <AppCardPress
-          onPress={props.onPress_applicantKycType2}
-          headTitle={'Bank Document Type2 *'}
-          title={
-            props.title_applicantKycType2 != null
-              ? props.title_applicantKycType2
-              : 'Bank Document Type'
-          }
-          TextColor={
-            props.title_applicantKycType2 != null
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={
-            props.title_applicantKycType2 != null
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          rightIcon={R.images.dropdownIcon}
-        />
-
-        <AppTextInput
-          placeholder={'Bank Document No 2'}
-          headTitle={'Bank Document No 2 *'}
-          headTitleColor={
-            props.value_applicantKYCNo2 !== ''
-              ? R.colors.darkGreenColor
-              : R.colors.textPriColor
-          }
-          value={props.value_applicantKYCNo2}
-          onChangeText={props.onChange_applicantKYCNo2}
-        />
-        <AppCardPress
-          onPress={props.onPress_applicantKYCDoc2}
-          headTitle={'Bank Document 2 *'}
-          title={
-            props.applicantKYCList2 >= 1
-              ? 'Selected documents'
-              : 'Select bank document 2'
-          }
-          TextColor={
-            props.applicantKYCList2 >= 1
-              ? R.colors.secAppColor
-              : R.colors.placeholderTextColor
-          }
-          headTitleColor={R.colors.darkGreenColor}
-          rightIcon={R.images.cameraIcon1}
-          borderStyle={'dashed'}
-          Iconheight={R.fontSize.Size22}
-          Iconwidth={R.fontSize.Size22}
-          selectedDoc={props.selectedApplicantKYCDoc2}
-          handleRemove={props.handleRemoveApplicantKYCDoc2}
-        /> */}
       </View>
       <View style={style.rowFlexEnd}>
         <AppButton

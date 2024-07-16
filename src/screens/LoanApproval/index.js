@@ -185,42 +185,42 @@ const LoanApproval = props => {
               headTitle={'Group Name'}
               title={approvalDetail.StaffName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Customer Name'}
               title={approvalDetail.ApplicantName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Request Amount'}
               title={approvalDetail.LoanAmount}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Purpose Name'}
               title={approvalDetail.PurposeName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'EMI Amount'}
               title={approvalDetail.TotalIntAmount}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Payment Frequency'}
               title={approvalDetail.Frequency}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               onPress={() => handleApprovedStatusDropDown()}

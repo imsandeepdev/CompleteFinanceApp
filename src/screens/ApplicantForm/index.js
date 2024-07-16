@@ -185,7 +185,7 @@ const ApplicantForm = props => {
 
   const onSelectPicker = params => {
     if (params === 'camera') {
-      ImagePicker.openPicker({
+      ImagePicker.openCamera({
         width: 400,
         height: 400,
         cropping: true,
@@ -195,7 +195,7 @@ const ApplicantForm = props => {
         setGalleryModalVisible(false);
       });
     } else if (params === 'gallery') {
-      ImagePicker.openPicker({
+      ImagePicker.openCamera({
         width: 400,
         height: 400,
         cropping: true,
@@ -206,7 +206,7 @@ const ApplicantForm = props => {
   };
 
   const onHandleCameraPicker = () => {
-    ImagePicker.openPicker({
+    ImagePicker.openCamera({
       width: 400,
       height: 400,
       cropping: true,
@@ -317,7 +317,7 @@ const ApplicantForm = props => {
   };
 
   const handleNomaniDocPicker = type => {
-    ImagePicker.openPicker({
+    ImagePicker.openCamera({
       width: 400,
       height: 400,
       cropping: true,
@@ -523,7 +523,7 @@ const ApplicantForm = props => {
     //   });
     // });
     formData.append('Applicant_DocType1', applicantDocType1.RuleID);
-    formData.append('Applicant_DocNo1', applicantKYCNo1);
+    // formData.append('Applicant_DocNo1', applicantKYCNo1);
     applicantKYCDocList1.forEach((item, index) => {
       formData.append('Applicant_Doc1', {
         uri: Platform.OS === 'android' ? item : item.replace('file://', ''),
@@ -823,25 +823,9 @@ const ApplicantForm = props => {
         'please select applicant Bank KYC type',
       ) &&
       CommonFunctions.isBlank(
-        applicantKYCNo1.trim(),
-        'please enter Bank KYC number',
-      ) &&
-      CommonFunctions.isBlank(
         applicantKYCDocList1,
         'please select Bank KYC documents',
       )
-      // CommonFunctions.isBlank(
-      //   applicantDocType2,
-      //   'please select applicant second KYC type',
-      // ) &&
-      // CommonFunctions.isBlank(
-      //   applicantKYCNo2.trim(),
-      //   'please enter second KYC number',
-      // ) &&
-      // CommonFunctions.isBlank(
-      //   applicantKYCDocList2,
-      //   'please select second KYC documents',
-      // )
     );
   };
 

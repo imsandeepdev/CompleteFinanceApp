@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {View, SafeAreaView, ScrollView} from 'react-native';
+import {View, SafeAreaView, ScrollView, Alert} from 'react-native';
 import StoryScreen from '../../components/StoryScreen';
 import style from './style';
 import {
@@ -167,6 +167,7 @@ const DisbursementScreen = props => {
       payMode: paymentMode.RuleID,
     };
     console.log('DATA=>', data);
+    Alert.alert(JSON.stringify(data.disbursementDate));
     dispatch(
       UpdateDisbursementRequest(data, response => {
         console.log('Update disbursement status=>', response);
@@ -260,42 +261,42 @@ const DisbursementScreen = props => {
               headTitle={'Group Name'}
               title={approvalDetail !== '' && approvalDetail.StaffName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Customer Name'}
               title={approvalDetail !== '' && approvalDetail.ApplicantName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Request Amount'}
               title={approvalDetail !== '' && approvalDetail.LoanAmount}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Purpose Name'}
               title={approvalDetail !== '' && approvalDetail.PurposeName}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'EMI Amount'}
               title={approvalDetail !== '' && approvalDetail.TotalIntAmount}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               disabled={true}
               headTitle={'Payment Frequency'}
               title={approvalDetail !== '' && approvalDetail.Frequency}
               TextColor={R.colors.secAppColor}
-              headTitleColor={R.colors.darkGreenColor}
+              // headTitleColor={R.colors.darkGreenColor}
             />
             <AppCardPress
               onPress={() => handlePaymentModeDropDown()}

@@ -168,7 +168,7 @@ const CenterForm = props => {
                   profileDetail !== '' ? profileDetail.StaffName : 'Staff Name'
                 }
                 TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
+                // headTitleColor={R.colors.darkGreenColor}
               />
               <AppTextInput
                 placeholder={'Center name'}
@@ -253,6 +253,7 @@ const CenterForm = props => {
                 onChangeText={text => setCenterPostalCode(text)}
                 returnKeyType={'next'}
                 onSubmitEditing={() => mnameRef.current?.focus()}
+                maxLength={6}
               />
               <AppTextInput
                 placeholder={'Landmark'}

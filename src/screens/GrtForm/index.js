@@ -313,7 +313,7 @@ const GrtForm = props => {
                     staffName !== '' ? staffName.StaffName : 'Select Staff Name'
                   }
                   TextColor={R.colors.secAppColor}
-                  headTitleColor={R.colors.darkGreenColor}
+                  // headTitleColor={R.colors.darkGreenColor}
                   rightIcon={R.images.dropdownIcon}
                 />
               )}
@@ -410,7 +410,7 @@ const GrtForm = props => {
                 headTitle={'Approved Date'}
                 title={moment().format('DD-MM-YYYY')}
                 TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
+                // headTitleColor={R.colors.darkGreenColor}
               />
               <AppCardPress
                 disabled={true}
@@ -419,7 +419,7 @@ const GrtForm = props => {
                   profileDetail !== '' ? profileDetail.StaffName : 'Approved By'
                 }
                 TextColor={R.colors.secAppColor}
-                headTitleColor={R.colors.darkGreenColor}
+                // headTitleColor={R.colors.darkGreenColor}
               />
 
               {groupCustomerList.length !== 0 && (

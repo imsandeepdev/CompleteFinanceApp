@@ -411,7 +411,7 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - SocketRocket (0.6.0)
+  - SocketRocket (0.6.1)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
@@ -651,7 +651,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
   RNReanimated: e7d8afaf8fed4b3bf1a46e06adb2e04a2b248f1c
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 99652481fcd320aefa4a7ef90095b95acd181952
@@ -659,4 +659,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 71c82658214ec41eeba3fe06576dcdf4b279e34c
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.0

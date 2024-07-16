@@ -1,6 +1,6 @@
 export const Config = {
   // API_URL: 'http://ratneshyadav2407-001-site1.htempurl.com/api',
-  API_URL: 'http://223.239.128.138:8090/api',
+  API_URL: 'http://122.169.33.182:8090/api',
 
   LoginAPI: '/Account/Login',
   RegisterAPI: '/User/RegisterUser',
